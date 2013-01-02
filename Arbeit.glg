@@ -1,0 +1,50 @@
+This is makeindex, version 2.15 [TeX Live 2011] (kpathsea + Thai support).
+Scanning style file ./Arbeit.ist...........................done (27 attributes redefined, 0 ignored).
+Scanning input file Arbeit.glo...
+!! Input index error (file = Arbeit.glo, line = 1):
+   -- Unknown index keyword name=.
+!! Input index error (file = Arbeit.glo, line = 2):
+   -- Unknown index keyword name=.
+!! Input index error (file = Arbeit.glo, line = 3):
+   -- Unknown index keyword name=.
+!! Input index error (file = Arbeit.glo, line = 4):
+   -- Unknown index keyword name=.
+!! Input index error (file = Arbeit.glo, line = 5):
+   -- Unknown index keyword name=.
+!! Input index error (file = Arbeit.glo, line = 6):
+   -- Unknown index keyword name=.
+!! Input index error (file = Arbeit.glo, line = 7):
+   -- Unknown index keyword name=.
+!! Input index error (file = Arbeit.glo, line = 8):
+   -- Unknown index keyword name=.
+!! Input index error (file = Arbeit.glo, line = 9):
+   -- Unknown index keyword name=.
+!! Input index error (file = Arbeit.glo, line = 10):
+   -- Unknown index keyword name=.
+!! Input index error (file = Arbeit.glo, line = 11):
+   -- Unknown index keyword name=.
+!! Input index error (file = Arbeit.glo, line = 12):
+   -- Unknown index keyword name=.
+!! Input index error (file = Arbeit.glo, line = 13):
+   -- Unknown index keyword name=.
+!! Input index error (file = Arbeit.glo, line = 14):
+   -- Unknown index keyword name=.
+!! Input index error (file = Arbeit.glo, line = 15):
+   -- Unknown index keyword name=.
+!! Input index error (file = Arbeit.glo, line = 16):
+   -- Unknown index keyword name=.
+!! Input index error (file = Arbeit.glo, line = 17):
+   -- Unknown index keyword name=.
+!! Input index error (file = Arbeit.glo, line = 18):
+   -- Unknown index keyword name=.
+!! Input index error (file = Arbeit.glo, line = 19):
+   -- Unknown index keyword name=.
+!! Input index error (file = Arbeit.glo, line = 20):
+   -- Unknown index keyword name=.
+!! Input index error (file = Arbeit.glo, line = 21):
+   -- Unknown index keyword name=.
+!! Input index error (file = Arbeit.glo, line = 22):
+   -- Unknown index keyword name=.
+done (0 entries accepted, 22 rejected).
+Nothing written in Arbeit.gls.
+Transcript written in Arbeit.glg.

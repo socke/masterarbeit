@@ -1,0 +1,1145 @@
+%% $Id: anhang_technisches_handbuch.tex 14 2007-06-01 12:50:36Z stefan $
+%%  
+
+\chapter{Technisches Handbuch} \label{anh:technischeshandbuch}
+
+\section{Zweck}\label{anhang:th-zweck} \index{Technisches Handbuch}
+
+Der Zweck des technichen Handbuches ist die technische Dokumentation und Anleitung zum Betrieb und zur Erweiterung des entwickelten Systems. Das Handbuch erfasst die im Rahmen der Diplomarbeit entwickelten Softwareelemente und Module und beschreibt die Integration in das in der Abteilung vorhandene System AiO. Es wird deutlich gemacht, wie die Module auch in andere Software eingesetzt werden können. 
+
+Weiterhin werden die vorhandenen Schnittstellen beschrieben, um zu zeigen, wie diese genutzt und erweitert werden können. 
+
+\section{Abgrenzung}\label{anhang:th-abgrenzung}
+
+Dieses Handbuch umfasst keine Erläuterungen oder Erklärungen der benutzten Bibliotheken und gibt auch keine Einführung in diese Techniken. Hier wird dann entsprechend auf Literatur oder auf einen anderen Anhang der Diplomarbeit verwiesen.  
+
+\section{Verzeichnis- und Dateistruktur}
+
+Die Abbildung \ref{fig:Verzeichnis-undDateistruktur_modul_import} zeigt die Verzeichnis- und Dateistruktur des Projektes. Die Verzeichnisse modul\_im sowie modul\_cm sind die bereits vorhandenen Verzeichnisse des Change- und Incident Management Systems. Aufgeführt wurden in der Zeichnung nur die hinzugefügten Dateien.  
+
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=1.00\textwidth]{bilder/Verzeichnis-undDateistruktur_modul_import.png}
+	\caption{Verzeichnis und Dateistruktur}
+	\label{fig:Verzeichnis-undDateistruktur_modul_import}
+\end{figure}
+
+
+\section{Modul Import}
+
+Das Importer Modul verfügt über zwei Importmodi. Zum einen der Importer, welcher z.B. über einen Cron Job automatisiert gestartet werden kann, und zum anderen die Importer\_View, das ist die grafische Oberfläche für den manuellen Import. Dieser ist nötig, wenn ein automatischer Import fehlgeschlagen ist und der Import manuell neu gestartet werden soll. Weiterhin ist dadurch auch ein Test neuer Importjobs möglich. 
+
+\section{Modul View}
+
+Das Modul View erweitert die bereits vorhandene grafische Oberfläche des Change- und Incident Managements um die TTWOS- und ChaMPS-Daten. Angepasst wurden die Dateien \enquote{im\_newIncident.php} und \enquote{cm\_newChange.php}. Das Listing \ref{lst:newincident} zeigt die Änderungen an der Datei \enquote{im\_newIncident.php} und das Listing \ref{lst:newchange} zeigt die Änderungen an der Datei \enquote{cm\_newChange.php}.
+
+\begin{lstlisting}[caption=View-Datei im\_newIncident.php, language=PHP, label=lst:newincident]
+<!-- HERE STARTS AJAX FIELDS -->
+<?php 
+/**
+* The following code includes the helper class to print out the code.
+* The reason why the code will be included this way is easy to explain:
+* Clarity!!! 
+*
+* The code generates only the TTWOS Form with AJAX functionality. 
+*/
+
+/**
+* Include ajax-class which contains the ajax code
+*/
+include_once '/www/tban/dev/tban_portal/aio/modul_import/classes/IM_Viewer.class.php'; 
+
+/**
+* Print out the CSS-Code
+*/
+IM_Viewer::showCSS();
+/**
+* Print out the Javascript code
+*/
+IM_Viewer::showJavascript();
+/**
+* Show the HTML- and Javascript Code with the form etc.
+*/
+IM_Viewer::showHTML();
+
+?>
+<!-- HERE ENDS AJAX FIELDS -->
+\end{lstlisting}
+
+\begin{lstlisting}[caption=View-Datei cm\_newIncident.php, language=PHP, label=lst:newchange]
+<!-- HERE STARTS AJAX FIELDS -->
+<?php 
+/**
+* The following code includes the helper class to print out the code.
+* The reason why the code will be included this way is easy to explain:
+* Clarity!!! 
+*
+* The code generates only the TTWOS Form with AJAX functionality. 
+*/
+
+/**
+* Include ajax-class which contains the ajax code
+*/
+include_once '/www/tban/dev/tban_portal/aio/modul_import/classes/CM_Viewer.class.php'; 
+
+/**
+* Print out the CSS-Code
+*/
+CM_Viewer::showCSS();
+/**
+* Print out the Javascript code
+*/
+CM_Viewer::showJavascript();
+/**
+* Show the HTML- and Javascript Code with the form etc.
+*/
+CM_Viewer::showHTML();
+
+?>
+<!-- HERE ENDS AJAX FIELDS -->
+\end{lstlisting}
+
+Das Listing \ref{lst:imviewer} zeigt die IM\_Viewer-Klasse. Diese Klasse beinhaltet die Methoden, welche den HTML-, Javascript- und CSS-Code ausgeben.  
+
+\begin{lstlisting}[caption=View-Klasse IM\_Viewer, language=PHP, label=lst:imviewer]
+<?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+
+/**
+* This file contains the IM_Viewer class
+*
+* PHP versions 4 and 5
+*
+* @package    View
+* @author     Stefan Sobek <stefan@sobek.info>
+* @copyright  2007 Vodafone D2 GmbH - TBAN
+* @version    CVS: $Id: IM_Viewer.class.php,v 1.1 2007/05/21 12:58:16 ssobek Exp $
+*/
+
+/**
+* Class contains the methods to display the view with ajax functionality
+* 
+* @package    View
+* @author     Stefan Sobek <stefan@sobek.info>
+*/
+class IM_Viewer {
+	
+	/**
+	* This function prints the necessary HTML-Code and the Javascript functions
+	* for creating an AJAX-Form
+	*/
+	function showHTML() {
+	   print("<input type=\"text\" id=\"ticket\" name=\"ticket_val\" class=\"txtBox140\"> <a href=\"#\" onclick=\"addMyNode($('ticket'))\">+</a>
+	<span id=\"indicator1\" style=\"display: none; position:absolute; left:335px; top:107px\">
+	<img src=\"modul_import/images/indicator_medium_red_transparent.gif\">
+	</span>
+	<div id=\"autocomplete_choices\" class=\"autocomplete\"></div>
+	<script type=\"text/javascript\">
+	new Ajax.Autocompleter(\"ticket\", \"autocomplete_choices\", \"modul_im/getTicketNumbers.php\",{afterUpdateElement : getSelectionId, indicator: 'indicator1'});
+	
+	function getSelectionId(text, li) {
+
+		var id = li.id;
+		//var url = 'modul_im/getTicketData.php';
+		// call webservice 
+		var url = 'modul_webservice/getTicketDataClient.php';
+		var pars = 'ticket=' + id;
+	    //alert(pars);
+		var myAjax = new Ajax.Request(
+			url, 
+			{
+				method: 'get', 
+				parameters: pars, 
+				onComplete: showResponse
+			});
+	}
+	
+	function showResponse(originalRequest)
+	{
+		 var myXML = originalRequest.responseXML;
+		 var myText = originalRequest.responseText;
+		 
+		 // workaround for IE
+		 //alert (myXML.childNodes.length);
+		 //alert(myText);
+		 if (myXML.childNodes.length == 0) {
+             myXML = new ActiveXObject(\"Msxml2.DOMDocument\");
+             myXML.loadXML(originalRequest.responseText);
+         }
+		 
+		 if (myXML == null) {
+		   alert('Keine XML Daten vom Server erhalten!!!');
+		 } else {
+		    // highlight fields which were updated
+			new Effect.Highlight('error',{startcolor:'#ffffff', endcolor:'#ffaaaa', duration: 0.5});
+			new Effect.Highlight('solution',{startcolor:'#ffffff', endcolor:'#ffaaaa', duration: 0.5});
+			new Effect.Highlight('reason',{startcolor:'#ffffff', endcolor:'#ffaaaa', duration: 0.5});
+			new Effect.Highlight('services',{startcolor:'#ffffff', endcolor:'#ffaaaa', duration: 0.5});
+			// fill fields
+			$('error').value = myXML.getElementsByTagName('GP_Problembeschreibung')[0].firstChild.nodeValue;
+            $('solution').value = myXML.getElementsByTagName('GA_R_ckmeldebeschreibung')[0].firstChild.nodeValue;
+			$('reason').value = myXML.getElementsByTagName('GZ_Zur_ckweisungsbeschreibung')[0].firstChild.nodeValue;
+			$('services').value = myXML.getElementsByTagName('GR_KoordinatorZwischenbericht')[0].firstChild.nodeValue;
+			$('start').value = myXML.getElementsByTagName('AR_ErstellungsDatum')[0].firstChild.nodeValue;
+		 }
+	}
+	function addMyNode(element) {
+		var myticket = element.value;
+		
+		var mydiv = document.createElement('div');
+		var myText = document.createTextNode(myticket);
+		mydiv.appendChild(myText);
+		var Ausgabebereich = document.getElementById('tlist');
+		Ausgabebereich.appendChild(mydiv);
+	}
+	
+	
+	</script>");
+	}
+	/**
+	* This function prints the necessary Javascript include code
+	* We need the protoype and the scriptaculoous libs
+	*/	
+	function showJavascript() {
+		print("<script src=\"modul_import/javascript/prototype.js\" type=\"text/javascript\"></script>
+<script src=\"modul_import/javascript/scriptaculous.js\" type=\"text/javascript\"></script>");
+	}
+	/**
+	* This function prints the necessary CSS include code
+	*/
+	function showCSS() {
+		print("
+		<style type=\"text/css\">
+		
+			div.autocomplete {
+			  position:absolute;
+			  width:250px;
+			  background-color:white;
+			  border:1px solid #888;
+			  margin:0px;
+			  padding:0px;
+			  font-family:Arial, Helvetica, sans-serif;
+			  font-size:10px;
+			}
+			div.autocomplete ul {
+			  list-style-type:none;
+			  margin:0px;
+			  padding:0px;
+			}
+			div.autocomplete ul li.selected { background-color: #ffb;}
+			div.autocomplete ul li {
+			  font-family:Arial, Helvetica, sans-serif;
+			  font-size:10px;
+			  list-style-type:none;
+			  display:block;
+			  margin:0;
+			  padding:2px;
+			  height:12px;
+			  cursor:pointer;
+			  border-bottom: #CCCCCC thin solid;
+			}
+			div.autocomplete ul li span {
+			  font-size:8px;
+			  color:#999999;
+			}
+			
+			#autocomplete {
+			  font-family:Arial, Helvetica, sans-serif;
+			  font-size:10px;
+			  width:250px;
+			}
+		</style>
+		");
+	}
+}
+?>	
+\end{lstlisting}
+
+Das Listing \ref{lst:cmviewer} zeigt die IM\_Viewer-Klasse. Diese Klasse beinhaltet die Methoden, welche den HTML-, Javascript- und CSS-Code ausgeben.
+
+\begin{lstlisting}[caption=View-Klasse CM\_Viewer, language=PHP, label=lst:cmviewer]
+<?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+
+/**
+* This file contains the CM_Viewer class
+*
+* PHP versions 4 and 5
+*
+* @package    View
+* @author     Stefan Sobek <stefan@sobek.info>
+* @copyright  2007 Vodafone D2 GmbH - TBAN
+* @version    CVS: $Id: CM_Viewer.class.php,v 1.1 2007/05/21 12:58:16 ssobek Exp $
+*/
+
+/**
+* Class contains the methods to display the view with ajax functionality
+* 
+* @package    View
+* @author     Stefan Sobek <stefan@sobek.info>
+*/
+class CM_Viewer {
+	
+	/**
+	* This function prints the necessary HTML-Code and the Javascript functions
+	* for creating an AJAX-Form
+	*/
+	function showHTML() {
+	   print("<input type=\"text\" id=\"ticket\" name=\"ticket_val\" class=\"txtBox140\">
+	<span id=\"indicator1\" style=\"display: none; position:absolute; left:335px; top:107px\">
+	<img src=\"modul_import/images/indicator_medium_red_transparent.gif\">
+	</span>
+	<div id=\"autocomplete_choices\" class=\"autocomplete\"></div>
+	<script type=\"text/javascript\">
+	new Ajax.Autocompleter(\"ticket\", \"autocomplete_choices\", \"modul_im/getTicketNumbers.php\",{afterUpdateElement : getSelectionId, indicator: 'indicator1'});
+	
+	function getSelectionId(text, li) {
+
+		var id = li.id;
+		//var url = 'modul_im/getTicketData.php';
+		// call webservice 
+		var url = 'modul_webservice/getTicketDataClient.php';
+		var pars = 'ticket=' + id;
+	    alert(pars);
+		var myAjax = new Ajax.Request(
+			url, 
+			{
+				method: 'get', 
+				parameters: pars, 
+				onComplete: showResponse
+			});
+	}
+	
+	function showResponse(originalRequest)
+	{
+		 var myXML = originalRequest.responseXML;
+		 var myText = originalRequest.responseText;
+		 
+		 // workaround for IE
+		 //alert (myXML.childNodes.length);
+		 alert(myText);
+		 if (myXML.childNodes.length == 0) {
+             myXML = new ActiveXObject(\"Msxml2.DOMDocument\");
+             myXML.loadXML(originalRequest.responseText);
+         }
+		 
+		 if (myXML == null) {
+		   alert('Keine XML Daten vom Server erhalten!!!');
+		 } else {
+		    // highlight fields which were updated
+			new Effect.Highlight('error',{startcolor:'#ffffff', endcolor:'#ffaaaa', duration: 0.5});
+			new Effect.Highlight('solution',{startcolor:'#ffffff', endcolor:'#ffaaaa', duration: 0.5});
+			new Effect.Highlight('reason',{startcolor:'#ffffff', endcolor:'#ffaaaa', duration: 0.5});
+			new Effect.Highlight('services',{startcolor:'#ffffff', endcolor:'#ffaaaa', duration: 0.5});
+			// fill fields
+			$('error').value = myXML.getElementsByTagName('GP_Problembeschreibung')[0].firstChild.nodeValue;
+      $('solution').value = myXML.getElementsByTagName('GA_R_ckmeldebeschreibung')[0].firstChild.nodeValue;
+			$('reason').value = myXML.getElementsByTagName('GZ_Zur_ckweisungsbeschreibung')[0].firstChild.nodeValue;
+			$('services').value = myXML.getElementsByTagName('GR_KoordinatorZwischenbericht')[0].firstChild.nodeValue;
+			$('start').value = myXML.getElementsByTagName('AR_ErstellungsDatum')[0].firstChild.nodeValue;
+		 }
+
+	}
+	
+	
+	</script>");
+	}
+	/**
+	* This function prints the necessary Javascript include code
+	* We need the protoype and the scriptaculoous libs
+	*/	
+	function showJavascript() {
+		print("<script src=\"modul_import/javascript/prototype.js\" type=\"text/javascript\"></script>
+<script src=\"modul_import/javascript/scriptaculous.js\" type=\"text/javascript\"></script>");
+	}
+	/**
+	* This function prints the necessary CSS include code
+	*/
+	function showCSS() {
+		print("
+		<style type=\"text/css\">
+		
+			div.autocomplete {
+			  position:absolute;
+			  width:250px;
+			  background-color:white;
+			  border:1px solid #888;
+			  margin:0px;
+			  padding:0px;
+			  font-family:Arial, Helvetica, sans-serif;
+			  font-size:10px;
+			}
+			div.autocomplete ul {
+			  list-style-type:none;
+			  margin:0px;
+			  padding:0px;
+			}
+			div.autocomplete ul li.selected { background-color: #ffb;}
+			div.autocomplete ul li {
+			  font-family:Arial, Helvetica, sans-serif;
+			  font-size:10px;
+			  list-style-type:none;
+			  display:block;
+			  margin:0;
+			  padding:2px;
+			  height:12px;
+			  cursor:pointer;
+			  border-bottom: #CCCCCC thin solid;
+			}
+			div.autocomplete ul li span {
+			  font-size:8px;
+			  color:#999999;
+			}
+			
+			#autocomplete {
+			  font-family:Arial, Helvetica, sans-serif;
+			  font-size:10px;
+			  width:250px;
+			}
+		</style>
+		");
+	}
+}
+?>	
+\end{lstlisting}
+
+
+
+\section{Modul Web Service} \label{anh:technhandbuchwebservice}
+
+Listing \ref{lst:WebServicemitPEARSOAP} zeigt die Implementierung des Web Services zum Abruf bereits importierter Ticketdaten aus TTWOS
+
+\begin{lstlisting}[caption=Web Service mit PEAR::SOAP, language=PHP, label=lst:WebServicemitPEARSOAP]
+<?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+
+/**
+* This file is the main file for the Web Service. 
+*
+* PHP versions 4 and 5
+*
+* @package    Importer
+* @author     Stefan Sobek <stefan@sobek.info>
+* @copyright  2007 Vodafone D2 GmbH - TBAN
+* @version    CVS: $Id: aio_ws.php,v 1.5 2007/04/23 11:43:05 ssobek Exp $
+*/
+
+/**
+* include SOAP Server class
+*/
+require_once('SOAP/Server.php');
+/**
+* include SOAP Disco Server class
+*/
+require_once('SOAP/Disco.php');
+/**
+* include the ticket class for receiving ticket info from database
+*/
+require_once('classes/Ticket.class.php');
+/**
+* create the SOAP Server
+*/
+$server = new SOAP_Server();
+/**
+* make new instanca of webservice class with the RPC methods
+*/
+$webservice = new Ticket();
+/**
+* add the class to the object map of the soap server
+*/
+$server->addObjectMap($webservice, 'http://schemas.xmlsoap.org/soap/envelope/');
+
+if (isset($_SERVER['REQUEST_METHOD'])  && $_SERVER['REQUEST_METHOD']=='POST') {
+     $server->service($HTTP_RAW_POST_DATA);
+} else {
+     // Create the DISCO server
+     $disco = new SOAP_DISCO_Server($server,'TTWOSTicketdata');
+     header("Content-type: text/xml");
+     if (isset($_SERVER['QUERY_STRING']) &&
+         strcasecmp($_SERVER['QUERY_STRING'],'wsdl') == 0) {
+         echo $disco->getWSDL();
+     } else {
+         echo $disco->getDISCO();
+     }
+}
+exit;
+?>
+\end{lstlisting}
+
+Das Kapitel \ref{prototypview} beschreibt die View des Prototypen. Hier sind alle wichtigen AJAX-Implementierungen erläutert. Weitere Informationen zu AJAX befinden sich in Kapitel \ref{anhang:ajax}. Mehr Informationen zur Implementierung eines Web Services befinden sich in Kapitel \ref{anh:webservice}. 
+
+\section{Einrichten neuer Dienste}
+
+\subsection{Neuen Import hinzufügen}
+
+Um einen neuen Import hinzuzufügen sind folgende Schritte nötig:
+\begin{enumerate}
+	\item Im Verzeichnis /modul\_import/config ein neues XML-File anlegen. Dies muss der DTD tables.dtd ensprechen. 
+	\item Neue Klasse von Import ableiten.
+	\item Im Verzeichnis /modul\_import/config die Datei database.xml anpassen und die Zugangsdaten der Quelldatenbank eintragen. Dies ist optional, erhöht aber die Wartbarkeit. Die Daten sind so zentral abgelegt.
+	\item Den Jobstarter anpassen. 
+\end{enumerate}
+
+Ab sofort werden die Entitäten und Attribute, welche im XML-File angegeben wurden, in die Datenbank von AiO importiert. Die Entitäten und Attribute werden in der AiO-Datenbank automatisch angelegt, falls nicht schon vorhanden. 
+
+\subsubsection{Config XML-File anlegen}
+
+Für den Importer muss ein XML-File angelegt werden, welches genau die zu importierenden Attribute und Tabellen beschreibt. Das Listing \ref{lst:xmltabellenkonfiguration} zeigt eine nicht vollständige Beispielkonfiguration der zu importierten Tabelle \emph{MMO\_TT\_ATT\_Ersteller\_Ticket}. Die Datei heißt \enquote{/modul\_importer/config/tablesttwos.xml}.
+
+\begin{lstlisting}[caption=XML Tabellenkonfiguration, language=PHP, label=lst:xmltabellenkonfiguration]
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE importer SYSTEM "tables.dtd">
+<importer>
+  <debug>1</debug>
+  <urlprefix>/www/tban/dev/tban_portal/aio/</urlprefix>   
+	<table>
+   		<name>MMO_TT_ATT_Ersteller_Ticket</name>
+		<attribute>
+		  <name>AR_TicketIdentifizierer</name>
+		  <type>varchar</type>
+		  <length>255</length>
+		</attribute>
+		<attribute>
+		  <name>AR_Submitter</name>
+		  <type>varchar</type>
+		  <length>255</length>
+		</attribute>
+		<attribute>
+		  <name>AR_ErstellungsDatum</name>
+		  <type>int</type>
+		  <length></length>
+		</attribute>
+		<attribute>
+		  <name>AR_LetzteModifikationDurch</name>
+		  <type>varchar</type>
+		  <length>255</length>
+		</attribute>
+		<attribute>
+		  <name>AR_ModifikationDatum</name>
+		  <type>int</type>
+		  <length></length>
+		</attribute>
+		<attribute>
+		  <name>GR_ErstellerBereich</name>
+		  <type>varchar</type>
+		  <length>255</length>
+		</attribute>				
+		<attribute>
+		  <name>GT_Status</name>
+		  <type>int</type>
+		  <length></length>
+		</attribute>
+		<attribute>
+		  <name>GT_Anwendung</name>
+		  <type>varchar</type>
+		  <length>255</length>
+		</attribute>
+		<attribute>
+		  <name>GT_Ticketnummer</name>
+		  <type>varchar</type>
+		  <length>255</length>
+		  <pk>1</pk>
+		</attribute>
+		...
+		<attribute>
+		  <name>TMP_ChckKoordHOBereich</name>
+		  <type>varchar</type>
+		  <length>255</length>
+		</attribute>
+		<attribute>
+		  <name>TMP_ChckKoordHONL</name>
+		  <type>varchar</type>
+		  <length>255</length>
+		</attribute>
+		<!-- specify here the IN-Query Part. For example:
+			if you want to import only data from the GR_KoordinatorBereich of IPAN, IPAS, IPAP and NMC-CDN
+			you have to write here
+			<in>
+			 <name>GR_KoordinatorBereich</name>
+			 <vals>'IPAN', 'IPAS', 'IPAP', 'NMC-CDN'</vals>
+			</in>
+			now later on in importer a query part will be created automatically like:
+			... WHERE .... AND GR_KoordinatorBereich IN ('IPAN','IPAS','IPAP','NMC-CDN')
+		-->
+	  <in>
+	   <name>GR_KoordinatorBereich</name>
+	   <vals>'IPAN', 'IPAS', 'IPAP', 'NMC-CDN'</vals>
+	  </in>	
+   </table>	
+
+</importer>
+\end{lstlisting}
+
+\textbf{Zur Erklärung: }
+\begin{description}
+	\item[Zeile 3] Das Root-Tag <importer>. 
+	\item[Zeile 4] 1 schaltet den Debug-Modul ein, 0 schaltet ihn aus.
+	\item[Zeile 6] Das <table>-Tag. Hier wird eine neue Tabelle definiert. Es können pro Datenbank und Importer auch mehrere Tabellen importiert werden.
+	\item[Zeile 7] Der Tabellenname. Pro <table> nur einen Name angeben!
+	\item[Zeile 8-12] Ein zu importierendes Attribut der Tabelle. Es müssen nachfolgend die Angaben <name>, für die Attributbezeichnung, <type> für den Datentyp des Attributes und <length> angegeben werden. Wird <length> leer gelassen, so wird der MySQL-Standardwert verwendet. Optional ist das <pk>-Tag. Dieses bezeichnet das Feld mit dem Primary Key. Nur ein Feld als Primärschlüssel deklarieren!
+	\item[Zeile 75-78] Hier wird eine Teilmengenbeschreibung eingefügt. Der automatisch erzeugte SQL-Query bekommt so den Zusatz: ... GR\_KoordinatorBereich IN ('IPAN', 'IPAS'...)
+\end{description}
+
+Wird das XML-File nicht vollständig oder unkorrekt angegeben, so ist ein fehlerhafter Import möglich. Die SQL-Queries für den Import und für die Abfrage werden aus dem XML-File automatisch generiert. 
+
+\subsubsection{Neue Klasse von Importer ableiten}
+
+Ist das XML deklariert, muss von der abstrakten Klasse Importer eine neue Klasse abgeleitet werden. Diese erbt alle Eigenschaften der Klasse Importer. Weiterhin muss in  der neuen Klasse der DSN für den Datenbankzugriff festgelegt, sowie angegeben werden, wo sich das XML-Konfigurationsfile für die zu importierende Datenbank befindet.
+
+Das Listing \ref{lst:klassevonimporterableiten} zeigt das Beispiel für den TTWOS-Import.  
+
+\begin{lstlisting}[caption=Klasse von Importer ableiten, language=PHP, label=lst:klassevonimporterableiten]
+<?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+
+/**
+* This file is the TTWOS Importer Job
+* can be used from a script or a webscript 
+*
+* PHP versions 4 and 5
+*
+* @package    View
+* @author     Stefan Sobek <stefan@sobek.info>
+* @copyright  2007 Vodafone D2 GmbH - TBAN
+* @version    CVS: $Id: ImportTTWOS.class.php,v 1.5 2007/05/15 14:05:15 ssobek Exp $
+*/
+
+/**
+* The Import directory path
+*/
+$importdir = '/www/tban/dev/tban_portal/aio/modul_import/';
+
+/**
+* Include Importer class
+*/
+require_once ($importdir."classes/Importer.class.php");
+
+
+/**
+* Class ImportTTWOS is the import class for importing from TTWOS 
+*
+* Usage: $job = new ImportTTWOS('/absolute/path/to/import/files/');
+*        $job->start();
+* 
+* @package    Importer
+* @author     Stefan Sobek <stefan@sobek.info>
+*/
+class ImportTTWOS extends Importer {
+
+    var $tablexml = "config/tablesttwos.xml";
+				
+	var $dbxml  = "config/database.xml";
+				
+	/**
+	* Constructor of the class parsing the xml file and 
+	* calls the super class.
+	*
+	* @param String $dir The absolute directory given by the caller
+	*                    If nothing is given, the String will be empty
+	*/
+	function ImportTTWOS($dir = "") {
+		// parse database settings
+		$database = XmLParser::parse($dir.$this->dbxml);			
+					
+		$fromdsn = array(
+						'phptype'  => $database['root']['databases']['db']['0']['type'],
+						'username' => $database['root']['databases']['db']['0']['user'],
+						'password' => $database['root']['databases']['db']['0']['pass'],
+						'hostspec' => $database['root']['databases']['db']['0']['host'],
+						'database' => $database['root']['databases']['db']['0']['name'],
+		);
+		$todsn = array(
+						'phptype'  => $database['root']['databases']['db']['1']['type'],
+						'username' => $database['root']['databases']['db']['1']['user'],
+						'password' => $database['root']['databases']['db']['1']['pass'],
+						'hostspec' => $database['root']['databases']['db']['1']['host'],
+						'database' => $database['root']['databases']['db']['1']['name'],
+		);
+		// call superclass constructor												
+		parent::Importer($dir.$this->tablexml, $fromdsn, $todsn);
+														
+	}
+}
+?>
+\end{lstlisting}
+
+\textbf{Zur Erklärung: }
+\begin{description}
+	\item[Zeile 19] Der absolute Pfad zum Importer-Verzeichnis. 
+	\item[Zeile 24] Abstrakte Importerklasse inkludieren.
+	\item[Zeile 38-40] In diesem Falle wurden zwei Variablen deklariert, die die Namen der Konfigurationsdateien enthalten. tablesttwos.xml beinhaltet die zu importierenden Tabellen und Attribute nach \ref{lst:xmltabellenkonfiguration}.
+	\item[Zeile 53-66] Deklaration des DSN für PEAR::DB. Wird in Zeile 68 dem Konstruktor der Superklasse übergeben. In diesem Fall werden die Zugangsdaten zur Datenbank ebenfalls aus einem XML-File ausgelesen. Dies ist aber nicht verpflichtend. Es muss lediglich ein PEAR DSN erzeugt und dem Konstruktor der Superklasse zusammen mit der Konfigurationspfad übergeben weren. 
+\end{description}
+
+\subsubsection{JobStarter anpassen}
+
+Damit der Importvorgang auch gestartet wird, muss der neu erstellte Importjob dem Jobstarter hinzugefügt werden. Der Jobstarter wird via Cron Job aufgerufen.
+
+Listing \ref{lst:jobzumimportstarter} zeigt die Jobstarter-Datei. Diese liegt im Verzeichnis /modul\_import.
+
+\begin{lstlisting}[caption=Job dem Importstarter hinzufügen, language=PHP, label=lst:jobzumimportstarter]
+<?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+
+/**
+* This file is the Importer Job Starter.
+* Put in here new Jobs to start by the importer.
+*
+* PHP versions 4 and 5
+*
+* @package    View
+* @author     Stefan Sobek <stefan@sobek.info>
+* @copyright  2007 Vodafone D2 GmbH - TBAN
+* @version    CVS: $Id: Jobstarter.php,v 1.5 2007/04/24 14:01:40 ssobek Exp $
+*/
+
+/**
+* The Import directory path
+*/
+$importdir = '/www/tban/dev/tban_portal/aio/modul_import/';
+
+/**
+* include JobFactory class
+*/
+require_once 'ImportJobFactory.class.php';
+
+// create a new instance of the job factory
+$jobfactory = new ImportJobFactory($importdir);
+
+// create jobs!!! Fill in your JOB HERE!!!! do it like:
+// $jobs[] = $jobfactory->createJob('ClassnameOfJob');
+$jobs[] = $jobfactory->createJob('ImportTTWOS');
+$jobs[] = $jobfactory->createJob('ImportChaMPS');
+$jobs[] = $jobfactory->createJob('ImportNBL');
+
+// -----------------------------------
+// do not change anything from here!!!
+// -----------------------------------
+foreach ($jobs as $j) {
+  $j->start();
+}
+?>
+\end{lstlisting}
+
+\textbf{Zur Erklärung: }
+\begin{description}
+	\item[Zeile 31-33] Die Importjobs werden hinzugefügt. Hierbei wird der Fabrikmethode createJob als String der Klassenname übergeben. Die Datei wird automatisch inkludiert und eine neue Instanz erzeugt. Beim nächsten Cron Joblauf wird diese gestartet.
+	\item[ab Zeile 35] Ab hier keine Änderungen mehr einfügen, da die Importjobs gestartet werden.
+\end{description}
+
+\subsection{Manueller Importer}
+
+Für den manuellen Importer sind folgende Änderungen nötig:
+
+\begin{enumerate}
+	\item Im Verzeichnis /modul\_import den ImportWebController anpassen.
+	\item Die Datei importer\_view.php anpassen.
+\end{enumerate}
+
+Der manuelle Importer verfügt nun über die Möglichkeit einen Import zu starten. Es ist keine weitere Anpassung in der Klassendefinition nötig. Es wird die abgeleitete Importer-Klasse vom Importer benutzt. 
+
+\subsection{Web Service}
+
+\subsubsection{Neuer Web Service Klient}
+
+Einen Web Service Klienten, der einen Web Service Server konsumiert zeigt das Listing \ref{lst:webserviceklient}.
+
+\begin{lstlisting}[caption=Web Service Klient, language=PHP, label=lst:webserviceklient]
+<?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+
+/**
+* This file contains a Web Service Client for consuming the AiO 
+* Web Service.  
+*
+* PHP versions 4 and 5
+*
+* @package    Web_Service
+* @author     Stefan Sobek <stefan@sobek.info>
+* @copyright  2007 Vodafone D2 GmbH - TBAN
+* @version    CVS: $Id: getTicketDataClient.php,v 1.1 2007/05/03 12:16:57 ssobek Exp $
+*/
+require_once 'SOAP/Client.php';
+
+/**
+* The GetTicketDataClient class represents a SOAP_Client
+* for receiving Ticketdata from the database
+* 
+* @package    Web_Service
+* @author     Stefan Sobek <stefan@sobek.info>
+*/
+class GetTicketDataClient {
+	
+	function getTicketData() {
+		$wsdl = new SOAP_WSDL ('http://10.200.0.204/tban/dev/tban_portal/aio/modul_webservice/aio_ws.php?wsdl');
+		
+		$t = $wsdl->getProxy();
+		header('Content-Type: text/xml; charset=ISO-8859-1');
+		$ticketnum = $_REQUEST['ticket'] ? $_REQUEST['ticket'] : '';
+		if ($ticketnum != '') {
+			$data = $t->getticketdata($ticketnum);
+		}
+		echo $data;
+	}
+}
+$t = new GetTicketDataClient();
+$t->getTicketData();
+?>
+\end{lstlisting}
+
+\textbf{Zur Erklärung:}
+\begin{description}
+	\item[Zeile 27] Erzeugt eine neue Instanz der Klasse SOAP\_WSDL. Die URL zum WSDL-File wird dem Konstruktor übergeben. 
+	\item[Zeile 29] Erzeugt den Proxy für die Ticket-Klasse. Hier wird sozusagen ein Klassenrumpf erzeugt. 
+	\item[Zeile 33] Hier wird die Methode aus der Proxy-Klasse aufgerufen. Dies ist die Methode des Web Services. 
+\end{description} 
+
+\subsubsection{Neuer Web Service Server}
+
+Das Listing \ref{lst:webserviceserver} zeigt einen Web Service Server. 
+
+\begin{lstlisting}[caption=Web Service Server, language=PHP, label=lst:webserviceserver]
+<?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+
+/**
+* This file is the main file for the Web Service. 
+*
+* PHP versions 4 and 5
+*
+* @package    Importer
+* @author     Stefan Sobek <stefan@sobek.info>
+* @copyright  2007 Vodafone D2 GmbH - TBAN
+* @version    CVS: $Id: aio_ws.php,v 1.5 2007/04/23 11:43:05 ssobek Exp $
+*/
+
+/**
+* include SOAP Server class
+*/
+require_once('SOAP/Server.php');
+/**
+* include SOAP Disco Server class
+*/
+require_once('SOAP/Disco.php');
+/**
+* include the ticket class for receiving ticket info from database
+*/
+require_once('classes/Ticket.class.php');
+/**
+* create the SOAP Server
+*/
+$server = new SOAP_Server();
+/**
+* make new instanca of webservice class with the RPC methods
+*/
+$webservice = new Ticket();
+/**
+* add the class to the object map of the soap server
+*/
+$server->addObjectMap($webservice, 'http://schemas.xmlsoap.org/soap/envelope/');
+
+if (isset($_SERVER['REQUEST_METHOD'])  && $_SERVER['REQUEST_METHOD']=='POST') {
+     $server->service($HTTP_RAW_POST_DATA);
+} else {
+     // Create the DISCO server
+     $disco = new SOAP_DISCO_Server($server,'TTWOSTicketdata');
+     header("Content-type: text/xml");
+     if (isset($_SERVER['QUERY_STRING']) &&
+         strcasecmp($_SERVER['QUERY_STRING'],'wsdl') == 0) {
+         echo $disco->getWSDL();
+     } else {
+         echo $disco->getDISCO();
+     }
+}
+exit;
+?>
+\end{lstlisting}
+
+\textbf{Zur Erklärung:}
+\begin{description}
+	\item[Zeile 30] Erzeugt eine neue Instanz der Klasse SOAP\_WSDL. Die URL zum WSDL-File wird dem Konstruktor übergeben. 
+	\item[Zeile 32] Erzeugt den Proxy für die Ticket-Klasse. Hier wird sozusagen ein Klassenrumpf erzeugt. 
+	\item[Zeile 36] Hier wird die Methode aus der Proxy-Klasse aufgerufen. Dies ist die Methode des Web Services. 
+\end{description} 
+
+Das Listing \ref{lst:webserviceticket} zeigt die Datei /modul\_webservice/classes/ticket.class.php und ist die Datei, welches die Ticketdaten aus der Datenbank abruft. 
+
+\begin{lstlisting}[caption=Web Service Ticket Datei ticket.class.php, language=PHP, label=lst:webserviceticket]
+<?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
+
+/**
+* This file contains the Ticket class. This class is responsible
+* for retreiving the Ticketdata from the database. This is a class for
+* a Web Service. To act as a Web Service for PEAR::SOAP, this class
+* contains a dispatch-map where the needed methods with their parameters
+* are stored.  
+*
+* PHP versions 4 and 5
+*
+* @package    Web_Service
+* @author     Stefan Sobek <stefan@sobek.info>
+* @copyright  2007 Vodafone D2 GmbH - TBAN
+* @version    CVS: $Id: Ticket.class.php,v 1.5 2007/05/21 12:58:27 ssobek Exp $
+*/
+
+/**
+* The Import directory path
+*/
+$importdir = '/www/tban/dev/tban_portal/aio/modul_import/';
+
+/**
+* Import the db class
+*/
+require_once 'DB.php';
+
+/**
+* Import the parser File
+*/
+require_once $importdir.'classes/XmlParser.class.php';
+
+/**
+* The class creates a dispatch map for the webservice
+* 
+* @package    Web_Service
+* @author     Stefan Sobek <stefan@sobek.info>
+*/
+class Ticket
+{
+    var $__dispatch_map = array();
+
+	function Ticket() {
+         // Define the signature of the dispatch map on the Web services method
+
+         // Necessary for WSDL creation
+         $this->__dispatch_map['getticketdata'] = array(
+		                     'in'  => array('ticket' => 'integer'),
+                      		 'out' => array('ticketdata'  => 'string[]'),
+                   );
+     }
+	/**
+	* function receives the ticket data
+	* 
+	* @param  string $ticket The ticketnumer as string
+	* @return mixed  The Data as array of the ticket or 0
+	*/
+    function getticketdata($ticket)  {
+		// parse database settings
+		$database = XmLParser::parse("/www/tban/dev/tban_portal/aio/modul_import/config/database.xml");
+
+		/**
+		* MySQL DSN for the DB-connection
+		*/
+		$mysql_dsn = array(
+			'phptype'  => $database['root']['databases']['db']['1']['type'],
+			'username' => $database['root']['databases']['db']['1']['user'],
+			'password' => $database['root']['databases']['db']['1']['pass'],
+			'hostspec' => $database['root']['databases']['db']['1']['host'],
+			'database' => $database['root']['databases']['db']['1']['name'],
+		);
+			
+		$error = 0;
+		if ($ticket == '') $error += 1;
+		
+		$db =& DB::connect($mysql_dsn);
+		if (DB::isError($db)) {
+			die($db->getMessage());
+		}
+		
+		$query = "SELECT GT_Ticketnummer, AR_Submitter, AR_TicketIdentifizierer, GP_Problembeschreibung, GA_R_ckmeldebeschreibung, GZ_Zur_ckweisungsbeschreibung, GR_KoordinatorZwischenbericht
+		FROM MMO_TT_ATT_Bearbeiter_Ticket where AR_TicketIdentifizierer = CONVERT( _utf8 '$ticket' USING latin1 ) 
+		UNION
+		SELECT GT_Ticketnummer, AR_Submitter, AR_TicketIdentifizierer, GP_Problembeschreibung, GA_R_ckmeldebeschreibung, GZ_Zur_ckweisungsbeschreibung, GR_KoordinatorZwischenbericht
+		FROM MMO_TT_ATT_Ersteller_Ticket where AR_TicketIdentifizierer = CONVERT( _utf8 '$ticket' USING latin1 )";
+
+		
+		$res =& $db->query($query); 
+		
+		if (DB::isError($res)) {
+			die($res->getMessage());
+		}
+				
+		// create xml	
+		
+		$myxml = "<?xml version=\"1.0\" ?>\n";								
+		$myxml.= "<root>\n";
+		
+		$ticketdata = $res->fetchRow(DB_FETCHMODE_ASSOC);
+	
+		// utf8-decode has to be used here, because SOAP-Server has problems with encoding
+		foreach ($ticketdata as $key => $val) {
+			$myxml.= "<".$key.">".utf8_decode($val)."</".$key.">\n";
+		}
+		$myxml .= "</root>";
+		if ($error > 0) {
+			return "An Error occured";
+		} else {
+			return $myxml;
+		}
+
+	}	
+}
+?>
+\end{lstlisting}
+
+\textbf{Zur Erklärung: }
+
+\begin{description}
+	\item[Zeile 48-51] Hier wird der privaten Variable \_\_dispatch\_map der Funktionsname und die In- und Out-Parameter angegeben. Dies ist notwendig für die Erstellung des WDSL-Files. Um mehrere Methoden als Service bereitzustellen, müssen hier noch weitere Methodennamen und Parameter angegeben werden.
+	\item[Zeile 77-93] Hier werden die Ticketdaten des übergebenen Parameters aus der Datenbank gelesen. 
+	\item[Zeile 97-111] Ein XML-File wird aus den Ticketdaten erstellt. Die utf8-dekodierung ist nötig, da Browser sonst Probleme mit der Darstellung der Sonderzeichen haben. 
+\end{description}
+
+\section{Datenbankänderungen}
+
+Sollte sich der Datenbanktyp oder die Struktur der Quelldatenbank ändern, so sind nur einige wenige Einstellungen vorzunehmen.
+
+\subsection{Änderung des Datenbanktypes}
+
+Folgendes Szenario, welches wahrscheinlich gegen Ende dieses Jahres auch so oder ähnlich vorkommen kann: 
+Die TTWOS-Datenbank wird von SyBase auf Oracle umgestellt. Die Tabellenstruktur der Views ändert sich nicht. Änderungen sind dann nur in folgender Datei vorzunehmen:
+
+\begin{itemize}
+	\item modul\_import/config/database.xml
+\end{itemize}
+
+Hier muss dann der entsprechende Eintrag abgeändert werden. Dann müsste:
+
+\begin{verbatim}
+<databases>
+   <db>
+	   <type>sybase</type>
+	   <name>ARSystem</name>
+	   <user>ssobek</user>
+	   <pass>12345678</pass>
+	   <host>ttwostst_hs</host>  
+	   <desc>TTWOS Testsystem</desc>  
+   </db>
+   <db>
+   ...
+   </db>
+</databases>
+\end{verbatim}
+
+geändert werden in:
+
+\begin{verbatim}
+<databases>
+   <db>
+	   <type>oracle</type>
+	   <name>ARSystem</name>
+	   <user>ssobek</user>
+	   <pass>12345678</pass>
+	   <host>ttwostst_hs</host>  
+	   <desc>TTWOS Testsystem</desc>  
+   </db>
+   <db>
+   ...
+   </db>
+</databases>
+\end{verbatim}
+
+Der Datenbanktyp wird auf oracle in der XML umgestellt. Sollten sich die Zugangsdaten wie Username, Passwort oder Systemname ebenfalls ändern, so sind diese in der XML ebenfalls anzupassen. 
+
+\subsection{Änderung der Tabellenstruktur}
+
+Sollte sich die Tabellenstruktur der zu importierenden TTWOS-Tabellen ändern, sind Änderungen in folgender Datei nötig:
+ 
+\begin{itemize}
+	\item modul\_import/config/tablesttwos.xml
+\end{itemize}
+
+Hier sind dann entsprechend der Tabellenname, die Attributnamen, die Attributtypen und die Länge der Attribute anzupassen.
+
+\section{Tabellen}
+
+\subsection{Tabellenübersicht}
+
+Die Abbildung \ref{fig:Tabellenstruktur} zeigt die Tabellenstruktur der vorhandenen und angelegten Tabellen. Die importierten Tabellen fehlen in der Abbildung, da die Tabellenstruktur von der Konfiguration des jeweiligen Import-XML-Files abhängt. Die Ansicht zeigt eine Tabelle namens \enquote{Ticket-View}. Diese steht in unserem Falle für eine Ansicht, welche aus einer UNION-Abfrage aller importierten TTWOS-Tabellen besteht.
+
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=1.00\textwidth]{bilder/Tabellenstruktur.png}
+	\caption{Datenbanktabellen}
+	\label{fig:Tabellenstruktur}
+\end{figure}
+
+
+\textbf{Zur Erklärung der Tabellen:} 
+
+\begin{description}
+  \item[t\_import\_last] Diese Tabelle beinhaltet den Zeitpunkt des letzten Importes pro Tabelle. Das Attribute timestamp ist der Unix-Zeitstempel und das Attribut table ist der Tabellenname der importierten Tabelle. Diese Tabelle benötigt der Importer. Er importiert nur die Datensätze, die nach dem in dieser Tabelle für den Tabellennamen eingetragenen Zeitstempel. 
+  \item[log\_table] Dies ist die Logging-Tabelle. Loggingeinträge werden hier hinterlegt. Im Anhang in Kapitel \ref{anh:PEARLog} werden die einzelnen Log-Level beschrieben, welche dem Attribut priority entsprechen. Logtime ist der Zeitpunkt des Eintrages, ident beschreibt einen Identitätsstring, mit deren Hilfe unterschieden wird, wo dieser Logeintrag geschah. Message ist die eingetragene Logging-Nachricht. 
+	\item[t\_aio\_cm\_ticket] In dieser Tabelle wird die n:m Beziehung von den Tickets zu den Changes realisiert. pk\_cm\_id ist ein Fremdschlüssel zur t\_cm\_main Tabelle auf das gleichnamige Attribut. Das Attribut ticket\_id ist ein Fremdschlüssel zur Tickettabelle. Dadurch kann gewährleistet werden, dass ein Changeeintrag mehrere Tickets zugewiesen bekommen kann.
+	\item[t\_aio\_im\_ticket] In dieser Tabelle wird die n:m Beziehung von den Tickets zu den Incidents realisiert. pk\_cm\_id ist ein Fremdschlüssel zur t\_im\_main Tabelle auf das gleichnamige Attribut. Das Attribut ticket\_id ist ein Fremdschlüssel zur Tickettabelle. Dadurch kann gewährleistet werden, dass ein Incidenteintrag mehrere Tickets zugewiesen bekommen kann.
+	\item[t\_cm\_main] Dies ist die vorhandene Changemanagement Tabelle. 
+  \item[t\_im\_main] Dies ist die vorhandene Incidentmanagement Tabelle. 
+	\item[Ticket\_View] Dies ist die symbolische Tickettabelle. Wie bereits erwähnt, variiert diese Tabelle auf Grund der konfigurierbaren Importfunktion und den dynamisch erzeugten Tickettabellen. Hier wurden die Hauptfelder aufgeführt, die in fast allen Tickets vorkommen und benötigt werde. 
+\end{description}
+
+\subsection{Mapping ChaMPS Changes auf AiO Changes}
+
+Die Tabelle \ref{tab:anhChaMPSChangeTaskDaten} zeigt, wie die Einträge aus ChaMPS auf das AiO Changemanagement gemappt wurden.
+
+\begin{scriptsize}
+\begin{longtable}[htbp] {|p{4cm}|p{4cm}|}
+			\hline
+			\rowcolor[gray]{0.9}
+			\textbf{ChaMPS Feldbezeichnung} & \textbf{AiO Feldbezeichnung}  \\
+			\hline			
+			RfCID &  --- \\
+			\hline
+			ExternalRfCID &  --- \\
+			\hline
+			Status &  fk\_cm\_status\_id \\
+			\hline
+			Category &  fk\_cm\_category\_id \\
+			\hline
+			Priority &  fk\_cm\_priority\_id \\
+			\hline
+			Type &  --- \\
+			\hline
+			System &  fk\_cm\_system\_id \\
+			\hline
+			Owner &  --- \\
+			\hline
+			OwnerArea &  --- \\
+			\hline
+			ResponsibleArea &  --- \\
+			\hline
+			Description &  c\_cm\_description \\
+			\hline
+			ReasonForChange &  c\_cm\_reasion \\
+			\hline
+			NegativeEffects &  --- \\
+			\hline
+			GeneralImpact &  c\_cm\_general\_impact\\
+			\hline
+			RemainingRisk &  --- \\
+			\hline
+			Initiator &  --- \\
+			\hline
+			Implementing &  --- \\
+			\hline
+			Remarks &  c\_cm\_success \\
+			\hline
+			ImplementationRemarks &  c\_cm\_success \\
+			\hline
+			ReviewRemarks & c\_cm\_success \\
+			\hline
+			AuthorisationRemarks & --- \\
+			\hline
+			ImplementationStart &  c\_cm\_description \\
+			\hline
+			ImplementationEnd &  c\_cm\_description \\
+			\hline
+			Component &  --- \\
+			\hline
+			Start &  d\_cm\_begin \\
+			\hline
+			End &  d\_cm\_end \\
+			\hline
+			\caption{Mapping ChaMPS auf AiO Change Management}
+	\label{tab:anhChaMPSChangeTaskDaten}
+\end{longtable}
+\end{scriptsize}

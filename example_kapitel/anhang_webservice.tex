@@ -1,0 +1,75 @@
+%% $Id: anhang_webservice.tex 14 2007-06-01 12:50:36Z stefan $
+%\setchapterpreamble[u]{%
+%\dictum[John F. Kennedy]{Einen Vorsprung im Leben hat, wer da anpackt, wo die anderen erst einmal reden. \dots}}
+\chapter{Web Service} \label{anh:webservice}
+
+\section{Was ist ein Web Service?} \index{Web Service}
+
+Ein Web Service stellt Dienste über das Internet, meist über HTTP oder FTP, zur Verfügung. Die Kommunikation wird mit Hilfe von XML \index{XML} Standards realisiert. 
+
+Wikipedia schreibt zur Definition folgendes:
+
+\begin{quotation}
+Ein Web Service bzw. Webdienst ist eine Software-Anwendung, die mit einem Uniform Resource Identifier (URI) \index{URI} eindeutig identifizierbar ist und deren Schnittstellen als XML-Artefakte definiert, beschrieben und gefunden werden können. Ein Web Service unterstützt die direkte Interaktion mit anderen Software-Agenten unter Verwendung XML-basierter Nachrichten durch den Austausch über internetbasierte Protokolle. \citep[vgl.][]{wikiwebservice}	
+\end{quotation}
+
+Folglich ist aber nicht jeder Web Server oder Web Browser ein Web Service, denn die Idee ist, dass die Programme eines Web Services über ein XML-gekapseltes Protokoll kommunizieren.
+
+
+\section{Der Nutzen eines Web Services}
+
+\subsection{Protokolle}\index{Protokolle}
+
+Ein Web Service ist ein XML-gekapseltes Protokoll. Das bedeutet, dass die Informationen als XML-Daten übertragen werden. Diese XML-Daten werden über HTTP als Transportprotokoll gesendet. Abbildung \ref{fig:2007_04_07_Webservice-Protokolle} zeigt die Schichten der einzelnen Protokolle. 
+
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=0.7\textwidth]{bilder/2007_04_07_Webservice-Protokolle.png}
+	\caption{Webservice Protokollschichten}
+	\label{fig:2007_04_07_Webservice-Protokolle}
+\end{figure}
+
+\subsection{SOAP} \index{Web Service!SOAP}
+
+Vor einigen Jahren war SOAP noch die Abkürzung für \enquote{Simple Object Access Protokoll}, wird aber ab Version 1.2 nicht mehr als Akronym gebraucht, da es auch nicht unbedingt \enquote{simple} ist und nicht nur dem Zugriff auf Objekten dient. Weiterhin können Abkürzungen in den USA nicht als Markenname registriert werden. 
+
+SOAP ist ein Protokoll für Nachrichten, welche zwischen Web Service-Konsument und Web Service-Anbieter ausgetauscht werden. Dieses Protokoll ist XML-basierend, was bedeutet, das die Informationen nach einem bestimmten SOAP-Standard in XML-Format vorliegen. Diese Informationen können also von Menschen gelesen werden. 
+
+Es gibt zwei Arten von Interaktionsmustern des SOAP-Protokolls. Einmal RPC, das für \enquote{Remote Procedure Call} \index{Web Service!RPC|see{Remote Procedure Call}} \index{Web Service!Remote Procedure Call} und zum anderen Document Exchange, also der Austausch von Dokumenten. RPC-kodiertes SOAP enthält einen Methodenaufruf und definiert die Datentypen. Document-kodiertes SOAP enthält nur die eigentliche Nachricht. 
+
+\subsection{WSDL} \index{Web Service!WSDL}
+
+WSDL steht für \enquote{Web Service Description Language} und ist ein Standard für die Beschreibung der Daten, die zwischen Konsument und Anbieter ausgetauscht werden.
+
+\section{SOA} \index{SOA|see{Serviceorientierte Architektur}}
+
+SOA steht für \enquote{Service orientierte Architektur}. \index{Serviceorientierte Architektur}
+
+Abbildung \ref{fig:2007_04_07_Webservice-SOA} zeigt die serviceorientierte Architektur. Ein Konsument bzw. ein Klient sucht in einem Verzeichnis nach einem Dienst. Von diesem Verzeichnis erhält er ein Ergebnis mit der URL des Web Services sowie der Beschreibung des Dienstes. Der Konsument sendet nun einen Anfrage per XML an den Service Anbieter und erhält eine Antwort ebenfalls per XML. Der Anbieter stellt seinen Dienst zur Verfügung. 
+
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=1.00\textwidth]{bilder/2007_04_07_Webservice-SOA.png}
+	\caption{Servieorientierte Architektur}
+	\label{fig:2007_04_07_Webservice-SOA}
+\end{figure}
+
+\section{Implementierung eines Web Services} 
+
+Die Implementierung eines Web Services ist mit Hilfe der PEAR::SOAP Klasse leicht zu realisieren. Das Kapitel \ref{anh:technhandbuchwebservice} des technischen Handbuches zeigt die Implementierung des Web Services der importieren Tickets.
+
+\section{Vorteile}\index{Web Service!Vorteile}
+
+\begin{itemize}
+	\item Zur Übertragung dient häufig das HTTP-Protokoll, so dass es nicht zu Problemen mit Firewalls kommt. Bei CORBA, DCOM oder Java RMI sieht das anders aus. 
+	\item Durch die Verwendung von Internet-Standards ist es möglich, dass die verschiedensten Systeme miteinander kommunizieren. Windows C\#-Clients können ohne Probleme mit Java-Servern kommunizieren, selbst mit einer Firewall vor der Anwendung.
+\end{itemize}
+
+\section{Nachteile}\index{Web Service!Nachteile}
+
+\begin{itemize}
+	\item Die Performance ist häufig ein Problem, denn das XML des SOAP-Protokolls beinhaltet sehr viel Overhead. Ein verdreißigfachen der Größe ist durchaus keine Seltenheit. 
+	\item Es ist mehr Know-How erforderlich als bei der Verwendung von RPC. Jede Programmiersprache benötigt zur Verwendung von Web Services spezielle Bibliotheken.
+\end{itemize}
+
+

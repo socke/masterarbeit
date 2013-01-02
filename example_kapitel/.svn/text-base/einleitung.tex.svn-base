@@ -1,0 +1,15 @@
+% $ID$
+% Einleitung 
+
+\chapter{Einleitung}
+
+Im Rahmen meines Studiums Informatik Fachrichtung Software Engineering absolviere ich, Stefan Sobek, ein fünfmonatiges Praktikum im Zeitraum von Februar 07 bis Juni 07 im Vodafone D2 GmbH Konzern im Bereich TBAN\footnote{Technischer Betrieb Assistance and Network}. Während dieser Zeit schreibe ich meine Diplomarbeit zum Thema "`Schnittstellenentwicklung zwischen AiO\footnote{All in One - Management Applikation}, TTWOS\footnote{Trouble Ticket and Workorder System} und ChaMPS\footnote{Change Management Process System}"'. 
+
+Aus den Systemen TTWOS und ChaMPS sollen abteilungsrelevante Daten in AiO importiert und anschließend abgeglichen werden. Je nach Eintragsart soll ein Incident oder ein Change Management Eintrag, eventuell sogar beides, in die Datenbank von AiO eingetragen werden. 
+
+Kapitel \ref{Situationsschilderung} beinhaltet eine Schilderung der aktuellen Situation der Abteilung TBAN. Eine genaue Beschreibung meines Auftrages beinhaltet das Kapitel \ref{Auftragsbeschreibung}.  
+
+Die Analyse und Definition der Anforderungen befindet sich in Kapitel \ref{analyseunddefinition}. 
+
+
+

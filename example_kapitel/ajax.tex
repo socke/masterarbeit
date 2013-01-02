@@ -1,0 +1,103 @@
+%% $Id: ajax.tex 13 2007-05-31 12:01:48Z stefan $
+%% Kurzform 
+
+\chapter{AJAX} \label{anhang:ajax}
+
+\section{Was ist AJAX?}\index{AJAX}
+
+AJAX bedeutet \enquote{\textbf{A}synchronous \textbf{J}avaScript \textbf{a}nd \textbf{X}ML} und beschreibt eine Technik, die asynchron eine Verbindung mit einem Server aufbaut. Normalerweise muss eine HTML-Seite immer komplett neu geladen werden, wenn zum Beispiel über ein Formular Daten übertragen werden sollen. Die Webseite baut einen Request zum Server auf und verarbeitet, je nachdem wie das Script programmiert ist, die Eingaben. Die Antwort des Servers wird im Browser angezeigt. 
+
+Angenommen, man verfügt auf der Webseite über ein Formular, in welchem der Benutzer seinen Ort eingeben kann und man möchte diese Orte aus einer Datenbank auslesen. Dann kann man alle Orte in ein Dropdown-Menu schreiben und der Benutzer muss nun aus diesen Orten seinen Ort auswählen. Befinden sich nun aber vielleicht 1000 Orte in der Datenbank, so ist dies über ein normales Drop-Down-Feld nicht mehr leicht zu handhaben. Jetzt wäre es für eine Webapplikation hilfreich, wenn der Benutzer nur die Anfangsbuchstaben seines Ortes eintippt und ein Dropdownmenu nur die Orte anzeigt, die auch auf seine Eingabe passen. Der Benutzer kann durch die Eingabe mehrerer Zeichen die Auwahl einschränken.  
+
+Dies ist mit AJAX möglich. Es wird nun im Hintergrund eine Verbindung mit dem Server aufgebaut, ein Script aufgerufen, welches nun aus der Datenbank die entsprechenden Einträge passend zur Eingabe des Benutzers heraussucht und das Ergebnis an den Browser zurückschickt. Hier wird nun per Javascript \index{Javascript} dynamisch ein Dropdown-Menu erzeugt, welches die Rückgabe anzeigt. Dies passiert alles im Hintergrund, die Seite wird nicht neu geladen.
+
+\section{Sinnvoller Einsatz von AJAX}\label{anhang:ajaxsinnvoll}
+
+Nicht immer ist der Einsatz von AJAX sinnvoll. Im AJAX-Wahn sollte auf keinen Fall die gesamte Seite immer nur mit AJAX neu geladen werden, denn so können diverse Unterseiten oder Unterrubriken nicht mehr direkt per URL \index{URL} erreicht werden. Hierfür gibt es zwar auch einen Workaround, indem man zusätzlich noch URLs generiert, um den Zustand wiederherzustellen, aber Anwendungen bzw. Formulare, die von einem Benutzer ausgefüllt werden, benutzen nach wie vor eine synchrone Verbindung. \index{synchrone Verbindung} Der Benutzer füllt das Formular aus und schickt es anschließend per Mausklick auf einen Button ab. Hier besteht keine Notwendigkeit, im Hintergrund einen Request \index{Request} abzuschicken. 
+
+\section{Beispiel} \index{AJAX!Beispiel}
+
+Das Listing \ref{lst:AJAXBeispiel} zeigt ein einfaches Beispiel, wie mit Hilfe von AJAX eine asynchrone Verbindung \index{asynchrone Verbindung} aufgebaut wird. 
+
+\begin{lstlisting}[caption=AJAX Beispiel, language=HTML, label=lst:AJAXBeispiel]
+<script language="javascript" type="text/javascript">
+  var request = null;
+  
+  function createRequest() {
+    try {
+	
+	  request = new XMLHttpRequest();
+	  
+	} catch (trymicrosoft) {
+	
+	  try {
+	  
+	    request = new ActiveXObject("Msxml2.XMLHTTP");
+		
+	  } catch (othermicrosoft) {	
+	       
+	    try {
+		
+		  request = new ActiveXObject("Microsoft.XMLHTTP");
+		  
+		} catch (failed) {
+		
+		  request = null;
+		  
+		}
+	  }
+	  
+	} 
+	if (request == null) 
+	  alert("Error creating request object");
+  }
+  
+  function getBoardsSold() {
+  createRequest();
+	var url = "getUpdatedBoardSales-ajax.php";
+	request.open("GET", url, true);
+	request.onreadystatechange = updatePage;
+	request.send(null);
+
+  }
+  
+  function updatePage() {
+	if (request.readyState == 4) {
+	  var newTotal = request.responseText;
+	  var boardsSoldE1 = document.getElementById("boards-sold");
+	  var cashE1 = document.getElementById("cash");  
+	  replaceText(boardsSoldE1, newTotal); 
+	  
+	  /* Figure out how much cas Katie has made */
+	  var priceE1 = document.getElementById("price");
+	  var price = getText(priceE1);
+	  var costE1 = document.getElementById("cost");
+	  var cost = getText(costE1);
+	  var cashPerBoard = price - cost;
+	  var cash = cashPerBoard * newTotal;
+	  
+	  cash = Math.round(cash * 100) / 100;
+	  replaceText(cashE1, cash);
+	}  
+  }
+  </script>
+\end{lstlisting}
+
+
+Der Aufruf der Methode createRequest() erzeugt je nach Browser ein XMLHttpRequest \index{AJAX!XMLHttpRequest} Objekt, oder das Microsoft Pendant, ein ActiveXObject. \index{AJAX!ActiveXObject}
+
+Die Funktion \emph{getBoardsSold()} ruft die Methode \emph{createRequest()} auf, erzeugt dadurch ein XMLHttpRequest Objekt. Der Request ruft auf dem Server eine PHP-Datei auf und anschließend, wenn der Request abgeschickt wurde, die Callback-Funktion \emph{updatePage()}.  
+
+Diese Funktion prüft nun, ob das Request-Objekt den Status 4 hat. Der Status 4 besagt, dass die Server-Anfrage fertig ist. Weitere Status sind: 1 für \enquote{gerade initialisiert}, 2 für \enquote{wird bearbeitet} und 3 für \enquote{Server hat den Request abgeschlossen}. \citep[vgl.][S.~54]{headrush2006} 
+
+Mit deren Hilfe werden in den meisten Anwendungen auch sogenannte \enquote{Loading Bar} oder \enquote{Animated GIFs} angezeigt, welche anzeigen, dass die Applikation noch im Hintergrund beschäftigt ist. 
+
+Die Funktion updatePage() ist nun auch dafür zuständig, den Inhalt der Webseite auszutauschen. Mit Hilfe von document.getElementById("cost") kann auf ein Element im DOM-Baum \index{DOM} zugegriffen werden. Die Methode getText holt den aktuellen Text eines Textknotens. Mit \emph{document.getElementById( "cost" ).value = 'neuer Text'} kann der Text ausgetauscht werden. 
+
+Im Rahmen der Prototyp-Erstellung stellte sich heraus, dass es sehr mächtige und hilfreiche Frameworks für AJAX gibt. Benutzt wurde schließlich \enquote{Prototype} \index{Prototype} und \enquote{Scriptaculous}\index{Scriptaculous}. Diese Frameworks ermöglichen sehr einfach XMLHttpRequest zu erzeugen und zu abzusenden. Die Vorgehensweise wird im Kapitel \ref{prototyp} erläutert. 
+
+\glossary{name={AJAX}, description={Asynchronous Javascript and XML. Eine Technik basierend auf Javascript, mit der es möglich ist asynchrone Requests an einen Server zu schicken. Wahlweise kann hier mit reinem Text oder mit XML als Rückgabewert gearbeitet werden.},
+}
+
+\glossary{name={XMLHttpRequest}, description={Ein Requestobjekt, welches mit Hilfe von AJAX im Hintergrund einer Webanwendung an einen Server geschickt werden kann. Diese Verbindung erfolg asynchron. Alle aktuellen Webbrowser unterstützen die Erzeugung und den Empfang von asynchronen Requests.},
+}

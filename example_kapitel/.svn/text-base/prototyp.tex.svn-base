@@ -1,0 +1,480 @@
+%% $Id$
+%% Prototyp 
+
+\chapter{Prototyp}\label{prototyp}
+
+Die Entwicklung eines Prototypen zum Test hat zum einen den Zweck, die Durchführbarkeit des Projektes zu testen, aber auch um zu schauen, ob die Ergebnisse der Analyse umzusetzen sind. Oft ist es so, dass viele Informationen aus dem Prototypen gewonnen werden können. So auch hier, denn diverse Techniken und Ansätze sind genauso oder abgewandelt auch letztendlich in der finalen Version eingesetzt worden.
+
+\section{Connection Test via Konsole}
+
+Die ersten Verbindungstests zur Sybase-Datenbank von TTWOS \index{TTWOS} fanden auf der Unix-Maschine statt. Die Unix-Maschine verfügt über einen SyBase-Clienten, der die Verbindung zu einer SyBase-Datenbank ermöglicht. Um zu testen, ob eine Verbindung der Unix-Maschine \emph{hqwww01tban} zur TTWOS Datenbank herstellbar ist, wurde über die SSH-Shell folgendes Kommando abgesetzt:
+
+\glossary{name={hqwww01tban}, description={Der Rechnername des Intranet-Webservers der Abteilung TBAN},
+}
+
+\begin{verbatim}
+isql -Sttwostst_hs -Ussobek -P12345678
+\end{verbatim}
+
+\glossary{name={isql}, description={Dies ist der Befehl des Sybase-UNIX-Clients, um eine Verbindung mit einer Sybasedatenbank aufzubauen. },
+}
+\index{isql}
+
+Nachfolgend werden die Parameter erklärt. 
+\begin{description}
+	\item[-S] Dieser Parameter beschreibt den Host, mit dem verbunden werden soll. 
+	\item[-U] Dieser Parameter beschreibt den User, welcher für die Verbindung benutzt wird. 
+	\item[-P] Dieser Parameter beschreibt das Passwort, welches für die Verbindung benutzt wird. 
+\end{description}
+
+Nach jedem Parameter kann sofort der entsprechende Zeichensatz folgen. Es muss also kein Leerzeichen angegeben werden. 
+
+Der Server meldet einen Fehler:
+
+\begin{verbatim}
+CT-LIBRARY error:
+        ct_connect(): directory service layer: internal directory control 
+        layer error: Requested server name not found.
+\end{verbatim}
+
+Der UNIX-Maschine ist der Servername nicht bekannt. Gelöst werden kann das Problem, indem der Datei \emph{/opt/sybase-oc/interfaces} des Sybase Open Clients folgendes hinzugefügt wird.
+
+\begin{verbatim}
+ttwostst_hs
+       master tcp ether 10.132.245.130 4100
+       query tcp ether 10.132.245.130 4100
+\end{verbatim}
+
+Nun ist der TTWOS Server bekannt und es kann via isql-Kommando verbunden werden. 
+
+% section 
+\section{Connection Test via PHP}
+
+Anschließend wird geprüft, ob die Verbindung über PHP funktioniert. Hierfür wurde folgendes PHP-Skript erstellt.
+
+\begin{lstlisting}[caption=PHP Connection Test, language=PHP, label=PHP_Connection_Test]
+<?php
+//DB-Modul laden
+require_once "DB.php";
+
+//setzen der variablen für connect
+$dsn = array(
+    'phptype'  => 'sybase',
+    'username' => 'ssobek',
+    'password' => '12345678',
+    'hostspec' => 'ttwostst_hs',
+    'database' => 'ARSystem',
+);
+
+//connect
+$db =& DB::connect($dsn);
+if (DB::isError($db)) {
+    die($db->getMessage());
+}
+
+$query = "select StandortBezeichnung, StandortOrt from MMO_IST_Standorte WHERE StandortOrt LIKE '%Krefeld%'";
+$query2 = "select GT_Ticketnummer, AR_ErstellungsDatum, GT_Buchungsdatum, GP_Priorit_t from MMO_TT_ATT_Bearbeiter_Ticket";
+
+$res =& $db->limitQuery($query2, 0, 10); 
+
+if (DB::isError($res)) {
+    die($res->getMessage());
+}
+
+//echo "<pre>"; print_r($data); echo "</pre>";
+
+echo "<pre>"; print_r($data); echo "</pre>";
+echo '<table border="1">'; 
+   echo '<tr>'; 
+   echo "<td style=\"background-color:#CCCCCC\">GT_Ticketnummer</td>"; 
+   echo "<td style=\"background-color:#CCCCCC\">AR_ErstellungsDatum</td>"; 
+   echo "<td style=\"background-color:#CCCCCC\">GT_Buchungsdatum</td>";
+   echo "<td style=\"background-color:#CCCCCC\">GP_Priorit_t</td>";
+   
+   echo '</tr>';
+while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC)) 
+{    
+   echo '<tr>'; 
+   echo "<td>$data[GT_Ticketnummer]</td>"; 
+   echo "<td>$data[AR_ErstellungsDatum]</td>";
+   echo "<td>$data[GT_Buchungsdatum]</td>"; 
+   echo "<td>$data[GP_Priorit_t]</td>";
+   echo '</tr>';
+   
+  // print_r($data);
+} 
+echo '</table>'; 
+$db->disconnect();
+
+?>
+\end{lstlisting}
+
+
+\glossary{name={PHP}, description={Hypertext Preprocessor. Eine Webbasierende Programmiersprache. },
+}
+\index{PHP}
+
+Dieses PHP-Skript benutzt die PEAR-DB Abstraktionsklasse. Für mehr Informationen über die PEAR-Klassen siehe Kapitel \ref{anhang:PEAR}. \index{PEAR}
+
+\glossary{name={PEAR}, description={PHP Extension and Application Repository. PEAR ist eine Sammlung oder auch Bibliothek von Modulen und Klassen für die Programmiersprache PHP.},
+}
+\index{PHP Extension and Application Repository|see{PEAR}}
+\section{Datenimport von Sybase zu MySQL}
+
+Weiterhin wurde ein Skript geschrieben, um zu testen, ob der Import aus der Sybase-Datenbank in die MySQL Datenbank problemlos funktioniert. Das Importskript zeigt das Listing \ref{Testimportskript}
+
+\begin{lstlisting}[caption=Testimportskript, language=PHP, label=Testimportskript]
+<?php
+// include PEAR-classes
+require_once 'DB.php';
+// include helper classes
+require_once 'inc/XmlParser.class.php';
+require_once 'inc/HF.class.php';
+require_once 'inc/QueryHelper.class.php';
+
+// parse settings file with table and attribute names
+$node = XmlParser::parse('inc/settings.xml');
+// get debug value from xml
+$debug = $node['root']['importer']['debug'];
+
+HF::p($node);
+
+// parse database settings
+$database = XmLParser::parse('inc/database.xml');
+HF::p($dbconn);
+ 
+//setzen der variablen für den sybase-connect
+$sybase_dsn = array(
+    'phptype'  => $database['root']['databases']['db']['0']['type'],
+    'username' => $database['root']['databases']['db']['0']['user'],
+    'password' => $database['root']['databases']['db']['0']['pass'],
+    'hostspec' => $database['root']['databases']['db']['0']['host'],
+    'database' => $database['root']['databases']['db']['0']['name'],
+);
+//setzen der variablen für den mysql-connect
+$mysql_dsn = array(
+    'phptype'  => $database['root']['databases']['db']['1']['type'],
+    'username' => $database['root']['databases']['db']['1']['user'],
+    'password' => $database['root']['databases']['db']['1']['pass'],
+    'hostspec' => $database['root']['databases']['db']['1']['host'],
+    'database' => $database['root']['databases']['db']['1']['name'],
+);
+
+// check array keys, to know if only one table or more tables should be imported
+$arrKeys = array_keys($node['root']['importer']['table']);
+HF::p($arrKeys);
+if ($arrKeys[0] == '0') {
+    // if more than one table with attributes
+	foreach ($node['root']['importer']['table'] as $key => $val) {
+	  $arrayTables[] = $val['name'];
+	  // create attribute vals
+	  foreach ($val['attribute'] as $key2 => $val2) {
+		 $arrayAttributes[] = $val['name'].".".$val2;
+	  }
+	}
+} else {
+    // if only one table with attributes
+    $arrayTables = $node['root']['importer']['table']['name'];
+   	foreach ($node['root']['importer']['table']['attribute'] as $key => $val) {
+	   $arrayAttributes[] = $arrayTables.".".$val;
+	}
+}
+// create query with QueryHelper
+$query = QueryHelper::createQuery($arrayAttributes, $arrayTables);
+
+echo $query."<br />";
+
+// connect to sybase database
+$dbsybase =& DB::connect($sybase_dsn);
+if (DB::isError($dbsybase)) {
+    die($dbsybase->getMessage());
+}
+// connnect to mysql database
+$dbmysql =& DB::connect($mysql_dsn);
+if (DB::isError($dbmysql)) {
+    die($dbmysql->getMessage());
+}
+
+// send query but limit to 10 results
+//$res =& $dbsybase->limitQuery($query, 0, 10);  
+$res =& $dbsybase->query($query);
+
+if (DB::isError($res)) {
+   die($res->getMessage());
+}
+
+// prepare sql for import   
+$importsql = $dbmysql->autoPrepare($arrayTables, $arrayAttributes, DB_AUTOQUERY_INSERT);
+
+if (PEAR::isError($sth)) {
+	die($sth->getMessage());
+}
+
+// if doit 1 then import
+if ($_REQUEST['doit'] == 1) {
+	// fetch associative array rows from database 
+	while ($data = $res->fetchRow(DB_FETCHMODE_ASSOC)) 
+	{ 
+	   if ($debug == true) HF::p($data);
+
+       // execute sql 
+	   $mysqlresult =& $dbmysql->execute($importsql, array_values($data));
+	   
+	   if (PEAR::isError($mysqlresult)) {
+			die($mysqlresult->getMessage()."<br />".$mysqlresult->getDebugInfo());
+	   }
+	} 
+}
+// close sybase connection
+$dbsybase->disconnect();
+// close mysql connection
+$dbmysql->disconnect();
+
+?>
+\end{lstlisting}
+
+
+Dieses Skript importiert Daten aus der Sybase Tabelle MMO\_TT\_ATT\_Bearbeiter\_Ticket in die MySQL-Tabelle MMO\_TT\_ATT\_Bearbeiter\_Ticket. Dies ist eine 1 zu 1 Kopie. Welche Tabelle und welche Attribute importiert werden sollen, wird aus der settings.xml gelesen. Listing \ref{settings.xml} zeigt den Aufbau der settings.xml Datei.
+
+\begin{lstlisting}[caption=settings.xml, language=XML, label=settings.xml]
+<?xml version="1.0" encoding="UTF-8"?>
+<importer>
+   <debug>0</debug>
+   <urlprefix>/www/tban/dev/tban_portal/aio/</urlprefix>   
+   <table>
+	 <name>MMO_TT_ATT_Bearbeiter_Ticket</name>
+	 <attribute>AR_TicketIdentifizierer</attribute>
+	 <attribute>AR_Submitter</attribute>
+	 <attribute>AR_ErstellungsDatum</attribute>
+	 <attribute>GR_BearbeiterName</attribute>
+	 <attribute>AR_LetzteModifikationDurch</attribute>
+	 <attribute>AR_ModifikationDatum</attribute>
+	 <attribute>GT_Status</attribute>
+	 <attribute>GT_Anwendung</attribute>
+	 <attribute>SP_Faxlayout</attribute>
+	 <attribute>SP_Gruppen</attribute>
+	 <attribute>SP_InterfaceSchema</attribute>
+	 <attribute>Applikationen</attribute>
+	 <attribute>GT_Ticketnummer</attribute>
+	 <attribute>GT_Benachrichtigungsempf_nger</attribute>
+	 <attribute>GT_Buchungsdatum</attribute>
+	 <attribute>GT_Faxdatum</attribute>
+	 <attribute>GT_Anhang</attribute>
+	 <attribute>GT_LB_vorhanden</attribute>
+	 <attribute>GP_Problem_berschrift</attribute>
+	 <attribute>GP_Problembeschreibung</attribute>
+	 <attribute>GP_Problembeginn</attribute>
+	 <attribute>GP_Problemende</attribute>
+	 <attribute>GP_Priorit_t</attribute>
+	 <attribute>Reminder</attribute>
+	 <attribute>Auswahl</attribute>
+	 <attribute>GA_R_ckmelde_berschrift</attribute>
+	 <attribute>GA_R_ckmeldebeschreibung</attribute>
+	 <attribute>GA_DatumF_rDieL_sung</attribute>
+	 <attribute>GZ_Zur_ckweisungs_berschrift</attribute>
+	 <attribute>GZ_Zur_ckweisungsbeschreibung</attribute>
+	 <attribute>GR_KoordinatorName</attribute>
+	 <attribute>GR_KoordinatorFax</attribute>
+	 <attribute>GR_KoordinatorZwischenbericht</attribute>
+	 <attribute>GR_BearbeiterZwischenbericht</attribute>
+	 <attribute>GR_BearbeiterAbteilung</attribute>
+	 <attribute>GR_BearbeiterNL</attribute>
+	 <attribute>GR_BearbeiterTelefon</attribute>
+	 <attribute>GR_KoordinatorAbteilung</attribute>
+	 <attribute>GR_KoordinatorNL</attribute>
+	 <attribute>GR_KoordinatorTelefon</attribute>
+	 <attribute>GR_KoordinatorBereich</attribute>
+	 <attribute>GR_BearbeiterBereich</attribute>
+	 <attribute>GR_ExternName</attribute>
+	 <attribute>GR_ExternFirma</attribute>
+	 <attribute>GR_ExternOrt</attribute>
+	 <attribute>GR_ExternTelefon</attribute>
+	 <attribute>GR_ExternFax</attribute>
+	 <attribute>GR_ExternEmail</attribute>
+	 <attribute>GR_ExternAbteilung</attribute>
+	 <attribute>GT_Beteiligt</attribute>
+	 <attribute>TP_TempServer</attribute>
+	 <attribute>TP_Temp</attribute>
+	 <attribute>ExtCoordEmail</attribute>
+	 <attribute>GE_Externes_System</attribute>
+	 <attribute>GE_Externe_EntryId</attribute>
+	 <attribute>SlaExecution</attribute>
+	 <attribute>SLA__berschritten</attribute>
+	 <attribute>SLA_Last</attribute>
+	 <attribute>GR_ExtKoordName</attribute>
+	 <attribute>GR_ExtKoordTelefon</attribute>
+	 <attribute>GR_ExtKoordFax</attribute>
+	 <attribute>GE_Externes_System_Koordinator</attribute>
+	 <attribute>Externer_Bereich</attribute>
+	 <attribute>GP_StandortCode</attribute>
+	 <attribute>GP_Netzelementcode</attribute>
+	 <attribute>GP_Netzelementbeschreibung</attribute>
+	 <attribute>CLIC_Code__</attribute>
+	 <attribute>GP_Leitungsname</attribute>
+	 <attribute>GP_Leitungsidentifizierer</attribute>
+	 <attribute>GL_Logbuchnummer_Slave_</attribute>
+	 <attribute>TP_Temp1</attribute>
+	 <attribute>TemipProcessId</attribute>
+	 <attribute>TP_TempSpoolID</attribute>
+	 <attribute>TP_TempSpoolPath</attribute>
+	 <attribute>TP_TempSpoolHostname</attribute>
+	 <attribute>Koordinator_HO_</attribute>
+	 <attribute>KoordinatorBereich_HO_</attribute>
+	 <attribute>KoordinatorNL_HO_</attribute>
+	 <attribute>BearbeiterName_HO_</attribute>
+	 <attribute>BearbeiterBereich_HO_</attribute>
+	 <attribute>BearbeiterNL_HO_</attribute>
+	 <attribute>Query_List_Handover</attribute>
+	 <attribute>TMP_TicketinHO</attribute>
+	 <attribute>TMP_KoordinatorNLHO</attribute>
+	 <attribute>TMP_KoordinatorBereichHO</attribute>
+	 <attribute>TMP_KoordinatornameHO</attribute>
+	 <attribute>TMP_BearbeiterNLHO</attribute>
+	 <attribute>TMP_BearbeiterBereichHO</attribute>
+	 <attribute>TMP_BearbeiterNameHO</attribute>
+	 <attribute>TMP_ChckKoordInaktBereic</attribute>
+	 <attribute>TMP_ChckBearbeiterInaktBereich</attribute>
+	 <attribute>Vorknf__erforderlich</attribute>
+	 <attribute>Freigabe_Koord</attribute>
+	 <attribute>Freigabe_Bearb</attribute>
+	 <attribute>TMP_ChckKoordHOBereich</attribute>
+	 <attribute>TMP_ChckKoordHONL</attribute>
+	 <attribute>TMP_ChckBearbHOBereich</attribute>
+	 <attribute>TMP_ChckBearbHONL</attribute>
+	 <attribute>SP_HODurchUser</attribute>
+	 <attribute>TMP_GT_Ticketnummer</attribute>
+	 <attribute>Referenz_Ticketnummer</attribute>
+	 <attribute>Link_Count</attribute>
+	 <attribute>Link_Count_Offen</attribute>
+	 <attribute>TmpGUID</attribute>
+	 <attribute>IsTicketRoutingChild</attribute>
+   </table>   
+</importer>  
+\end{lstlisting}
+
+\section{View}
+
+Nachdem die Daten der Tabelle in die lokale Datenbank importiert sind, geht es jetzt darum einen Test der View zu fertigen. Hierfür wurde in der Developer-Umgebung die Datei \enquote{cm\_newIncident.php} angepasst. Diese Datei ist für die Neuanlage eines Incident Eintrages verantwortlich. Diese Datei wurde nun so erweitert, dass beim Tippen der Ticketnummer im Ticketfeld ein Dropdown-Menu erscheint und passend zur Eingabe die möglichen Tickets aus der Datenbank anzeigt. Tippt der Benutzer also \enquote{ATT} so werden alle Tickets aus der Datenbank gelesen in denen \enquote{ATT} vorkommt. Dies wären zum Beispiel \enquote{N\_ATT00061679A001} oder auch \enquote{S\_ATT00076439A009}.
+
+\begin{lstlisting}[caption=Result XML, language=XML, label=ResultXML]
+<?xml version="1.0">
+<root>
+  <GT_Ticketnummer>Ticketnummer</GT_Ticketnummer>
+	<GP_Problembeschreibung>Problembeschreibung</GP_Problembeschreibung>
+	<GA_R_ckmeldebeschreibung>Rückmeldebeschreibung</GA_R_ckmeldebeschreibung>
+	<GZ_Zur_ckweisungsbeschreibung>Zurückweisungsbeschreibung</GZ_Zur_ckweisungsbeschreibung>
+	<GR_KoordinatorZwischenbericht>Koordinator Zwischenbericht</GR_KoordinatorZwischenbericht>
+</root>
+\end{lstlisting}
+
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=1.00\textwidth]{bilder/vodafone_aio_im_prototyp.png}
+	\caption{Incident Management Prototyp}
+	\label{fig:vodafone_aio_im_prototyp}
+\end{figure}
+
+Wie in Abbildung \ref{fig:vodafone_aio_im_prototyp} zu sehen, wird während des Tippens ein XMLHttpRequest Objekt erstellt. Diesem wird als POST-Parameter die Eingabe mitgegeben und das Skript \emph{getTicketNumbers.php} aufgerufen. Diese Skript gibt per HTML eine Unordered List zurück, welche dann in einem DIV-Layer angezeigt wird. Per CSS wird dieser Layer noch so gestaltet, dass die Aufzählungspunkte verschwinden und beim MouseOver-Event der aktuell ausgewählte Eintrag gelb hinterlegt wird. Wird mit der Maus oder mit den Cursortasten ein Eintrag ausgewählt und per Mausklick oder Enter bestätigt, so wird erneut im Hintergrund ein XMLHttpRequest Objekt erzeugt. Dieses Objekt ruft nun das Skript \emph{getTicketData.php} auf, welches nun die gesamten Daten des ausgewählten Tickets aus der Datenbank abruft und per XML-Datei zurückgibt. Auf diese Daten kann dann ganz bequem per DOM zugegriffen werden. So ist es nun möglich Inhalte der Webseite auszutauschen, ohne die Seite neu zu laden. Der Vorteil liegt nun darin, dass im Hintergrund die Daten angefordert werden. Der Benutzer muss nicht warten, bis der Request abgesendet und abgearbeitet wurde. 
+
+Eine weiterer Test wurde mit \enquote{JSON} durchgeführt. JSON bedeutet \enquote{JavaScript Object Notation}. Mit JSON ist es möglich direkt JavaScript Objekte oder Datenstrukturen zu erzeugen. Hierfür ist auch eine sehr kurze Syntax nötig. Das JSON-Pendant des Test-XML-Files  zeigt Listing xxx . 
+
+
+\begin{lstlisting}[caption=JSON Beispiel, language=Java]{JSON Beispiel}
+{"root": [
+  {"GT_Ticketnummer":"Ticketnummer", "GP_Problembeschreibung":"Problembeschreibung", "GA_R_ckmeldebeschreibung":"Rückmeldebeschreibung", "GZ_Zur_ckweisungsbeschreibung":"Zurückweisungsbeschreibung", "GR_KoordinatorZwischenbericht","Koordinator Zwischenbericht",
+]}
+\end{lstlisting}
+
+
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=1.00\textwidth]{bilder/vodafone_aio_im_prototyp_fe.png}
+	\caption{Incident Management Prototyp Felder}
+	\label{fig:vodafone_aio_im_prototyp_fe}
+\end{figure}
+
+
+
+\begin{lstlisting}[caption=Prototyp AJAX Beispiel, language=VBScript]{Prototyp_AJAX_Bsp}
+<script type="text/javascript">
+	new Ajax.Autocompleter("ticket", "autocomplete_choices", "modul_im/getTicketNumbers.php",{afterUpdateElement : getSelectionId, indicator: 'indicator1'});
+	
+	function getSelectionId(text, li) {
+
+		var id = li.id;
+		var url = 'modul_im/getTicketData.php';
+		var pars = 'ticket=' + id;
+		
+		var myAjax = new Ajax.Request(
+			url, 
+			{
+				method: 'get', 
+				parameters: pars, 
+				onComplete: showResponse
+			});
+	}
+	
+	function showResponse(originalRequest)
+	{
+		 var $myXML = originalRequest.responseXML;
+		 var $myText = originalRequest.responseText;
+		 if ($myXML == null) {
+		   alert('Keine XML Daten vom Server erhalten!!!');
+		 } else {
+			new Effect.Highlight('error',{startcolor:'#ffffff', endcolor:'#ffaaaa', duration: 0.5});
+			new Effect.Highlight('solution',{startcolor:'#ffffff', endcolor:'#ffaaaa', duration: 0.5});
+			new Effect.Highlight('reason',{startcolor:'#ffffff', endcolor:'#ffaaaa', duration: 0.5});
+			new Effect.Highlight('services',{startcolor:'#ffffff', endcolor:'#ffaaaa', duration: 0.5});
+			$('error').value = $myXML.getElementsByTagName('GP_Problembeschreibung')[0].firstChild.nodeValue;
+            $('solution').value = $myXML.getElementsByTagName('GA_R_ckmeldebeschreibung')[0].firstChild.nodeValue;
+			$('reason').value = $myXML.getElementsByTagName('GZ_Zur_ckweisungsbeschreibung')[0].firstChild.nodeValue;
+			$('services').value = $myXML.getElementsByTagName('GR_KoordinatorZwischenbericht')[0].firstChild.nodeValue;
+			
+			 }
+	}
+	
+	
+	</script>
+\end{lstlisting}
+
+\section{Messungen}
+
+Die Dauer des Importvorganges wurde gemessen. Hierfür wurden aus der Testdatenbank von TTWOS die Tabelle \emph{MMO\_TT\_ATT\_Bearbeiter\_Ticket importiert}. Diese Tabelle hat \emph{103 Attribute} und beinhaltete zum Testzeitpunkt \emph{8821 Tickets}. 
+
+\begin{longtable}[htbp]{|r|c|}
+			\hline
+			\rowcolor[gray]{0.9}
+			\textbf{Nr.} & \textbf{Zeit / s} \\
+			\hline
+			1 & 59,1 \\
+			\hline
+			2 & 57,1 \\
+			\hline
+			3 & 62,9 \\
+			\hline
+			4 & 59,7 \\
+			\hline
+			5 & 59,2 \\
+			\hline
+			6 & 58,9 \\
+			\hline
+			7 & 61,0 \\
+			\hline
+			8 & 60,1 \\
+			\hline
+			9 & 59,5 \\
+			\hline
+			10 & 57,9 \\
+			\hline
+			\hline
+			 & Durchschnitt 59,54 \\
+			 \hline
+	\caption{Datenimport TTWOS Zeitmessung}
+	\label{tab:DatenimportTTWOSZeitmessung}
+\end{longtable}	
+
+Das fertige System wird nur die Daten seit dem letzten Import importieren. Nur initial ist mit einer größeren Menge Tickets zu rechnen. 
+
+Ein initialer Import bei geschätzten 25000 Tickets würde etwa zwei Minuten und 44 Sekunden dauern. Dies wird als initiale maximale Ticketanzahl angesehen.
+
+Der tägliche Import wird vermutlich nicht mehr als eine 3-stellige Anzahl an Tickets importieren. Bei 100 Tickets dauert der Importvorgang zwischen 0,5 und 1 Sekunde. 500 Tickets würden demnach etwa 5-10 Sekunden dauern. 

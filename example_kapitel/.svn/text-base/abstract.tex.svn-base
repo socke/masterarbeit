@@ -1,0 +1,26 @@
+%% $Id$
+\chapter*{Zusammenfassung}
+
+\addcontentsline{toc}{chapter}{Zusammenfassung}
+
+Die Abteilung TBAN \index{TBAN} der Vodafone D2 GmbH in Düsseldorf ist für den technischen Betrieb der Hard- und Softwareelemente, wie z.B. Server, Router oder Muxer, zuständig. Zur Unterstützung der Abteilung stehen viele unterschiedliche Tools zu Verfügung. Configuration-, Change- \index{Change Management}, Incident- \index{Incident Management} und Security Management Systeme sind nur ein kleiner Teil der Software, die die tägliche Arbeit unterstützen. \index{Configuration Management}
+
+Vodafone verfügt über globale Management Software-Systeme, die ein breites Spektrum abdecken, da diese auch für den gesamten Konzern zur Verfügung stehen. Vor einiger Zeit hat die Abteilung TBAN eigene Tools entwickelt, zuerst nur als kleinere Hilfstools gedacht wie z.B. Monitoring-Werkzeuge, mittlerweile sind diese stark gewachsen und aus dem täglichen Arbeitsbetrieb nicht mehr wegzudenken. 
+
+Um den täglichen Arbeitsprozess der TBAN-Teams noch weiter zu verbessern und zu erleichtern, ist eine Schnittstelle zum Vodafone Ticketsystem TTWOS \index{TTWOS} und zum Vodafone Change Management System ChaMPS \index{ChaMPS} unumgänglich. 
+
+Das TBAN-eigene System AiO bietet den Vorteil, dass es eigens für die Abteilung anpassbar ist und bereits über mehrere Schnittstellen verfügt, die Daten zentralisiert und visualisiert. Dies soll nun auch mit den Daten aus TTWOS und ChaMPS erfolgen. 
+
+Um die genauen Anforderungen festzulegen, wurden mehrere Gespräche mit Mitarbeitern und Teamleitern der Abteilung TBAN geführt. Der Erstellungsprozess von Tickets sowie die Integration der einzelnen Tools im Arbeitsablauf der einzelnen Mitarbeiter wurde erfasst und anhand diesen Informationen die Anforderungen festgelegt. 
+
+Mit Hilfe dieser Erweitung, die den Import der TTWOS- und ChaMPS-Daten ermöglicht, ist eine deutliche Zeitersparnis im täglichen Arbeitsablauf der Mitarbeiter zu erwarten. Weiterhin bietet die Integration der Daten aus TTWOS und ChaMPS eine weitreichendere Reportingmöglichkeit als bisher für die Abteilung TBAN sowie eine schnellere und leichtere Fehlersuche.
+
+Die erstellte Software erweitert das bestehende Change- und Incidentmanagement System von AiO ein und erweitert AiO um Funktionalität, um auf die Daten aus TTWOS und ChaMPS zugreifen zu können. Hierfür wurde das Changemanagement System dahingehend angepasst, dass die abteilungrelevanten Informationen aus ChaMPS importiert werden und direkt auf die Einträge im AiO-eigenen Changemanagement System gemappt werden. Es tauchen die Einträge aus ChaMPS direkt im AiO Change Management auf. 
+
+Die TTWOS-Daten werden importiert und durch einen semi-automatischen Prozess ins AiO Change- oder Incidentmanagement hinzugefügt. Bei Neuanlage eines Eintrages ins AiO Change- oder Incidentmanagement kann ganz simpel durch Eingabe der Ticketnummer auf die TTWOS Daten zugegriffen werden. Es wird automatisch eine Verknüpfung erzeugt. Es ist möglich mehrere Tickets einem AiO Change- oder Incidenteintrags zuzuordnen. Ab sofort können jederzeit die entsprechenden Daten angezeigt werden. Es entfällt zum einen die gesamte Doppelpflege und zum anderen wird eine weitere Reportingmöglichkeit geschaffen. Es ist vom Netzelement aus möglich zu erkennen welche Changes und Incidents stattgefunden haben, gleichzeitig sind die entsprechenden Ticketdaten aus TTWOS verfügbar. 
+
+Bei der Entwicklung wurden einige neue Techniken eingesetzt wie z.B. AJAX und Web Services. AiO wurde mit einem Web Service erweitert, der Zugriff auf die importierten Ticketdaten ermöglicht. Der Web Service erwartet als Parameter eine Ticketnummer und liefert als Antwort ein XML-File, welches die gesamten importierten Ticketdaten enthält. Ein weiterer Web Service nimmt Ticketdaten entgegen und speichert diese in die AiO-Datenbank. Dies soll zur Demonstration dienen, um aufzuzeigen, welchen Nutzen Web Services in solch einem System wie AiO für AiO selbst aber auch für externe Systeme und Klienten haben kann. 
+
+Der Web Service wird zu Demonstrationszwecken selbst konsumiert. Er wird dazu benutzt, die Ticketdaten abzufragen. 
+
+Im Rahmen dieses Projektes wurde ein Importer entwickelt, der es ermöglicht, Daten aus einer beliebigen Datenbank zu importieren. Hierfür ist lediglich die Erstellung eines XML-Files nötig, welches die Zugriffsdaten auf die entfernte Datenbank sowie die Struktur der zu importierten Tabellen enthält. Sämtliche Zwischenschritte, wie die Erzeugung der Tabellen in AiO, werden automatisch durchgeführt. Es muss eine korrekte Konfiguration des beschreibenden XML-Files erfolgen. Mit Hilfe dieses Importers können Daten aus weiteren Datenbanken importiert werden, was auch bereits geschehen ist. Es wird ein täglicher Import aus der C6000 Datenbank erfolgen. Dieser Import findet mit Hilfe des in diesem Projekts erstellten Importers statt. Damit stehen nun auch die Hardwareelemente aus C6000 in den AiO Network Elements zur Verfügung.

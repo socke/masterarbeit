@@ -1,0 +1,106 @@
+%% $Id$
+%%  
+
+\chapter{Technisches Handbuch} \label{anh:technischeshandbuch}
+
+\section{Zweck}\label{anhang:th-zweck} \index{Technisches Handbuch}
+
+Der Zweck des technichen Handbuches ist die technische Dokumentation und Anleitung zum Betrieb und zur Erweiterung des entwickelten Systems. Das Handbuch erfasst die im Rahmen der Diplomarbeit entwickelten Softwareelemente und Module und beschreibt die Integration in das in der Abteilung vorhandenem Systems AiO. Es wird deutlich gemacht, wie die Module auch in anderer Software eingesetzt werden können. 
+
+Weiterhin werden die vorhandenen Schnittstellen beschrieben, um zu zeigen, wie diese genutzt und erweitert werden können. 
+
+\section{Abgrenzung}\label{anhang:th-abgrenzung}
+
+Dieses Handbuch umfasst keine Erläuterungen oder Erklärungen der benutzten Bibliotheken und gibt auch keine Einführung in diese Techniken. Hier wird dann entsprechend auf Literatur oder auf einen anderen Anhang der Diplomarbeit verwiesen.  
+
+\section{Verzeichnis- und Dateistruktur}
+
+Die Abbildung \ref{fig:Verzeichnis-undDateistruktur_modul_import} zeigt die Verzeichnis- und Dateistruktur des Projektes. Die Verzeichnisse modul\_im sowie modul\_cm sind die bereits vorhandenen Verzeichnisse des Change- und Incident Management Systems. Aufgeführt wurden in der Zeichnung nur die hinzugefügten Dateien.  
+
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=1.00\textwidth]{bilder/Verzeichnis-undDateistruktur_modul_import.png}
+	\caption{Verzeichnis und Dateistruktur}
+	\label{fig:Verzeichnis-undDateistruktur_modul_import}
+\end{figure}
+
+
+\section{Modul Import}
+
+\section{Modul View}
+
+\section{Modul Web Service}
+
+\section{Einrichten neuer Dienste}
+
+\subsection{Neuen Import hinzufügen}
+
+\subsection{View Anpassen}
+
+\subsection{Web Service}
+
+\subsubsection{Neuer Web Service Client}
+
+\subsubsection{Neuer Web Service Server}
+
+\section{Datenbankänderungen}
+
+Sollte sich der Datenbanktyp oder die Struktur der Quelldatenbank ändern, so sind nur einige wenige Einstellungen vorzunehmen.
+
+\subsection{Änderung des Datenbanktypes}
+
+Folgendes Szenario, welches wahrscheinlich gegen Ende dieses Jahres auch so oder ähnlich vorkommen kann: 
+Die TTWOS-Datenbank wird von SyBase auf Oracle umgestellt. Die Tabellenstruktur der Views ändert sich nicht. Änderungen sind dann nur in folgender Datei vorzunehmen:
+
+\begin{itemize}
+	\item modul\_import/config/database.xml
+\end{itemize}
+
+Hier muss dann der entsprechende Eintrag abgeändert werden. Dann müsste:
+
+\begin{verbatim}
+<databases>
+   <db>
+	   <type>sybase</type>
+	   <name>ARSystem</name>
+	   <user>ssobek</user>
+	   <pass>12345678</pass>
+	   <host>ttwostst_hs</host>  
+	   <desc>TTWOS Testsystem</desc>  
+   </db>
+   <db>
+   ...
+   </db>
+</databases>
+\end{verbatim}
+
+geändert werden in:
+
+\begin{verbatim}
+<databases>
+   <db>
+	   <type>oracle</type>
+	   <name>ARSystem</name>
+	   <user>ssobek</user>
+	   <pass>12345678</pass>
+	   <host>ttwostst_hs</host>  
+	   <desc>TTWOS Testsystem</desc>  
+   </db>
+   <db>
+   ...
+   </db>
+</databases>
+\end{verbatim}
+
+Der Datenbanktyp wird auf oracle in der XML umgestellt. Sollten sich die Zugangsdaten wie Username, Passwort oder Systemname ebenfalls ändern, so sind diese in der XML ebenfalls anzupassen. 
+
+\subsection{Änderung der Tabellenstruktur}
+
+Sollte sich die Tabellenstruktur der zu importierenden TTWOS-Tabellen ändern, sind Änderungen in folgender Datei nötig:
+ 
+\begin{itemize}
+	\item modul\_import/config/tablesttwos.xml
+\end{itemize}
+
+Hier sind dann entsprechend der Tabellenname, die Attributnamen, die Attributtypen und die Länge der Attribute anzupassen.
+

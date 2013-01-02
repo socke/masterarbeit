@@ -1,0 +1,19 @@
+%% $Id: auftragsbeschreibung_kurzform.tex 7 2007-04-06 12:57:34Z stefan $
+%% Auftragsbeschreibung Kurzform
+
+\chapter{Auftragsbeschreibung}\label{Auftragsbeschreibung}
+
+Die Abteilung TBAN verfügt derzeit über eine Applikation, welche ein Configuration-, Change- und Incidentmanagement System sowie ein System zur Erfassung von Übertragungslinien beinhaltet. Diese Systeme sind miteinander verknüpft. So greifen die Systeme Configuration Management und Incident Management auf die Elemente des Configuration Management Systems zu. 
+
+
+Die Firma Vodafone verfügt über ein Trouble Ticket System namens TTWOS. Der Schwerpunkt der Anwendung TTWOS liegt im technischen Netzbetrieb. Die Mitarbeiter werden per E-Mail, per SMS oder per Notification Tool über Änderungen in den Tickets individuell benachrichtigt. Nachdem die Vorgänge abgeschlossen sind, lässt sich durch Auswertung der gespeicherten Daten eine Qualitätsüberprüfung und -verbesserung erzielen.
+
+Weiterhin gibt es ein Change Management System namens ChaMPS, welches geplante Änderungen an Systemen beinhaltet. 
+
+Meine Aufgabe ist es, eine Schnittstelle und somit einen Datenimport aus der Datenbank des TTWOS-Systems und des ChaMPS-Systems in die Datenbank von AiO zu schaffen. Die Ticketdaten sowie die Change Management Daten aus ChaMPS sollen nun jeweils in AiO im eigenen Change Management System oder Incident Management System vorhanden sein. Es ist kein Aufruf einer externen Clientsoftware mit erneutem Login nötig. Zweck dieses Datenimportes ist es, Zeit zu sparen. Es ist keine Doppelpflege mehr nötig. Interne Change-Einträge werden nur in der AiO-Change Datenbank gepflegt. Relevante Änderungen, die Auswirkungen auf andere Systeme haben, werden in der TTWOS Datenbank gepflegt und automatisch in AiO importiert. Hier entfällt der doppelte Pflegeaufwand. Weiterhin dient AiO als schnelle Informationsquelle. Eine mögliche Erweiterung wäre es durch eine externe Verlinkung direkt neue Tickets in TTWOS über ein Webinterface anzulegen. Das Hauptaugenmerkt liegt jedoch auf der einfachen Art der Übersicht in diesem System AiO. Die Daten sollen schnell und effizient verfügbar sein. 
+
+
+Um dies zu gewährleisten muss mit Hilfe der vorhandenen Soft- und Hardware eine Schnittstelle zur Datenbank von TTWOS und ChaMPS erstellt und die dafür notwendigen Ansichten erstellt werden. Weitere Aufgaben sind es ein technisches Handbuch für eine eventuelle Weiterentwicklung des Systems, sowie ein Handbuch für Benutzer zu verfassen.
+
+\glossary{name={Trouble Ticket}, description={Trouble Tickets werden bei Auftreten von Fehlern erzeugt, sie sind die elektronische Form eines Anliegens, einer Störung oder einer Anfrage.},
+}

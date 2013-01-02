@@ -1,0 +1,263 @@
+%% Aufgaben Hauptdokument 
+
+\chapter{Aufgaben}
+
+Meine Aufgaben und Tätigkeiten lassen sich grob in vier Bereiche einteilen. Die Analyse und Definition der Anforderungen, der System- und Softwareentwurf, die Implementierung und der Komponententest sowie die Integration und der Systemtest. 
+
+\section{Analyse und Definition der Anforderungen}
+
+\subsection{Durchführbarkeitsstudie}
+
+Diese Studie soll abschätzen, ob es möglich ist die Bedürfnisse des Benutzers mit Hilfe aktueller Software- und Hardwaretechnologien zu erfüllen. Bereits im Dezember wurden Gespräche mit den Projektleitern von "`TTWOS"' und "`ChaMPS"' geführt. Die Projektleiter beider Abteilungen sagten ihre Unterstützung zu, so dass der Datenbankzugang beantragt werden kann. 
+
+\subsubsection{TTWOS}
+
+Datenbankzugänge für TTWOS sind nötig. TTWOS ist eine SYBASE Datenbank, wird aber etwa Juli auf Oracle umgestellt. 
+Das bedeutet, dass gewährleistet werden muss, dass das entwickelte System auch Daten aus der Oracle Datenbank importieren kann. 
+Hierbei sind diverse Dinge zu beachten. Vorraussichtlich ändert sich die Datenbankstruktur nicht, das könnte bedeuten, dass es eine relativ leichte Anpassung sein wird. TTWOS basiert auf einer Remedy Service Management Software, wurde von der Firma Ascom für Vodafone angepasst. Screenshots der Klientsoftware zeigen Abbildung \ref{fig:vodafone_ttwos_erstellertic} und Abbildung \ref{fig:vodafone_ttwos_bearbeiterti}.
+
+\begin{figure}[h]
+	\centering
+		\includegraphics[width=1.00\textwidth]{bilder/vodafone_ttwos_erstellertic.png}
+	\caption{TTWOS Erstellerticket}
+	\label{fig:vodafone_ttwos_erstellertic}
+\end{figure}
+
+
+\paragraph{Beschreibung}
+
+Der Schwerpunkt der Anwendung liegt im technischen Netzbetrieb. Neben dem Netzbetrieb sind weitere Abteilungen wie z.B. die Qualitätssicherung, die Kundenbetreuung, technische Planungsabteilungen und die Bauabteilung angeschlossen. Durch eine zentrale Datenbank ist der aktuelle Status eines Vorgangs für alle Beteiligten jederzeit einsehbar.
+
+Die Mitarbeiter werden per E-Mail, per SMS oder per Notification Tool über Änderungen in den Tickets individuell benachrichtigt. Nachdem die Vorgänge abgeschlossen sind, läßt sich durch Auswertung der gespeicherten Daten eine Qualitätsüberprüfung und -verbesserung erzielen.
+
+Zudem besitzt TTWOS Schnittstellen zu VodafoneonAir , SMSC, VIS, SMCfi (UHD), D2TMN-FM System (TeMIP), externen Lieferanten (Ericsson und Deutsche Telekom AG) und zu IST\footnote{Quelle: Vodafone Intranet: http://mmoweb/home/abteilung/technik/t/to/tb/ttwos/kurzbeschreibung/
+2310156.html, Stand: 20.02.2007}.
+
+\begin{figure}[h]
+	\centering
+		\includegraphics[width=1.00\textwidth]{bilder/vodafone_ttwos_bearbeiterti.png}
+	\caption{TTWOS Bearbeiterticket}
+	\label{fig:vodafone_ttwos_bearbeiterti}
+\end{figure}
+
+
+\paragraph{Datenbankzugang Testsystem}
+
+Ein Zugang zur TTWOS-Datenbank bzw. zu der Testdatenbank wird ebenfalls benötigt. Es fanden bereits Gespräche mit den Entwicklern von TTWOS statt. Hierbei wurde zugesagt, dass ein Zugang für die Testdatenbank freigeschaltet wird. Hiermit ist es dann jederzeit möglich auf die Datenbank zuzugreifen. 
+Ein Antrag an die TTWOS Abteilung ist hierfür nötig. 
+
+Abzuklären ist in diesem Falle noch, ob eventuell der Zugang über eine andere Person beantragt wird oder ob im Namen des Studenten der Zugang laufen wird. 
+
+\paragraph{Datenbankzugang Livesystem}
+
+Ein Zugang für die Real-TTWOS-Datenbank ist ebenfalls nötig. Es kann zwar nicht die Verfügbarkeit des Systems gewährleistet werden, aber wir benötigen nur die Daten der letzten Nacht. 
+Eventuell ist es besser keinen Zugang auf den Namen des Diplomanden einzurichten, da dieser vielleicht auch nach Ende der Diplomarbeit gelöscht wird. Dies ist zu klären. Abzuklären ist ebenfalls noch, ob der Zugang über eine andere Person beantragt wird. 
+
+\subsubsection{ChaMPS}
+
+\paragraph{Beschreibung}
+
+ChaMPS ist ein Change Management System und unterstützt den Change Management Prozess im Konzern Vodafone. 
+
+Die Ziele des Projektes lauten wie folgt:
+
+\begin{itemize}
+	\item Kommunikation und Transparenz sicher zu stellen, so dass Änderungen ohne Störungen in der Produktiv-Umgebung durchgeführt werden
+	\item Nur geplante, Risiko geprüfte und autorisierte Änderungen durchzuführen
+  \item Das Risiko von Auswirkungen auf Service Qualität und Service Verfügbarkeit zu minimieren
+  \item Änderungen effizient und schnell durchführen zu können. 
+\end{itemize}
+
+\paragraph{Datenbankzugang Testsystem}
+
+Es ist noch abzuklären, ob ChaMPS genauso wie TTWOS über eine Testapplikation bzw. Testdatenbank verfügt. In dieser Umgebung könnten dann Testimporte durchgeführt werden, ohne die Live-Datenbank zu belasten. 
+
+\paragraph{Datenbankzugang Livesystem}
+
+Ein Datenbankzugang wurde bereits zugesagt. Auch hier muss allerdings noch der benötigte Antrag gestellt werden. 
+
+\subsubsection{Hardware}
+
+Tabelle \ref{tab:HardwareWebserver} zeigt die Ausstattung des Webservers.
+
+\begin{table}[htbp]
+	\centering
+		\begin{tabular}{|l|l|}
+			\hline
+			%\rowcolor[gray]{0.9}
+			\textbf{Bezeichnung} & Sun Fire 480R \\
+			\hline			
+			\textbf{CPUs} & 4  \\
+			\hline
+			\textbf{Mhz} & 900 Mhz je CPU \\
+			\hline
+			\textbf{RAM} & 8 GB \\
+			\hline
+			\textbf{Betriebssystem} & Sun Solaris 5.8 \\
+			\hline			
+		\end{tabular}
+	\caption{Hardware Webserver}
+	\label{tab:HardwareWebserver}
+\end{table}
+
+Die Tabelle \ref{tab:Entwicklungsrechner} zeigt die Ausstattung des Entwicklungsrechners.
+
+\begin{table}[htbp]
+	\centering
+		\begin{tabular}{|l|l|}
+			\hline
+			%\rowcolor[gray]{0.9}
+			\textbf{Bezeichnung} & HP Scenic \\
+			\hline			
+			\textbf{CPUs} & 1  \\
+			\hline
+			\textbf{Mhz} & 2.8 GHz \\
+			\hline
+			\textbf{RAM} & 512 MB \\
+			\hline
+			\textbf{Betriebssystem} & Windows XP Professional \\
+			\hline			
+		\end{tabular}
+	\caption{Entwicklungsrechner}
+	\label{tab:Entwicklungsrechner}
+\end{table}
+
+\subsubsection{Software}
+
+Nachfolgende Software läuft auf dem Intranet Webserver aus Tabelle \ref{tab:HardwareWebserver}:
+
+\begin{description}
+	\item[Apache] In der Version 1.3.26
+	\item[PHP] In der Version 4.3.5
+	\item[PEAR] In der Version 1.50.2.17
+	\item[MySQL] In der Version 3.23.49
+\end{description}
+
+Die Applikation wird mit folgenden Softwarepaketen entwickelt:
+
+\begin{itemize}
+	\item Windows XP
+	\item Dreamweaver 7
+	\item Adobe Photoshop
+	\item Putty
+	\item Eclipse
+\end{itemize}
+
+Mit den oben genannten vorhandenen Hilfsmitteln muss das System entwickelt werden. Speziell auf die PHP Version 4 ist zu achten. Die objektorientierte Programmierung kann also nur passend auf Version 4 basierend erfolgen. 
+
+\subsection{Anforderungsanalyse}
+
+Die Systemanforderungen aus den Beobachtungen bestehender Systeme, Diskussionen mit potientiellen Benutzern werden hier festgehalten. Dazu gehört auch die Entwicklung von Prototypen oder die Entwicklung einer oder mehrerer Systemmodelle. 
+
+
+\subsection{Entwicklung Prototyp}
+
+Bei der Entwicklung des Protoypen soll die Datenbankverbindung zur Sybase Datenbank getestet werden. Ein kleiner Testimport soll sicherstellen, dass die geplante Vorgehensweise auch durchführbar ist. Eventuell kann jetzt noch reagiert und die Spezifikation angepasst werden. 
+
+\subsection{Spezifikation}
+
+Die Spezifikation der Software oder auch Pflichtenheft ist der Prozess, in dem die während der Analyse gesammelten Informationen in ein Dokument umgesetzt werden, das einen Satz von Anforderungen definiert. 
+Hierzu gehören einmal die Benutzeranforderungen, die eine abstrakte Beschreibung der Systemanforderungen für den Kunden und den Benutzer beinhaltet und die eigentliche Systemanforderung, die eine detaillierte Auflistung der Funktionen beinhaltet. 
+
+
+\subsection{Validierung der Anforderungen}
+
+Diese Aktivität prüft, ob die Anforderungen realistisch, konsistent und vollständig sind. 
+Hierbei werden Fehler in den Anforderungen erkannt. 
+Eine genaue Vorgehensweise bei der Validierung muss noch festgelegt werden. 
+
+
+%% Section
+\section{System- und Softwareentwurf}
+
+\subsection{Architekturentwurf}
+
+Hier werden die das System bildenden Subsysteme und ihre Beziehungen bestimmt und dokumentiert. 
+
+\subsubsection{Importer}
+
+Der Datenimport aus der TTWOS-Datenbank und ChaMPS wird immer nachts erfolgen. Hierfür wird noch ein passendes Zeitfenster herausgesucht. Dies muss noch mit den Abteilungen abgestimmt werden. 
+
+\subsubsection{Databaselayer}
+
+Es wird ein Databaselayer entwickelt. Dieser macht es möglich, unabhängig von der Datenbank eine Verbindung aufzubauen. Da hier Daten von drei Datenbankarten, Sybase, MySQL und Oracle, bezogen werden, muss eine Abstraktion gewährleistet werden. Möglich wäre ein Abstraktionslayer von PHP5, jedoch steht PHP5 nicht zur Verfügung. So wird vermutlich PEAR-DB benutzt.
+
+\subsubsection{Comparer}
+
+Das Abgleichmodul ist für den Abgleich der Daten zuständig. Es überprüft die importierten Daten und gleicht diese eventuell ab.
+
+\subsubsection{Controller}
+
+Der Controller nimmt alle eventuellen Events des Users entgegen und verarbeitet diese weiter. Er steuert also die Applikation. 
+
+\subsubsection{View}
+
+Die View ist für die Bereitstellung der Daten zuständig. Die View muss im Stile der vorhandenen AiO Applikation erfolgen und auch in diese eingebettet werden. Hierfür stehen schon verschiedene Stile zur Verfügung. 
+
+\subsection{Abstrakte Spezifikation}
+
+Für jedes Teilsystem wird eine abstrakte Spezifikation erstellt, die die Funktionen und die Randbedingungen beschreibt, unter denen das Subsystem eingesetzt werden soll. 
+
+\subsection{Schnittstellenentwurf}
+
+Für jedes Subsystem muss die Schnittstelle zu den anderen Subsystemen entworfen und dokumentiert werden. Diese Schnittstellenspezifikation muss absolut eindeutig sein, weil die Subsysteme auf diese Weise benutzt werden können, ohne dass die geneue Funktion des Subsystems bekannt sein muss. In dieser Phase können auch Methoden zur formalen Spezifikation eingesetzt werden. 
+
+\subsection{Komponentenentwurf}
+
+Hier werden verschiedenen Komponenten den jeweiligen Dienste zugeteilt und die Komponentenschnittstellen entworfen. 
+
+\subsection{Entwurf der Datenstrukturen}
+
+Hier werden die Datenstrukturen ausgearbeitet und spezifiziert, die innerhalb des Systems benutzt werden sollen. 
+
+Es muss festgelegt werden welche Datenstruktur benutzt werden soll:
+
+\begin{itemize}
+	\item Objektklasse
+	\item Mehrdimensionales Array
+	\item Assoziatives Array
+	\item Mehrdimensionales assoziatives Array
+	\item Immer direkter Datenbankzugriff
+	\item Datenbankstruktur als Datentyp abgebildet
+\end{itemize}
+
+\subsection{Algorithmenentwurf}
+
+In diesem Schritt werden Detailentwürfe und Spezifikationen der Algorithmen erstellt, die zur Bereitstellung der Dienste verwendet werden. 
+
+\subsubsection{Importalgorithmus}
+
+Wichtig hierbei ist Folgendes: 
+ 
+\begin{itemize}
+	\item Wann wird importiert.
+  \item Wie wird importiert. 
+  \item Werden Datensätze nur nach Datum importiert oder wird ein Abgleich vorgenommen.
+\end{itemize}
+
+
+%% Section
+\section{Implementierung und Komponententest}
+
+Die Implementierung der einzelen Komponenten findet in diesem Schritt statt.
+
+\begin{itemize}
+	\item Implementierung des Databaselayers
+	\item Implementierung des Importers
+  \item Implementierung des Controllers
+  \item Implementierung der View
+  \item Einbindung in AiO
+\end{itemize}
+
+
+%% Section
+\section{Integration- und der Systemtest}
+
+In dieser Phase wird nun das gesamte System getestet. Dies umfasst folgende Tests:
+
+\begin{itemize}
+	\item Einzeltests
+  \item Modultests
+  \item Subsystemtests
+  \item Einzeltests
+\end{itemize}

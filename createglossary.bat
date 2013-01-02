@@ -1,0 +1,1 @@
+makeindex -s Diplomarbeit_Stefan-Sobek.ist -t Diplomarbeit_Stefan-Sobek.glg -o Diplomarbeit_Stefan-Sobek.gls Diplomarbeit_Stefan-Sobek.glo

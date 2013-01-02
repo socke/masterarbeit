@@ -1,0 +1,117 @@
+%%$Id$
+%% kurzform analyse
+\chapter{Analyse und Definition der Anforderungen}
+
+\section{Anforderungsanalyse}
+
+Im Rahmen der Anforderungsanalyse wurde eine Durchführbarkeitsstudie, Use Cases und Use Case Beschreibungen erstellt, sowie Requirements aufgestellt. 
+
+Nachfolgend jeweils ein Beispiel und eine kurze Übersicht.
+
+
+\subsection{Interviews}
+
+Interviews mit dem Teamleiter des Teams IPAN ergaben folgende Ergebnisse:
+
+\begin{itemize}
+	\item 90\% der Ticketarten aus TTWOS sind AAA (Allgemeine Arbeitsaufträge)
+	\item Manueller Eintrag von Incidents und Changes in AiO nach wie vor nötig, da nur so eine genaue Dokumentation und Zuweisung zu den Netzelementen gewährleistet werden kann.
+	\item Import der Ticketdaten nach Auswahl des Tickets sinnvoll
+	\item Automatische Übernahme nach Auswahl des Tickets
+	\item Manuell können noch Daten hinzugefügt werden
+	\item Changes aus ChaMPS sollten automatisch importiert werden, dies erspart manuelles Anlegen. Hier sind keinen zusätzliche Informationen nötig.
+	
+\end{itemize}
+
+Interviews mit Mitarbeitern des Teams IPAS ergaben folgende Ergebnisse:
+
+\begin{itemize}
+	\item Manuelle Auswahl der Ticketdaten die importiert werden sollen.
+	\item Falls ein Ticket noch nicht vorhanden ist, also nicht importiert wurde, sollte dies vorgemerkt werden und dies beim nächsten Import geschehen.
+\end{itemize}
+
+Eine ausführliche Beschreibung der Interviews, sowie das Anforderungsdokument befindet sich im Anhang des ausführlichen Berichtes.
+
+
+\subsection{Durchführbarkeitsstudie}
+
+Eine Durchführbarkeitsstudie wurde erstellt. Die vorhandenen Systeme sowie die vorhandene Hardware wurde analysiert. Dabei wurde festgestellt, dass direkte Datenbankzugänge zu den Systemen TTWOS und ChaMPS nötig sind. Diese Zugänge wurden schon genehmigt.
+
+Anhand der vorhandenen Hard- und Software und nach Erstellung eines Protypen wurde festgestellt, dass die Erstellung des Systems in der angegebenen Zeit machbar ist.
+
+Eine ausführliche Beschreibung der Studie kann im Anhang des ausführlichen Berichtes gefunden werden.
+
+
+\subsection{Use Case Diagramm}
+
+Die Abbildung \ref{fig:2007_03_14_Use-Case-Diagramm1} zeigt das Use Case Diagramm. Es nur zwei Akteure gibt. Den Administrator, der manuelle Importvorgänge starten kann und den normalen Portalbenutzer, der neue Einträge in der Change- und Incident Management Datenbank erzeugen möchte. Der Importvorgang findet hauptsächlich automatisch statt. Die Möglichkeit des manuellen Importes muss immer gegeben sein um eventuelle fehlende Daten zu importieren.
+
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=1.00\textwidth]{bilder/2007_03_14_Use-Case-Diagram.png}
+	\caption{Use Case Diagramm}
+	\label{fig:2007_03_14_Use-Case-Diagramm1}
+\end{figure}
+
+\subsection{Use Case Beschreibungen}
+
+Nachfolgend eine Use Case Beschreibung. Die vollständigen Use Case Beschreibungen befinden sich im Anhang des ausführlichen Berichtes.
+
+\subsubsection{Changeeintrag anlegen}\label{sec:ChangeeintragAnlegen}
+
+\begin{longtable}[htbp]{|l|p{11.5cm}|}
+			\hline
+			\textbf{Use Case Name:} & Changeeintrag anlegen \\
+			\hline
+			\textbf{Akteure:} & Portalbenutzer \\
+			\hline
+			\textbf{Beschreibung:} & Der Benutzer des AiO Portals legt einen neuen Change-Eintrag an. Hierfür wählt er den entsprechenden Punkt aus und füllt als erstes das Ticketnummer-Feld aus. Während der Eingabe wird die Eingabe überprüft und die auf die Eingabe passenden Ticketnummern werden angezeigt. Der Benutzer wählt nun eine Ticketnummer aus und die Ticketdaten werden automatisch in die passenden Felder des Formulars übernommen.  \\
+			\hline
+			\textbf{Ablauf:} & 
+			
+			\begin{enumerate}
+		 
+			\item \textbf{Standard Ablauf }
+								
+				\begin{enumerate}
+				
+					\item Der Benutzer wählt \enquote{Neuen Eintrag anlegen} aus.
+					\item Der Benutzer gibt die Ticketnummer ein. Während der Eingabe erscheint ein Feld, welches während der Eingabe aktualisiert wird und die gespeicherten Ticketnummern ausgibt. Diese Ticketnummern werden entsprechend der Eingabe gefiltert. Es werden nur die Tickets angezeigt, die auf die Eingabe passen. 
+					\item Es wird das entsprechende Ticket ausgewählt.
+					\item Die Felder werden durch die vorhandenen Ticketdaten gefüllt. 
+					\item Der Benutzer füllt die nötigen weitern Felder aus und speichert den Datensatz.					
+				\end{enumerate}
+				
+			\item \textbf{Alternative Abläufe}
+			
+		   	\begin{enumerate}
+		   	
+					\item Gibt der Benutzer manuell eine Ticketnummer ein, die nicht bereits vorhanden ist, so muss er alle Felder manuell ausfüllen.
+					\item Jetzt wird vorgemerkt, dass es ein Ticket noch nicht vorhanden ist
+					\item Der Nächste Importvorgang übernimmt nun die Ticketdaten.
+					\item Ist das Ticket nicht vorhanden, so wird der Administrator sowie der Ersteller informiert, dass dieses Ticket nicht vorhanden ist. Ein manueller Eingriff ist nötig.
+					\item Ist das Ticket vorhanden, so werden die Daten in den Changeeintrag übernommen.
+					
+				\end{enumerate}
+				
+		 \end{enumerate}
+			 \\
+			\hline
+			\textbf{Annahme:} & Der Benutzer ist bereits im Portal eingeloggt \\
+			\hline
+			\textbf{Ausnahme:} & Security relevante Ticketdaten dürfen nur von den entsprechenden Benutzern angesehen und importiert werden. \\
+			\hline
+			\textbf{Erweiterungen:} & Keine Erweiterungen für diesen Anwendungsfall \\
+			\hline
+	\caption{Use Case - Changeeintrag anlegen}
+	\label{tab:UseCaseChangeanlegen}
+\end{longtable}		
+
+\section{Spezifikation}
+
+Die Spezifikation befindet sich im Anhang im Anhang des ausführlichen Berichtes.
+
+\section{Validierung der Anforderungen}
+
+Um festzustellen, ob die Anforderungen in der angegebenen Zeit durchführbar sind  wurde ein Prototyp entwickelt, der die vorhandene Hard- und Software sowie Techniken benutzt. Dieser soll sicherstellen, das generell ein Import aus TTWOS- bzw. ChaMPS-Datenbank möglich ist. Der Prototyp importiert Daten und stellt diese in einer Entwicklungsumgebung auf dem internen Webserver im Formular des Incicent-Managements dar. Weiterhin werden einige Techniken wie AJAX, ein Datenbankabstraktionslayer und eine Template-Engine benutzt. Die Template-Engine sowie der Datenbankabstraktionslayer beschreibt ein Kapitel im Anhang des ausführlichen Berichtes, der Datenbankabstraktionslayer wird im Anhang des ausführlichen Berichtes erläutert. Der Prototyp wird im Anhang im Anhang des ausführlichen Berichtes beschrieben, dieser benutzt ebenfalls die eben genannten Techniken.  
+

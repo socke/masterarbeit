@@ -1,0 +1,38 @@
+%% $Id$
+%% Auftragsbeschreibung 
+\chapter{Auftragsbeschreibung}\label{Auftragsbeschreibung}
+
+Die Abteilung TBAN verfügt derzeit über eine Applikation, welche ein Configuration-, Change- und Incidentmanagement System sowie ein System zur Erfassung von Übertragungslinien beinhaltet. Diese Systeme sind miteinander verknüpft (siehe Abbildung \ref{fig:vodafone_portal_uebersicht} sowie Abbildung \ref{fig:vodafone_aio_ne}). So greifen die Systeme Change Management und Incident Management auf die Elemente des Configuration Management Systems zu und umgekehrt. Dies ermöglicht eine Menge Reportingmöglichkeiten. 
+
+\begin{figure}[h]
+	\centering
+		\includegraphics[width=1.00\textwidth]{bilder/vodafone_portal_uebersicht.png}
+	\caption{TBAN Portal Übersicht}
+	\label{fig:vodafone_portal_uebersicht}
+\end{figure}
+
+
+Die Firma Vodafone verfügt über ein Trouble Ticket System namens TTWOS. Der Schwerpunkt der Anwendung TTWOS liegt im technischen Netzbetrieb. Die Mitarbeiter werden per E-Mail, per SMS oder per Notification Tool über Änderungen in den Tickets individuell benachrichtigt. 
+
+Weiterhin gibt es ein Change Management System namens ChaMPS, welches geplante Änderungen an Systemen beinhaltet und den Change Management Prozess im technischen Betrieb des Konzerns Vodafone abbildet.
+
+Meine Aufgabe ist es, eine Schnittstelle und somit einen Datenimport aus der Datenbank des TTWOS-Systems und des ChaMPS-Systems in die Datenbank von AiO zu schaffen. Die Ticketdaten sowie die Change Management Daten aus ChaMPS sollen nun jeweils in AiO im eigenen Change Management System oder Incident Management System vorhanden sein. Es ist kein Aufruf einer externen Clientsoftware mit erneutem Login nötig. Zweck dieses Datenimportes ist es, Zeit zu sparen. Es ist keine Doppelpflege mehr nötig. Interne Change-Einträge werden nur in der AiO-Change Datenbank gepflegt. Relevante Änderungen, die Auswirkungen auf andere Systeme haben, werden in der TTWOS Datenbank gepflegt und automatisch in AiO importiert. Hier entfällt der doppelte Pflegeaufwand. Weiterhin dient AiO als schnelle Informationsquelle. Da mit Hilfe des Tools AiO bestimmte Reporting- und Fehlersuchszenarien abgebildet werden können, soll dies nun mit Hilfe der importierten Daten noch präziser vonstatten gehen.  
+
+\begin{figure}[h]
+	\centering
+		\includegraphics[width=1.00\textwidth]{bilder/vodafone_aio_ne.png}
+	\caption{AiO Network Elements}
+	\label{fig:vodafone_aio_ne}
+\end{figure}
+
+Um dies zu gewährleisten muss mit Hilfe der vorhandenen Soft- und Hardware eine Schnittstelle zur Datenbank von TTWOS und ChaMPS erstellt und die dafür notwendigen Ansichten erstellt werden. Weitere Aufgaben sind es, ein technisches Handbuch für eine eventuelle Weiterentwicklung des Systems zu verfassen. Der im Rahmen dieses Projektes erstellte Code zur Importierung, soll es möglich machen über eine externe Konfiguration Daten aus anderen Datenbanken in die AiO-Datenbank zu importieren. Es soll damit möglich sein, innerhalb von maximal 1 MT\footnote{Mann-Tag} einen Import einer weiteren Datenbank zu ermöglichen. 
+\glossary{name={MT}, description={Mann-Tag. Zeiteinheit, welche die Arbeitszeit eines Mannes pro Tag beschreibt.},
+}
+\index{Mann-Tag}
+
+Im Rahmen der Analysephase wurde eine weitere Aufgabe hinzugefügt, nämlich die Entwicklung eines Web Services. Dieser Web Service soll beispielhaft einige Dienste anbieten. Diese Dienste sollen einmal eine Abfrage der TTWOS-Daten sein und zum anderen eine Möglichkeit bieten Daten in AiO einzuspielen. Hierfür soll ein Web Service Daten von TTWOS entgegennehmen und in die AiO-Datenbank speichern. Vorerst wird dieser Dienst von extern nicht benutzt, er kann aber zu Demonstrationszwecken z.B. in der View konsumiert werden, anstatt hier den direkten Datenbankzugriff zu benutzen.
+
+Der Zweck dieses Vorgehens ist der spätere leichte Anschluß an einen möglichen ESB\footnote{Enterprise Service Bus}, welcher sich in der Planung befindet und gegebenenfalls gegen Ende dieses Jahres eingeführt wird. Ein weiterer Vorteil ist, dass nun auch die Daten aus AiO über einen Web Service anderen Abteilungen zur Verfügung gestellt werden können, ohne das ein direkter Datenbankzugang erstellt werden muss. Der Zugriff erfolgt dann über eine definierte Schnittstelle.  
+
+\glossary{name={Trouble Ticket}, description={Trouble Tickets werden bei Auftreten von Fehlern erzeugt, sie sind die elektronische Form eines Anliegens, einer Störung oder einer Anfrage.},
+}

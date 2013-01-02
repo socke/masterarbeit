@@ -1,0 +1,36 @@
+%% $Id$
+% Titelseite der Diplomarbeit Kurzform
+
+
+\begin{titlepage}
+\vspace{4em}
+\center
+ \Large{\textsf{Zwischenbericht (Kurzform) der Diplomarbeit zum Thema}}
+ \vspace{1em}
+
+\Huge{\textsf{Schnittstellenentwicklung zum Datenimport aus TTWOS und ChaMPS in AiO}}
+\vspace{1em}
+\\
+\begin{center}
+	\includegraphics{bilder/vodafone_logo.png}
+\end{center}
+\vspace{1em}
+\Large{
+\textsf{
+vorgelegt dem\\
+Fachbereich Techniek en Bedrijfsmanagement der Fontys Hogeschool Venlo
+}
+}
+\vspace{2em}
+\\
+\Large{
+\textsf{
+Stefan Sobek\\
+\today
+\vspace{2em}
+\\
+Dozent: Pieter van den Hombergh\\
+Betriebsbetreuer: Josef Peter Brunen
+}
+}
+\end{titlepage}
