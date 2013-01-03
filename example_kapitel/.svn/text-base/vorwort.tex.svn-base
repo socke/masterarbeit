@@ -1,8 +1,0 @@
-%% $Id$
-\chapter*{Vorwort}
-
-\addcontentsline{toc}{chapter}{Vorwort}
-
-Die vorliegende Diplomarbeit ist im Rahmen des Hauptstudiums Software Engineering an den Fontys Hogescholen entstanden. Diese Arbeit gibt einen Einblick in die den Ablauf und die Tätigkeiten der Abteilung TBAN am System AiO, sowie breitgefächerte Informationen über eingesetzte Techniken während der Entwicklung einer Datenimportschnittstelle. 
-
-Ein besonderer Dank gilt meinem Betriebsbetreuer Josef Brunen, der mir im Betrieb jederzeit bei Fragen zur Verfügung stand. Weiterhin möchte ich meinem Dozentenbetreuer Pieter van den Hombergh danken, der mir mit Rat und Tat zur Seite stand. Bei meinem Kollegen Tino Marcinkowski möchte ich mich ebenfalls herzlich bedanken. Er half mir wann immer es ging bei der Einrichtung und Erweiterung des Servers und war mir ein sehr guter Ratgeber bei Problemen. 
