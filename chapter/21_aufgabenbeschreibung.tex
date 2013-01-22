@@ -2,13 +2,31 @@
 %\dictum[Johann Wolfgang von Goethe]{Es ist nicht genug, zu wissen, man muß auch anwenden; es ist nicht genug, zu wollen, man muß auch tun. \dots}}
 \chapter{Aufgabenbeschreibung} \index{Aufgabenbeschreibung}\label{Aufgabenbeschreibung}
 
-\section{Was soll gemacht werden?} \index{Was}
+\section{Abstrakte Beschreibung}
 
-Es soll eine einfach nutzbare Abfrageschnittstelle (Query-Schnittstelle) für die PLIB Produktdatenbank/Dictionary implementierung des Fachbereiches erstellt werden. Diese Abfrageschnittstelle soll die Standards der ISO 29002-31 sowie für deren Nutzung weitere nötigen Standards unterstützen. Diese Schnittstelle basiert technisch auf den Abfrageprozeduren auf logischer Datenbankschicht (xxx richtig?) von Karsten Mende.
+Es soll eine einfach nutzbare Abfrageschnittstelle (Query-Schnittstelle) für die bereits vorhandene PLIB Produktteiledatenbank/Dictionary Implementierung nach ISO-13581 des Fachbereiches erstellt werden. Diese Abfrageschnittstelle soll die Standards der ISO 29002-31 sowie für deren Nutzung weitere nötigen Standards unterstützen, wie z.B. ISO 29002-10. Diese Schnittstellen sollen für Menschen sowie für Maschinen einfach nutz- und lesbar sein und sollen technisch auf bereits vorhandenen Abfrageprozeduren der Datenbankebene basieren. Die Implementierung dieser Prozeduren und des Datenbankschemas ist Teil der Arbeit zweier Kommilitonen (Herr Mende und Herr Loth).
 
-\section{Was ist das Ziel?}
-Das Ziel ist es mit einfachen und aktuellen Techniken eine schnelle Integration gleichsam Nutzbarkeit der Abfrage der Datenbank zu ermöglichen. Wichtig vor allem ist es die gegebenen ISO Normen zu unterstützen um eine Wiederverwendbarkeit zu gewährleisten. 
+\section{Zielsetzung}
+Das Hauptziel ist es die Machbarkeit und die Integration der ISO-Schnittstelle mit der vorhandenen PLIB des Fachbereiches aufzuzeigen. 
+Ferner ist mit einfachen und aktuellen Techniken eine schnelle Integration gleichsam Nutzbarkeit der Abfrage der Datenbank zu ermöglichen. Wichtig vor allem ist es die gegebenen ISO Normen zu unterstützen, um Wiederverwendbarkeit zu gewährleisten. Wo die Normen erweitert oder abgeändert wurden sei darauf mit ausführlicher Begründung hingewiesen und zu erläutern. 
 
+Um das Ziel zu erreichen, soll im Rahmen der Arbeit untersucht werden welche mögliche sinnvollen Anwendungsfälle sich in der Praxis basierend auf den ISO Standards ergeben und wie diese umzusetzen sind. Weiterer Bestandteil der Arbeit ist unter Beachtung der technischen Vorgaben eine Analyse der marktaktuellen technischen Optionen mit anschließender Beschreibung des Auswahlprozesses der Techniken/Plattformen/Architektur und Programmiersprachen. Vor- und Nachteile und weitere Nutzungs- respektive Erweiterungs- und Integrationsmöglichkeiten der entwickelten Schnittstelle sind zu erläutern. 
 
+\section{Details und Abgrenzung}
 
-Use Cases
+Diese Kapitel beschreibt einige Details und den Kontext der Aufgabenstellung sowie die Abgrenzung.
+
+\subsection{Abgrenzung}
+
+Die Arbeit umfasst die Implementierung der Use Cases nach Kapitel \ref{Use Cases}. Dies umfasst im wesentlichen den Teil 31 der ISO 29002. Weiterhin wird für die Datenübertragung Teil 10 der ISO 29002 benötigt. Die Arbeit befasst sich nicht mit der Implementierung eines Identification Guides nach ISO 22745-30, welche in der Praxis für eine sinnvolle Vorabauswahl auf Seite des Clients der benötigten Attribute der Produkte trifft. Der Klient definiert für seinen Kontext sinnvolle Attribute und Produktdaten und definiert diese mittels der ISO 22745-30. 
+
+\subsection{Details der Aufgabe}
+
+\subsubsection{Vorgaben}
+
+Für die Implementierung sind folgende Anforderungen gegeben:
+\begin{description}
+\item[Datenbanksystem Oracle] beinhaltet die PLIB Datenbank samt Prozeduren und stellt als Dictionary und Produktdatenbank die Basis dar.
+\item[Web Services] Die Schnittstelle soll auf Grund der hohen Verbreitung und Integrationsmöglichkeiten als Web Service entwickelt werden. ISO 29002-31 schlägt als Beispiel eine E-Mail Schnittstelle vor. Dies ist aber keine Voraussetzung. 
+\end{description}
+

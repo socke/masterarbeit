@@ -1,3 +1,9 @@
 \BOOKMARK [0][-]{chapter.1}{Aufgabenbeschreibung}{}% 1
-\BOOKMARK [1][-]{section.1.1}{Was soll gemacht werden?}{chapter.1}% 2
-\BOOKMARK [1][-]{section.1.2}{Was ist das Ziel?}{chapter.1}% 3
+\BOOKMARK [1][-]{section.1.1}{Abstrakte Beschreibung}{chapter.1}% 2
+\BOOKMARK [1][-]{section.1.2}{Zielsetzung}{chapter.1}% 3
+\BOOKMARK [1][-]{section.1.3}{Details und Abgrenzung}{chapter.1}% 4
+\BOOKMARK [2][-]{subsection.1.3.1}{Abgrenzung}{section.1.3}% 5
+\BOOKMARK [2][-]{subsection.1.3.2}{Details der Aufgabe}{section.1.3}% 6
+\BOOKMARK [0][-]{chapter.2}{Use Cases}{}% 7
+\BOOKMARK [1][-]{section.2.1}{Manuelle Benutzerebene}{chapter.2}% 8
+\BOOKMARK [1][-]{section.2.2}{Automatisierte Benutzerebene}{chapter.2}% 9
