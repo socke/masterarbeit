@@ -20,3 +20,8 @@ bin
 target/
 .AppleDouble
 .DS_Store
+*.synctex.gz
+*.aux
+*.log
+*.out
+10_Use_Cases_ISO_29002.pdf

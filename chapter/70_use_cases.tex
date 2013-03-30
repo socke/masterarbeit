@@ -8,7 +8,7 @@ Es gibt Szenarios auf verschiedenen Benutzerebenen.
 Diese Ebene beschreibt mögliche Abfrageszenarios eines Einzelbenutzers, gleichsam einer Person, die eine Anfrage über ein Formular einer Webseite schickt oder die gewünschten Informationen über einen anderen Kanal anfragt und geliefert bekommt. 
 
 \begin{description}
-\item[Charakteristische Daten abfragen/validieren] Der Klient gibt einen Identifier (IRDI\footnote{International Registration Data Identifier}) eines Elementes ein und sendet eine Anfrage ab. Als Antwort bekommt er ein oder mehrere Datensätze von Elementen mit den entsprechendencharakteristischen Daten des Elementes mit dem übergebenen Identifier zurück. 
+\item[Charakteristische Daten abfragen/validieren] Der Klient gibt einen Identifier (IRDI\footnote{International Registration Data Identifier}) eines Elementes ein und sendet eine Anfrage ab. Als Antwort bekommt er ein oder mehrere Datensätze von Elementen \footnote{Item, ISO 29002-10 Kapitel 5.3.2} mit den entsprechenden charakteristischen Daten \footnote{property_values, ISO 29002-10 Kapitel 5.2.4}  des Elementes mit dem übergebenen Identifier zurück. 
 \item[Identifier abfragen] Der Klient übermittelt zu einem ihm bekannten Element die ihm bekannten zugehörigen charakteristischen Daten. Als Antwort erhält erhält er den entsprechenden Identifier des Elementes zu welchen die übermittelten charakteristischen Daten gehören.
 \item[Abfrage mittels Suchausdruck] Der Klient übergibt einen bekannten Property Identifier sowie passend dazu Werte zur Sucheinschränkung. Als Antwort erhält er Elemente auf jene diese Einschränkung der übergebenen Werte zutrifft. 
 \end{description}
