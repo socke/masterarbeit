@@ -1,4 +1,4 @@
-\chapter{Möglichkeiten der ISO 29002-31 - Exchange of characteristics data}
+\section{Möglichkeiten der ISO 29002-31 - Exchange of characteristics data}
 
 Die ISO 29002-31 ermöglicht abstrakt folgende Arten von Abfragen:
 \begin{itemize}
@@ -6,14 +6,14 @@ Die ISO 29002-31 ermöglicht abstrakt folgende Arten von Abfragen:
 \item Liefern des Identifiers eines Elementes welches den übermittelten characteristic data (am ehesten) entspricht. 
 \end{itemize}
 
-\section{XML Datencontaineranalyse}
+\subsection{XML Datencontaineranalyse}
 Die Unterkapitel beschreiben die einzelnen (XML) Datencontainer aus der ISO 29002-31. Der Ausgangspunkt ist der query\_context, welcher einige Metadaten zum eigentlichen query enthält. 
 
-\subsection{query\_context}
+\subsubsection{query\_context}
 Dies ist eine Art Container für eine Menge von Queries. Inhalt sind Informationen über den Anforderer der Daten zwecks persönlicher Kontaktaufnahme, wie z.B. die Anfragezeit, Informationen über die Organisation welche die Anfrage schickt sowie einen gewünschten Antwortzeitpunkt mit Antwort-Email Adresse. 
 
 
-\subsection{query}
+\subsubsection{query}
 Die Unterstützung aller Funktionalitäten des queries entspricht laut ISO 29002-31 Anhang 6 der Conformance class 1: simple query.
 Dies ist der eigentliche Abfrage-Datensatz. Abgefragt werden kann mittels class IRDI, data\_specification IRDI\footnote{IRDI  - International registration data identifier}, eine Menge von property IRDI, Item Daten (das sind Items gefüllt mit Daten die bereits bekannt sind) und einer item\_description. Das bedeutet, dass bereits bekannt Properties eines Items übertragen werden können, um die Suche zu vereinfachen.
 
@@ -21,7 +21,7 @@ Der query beihaltet folglich auch die data\_specification IRDI. Diese verweist a
 
 Ad hoc denkbar wären einfache Abfragens wie z.B.: "Gib mir alle Items der Klasse xyz". Mitgeliefert werden auch Items von Subklassen. Weiterhin kann die Abfrage nach bestimmten Properties eingeschränkt werden. Eine weitere Möglichkeit ist es bereits bekannte Daten über ein Element zu übermitteln, mit dem Zwecke hierüber die IRDI zu erfahren oder weitere Property-Daten zu erhalten. Siehe Beispielqueries simple queries in Kapitel \ref{kap:query_beispiele}. 
 
-\subsection{characteristic\_data\_query\_expression (parametric\_query)}
+\subsubsection{characteristic\_data\_query\_expression (parametric\_query)}
 Das entspricht laut ISO 29002-31 Anhang 6 der Conformance class 2: parametric query.
 
 Eine characteristic\_data\_query\_expression kann verschieden expressions vom Typ query\_expression beinhalten. Von jedem Typ jeweils nur maximal eine. 
@@ -41,7 +41,7 @@ darüberhinaus noch folgende Attribute
 \end{itemize}
 Solch eine Expression ermöglicht das Filtern, gleichsam ein Einschränken bestimmter Properties und Werte. 
 
-\subsection{Query Beispiele}\label{kap:query_beispiele}
+\subsubsection{Query Beispiele}\label{kap:query_beispiele}
 
 Eine Schraube hat die folgenden möglichen Properties: 
 
@@ -51,7 +51,7 @@ Eine Schraube hat die folgenden möglichen Properties:
 \item[Länge] 80mm (Property IRDI: 1234-abcd\# ab-cccccc\# 1)
 \end{description}
 
-\subsubsection{Simple Query}
+\paragraph{Simple Query}
 
 Jetzt ermöglicht ein simpler query folgende Abfrage: "Gib mir alle Items zu der Klasse Kreuzschraube mit dem Identifier (IRDI) 1234-abcd\# ab-cdefgh\# 1. Das Ergebnis ist ein Item, mit allen Attributen wie oben angegeben. 
 
@@ -59,7 +59,7 @@ Ein anderer Query könnte lauten: "Gib mir die Properties 1234-abcd\# ab-cccccc\
 
 Es könnte auch mit Hilfe von vorhandenen Daten gesucht werden, z.B.: "Hier ist ein Item mit der Property Typ: M6 (Property IRDI: 1234-abcd\# ab-bbbbbb\# 1), gibt mir bitte dazu die Properties 1234-abcd\# ab-cccccc\# 1 und 1234-abcd\# bbbbbb\# 1 
 
-\subsubsection{Parametric Query}
+\paragraph{Parametric Query}
 
 Hat man jetzt noch eine Schraube mit folgenden Eigenschaften:
 \begin{description}
@@ -74,15 +74,15 @@ Mit Hilfe der characteristic\_data\_query\_expression sind folgende Abfragen mö
 
 Diese ermöglicht das filtern auf genau eine übergebene Property. Rekursive Abfragen sind auch möglich, beispielsweise wenn die gesuchte Property eine Multi-Property ist (Property: Loch als Wert zwei Properties mit Form und Durchmesser und Durchmesser soll gefiltert werden)
 
-\section{Was ermöglicht die ISO 22745-30}
+\subsection{Was ermöglicht die ISO 22745-30}
 
 Ein Identification Guide beschreibt welche Daten für ein Objekt benötigt werden, damit dies überhaupt sinnvoll für einen bestimmten Zweck eingesetzt werden kann. Der Käufer, Produktmanager oder Benutzer definiert die Anforderungen an die Daten. Ein "Datenanforderungsstatement" wird als ein eOTD-i-xml identification guide xml file erzeugt. Es wird definiert, was der Name des Artikels ist mit den charakteristischen Daten. Es wird die Frage beantwortet, welche Daten (Properties) zu einer bestimmten Klasse eines Objektes benötigt wird um den Artikeln zu kaufen oder zu sinnvoll zu verwalten. Diese Anforderungen werden von der Abfrageseite (Kundenseite) definiert, also derjenige, der Daten abfragen möchte. \(Quelle: ECCMA\_ISO\_8000\_certification.pdf\)
 Ein Identification guide referenziert Konzepte eines Dictionaries um Datenanforderungen einer bestimmten Klasse zu beschreiben. (ISO 22745-30 Kapitel 5). 
 Ein Datenempfänger kann eine Organisation oder eine Gruppe von Organisationen oder Firmen sein, welche ähnliche Datenanforderungen haben. Somit wird ein Identification Guide Gruppe von einer speziellen Organisation verwaltet, welche wiederum selbst Datenempfänger sein kann.  
 
-\section{Offene Fragen}
+\subsection{Offene Fragen}
 
-\subsection{ISO 29002-31}
+\subsubsection{ISO 29002-31}
 \begin{description}
 \item[Abfrage Schnittstelle] Der Standard gibt keine genaue Implementierung vor, erwähnt aber eine Anfrage per E-Mail. Hierfür vermutlich auch die Antwortadresse zwecks automatisierter Antwort ebenfalls per Mail. Wir haben uns bereits auf Web Service geeinigt, da es naheliegt. Kapitel 6 besagt, dass der query\_context entfallen kann falls ein anderer "Hüllen"-Standard wie z.B. EDI genutzt wird. Ich denke das trifft hier zu. 
 \item[Conformance class] Welche conformance class sollen wir unterstützen? CC1 - simple query, oder CC2 - parametric query?
@@ -95,7 +95,7 @@ A query can reference a data specification, which defines the properties for the
 \end{description}
 
 
-\subsection{ISO 22745-30}
+\subsubsection{ISO 22745-30}
 \begin{description}
 \item[IG Anwendung] Da der Identification Guide beschreibt, welche Daten überhaupt sinnvoll sind, stellt sich die Frage wohin diese Abfrage gestellt wird. Verstanden habe ich es so, dass der Kunde jeweils selbst diese Daten pflegt. Die ISO 22745-30 sagt dazu \begin{quote}
 Most data recipients require data describing items belonging to more than one class. An identification guide group is a collection of identification guides that, together, describe the data recipient's requirements for describing items belonging to more than one class.

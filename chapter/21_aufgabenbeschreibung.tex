@@ -7,8 +7,9 @@
 Es soll eine einfach nutzbare Abfrageschnittstelle (Query-Schnittstelle) für die bereits vorhandene PLIB Produktteiledatenbank/Dictionary Implementierung nach ISO-13584 des Fachbereiches erstellt werden. Diese Abfrageschnittstelle soll die Standards der ISO 29002-31 sowie für deren Nutzung weitere nötigen Standards unterstützen, wie z.B. ISO 29002-10. Diese Schnittstellen sollen für Menschen sowie für Maschinen einfach nutz- und lesbar sein und sollen technisch auf bereits vorhandenen Abfrageprozeduren der Datenbankebene basieren. Die Implementierung dieser Prozeduren und des Datenbankschemas ist Teil der Arbeit zweier Kommilitonen (Herr Mende und Herr Loth).
 
 \section{Zielsetzung}
+
 Das Hauptziel ist es die Machbarkeit und die Integration der ISO-Schnittstelle mit der vorhandenen PLIB des Fachbereiches aufzuzeigen. 
-Ferner ist mit einfachen und aktuellen Techniken eine schnelle Integration gleichsam Nutzbarkeit der Abfrage der Datenbank zu ermöglichen. Wichtig vor allem ist es die gegebenen ISO Normen zu unterstützen, um Wiederverwendbarkeit zu gewährleisten. Wo die Normen erweitert oder abgeändert wurden wird darauf mit ausführlicher Begründung hingewiesen und zu erläutern. 
+Ferner ist mit einfachen und aktuellen Techniken eine schnelle Integration gleichsam Nutzbarkeit der Abfrage der Datenbank zu ermöglichen. Wichtig vor allem ist es die gegebenen ISO Normen zu unterstützen, um Wiederverwendbarkeit zu gewährleisten. Falls Teile der Implementierung von den ISO Normen abweichen wird darauf mit ausführlicher Erläuterung der Gründe hingewiesen. 
 
 \subsection{Anwendungsfälle und technische Implementierungsgrundlage}
 
@@ -16,11 +17,11 @@ Um das Ziel zu erreichen, soll im Rahmen der Arbeit untersucht werden welche mö
 
 \section{Details und Abgrenzung}
 
-Diese Kapitel beschreibt Details und den Kontext der Aufgabenstellung sowie die Abgrenzung.
+Diese Kapitel beschreibt Details und den Kontext der Aufgabenstellung sowie die Abgrenzung zu weiteren Standards.
 
 \subsection{Abgrenzung}
 
-Die Arbeit umfasst die Implementierung der Use Cases nach Kapitel \ref{Use Cases}. Dies beinhaltet im wesentlichen den Teil 31 der ISO 29002 - einen Abfragestandard für Charakteristische Produktdaten. Weiterhin wird für die Datenübertragung eine Implementierung des Teils 10 der ISO 29002 benötigt. Die Arbeit befasst sich nicht mit der Implementierung eines Identification Guides nach ISO 22745-30, welche in der Praxis für eine sinnvolle Vorauswahl auf Seite des Clients der benötigten sinnvollen Attribute der Produkte trifft. Der Klient definiert für seinen Kontext sinnvolle Attribute und Produktdaten und definiert diese mittels der ISO 22745-30.
+Die Arbeit umfasst die Implementierung der Use Cases nach Kapitel \ref{Use Cases}. Dies beinhaltet im wesentlichen den Teil 31 der ISO 29002 - einen Abfragestandard für Charakteristische Produktdaten. Weiterhin wird für die Datenübertragung eine Implementierung des Teils 10 der ISO 29002 benötigt. Die Arbeit befasst sich nicht mit der Implementierung eines Identification Guides nach ISO 22745-30, welche in der Praxis für eine sinnvolle Vorauswahl auf Seite des Clients der benötigten sinnvollen Attribute der Produkte trifft. Jeder Klient definiert für seinen Kontext sinnvolle Attribute und Produktdaten und definiert diese mit Hilfe des Schemas der ISO 22745-30. 
 
 \subsection{Details der Aufgabe}
 
@@ -28,8 +29,8 @@ Die Arbeit umfasst die Implementierung der Use Cases nach Kapitel \ref{Use Cases
 
 Für die Implementierung sind folgende Anforderungen gegeben:
 \begin{description}
-\item[Datenbanksystem Oracle] beinhaltet die PLIB Datenbank samt Prozeduren und stellt als Dictionary und Produktdatenbank die Basis dar.
-\item[Web Services] Die Schnittstelle soll auf Grund der hohen Verbreitung und Integrationsmöglichkeiten als Web Service entwickelt werden. ISO 29002-31 schlägt als Beispiel eine E-Mail Schnittstelle vor. Dies ist aber keine Voraussetzung. 
+\item[Datenbanksystem Oracle] beinhaltet die PLIB Datenbank samt Prozeduren und stellt als Dictionary und Produktdatenbank die Basis dar. Dies wird vom Fachbereich bzw. von den Studenten Herr Mende / Herr Loth gestellt. 
+\item[Web Services] Die Schnittstelle soll auf Grund der hohen Verbreitung und Integrationsmöglichkeiten als Web Service entwickelt werden. ISO 29002-31 schlägt als Beispiel eine E-Mail Schnittstelle vor.  Dies ist aber keine Voraussetzung. 
 \end{description}
 
 \subsubsection{ISO-29002-31}
