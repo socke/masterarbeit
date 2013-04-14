@@ -43,7 +43,7 @@ Implementierung einer generischen Schnittstelle geht, wird in den nachfolgenden 
 
 Ein Schraubendreher könnte beispielhaft folgendermaßen in einer Produktdatenbank repräsentiert werden:
 
-\begin{description}
+\begin{description}\label{lab:schraubendreher}
 \item[Klassen-Identifier] 0173-1\#01-AAA352\#4 
 \item[Länge] 300mm
 \item[Typ] Kreuz
@@ -53,19 +53,20 @@ Ein Schraubendreher könnte beispielhaft folgendermaßen in einer Produktdatenba
 Korrekterweise müssten anstatt der Attribute wie Länge oder Typ ebenfalls ein Identifier stehen. Die Benamungen sind hier zu besseren Lesbarkeit aufgelöst. 
 
 Um nun alle Eigenschaften (Properties), wie Länge, Typ und Spannungsfest zu erhalten muss folgende Abfrage gesendet werden: 
-\textbf{"Gib mir alle Items und alle Properties der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Kreuzschraube)".}
+\textbf{"Gib mir alle Items und alle Properties der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Schraubendreher)".}
 Das Ergebnis ist ein Item mit allen Attributen (Properties) der gewünschten Klassen und gegebenenfalls vorhandenen Unterklassen. In unserem Falle genau die oben angegebenen Werte.
 
 Die XML-Abfrage sähe etwa wie folgt aus:
 
 \begin{lstlisting}[caption=Query Beispiel - Daten abfragen, language=XML, label=UseCaseDatenabfragen]
+<?xml version="1.0" encoding="UTF-8"?>
 <qy:query xsi:schemaLocation="...query query.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cat="...catalogue" xmlns:val="...value" xmlns:qy="...query" xmlns:bas="...basic">
 	<qy:class_ref>0173-1#01-AAA352#4</qy:class_ref>
 </qy:query>
 \end{lstlisting}
 
 Eine Abfrage, welche die Properties der Klasse auswählt die zurückgeliefert werden sollen könnte lauten: 
-\textbf{"Gib mir alle Items und die Properties Länge und Typ der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Kreuzschraube)".}
+\textbf{"Gib mir alle Items und die Properties Länge und Typ der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Schraubendreher)".}
 Das Ergebnis ist ein Item mit den gewünschten Attributen (Properties). 
 
 Die XML-Abfrage sehe wie folgt aus:
@@ -81,7 +82,7 @@ Die XML-Abfrage sehe wie folgt aus:
 </qy:query>
 \end{lstlisting}
 
-Listing \ref{st:UseCaseDatenabfragenProperty} beinhaltet ein XML-Attribut property_ref. Dort werden die gewünschten Property Identifier mit Leerzeichen getrennt angegeben. 
+Listing \ref{st:UseCaseDatenabfragenProperty} beinhaltet ein XML-Attribut property\_ref. Dort werden die gewünschten Property Identifier mit Leerzeichen getrennt angegeben. 
 
 \subsection{Charakteristische Daten eines Produkts validieren}
 
@@ -97,7 +98,7 @@ Listing \ref{st:UseCaseDatenabfragenProperty} beinhaltet ein XML-Attribut proper
      Der Klient gibt einen Identifier eines Elementes (Klasse) ein. Zusätzlich übermittelt er zu diesem bekanntem Element Eigenschaften dieser Instanz des Elements und sendet eine Anfrage ab. Die Anfrage wird auf Gültigkeit überprüft. Als Antwort bekommt er ein oder mehrere Datensätze von Elementen mit den entsprechenden charakteristischen Daten zurück, auf welche die übergebenen Eigenschaften am besten zutreffen. 
      \item[  postcondition]~\\
      Alle Daten aller Elemente der gewählten Klassen des Identifiers werden zurückgegeben. Dies ermöglicht dem Klienten eine Validierung der ihm bereits bekannten Daten über ein Element. 
-     \item[end] Charakteristische Daten abfragen
+     \item[end] Charakteristische Daten validieren
 \end{description}
 
 ~\\
@@ -105,7 +106,24 @@ Listing \ref{st:UseCaseDatenabfragenProperty} beinhaltet ein XML-Attribut proper
 } %end small
 
 \subsubsection{Beispiel}
-...
+
+In diesem Anwendungsfall verfügen wir bereits über Elemente/Wertenpaare einer bestimmten Klasse, z.B. eben jenen Schraubendreher
+
+\textbf{"Ich habe hier ein mir bekanntes Item mit bestimmten Eigenschaften (Properties), Länge=300mm. Gib mir alle Items und alle Properties der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Kreuzschraube) welche die mitgelieferten Eigenschaften haben".}
+Das Ergebnis sind Items mit allen Properties der angegebenen Klasse, welche über die übergebenen Eigenschaften (Properties) verfügen. In unserem Fall vervollständigen wir unsere Properties mit den weiteren Properties "Typ" und "Spannungsfest".
+
+Die XML-Abfrage sieht so aus:
+
+\begin{lstlisting}[caption=Query Beispiel - Daten abfragen, language=XML, label=UseCaseDatenabfragen]
+<?xml version="1.0" encoding="UTF-8"?>
+<qy:query xsi:schemaLocation="...query query.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cat="...catalogue" xmlns:val="...value" xmlns:qy="...query" xmlns:bas="...basic">
+	<cat:item class_ref="0173-1#01-AAA352#4..">
+		<cat:property_value property_ref="0173-1#01-BBB111#1">
+			<val:integer_value></val:integer_value>
+		</cat:property_value>
+	</cat:item>
+</qy:query>
+\end{lstlisting}
 
 \subsection{Chrarakteristische Daten mittels Suchausdruck abfragen }
 
@@ -121,7 +139,7 @@ Listing \ref{st:UseCaseDatenabfragenProperty} beinhaltet ein XML-Attribut proper
      Der Klient gibt einen Identifier eines Elementes (Klasse) ein. Ferner übergibt er ein oder mehrere bekannte Property Identifier sowie passend dazu Werte zur Sucheinschränkung. 
      \item[  postcondition]~\\
      Alle Elemente auf jene diese Einschränkung der übergebenen Werte zutrifft wurden zurückgegeben. 
-     \item[end] Charakteristische Daten abfragen
+     \item[end] Charakteristische Daten mit Suchausdruck abfragen
 \end{description}
 
 ~\\
@@ -129,8 +147,32 @@ Listing \ref{st:UseCaseDatenabfragenProperty} beinhaltet ein XML-Attribut proper
 } %end small
 
 
+
 \subsubsection{Beispiel}
-...
+
+Wir nehmen das Schraubendreher Beispiel aus \ref{lab:schraubendreher} zur Hand, und möchten eine Abfrage absenden, welche von der Klasse Schraubendreher alle Items erhalten soll die eine Länge zwischen 200 und 300 mm haben. 
+
+Um nun alle Eigenschaften (Properties), wie Länge, Typ und Spannungsfest zu erhalten muss folgende Abfrage gesendet werden: 
+\textbf{"Gib mir alle Items und alle Properties der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Kreuzschraube)".}
+Das Ergebnis ist ein Item mit allen Attributen (Properties) der gewünschten Klassen und gegebenenfalls vorhandenen Unterklassen. In unserem Falle genau die oben angegebenen Werte.
+
+Die XML-Abfrage sieht so aus:
+
+\begin{lstlisting}[caption=Query Beispiel - Daten abfragen, language=XML, label=UseCaseDatenabfragen]
+<?xml version="1.0" encoding="UTF-8"?>
+<qy:query xsi:schemaLocation="...query query.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cat="...catalogue" xmlns:val="...value" xmlns:qy="...query" xmlns:bas="...basic">
+	<qy:class_ref>0173-1#01-AAA352#4</qy:class_ref>
+	<qy:characteristic_data_query_expression>
+		<qy:range>
+			<qy:property_reference property_ref="0173-1#01-BBB111#1"/>
+			<qy:min_value>200</qy:min_value>
+			<qy:max_value>300</qy:max_value>
+			<qy:is_inclusive>true</qy:is_inclusive>
+		</qy:range>
+	</qy:characteristic_data_query_expression>
+</qy:query>
+\end{lstlisting}
+
 
 %\section{Automatisierte Benutzerebene}
 %Der Unterschied zur manuellen Benutzerebene ist der, dass hierbei automatisiert Daten angefragt und übermittelt werden. Es findet keine Mensch zu %Maschine Kommunikation statt sondern eine Maschine zu Maschine Kommunikation. 
