@@ -1,4 +1,32 @@
-\documentclass{scrreprt}
+\documentclass[
+a4paper,							% alle weiteren Papierformat einstellbar
+%landscape,						% Querformat
+12pt,						  		% Schriftgrˆﬂe (12pt, 11pt (Standard))
+%BCOR1cm,							% Bindekorrektur, bspw. 1 cm
+DIV=calc,							% f¸hrt die Satzspiegelberechnung neu aus scrguide 2.4
+%twoside,
+%twoside, 						% zweiseitig twoside/ einseitig oneside
+%twocolumn,						% zweispaltiger Satz
+%openany,							% Kapitel kˆnnen auch auf linken Seiten beginnen
+%openright,						% Kapitel beginnen auf der rechten Seite
+parskip=half*,			   	% Absatzformatierung s. scrguide 3.1
+headsepline,					% Trennline zum Seitenkopf	
+footsepline,					% Trennline zum Seitenfuﬂ
+%notitlepage,					% in-page-Titel, keine eigene Titelseite
+%chapterprefix,				% vor Kapitel¸berschrift wird "Kapitel Nummer" gesetzt
+%appendixprefix,				% Anhang wird "Anhang" vor die ‹berschrift gesetzt 
+normalheadings,			% ‹berschriften etwas kleiner (smallheadings)
+%smallheadings, 
+%idxtotoc,						% Index im Inhaltsverzeichnis
+%liststotoc,					% Abb.- und Tab.verzeichnis im Inhalt
+%bibtotoc,					% Literaturverzeichnis im Inhalt
+%leqno,						% Nummerierung von Gleichungen links
+%fleqn,						% Ausgabe von Gleichungen linksb¸ndig
+%draft,						% ¸berlangen Zeilen in Ausgabe gekennzeichnet
+%pointlessnumbers,
+DIV13,                % Seitenrand ist 1/13 (Standard: 1/10 -> ziemlich breit)
+%BCOR5mm								% Bindekorrektur, links 5mm mehr Platz f¸r Bindung
+] {scrreprt}
 \usepackage[mathletters]{ucs}
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb}
@@ -9,18 +37,46 @@
 \usepackage{graphicx}
 \usepackage[normalem]{ulem}
 
+
+\usepackage{fancyhdr} %%Fancy Kopf- und Fuﬂzeilen
+\usepackage{longtable} %%F¸r Tabellen, die eine Seite ¸berschreiten
+\usepackage[babel,german=guillemets]{csquotes} % Franzˆsische Anf¸hrungszeichen  \enquote{}
+% fuer Zitate
+%\usepackage[round]{natbib}
+\usepackage[numbers,round]{natbib}
+
 \usepackage{listings}
 
-\lstset{ %
-basicstyle=\footnotesize,       % the size of the fonts that are used for the code
-showspaces=false,               % show spaces adding particular underscores
-showstringspaces=false,         % underline spaces within strings
-showtabs=false,                 % show tabs within strings adding particular underscores
-frame=single,                   % adds a frame around the code
-tabsize=2,                      % sets default tabsize to 2 spaces
-breaklines=true,                % sets automatic line breaking
-breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
-}
+% for writing line numbers          
+\usepackage[pagewise,mathlines,displaymath]{lineno}
+
+\lstloadlanguages{PHP, XML, VBScript, Java}
+
+%color definitions
+\definecolor{mygray}{rgb}{0.2,0.2,0.2}
+\definecolor{mydarkblue}{rgb}{0.2,0.2,0.9}
+\definecolor{mydarkred}{rgb}{0.9,0.20,0.2}
+\definecolor{mylightergray}{rgb}{0.9,0.9,0.9}
+
+% listing settings
+%\lstset{frame=single, numbers=left, numberstyle=\tiny, basicstyle=\footnotesize, stepnumber=1, numbersep=5pt, backgroundcolor=\color{MyGray}, breaklines=true}
+\lstset{
+        basicstyle=\ttfamily\scriptsize\mdseries,
+        keywordstyle=\bfseries\color{mydarkblue},
+        identifierstyle=,
+        commentstyle=\color{mygray},      
+        stringstyle=\itshape\color{mydarkred},
+        numbers=left,
+        numberstyle=\tiny,
+        stepnumber=1,
+        breaklines=true,
+        frame=none,
+        showstringspaces=false,
+        tabsize=4,
+        backgroundcolor=\color{mylightergray},
+        captionpos=b,
+        float=htbp,
+} 
 
 
 \title{Masterarbeit - Aufgabenbeschreibung:\\ Implementierung einer Abfrageschnittstelle für Produktdaten nach ISO-29002-31 und Integration in Produktteiledatenbank nach ISO-13584 }
@@ -32,8 +88,8 @@ breakatwhitespace=false,        % sets if automatic breaks should only happen at
 \maketitle
 
 \input{chapter/21_aufgabenbeschreibung}
-\input {chapter/71_analyse_ISO22745-30_29002-31}
 \input{chapter/70_use_cases}
-
+%\input{chapter/71_analyse_ISO22745-30_29002-31}
+%\input{chapter/72_analyse_fragen}
 
 \end{document}
