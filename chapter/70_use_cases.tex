@@ -1,12 +1,12 @@
-\chapter{Use Cases}\label{kap:Use Cases} 
+\chapter{Use Cases}\label{kap:Use_Cases} 
 % Funktionale Anforderungen
 
 Dieses Kapitel beschreibt mögliche Use Cases die sich aus ISO 29002-31 ergeben. 
 
-Die Query-Code-Beispiele sind der gekürzt, z.B. werden referenzierte Schemata-Namen nicht aufgeführt. 
+Die Query-Code-Beispiele sind gekürzt, d.h. es werden beispielsweise referenzierte Schemata-Namen nicht aufgeführt. 
 
 \section{Akteure}
-Implementierung einer generischen Schnittstelle geht, wird in den nachfolgenden Andwendungsfällen vom Akteur \enquote{Klient} gesprochen. Der Klient ist folglich allgemein ein Nutzer der Schnittstelle, sei es als menschlicher Akteur welcher über eine Bedienerinterface die Schnittstelle benutzt oder eine direkte Maschinennutzung.    
+Bei der Implementierung geht es um eine generische Schnittstelle. In den nachfolgenden Anwendungsfällen wird vom Akteur \enquote{Klient} gesprochen. Der Klient ist allgemein ein Nutzer der Schnittstelle, sei es als menschlicher Akteur welcher über eine Bedienerinterface die Schnittstelle benutzt oder eine direkte Maschinennutzung.    
 
 \section{Use Case Beschreibungen}
 
@@ -28,10 +28,6 @@ Implementierung einer generischen Schnittstelle geht, wird in den nachfolgenden 
      Zusammen mit dem Identifier übergibt der Klient einen oder mehrere Property-Identifier und sendet diese erweiterte Anfrage ab.    
      \item[  postcondition]~\\
      Die mittels Property-Identifier ausgewählten Daten aller Elemente der gewählten Klassen wurden zurückgegeben.    
-     \item[  exceptional flow] ~\\
-     -
-     \item[  postcondition]
-     -
      \item[end] Charakteristische Daten abfragen
 \end{description}
 
@@ -41,7 +37,7 @@ Implementierung einer generischen Schnittstelle geht, wird in den nachfolgenden 
 
 \subsubsection{Beispiel}
 
-Ein Schraubendreher könnte beispielhaft folgendermaßen in einer Produktdatenbank repräsentiert werden:
+Ein Schraubendreher könnte folgendermaßen in einer Produktdatenbank repräsentiert werden:
 
 \begin{description}\label{lab:schraubendreher}
 \item[Klassen-Identifier] 0173-1\#01-AAA352\#4 
@@ -50,13 +46,13 @@ Ein Schraubendreher könnte beispielhaft folgendermaßen in einer Produktdatenba
 \item[Spannungsfest] ja
 \end{description}
 
-Korrekterweise müssten anstatt der Attribute wie Länge oder Typ ebenfalls ein Identifier stehen. Die Benamungen sind hier zu besseren Lesbarkeit aufgelöst. 
+Korrekterweise müssten anstatt der Attribute wie Länge oder Typ ebenfalls ein Identifier stehen. Die Benamungen sind hier zur besseren Lesbarkeit aufgelöst. 
 
 Um nun alle Eigenschaften (Properties), wie Länge, Typ und Spannungsfest zu erhalten muss folgende Abfrage gesendet werden: 
 \textbf{"Gib mir alle Items und alle Properties der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Schraubendreher)".}
 Das Ergebnis ist ein Item mit allen Attributen (Properties) der gewünschten Klassen und gegebenenfalls vorhandenen Unterklassen. In unserem Falle genau die oben angegebenen Werte.
 
-Die XML-Abfrage sähe etwa wie folgt aus:
+Die XML-Abfrage sieht wie folgt aus:
 
 \begin{lstlisting}[caption=Query Beispiel - Daten abfragen, language=XML, label=UseCaseDatenabfragen]
 <?xml version="1.0" encoding="UTF-8"?>
@@ -69,7 +65,7 @@ Eine Abfrage, welche die Properties der Klasse auswählt die zurückgeliefert we
 \textbf{"Gib mir alle Items und die Properties Länge und Typ der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Schraubendreher)".}
 Das Ergebnis ist ein Item mit den gewünschten Attributen (Properties). 
 
-Die XML-Abfrage sehe wie folgt aus:
+Die XML-Abfrage:
 \begin{lstlisting}[caption=Query Beispiel - Daten abfragen mit Propertyeinschränkung, language=XML, label=lst:UseCaseDatenabfragenProperty]
 
 <?xml version="1.0" encoding="UTF-8"?>
@@ -82,7 +78,7 @@ Die XML-Abfrage sehe wie folgt aus:
 </qy:query>
 \end{lstlisting}
 
-Listing \ref{st:UseCaseDatenabfragenProperty} beinhaltet ein XML-Attribut property\_ref. Dort werden die gewünschten Property Identifier mit Leerzeichen getrennt angegeben. 
+Listing \ref{lst:UseCaseDatenabfragenProperty} beinhaltet ein XML-Attribut property\_ref. Das wird mit gewünschten Property Identifier gefüllt, welche mit Leerzeichen getrennt werden. 
 
 \subsection{Charakteristische Daten eines Produkts validieren}
 
@@ -145,8 +141,6 @@ Die XML-Abfrage sieht so aus:
 ~\\
 
 } %end small
-
-
 
 \subsubsection{Beispiel}
 

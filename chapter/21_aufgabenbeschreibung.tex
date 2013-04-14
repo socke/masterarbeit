@@ -4,25 +4,25 @@
 
 \section{Abstrakte Beschreibung}
 
-Es soll eine einfach nutzbare Abfrageschnittstelle (Query-Schnittstelle) für die bereits vorhandene PLIB Produktteiledatenbank/Dictionary Implementierung nach ISO-13584 des Fachbereiches erstellt werden. Diese Abfrageschnittstelle soll die Standards der ISO 29002-31 sowie für deren Nutzung weitere nötige Standards unterstützen, wie z.B. ISO 29002-10. Diese Schnittstelle solle für Menschen sowie für Maschinen einfach nutz- und lesbar sein und sollen technisch auf bereits vorhandenen Abfrageprozeduren der Datenbankebene basieren. Die Implementierung dieser Prozeduren und des Datenbankschemas ist Teil der Arbeit zweier Kommilitonen (Herr Mende und Herr Loth).
+Es soll eine einfach nutzbare Abfrageschnittstelle (Query-Schnittstelle) für die bereits vorhandene PLIB Produktteiledatenbank/Dictionary Implementierung nach ISO-13584 des Fachbereiches erstellt werden. Diese Abfrageschnittstelle soll die Standards der ISO 29002-31 sowie für deren Nutzung weitere nötige Standards unterstützen, wie z.B. ISO 29002-10. Diese Schnittstelle soll für Menschen sowie für Maschinen einfach nutz- und lesbar sein und sollen technisch auf bereits vorhandenen Abfrageprozeduren der Datenbankebene basieren. Die Implementierung dieser Prozeduren und des Datenbankschemas ist Teil der Arbeit zweier Kommilitonen (Herr Mende und Herr Loth).
 
 \section{Zielsetzung}
 
 Das Hauptziel ist die Machbarkeit und die Integration der ISO-Schnittstelle aufbauend auf die vorhandene PLIB Datenbankimplementierung des Fachbereiches aufzuzeigen. 
-Ferner ist mit einfachen und aktuellen Techniken eine schnelle Integration, gleichsam Nutzbarkeit der Abfrage der Datenbank zu ermöglichen. Wichtig ist die gegebenen ISO Normen zu unterstützen, um Wiederverwendbarkeit zu gewährleisten. Falls Teile der Implementierung von den ISO Normen abweichen, wird darauf mit ausführlicher Erläuterung der Gründe hingewiesen. 
+Ferner ist mit aktuellen Techniken eine Integration, gleichsam Nutzbarkeit der Abfrage der Datenbank zu ermöglichen. Wichtig ist die gegebenen ISO Normen zu unterstützen, um Wiederverwendbarkeit zu gewährleisten. Falls Teile der Implementierung von den ISO Normen abweichen, wird darauf mit ausführlicher Erläuterung der Gründe hingewiesen. 
 
 \subsection{Anwendungsfälle und technische Implementierungsgrundlage}
 
-Um das Ziel zu erreichen, soll im Rahmen der Arbeit untersucht werden welche mögliche sinnvollen Anwendungsfälle sich in der Praxis basierend auf den ISO Standards ergeben. Für die Schnittstelle ist eine Implementierung zu erstellen. Weiterer Bestandteil der Arbeit ist unter Beachtung der technischen Vorgaben eine Analyse der marktaktuellen technischen Optionen mit anschließender Beschreibung des Auswahlprozesses der Techniken/Plattformen/Architektur und Programmiersprachen. Die Vor- und Nachteile der einzelnen Optionen des Auswahlprozesses und weitere Nutzungs-, respektive Erweiterungs- und Integrationsmöglichkeiten der entwickelten Schnittstelle sind zu erläutern. 
-Die Entwicklung der Software soll nach einem aktuell üblichen Softwareentwicklungsprozess erfolgen. Ein enstprechender Prozess ist auszuwählen und zu benutzen. 
+Um das Ziel zu erreichen, soll im Rahmen der Arbeit untersucht werden welche mögliche sinnvollen Anwendungsfälle sich in der Praxis basierend auf den ISO Standards ergeben. Für die Schnittstelle ist eine prototypische Implementierung zu erstellen. Weiterer Bestandteil der Arbeit ist unter Beachtung der technischen Vorgaben eine Analyse der marktaktuellen technischen Optionen mit anschließender Beschreibung des Auswahlprozesses der Techniken/Plattformen/Architektur und Programmiersprachen. Die Vor- und Nachteile der einzelnen Optionen des Auswahlprozesses und weitere Nutzungs-, respektive Erweiterungs- und Integrationsmöglichkeiten der entwickelten Schnittstelle sind zu erläutern. 
+Die Entwicklung der Software soll nach einem aktuell üblichen Softwareentwicklungsprozess erfolgen. Ein enstprechender Prozess ist auszuwählen und zu dokumentieren. 
 
 \section{Details und Abgrenzung}
 
-Dieses Kapitel beschreibt Details und den Kontext der Aufgabenstellung sowie die Abgrenzung zu weiteren Standards.
+Dieses Kapitel beschreibt Details und den Kontext der Aufgabenstellung sowie die Abgrenzung zu weiteren Standards und Abschlussarbeiten anderer Studenten. 
 
 \subsection{Abgrenzung}
 
-Die Arbeit umfasst die Implementierung der Use Cases nach Kapitel \ref{Use Cases}. Dies beinhaltet im wesentlichen den Teil 31 der ISO 29002 - einen Abfragestandard für Charakteristische Produktdaten. Weiterhin wird für die Datenübertragung eine Implementierung des Teils 10 der ISO 29002 benötigt. Die Arbeit befasst sich nicht mit der Implementierung eines Identification Guides nach ISO 22745-30, welche in der Praxis für eine sinnvolle Vorauswahl auf Seite des Clients der benötigten sinnvollen Attribute der Produkte trifft. Jeder Klient definiert für seinen Kontext sinnvolle Attribute und Produktdaten und definiert diese mit Hilfe des Schemas der ISO 22745-30. 
+Die Arbeit umfasst die Implementierung der Use Cases nach Kapitel \ref{kap:Use_Cases}. Dies beinhaltet im wesentlichen den Teil 31 der ISO 29002 - einen Abfragestandard für Charakteristische Produktdaten. Weiterhin wird für die Datenübertragung eine Implementierung des Teils 10 der ISO 29002 benötigt. Die Arbeit befasst sich nicht mit der Implementierung eines Identification Guides nach ISO 22745-30, welche in der Praxis für eine sinnvolle Vorauswahl auf Seite des Clients der benötigten sinnvollen Attribute der Produkte trifft. Jeder Klient definiert für seinen Kontext sinnvolle Attribute und Produktdaten und definiert diese mit Hilfe des Schemas der ISO 22745-30. 
 
 \subsection{Details der Aufgabe}
 
