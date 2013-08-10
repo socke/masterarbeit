@@ -31,3 +31,11 @@ target/
 20_Aufgabenbeschreibung.pdf
 .AppleDouble
 .DS_STore
+*.acn
+*.blg
+*.glo
+*.idx
+*.ist
+*.lof
+*.lot
+*.syntex.gz*
