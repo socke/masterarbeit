@@ -1,14 +1,14 @@
-%\setchapterpreamble[u]{%
-%\dictum[Johann Wolfgang von Goethe]{Es ist nicht genug, zu wissen, man muß auch anwenden; es ist nicht genug, zu wollen, man muß auch tun. \dots}}
+\setchapterpreamble[u]{%
+\dictum[Johann Wolfgang von Goethe]{Es ist nicht genug, zu wissen, man muß auch anwenden; es ist nicht genug, zu wollen, man muß auch tun. \dots}}
 \chapter{Aufgabenbeschreibung} \index{Aufgabenbeschreibung}\label{Aufgabenbeschreibung}
 
 \section{Abstrakte Beschreibung}
 
-Es soll eine einfach nutzbare Abfrageschnittstelle (Query-Schnittstelle) für die bereits vorhandene PLIB Produktteiledatenbank/Dictionary Implementierung nach ISO-13584 des Fachbereiches erstellt werden. Die Abfrageschnittstelle soll Abfragen in der Funktion analog zu SQL\footnote{Standard Query Language - Abfragesprach für relationale Datenbanken} ermöglichen. 
-Das sind folgende Möglichkeiten und Operationen:
+Es soll eine einfach nutzbare Abfrageschnittstelle (Query-Schnittstelle) für die bereits vorhandene PLIB Produktteiledatenbank/Dictionary Implementierung nach ISO-13584 des Fachbereiches erstellt werden. Die Abfrageschnittstelle soll Abfragen analog zu SQL\footnote{Standard Query Language - Abfragesprach für relationale Datenbanken} ermöglichen. 
+Konkret gemeint sind folgende Möglichkeiten und Operationen:
 \begin{description}
-\item[select] Das Keyword um in SQL Attribute zu selektieren.  
-\item[where] Das Keyword um in SQL Einschränkungen vorzunehmen. 
+\item[select] Das Keyword um in SQL Attribute zu selektieren. Die Menge aller Ergebniseinträge wird mit Hilfe dieses Keywords um die angegebenen Attribute eingeschränkt.  
+\item[where] Das Keyword um in SQL Einschränkungen vorzunehmen. Die Menge aller Ergebniseinträge wird durch Attribut- und Werteeinschränkung ausgewählt.  
 \end{description}
  
 Diese Abfrageschnittstelle soll die Standards der ISO 29002-31 sowie für deren Nutzung weitere nötige Standards unterstützen, wie z.B. ISO 29002-10. Diese Schnittstelle soll für Menschen sowie für Maschinen einfach nutz- und lesbar sein und sollen technisch auf bereits vorhandenen Abfrageprozeduren der Datenbankebene basieren. Die Implementierung dieser Prozeduren und des Datenbankschemas ist Teil der Arbeit zweier Kommilitonen (Herr Mende und Herr Loth).
@@ -16,20 +16,44 @@ Diese Abfrageschnittstelle soll die Standards der ISO 29002-31 sowie für deren 
 \section{Zielsetzung}
 
 Das Hauptziel ist die Machbarkeit und die Integration der ISO-Schnittstelle aufbauend auf die vorhandene PLIB Datenbankimplementierung des Fachbereiches aufzuzeigen. 
-Ferner ist mit aktuellen Techniken eine Integration, gleichsam Nutzbarkeit der Abfrage der Datenbank zu ermöglichen. Wichtig ist die gegebenen ISO Normen zu unterstützen, um Wiederverwendbarkeit zu gewährleisten. Falls Teile der Implementierung von den ISO Normen abweichen, wird darauf mit ausführlicher Erläuterung der Gründe hingewiesen. 
+Ferner ist mit aktuellen Techniken eine Integration, gleichsam Nutzbarkeit der Abfrage der Datenbank zu ermöglichen. Wichtig ist die gegebenen ISO Normen zu unterstützen, um Wiederverwendbarkeit zu gewährleisten. Falls Teile der Implementierung von den ISO Normen abweichen oder die Standards erweitert oder geändert werden, wird darauf mit ausführlicher Erläuterung der Gründe hingewiesen. 
 
 \subsection{Anwendungsfälle und technische Implementierungsgrundlage}
 
-Um das Ziel zu erreichen, soll im Rahmen der Arbeit untersucht werden welche mögliche sinnvollen Anwendungsfälle sich in der Praxis basierend auf den zu unterstützenden ISO Standards ergeben. Dafür ist eine Analyse der Standards nötig um ebenfalls zu prüfen, wie weit und in welcher Art die Abfragemöglichkeiten analog zu SQL unterstützt werden können. Für die Schnittstelle ist eine prototypische Implementierung zu erstellen. Weiterer Bestandteil der Arbeit ist unter Beachtung der technischen Vorgaben eine Analyse der marktaktuellen technischen Optionen mit anschließender Beschreibung des Auswahlprozesses der Techniken/Plattformen/Architektur und Programmiersprachen. Die Vor- und Nachteile der einzelnen Optionen des Auswahlprozesses und weitere Nutzungs-, respektive Erweiterungs- und Integrationsmöglichkeiten der entwickelten Schnittstelle sind zu erläutern. 
+Um das Ziel zu erreichen, soll im Rahmen der Arbeit untersucht werden welche mögliche sinnvollen Anwendungsfälle sich in der Praxis basierend auf den zu unterstützenden ISO Standards ergeben. Dafür ist eine Analyse der Standards nötig, um zu prüfen, wie weit und in welcher Art die Abfragemöglichkeiten analog zu SQL unterstützt werden können. Für die Schnittstelle ist eine prototypische Implementierung zu erstellen. Weiterer Bestandteil der Arbeit ist unter Beachtung der technischen Vorgaben eine Analyse der marktaktuellen technischen Optionen mit anschließender Beschreibung des Auswahlprozesses der Techniken/Plattformen/Architektur und Programmiersprachen. Die Vor- und Nachteile der einzelnen Optionen des Auswahlprozesses und weitere Nutzungs-, respektive Erweiterungs- und Integrationsmöglichkeiten der entwickelten Schnittstelle sind zu erläutern. 
 Die Entwicklung der Software soll nach einem aktuell üblichen Softwareentwicklungsprozess erfolgen. Ein enstprechender Prozess ist auszuwählen und zu dokumentieren. 
 
 \section{Details und Abgrenzung}
 
 Dieses Kapitel beschreibt Details und den Kontext der Aufgabenstellung sowie die Abgrenzung zu weiteren Standards und Abschlussarbeiten anderer Studenten. 
 
+\subsection{Gesamtkontext der PLIB Abschlussarbeiten}
+
+Um einen Überblick zu schaffen in welchem Kontext sich diese Arbeit befindet und den Gesamtzusammenhang zu verstehen, soll hier eine kurze Übersicht über die PLIB Abschlussarbeiten geschaffen werden. 
+
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=0.98\textwidth]{images/gesamtkontext_plib.png}
+	\caption{Gesamtkontext PLIB Abschlussarbeiten}
+	\label{fig:gesamtkontext_plib}
+\end{figure}
+
+Die Abschlussarbeiten von Herrn Loth und Herrn Mende beziehen sich auf die Umsetzung des PLIB Standards  \citep[Vergl.][]{iso13584-42}.
+
 \subsection{Abgrenzung}
 
-Die Arbeit umfasst die Implementierung der Use Cases nach Kapitel \ref{kap:Use_Cases}. Dies beinhaltet im wesentlichen den Teil 31 der ISO 29002 - einen Abfragestandard für Charakteristische Produktdaten. Weiterhin wird für die Datenübertragung eine Implementierung des Teils 10 der ISO 29002 benötigt (für eine Begründung siehe Kapitel XXX). Die Arbeit befasst sich nicht mit der Implementierung eines Identification Guides nach ISO 22745-30. Dieser wird in der Praxis für eine sinnvolle Vorauswahl auf Seite des Clients der benötigten Attribute der Produkte verwendet. Jeder Klient definiert für seinen Kontext sinnvolle Attribute und Produktdaten und definiert diese mit Hilfe des Schemas der ISO 22745-30. Dies kann mittels eines Webformular auf Klientseite erfolgen oder als allgemeines Formular mit z.B. Excel, welches die für den/die Klienten relevanten Attribute der Produkte enthält die abgefragt werden sollen. 
+Die Arbeit umfasst die Implementierung der Use Cases nach Kapitel \ref{kap:Use_Cases}. Dies beinhaltet im wesentlichen den Teil 31 der ISO 29002 - einen Abfragestandard für Charakteristische Produktdaten. 
+Weiterhin wird für die Datenübertragung eine Implementierung des Teils 10 der ISO 29002 benötigt, siehe Abbildung \ref{fig:lieferketten}. 
+Die Arbeit befasst sich nicht mit der Implementierung eines Identification Guides nach ISO 22745-30. Dieser wird in der Praxis für eine sinnvolle Vorauswahl auf Seite des Clients der benötigten Attribute der Produkte verwendet. Jeder Klient definiert für seinen Kontext sinnvolle Attribute und Produktdaten und definiert diese mit Hilfe des Schemas der ISO 22745-30. Dies kann mittels eines Webformular auf Klientseite erfolgen oder als allgemeines Formular mit z.B. Excel\footnote{Excel ist ein bekanntes Tabellenkalkulationsprogramm der Firma Microsoft}, welches die für den/die Klienten relevanten Attribute der Produkte enthält die abgefragt werden sollen. Für mehr Informationen zum Identification Guide siehe Kap. \ref{kap:identification_guide}.
+
+%Beispiel: bild mit footnote
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=0.99\textwidth]{images/lieferketten_plib.png}
+		\caption[Lieferketten]{Lieferketten\footnotemark}
+	\label{fig:lieferketten}
+\end{figure}
+\footnotetext{Abbildung entnommen und abgewandelt aus Benson, Converting Standard Terminology into usable Metadata, 2008 - später in ähnlicher Form auch in Uiterwyk, Die Bedeutung der Merkmalleisten bei eCl@ss, 2012 zu finden.}
 
 \subsection{Details der Aufgabe}
 
@@ -37,8 +61,24 @@ Die Arbeit umfasst die Implementierung der Use Cases nach Kapitel \ref{kap:Use_C
 
 Für die Implementierung sind folgende Anforderungen gegeben:
 \begin{description}
-\item[Datenbanksystem Oracle] beinhaltet die PLIB Datenbank samt Prozeduren und stellt als Dictionary und Produktdatenbank die Basis dar. Dies wird vom Fachbereich bzw. von den Studenten Herr Mende / Herr Loth gestellt. 
-\item[Web Services] Die Schnittstelle soll auf Grund der hohen Verbreitung und Integrationsmöglichkeiten als Web Service entwickelt werden. ISO 29002-31 schlägt als Beispiel eine E-Mail Schnittstelle vor.  Dies ist aber keine Voraussetzung. 
+\item[Datenbanksystem Oracle] beinhaltet die PLIB Datenbank samt Prozeduren und stellt als Dictionary und Produktdatenbank die Basis dar. Dies wird vom Fachbereich bzw. von den Studenten Herr Mende / Herr Loth gestellt. Für die Entwicklung dieses Prototypen wird eine Version von Herrn Mende benutzt. 
+\item[Web Services] Die Schnittstelle soll auf Grund der hohen Verbreitung und Integrationsmöglichkeiten als Web Service entwickelt werden. Wenngleich die ISO 29002-31 in einem Beispiel eine E-Mail Schnittstelle vorschlägt, ist dies nicht in ISO 29002-31 spezifiziert. Siehe Abbildung \ref{fig:datenfluesse}, welche besagt:
+\begin{quotation}
+Transport: not specified in ISO/TS 29002 (could use email) Payload XML.Query XML schema in ISO/TS 29002-31
+\end{quotation}
 \end{description}
+
+\subsubsection{Aufgabenstellung}
+
+Die technische Implementierung bezieht sich auf den gerahmten Teil aus Abbildung \ref{fig:datenfluesse}. Die Kommunikation des Klienten mit dem Location Server, den Terminology Server und dem Ontology Server (
+auch Katalog-Server genannt), ist Teil der Abschlussarbeit von Fr. Janßen \citep[Vergl.][]{janssen}. 
+
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=0.99\textwidth]{images/datenfluesse_plib.png}
+	\caption{Datenflüsse}
+	\label{fig:datenfluesse}
+\end{figure}
+
 
 
