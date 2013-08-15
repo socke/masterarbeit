@@ -1,18 +1,20 @@
-\setchapterpreamble[u]{
-\dictum[Johann Wolfgang von Goethe]{Es ist nicht genug, zu wissen, man muß auch anwenden; es ist nicht genug, zu wollen, man muß auch tun. \dots}}
-\chapter{Use Cases}\label{kap:Use_Cases} 
+%\setchapterpreamble[u]{
+%\dictum[Johann Wolfgang von Goethe]{Es ist nicht genug, zu wissen, man muß auch anwenden; es ist nicht genug, zu wollen, man muß auch tun. \dots}}
+\section{Use Cases}\label{kap:Use_Cases} 
 % Funktionale Anforderungen
 
 Dieses Kapitel beschreibt mögliche Use Cases die sich aus ISO 29002-31 ergeben. 
 
 Die Query-Code-Beispiele sind gekürzt, d.h. es werden beispielsweise referenzierte Schemata-Namen nicht aufgeführt. 
 
-\section{Akteure}
+\subsection{Akteure}
 Bei der Implementierung geht es um eine generische Schnittstelle. In den nachfolgenden Anwendungsfällen wird vom Akteur \enquote{Klient} gesprochen. Der Klient ist allgemein ein Nutzer der Schnittstelle, sei es als menschlicher Akteur welcher über eine Bedienerinterface die Schnittstelle benutzt oder eine direkte Maschinennutzung.    
 
-\section{Use Case Beschreibungen}
+%TODO Use Case Diagram
 
-\subsection{Alle Charakteristische Daten eines Produkts abfragen}
+\subsection{Use Case Beschreibungen}
+
+\subsubsection{Alle Charakteristische Daten eines Produkts abfragen}
 
 {\small
 
@@ -37,7 +39,7 @@ Bei der Implementierung geht es um eine generische Schnittstelle. In den nachfol
 
 } %end small
 
-\subsubsection{Beispiel}
+\paragraph{Beispiel}
 
 Ein Schraubendreher könnte folgendermaßen in einer Produktdatenbank repräsentiert werden:
 
@@ -82,7 +84,7 @@ Die XML-Abfrage:
 
 Listing \ref{lst:UseCaseDatenabfragenProperty} beinhaltet ein XML-Attribut property\_ref. Das wird mit gewünschten Property Identifier gefüllt, welche mit Leerzeichen getrennt werden. 
 
-\subsection{Charakteristische Daten eines Produkts validieren}
+\subsubsection{Charakteristische Daten eines Produkts validieren}
 
 {\small
 
@@ -103,7 +105,7 @@ Listing \ref{lst:UseCaseDatenabfragenProperty} beinhaltet ein XML-Attribut prope
 
 } %end small
 
-\subsubsection{Beispiel}
+\paragraph{Beispiel}
 
 In diesem Anwendungsfall verfügen wir bereits über Elemente/Wertenpaare einer bestimmten Klasse, z.B. eben jenen Schraubendreher
 
@@ -123,7 +125,7 @@ Die XML-Abfrage sieht so aus:
 </qy:query>
 \end{lstlisting}
 
-\subsection{Chrarakteristische Daten mittels Suchausdruck abfragen }
+\subsubsection{Chrarakteristische Daten mittels Suchausdruck abfragen }
 
 {\small
 
@@ -144,7 +146,7 @@ Die XML-Abfrage sieht so aus:
 
 } %end small
 
-\subsubsection{Beispiel}
+\paragraph{Beispiel}
 
 Wir nehmen das Schraubendreher Beispiel aus \ref{lab:schraubendreher} zur Hand, und möchten eine Abfrage absenden, welche von der Klasse Schraubendreher alle Items erhalten soll die eine Länge zwischen 200 und 300 mm haben. 
 
