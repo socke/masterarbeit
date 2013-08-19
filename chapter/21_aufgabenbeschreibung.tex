@@ -4,11 +4,27 @@
 
 \section{Abstrakte Beschreibung}
 
-Es soll eine einfach nutzbare Abfrageschnittstelle (Query-Schnittstelle) für die bereits vorhandene PLIB\footnote{Parts Library - Implementierung nach ISO-13584}  des Fachbereiches erstellt werden. Die Abfrageschnittstelle soll Abfragen analog zu SQL\footnote{Standard Query Language - Abfragesprach für relationale Datenbanken} ermöglichen. 
+%Beispiele für relationen algebra in latex
+%Query \verb$SELECT x.a FROM x,y,z WHERE x.a=y.a OR x.a=z.a$
+%$\Pi_{x.a} ((x \Join y)\cup(x \Join z))$.
+%$temp1 \leftarrow (customer \times account) $ \\
+%$temp2 \leftarrow  \sigma_{(customer.sin = account.sin}(temp1)$ \\
+%$basic-cust-accts \leftarrow \Pi_{(name, customer.sin, account-number)} (temp2) $ \\
+%$basic-cust-accts \leftarrow \Pi_{(name, customer.sin, account-number)} (\sigma_{customer.sin = account.sin}(customer \times account))$
+
+Es soll eine Abfrageschnittstelle (Query-Schnittstelle) für die bereits vorhandene PLIB\footnote{Parts Library - Implementierung nach ISO-13584}  des Fachbereiches erstellt werden. Die Abfrageschnittstelle soll die Abfragen einer Projektion und Selektion analog zu SQL\footnote{Standard Query Language - Abfragesprache für relationale Datenbanken} ermöglichen. 
 Konkret wurden vom Fachbereich folgende Möglichkeiten und Operationen als sinnvoll genannt:
 \begin{description}
-\item[select] Das Keyword um in SQL Attribute zu selektieren. Die Menge aller Ergebniseinträge wird mit Hilfe dieses Keywords um die angegebenen Attribute eingeschränkt.  
-\item[where] Das Keyword um in SQL Einschränkungen vorzunehmen. Die Menge aller Ergebniseinträge wird durch Attribut- und Werteeinschränkung ausgewählt.  
+\item[Projektion] Die Attributbeschränkung gleichsam einer \enquote{Spaltenauwahl} in relationalen Datenbanken. In SQL das \enquote{select} Keyword.   
+
+In Relationenalgebra:
+$ergebnis-projektion \leftarrow  \Pi_{(attribut_1, attribut_2... attribut_n)}(plib)$ \\
+
+\item[Selektion] Schränkt eine Suche mittels Prädikaten ein auf passende Tupel, gleichsam einer \enquote{Zeilenauswahl}. In SQL das \enquote{where} Keyword samt Mengenoperatoren, wie z.B. \enquote{UND, ODER, NICHT}.
+
+In Relationenalgebra:
+$ergebnis-selektion \leftarrow  \sigma_{(praedikat_1, praedikat_2... prädikat_n})(plib)$ \\
+
 \end{description}
  
 Diese Abfrageschnittstelle soll die Standards der ISO 29002-31 sowie für deren Nutzung weitere nötige Standards unterstützen, wie z.B. ISO 29002-10. Diese Schnittstelle soll für Menschen sowie für Maschinen einfach nutz- und lesbar sein und soll technisch auf bereits vorhandenen Abfrageprozeduren der Datenbankebene basieren. Die Implementierung dieser Prozeduren und des Datenbankschemas ist Teil der Arbeit zweier Kommilitonen (Herr Mende und Herr Loth).
