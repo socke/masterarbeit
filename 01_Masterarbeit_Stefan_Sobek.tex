@@ -64,8 +64,11 @@
 \addcontentsline{toc}{chapter}{Listingverzeichnis}
 %\lstlistoflistings
 
-% Glossar
-%\renewcommand{\glossaryname}{Glossar}
+%% Glossar
+% zeige Glossar in der Überschrift als "Glossar" an
+\renewcommand{\glossaryname}{Glossar}
+% zeige Glossar im Inhaltsverzeichnis als "Glossar" an
+\deftranslation{Glossary}{Glossar}
 %Glossar ausgeben
 %\printglossary[style=altlist,title=Glossar]
 \printglossaries
@@ -77,8 +80,10 @@
 %Symbole ausgeben
 %\printglossary[type=symbolslist,style=long]
 
+%alle glossareintr‰ge gesammelt aus dem anhang
+\input{chapter/99_glossar_eintraege}
+
 %% Kapitel / Hauptteil des Dokumentes %%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %\pagenumbering{arabic}
 
@@ -90,8 +95,7 @@
 %\input{chapter/70_use_cases}
 \input{chapter/90_schlussfolgerung}
 
-%alle glossareintr‰ge gesammelt aus dem anhang
-\include{chapter/99_glossar_eintraege}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% LITERATUR UND ANDERE VERZEICHNISSE
