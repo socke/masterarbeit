@@ -6,20 +6,20 @@ Dieses Kapitel beschreibt die Implementierung.
 
 \section{Configuration Management und Setup}
 
-\subsection{Maven}
+\subsection{Maven}\index{Maven}
 Maven ist ähnlich wie Ant ein Build und Deployment Werkzeug. Darüberhinaus ist es ein Dependency Management Werkzeug. Das bedeutet, dass Maven die abhängigen Artefakte und deren Versionen verwalten kann. 
 
-\subsection{Tomcat 7}
+\subsection{Tomcat 7}\index{Apache Tomcat}
 
 \subsection{Java 6}
 
-\section{Web Service}
+\section{Web Service}\index{Web Service}\index{REST!RESTful Web Service}
 
 Wie in Kapitel XXX erwähnt, wurde entschieden einen RESTful Web Service zu erstellen. Dafür wurde das Jersey-Framework ausgewählt.
 
 Folgende Schritte sind notwendig um einen RESTful Webservice mit Jersey zu erstellen: 
 
-\subsection{Servlet Konfiguration in web.xml}
+\subsection{Servlet Konfiguration in web.xml} \index{Jersey}
 
 In die Konfigurationsdatei web.xml des Webcontainers (hier Apache Tomcat) muss das Servlet für Jersey hinzugefügt werden, so dass Web Service Anfragen an dieses Servlet möglich sind. 
 

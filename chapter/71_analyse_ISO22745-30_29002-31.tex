@@ -9,7 +9,7 @@
 %\item Liefern des Identifiers eines Elementes welches den übermittelten characteristic data (am ehesten) entspricht. 
 %\end{itemize}
 
-\subsection{XML Datencontaineranalyse ISO 29002-31}
+\subsection{XML Datencontaineranalyse ISO 29002-31}\index{ISO 29002-31}
 Die Unterkapitel beschreiben die einzelnen (XML) Datencontainer aus der ISO 29002-31. Der Ausgangspunkt ist der query\_context, welcher einige Metadaten zum eigentlichen query enthält. 
 
 \begin{figure}[htbp]
@@ -76,7 +76,7 @@ Eine Schraube hat die folgenden möglichen Eigenschaften:
 \item[Länge] 80mm (Property IRDI: 1234-abcd\# ab-cccccc\# 1)
 \end{description}
 
-\paragraph{Simple Query}
+\paragraph{Simple Query}\index{Query!Simple Query}
 
 Ein simpler query ermöglicht folgende Abfrage: \enquote{Gib mir alle Items zu der Klasse Kreuzschraube mit dem Identifier (IRDI) 1234-abcd\#ab-cdefgh\#1}. Das Ergebnis ist ein Teil, mit allen Attributen wie oben angegeben. 
 
@@ -84,7 +84,7 @@ Ein anderer Query könnte lauten:  \enquote{Gib mir die Properties 1234-abcd\#ab
 
 Es könnte auch mit Hilfe von vorhandenen Daten gesucht werden, z.B.:  \enquote{Hier ist ein Item mit der Property Typ: M6 (Property IRDI: 1234-abcd\# ab-bbbbbb\# 1), gibt mir bitte dazu die Properties 1234-abcd\#ab-cccccc\#1 und 1234-abcd\# bbbbbb\#1} 
 
-\paragraph{Parametric Query}
+\paragraph{Parametric Query}\index{Query!Parametric Query}
 
 Hat man jetzt noch eine Schraube mit folgenden Eigenschaften:
 \begin{description}
@@ -98,7 +98,7 @@ Mit Hilfe der characteristic\_data\_query\_expression sind folgende Abfragen mö
 
 Diese ermöglicht das Filtern auf genau eine übergebene Property. Rekursive Abfragen sind auch möglich, beispielsweise wenn die gesuchte Property eine Multi-Property ist (Property: Loch als Wert zwei Properties mit Form und Durchmesser und Durchmesser soll gefiltert werden)
 
-\subsection{Analyse ISO 22745-30 - Identification Guide}\label{kap:identification_guide}
+\subsection{Analyse ISO 22745-30 - Identification Guide}\label{kap:identification_guide}\index{ISO 22745-30}
 
 %TODO Quelle für i-xml file aus eotd-i-xml
 Ein Identification Guide beschreibt, welche Daten für ein Objekt benötigt werden, damit dies überhaupt sinnvoll für einen bestimmten Zweck eingesetzt werden kann. Der Käufer, Produktmanager oder Benutzer definiert die Anforderungen an die Daten. Ein  \enquote{Datenanforderungsstatement} wird als ein i-xml identification guide xml file erzeugt. Es wird definiert, was der Name des Artikels ist mit den charakteristischen Daten. Es wird die Frage beantwortet, welche Daten (Properties) zu einer bestimmten Klasse eines Objektes benötigt wird um den Artikeln zu kaufen oder zu sinnvoll zu verwalten. Diese Anforderungen werden von der Abfrageseite (Kundenseite) definiert, also derjenige, der Daten abfragen möchte. \(Quelle: ECCMA\_ISO\_8000\_certification.pdf\)

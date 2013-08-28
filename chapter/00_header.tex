@@ -192,6 +192,7 @@ appendixprefix,				% Anhang wird "Anhang" vor die ‹berschrift gesetzt
 % paket f¸r farbige tabellen
 \usepackage{colortbl}
 
+% Einstellungen für links, unter anderem farbige links
 \usepackage[pdftex,colorlinks=false,
                       pdfstartview=FitV,
                       linkcolor=blue,
@@ -213,7 +214,7 @@ appendixprefix,				% Anhang wird "Anhang" vor die ‹berschrift gesetzt
 %Darstellung des Glossars einstellen
 %\usepackage[style=long,toc]{glossaries}
 \usepackage[
-nonumberlist, %keine Seitenzahlen anzeigen
+%nonumberlist, %keine Seitenzahlen anzeigen
 acronym,      %ein Abkürzungsverzeichnis erstellen
 toc,          %Einträge im Inhaltsverzeichnis
 %section %im Inhaltsverzeichnis auf section-Ebene erscheinen
@@ -225,6 +226,8 @@ toc,          %Einträge im Inhaltsverzeichnis
 
 %index
 \usepackage{makeidx}
+
+\usepackage[intoc]{nomencl}
 
 \makeindex
 

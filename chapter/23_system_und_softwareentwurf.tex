@@ -10,7 +10,7 @@ Dieses Kapitel beschreibt den System- und Softwareentwurf sowie die Auswahl der 
 Teil der Aufgabe der Arbeit ist es für das System im Rahmen der nichtfunktionalen Anforderungen eine geeignete Umgebung zu schaffen. Dafür sind einige Entscheidungen zu treffen. 
 
 \subsection{WebService}
-Wenn von Web Services gesprochen wird, dann werden meistens \gls{SOAP}-basierte WebServices gemeint. Allerdings gibt es die sogenannten \gls{SOAP}-basierten WebServices als auch die RESTful WebServices. Anforderung ist es ein Web Service zu implementieren. Dazu muss entschieden werden, ob ein \gls{SOAP}-basierter oder RESTful Web Service implementiert werden soll.
+Wenn von Web Services gesprochen wird, dann werden meistens \gls{SOAP}-basierte WebServices gemeint. Allerdings gibt es die sogenannten \gls{SOAP}-basierten WebServices als auch die RESTful WebServices. Anforderung ist es ein Web Service zu implementieren. Dazu muss entschieden werden, ob ein \gls{SOAP}-basierter oder RESTful Web Service implementiert werden soll. \index{REST@\textbf{REST}} \index{REST!RESTful}
 
 \subsubsection{Definition}
 
@@ -18,13 +18,13 @@ Wenn von Web Services gesprochen wird, dann werden meistens \gls{SOAP}-basierte 
 \enquote{Web services provide the means to integrate disparate systems and expose reusable business functions over HTTP. They either leverage HTTP as a simple transport over which data is carried (e.g., SOAP/\gls{WSDL} services) or use it as a cimplete application protocol that defines the semantics for service behavior (e.g. RESTful services) \citep[S. 2][]{robinsonService}}	
 \end{quotation}
 
-\subsubsection{SOAP/WSDL Web service}
+\subsubsection{SOAP/WSDL Web service}\index{SOAP}\index{WSDL}\index{Web Service}
 Frau Janssen hat in ihrer Abschlussarbeit einen Web Service nach ISO 29002-20 mittels einem SOAP/WSDL Web Service implementiert \citep[vgl.][]{janssen}. Die ISO 29002-20 verweist in Annex-B auf entsprechende WSDL-Definitionen. 
 Ich möchte an dieser Stelle darauf verzichten, die Einzelheiten eines SOAP/WSDL Web Service zu erläutern und verweise auf Frau Janßens Abschlussarbeit \citep[vgl.][Kap. 3]{janssen}. 
 
 Es sei an dieser Stelle kurz erwähnt, dass Web Services auf SOAP/WSDL basierend ein W3C\footnote{World Wide Web Consortium - http://www.w3.org} Standard sind. 
 
-\subsubsection{RESTful Web service}
+\subsubsection{RESTful Web Service}\index{RESTful Web Service}\index{REST@\textbf{REST}} \index{REST!RESTful} \index{REST!RESTful Web Service}
 RESTful WebServices sind per se kein Standard sondern eher ein Programmierparadigma respektive ein Architekturmuster. 
 XXX
 
@@ -41,16 +41,16 @@ Es wurde ein RESTful Web Service ausgewählt. Die Gründe stellen sich wie folgt
 
 
 
-\subsection{Plattform}
-Als Laufzeitumgebung wurde der Apache Tomcat Server in der Version 7 ausgewählt. Das ist ein üblicher Web Container (Web Server), welcher mit entsprechenden Frameworks bzw. Bibliotheken sowohl SOAP als auch RESTful Web Services anbieten kann. 
+\subsection{Plattform} \index{Apache Tomcat}
+Als Laufzeitumgebung wurde der Apache Tomcat Server in der Version 7 ausgewählt. Das ist ein üblicher Web Container (Web Server), welcher mit entsprechenden Frameworks bzw. Bibliotheken sowohl \gls{SOAP} als auch RESTful Web Services anbieten kann. 
 XXX
 
 \subsection{Bibilotheken und Frameworks} \index{Bibilotheken und Frameworks}\label{bibliotheken_und_frameworks}
 \begin{description}
 
-\item[Jersey] Framework zur Erstellung von RESTful Web Services \index{Jersey}
-\item[JSF2.0] Komponentenbasiertes Web Framework zur Erstellung von Benutzeroberflächen
-\item[Spring] Dependency Injection Framework. Bietet darüber hinaus noch weitere Komponenten an. Ausgewählt wurde unter anderem Spring JDBC und Spring Data Oracle, welche einfacheren Zugriff auf relationale Datenbanken sowie auf Prozeduren von relationalen Datenbanken ermöglicht. Mehr Details zur Implementierung in Kapitel XXX.  
+\item[Jersey] Framework zur Erstellung von RESTful Web Services \index{Jersey}\gls{Jersey}
+\item[JSF2.0] Komponentenbasiertes Web Framework zur Erstellung von Benutzeroberflächen \index{JSF2.0}
+\item[Spring] Dependency Injection Framework. Bietet darüber hinaus noch weitere Komponenten an. Ausgewählt wurde unter anderem \gls{Spring} JDBC und \gls{Spring} Data Oracle, welche einfacheren Zugriff auf relationale Datenbanken sowie auf Prozeduren von relationalen Datenbanken ermöglicht. Mehr Details zur Implementierung in Kapitel XXX. \index{Spring} 
     
 \end{description}
 
@@ -68,7 +68,7 @@ Ein weiterer Aspekt ist, dass Software welche mit Java entwickelt wurde im Prinz
 
 Dieses Kapitel gibt einen Überblick über das Softwaredesign und die Architektur des Systems. 
 
-\subsection{Bausteinsicht}
+\subsection{Bausteinsicht}\index{Software-Bausteine}
 \begin{quotation}
 Die Bausteinsicht bildet die Aufgaben des Systems auf Software-Bausteine oder -Komponenten ab.
  \citep[S. 98ff][]{starke}	
