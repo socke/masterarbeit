@@ -2,4 +2,94 @@
 \dictum[Johann Wolfgang von Goethe]{Es ist nicht genug, zu wissen, man muß auch anwenden; es ist nicht genug, zu wollen, man muß auch tun. \dots}}
 \chapter{Implementierung} \index{Implementierung}\label{kap:implementierung}
 
-Dieses Kapitel beschreibt die Implementierung.
+Dieses Kapitel beschreibt die Implementierung. 
+
+\section{Configuration Management und Setup}
+
+\subsection{Maven}
+Maven ist ähnlich wie Ant ein Build und Deployment Werkzeug. Darüberhinaus ist es ein Dependency Management Werkzeug. Das bedeutet, dass Maven die abhängigen Artefakte und deren Versionen verwalten kann. 
+
+\subsection{Tomcat 7}
+
+\subsection{Java 6}
+
+\section{Web Service}
+
+Wie in Kapitel XXX erwähnt, wurde entschieden einen RESTful Web Service zu erstellen. Dafür wurde das Jersey-Framework ausgewählt.
+
+Folgende Schritte sind notwendig um einen RESTful Webservice mit Jersey zu erstellen: 
+
+\subsection{Servlet Konfiguration in web.xml}
+
+In die Konfigurationsdatei web.xml des Webcontainers (hier Apache Tomcat) muss das Servlet für Jersey hinzugefügt werden, so dass Web Service Anfragen an dieses Servlet möglich sind. 
+
+Listing \ref{lst:jerseywebxmlconfig} zeigt den Ausschnitt aus der web.xml des PLIB-Projektes. 
+
+ \begin{lstlisting}[caption=Jersey Servlet Konfiguration in web.xml, language=XML, label=lst:jerseywebxmlconfig]
+ <!-- configure jersey REST-Web Service Servlet -->
+    <servlet>
+        <servlet-name>jersey-servlet</servlet-name>
+        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>com.sun.jersey.config.property.packages</param-name>
+            <param-value>de.feu.plib.webservice.rest</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+ \end{lstlisting}   
+ 
+ Ferner muss in der web.xml ein sogenannter \enquote{Mappingeintrag} angelegt werden. Hierdurch wird dem Web Server mitgeteilt, bei zu welchem Servlet Anfragen an eine bestimmte URL zur Verarbeitung geleitet werden sollen. 
+ 
+  \begin{lstlisting}[caption=Jersey Servlet Mappingkonfiguration in web.xml, language=XML, label=lst:jerseywebxmlconfigmapping]
+    <servlet-mapping>
+        <servlet-name>jersey-servlet</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
+ \end{lstlisting}  
+ 
+Das Konfigurationbeispiel  \ref{lst:jerseywebxmlconfigmapping}  besagt, dass das Servlet mit dem Namen \enquote{jersey-servlet}, welches im Beispiel \ref{lst:jerseywebxmlconfig}  konfiguriert wurde, alle Anfragen mit der URL \enquote{/rest/*} entgegennehmen soll. Das Muster \enquote{/rest/*} bedeutet, das beliebige URLs nach /rest/ akzeptiert werden. Zum Beispiel: /rest/webservice oder /rest/service/name.
+
+Unter der Annahme, dass die Applikation auf dem lokalem Rechner installiert wurde und auf Port 8080 lauscht, der Applikationskontext\footnote{XXX} \enquote{plib-characteristic-query} ist, ergibt sich als aktuelle Gesamt-URL für den Web Service der Applikation \enquote{http://localhost:8080/plib-characteristic-query/rest/}.
+
+\subsection{Web Service Klasse}
+Der Einstiegspunkt für den \gls{Web Service} ist eine Klasse. Eine Applikation kann mehrere solcher Einstiegspunkte haben. Damit nun die Navigation von der URL der Anfrage zur entsprechenden Klasse funktioniert, wird jede Klasse mittels Annotation markiert und ein weiterer Pfad-Präfix definiert. Das Beispiel 
+\ref{lst:jerseywebservice} zeigt, dass mittels @Path der Suffix /ws definiert wird. 
+  \begin{lstlisting}[caption=Jersey Web Service Klasse, language=Java, label=lst:jerseywebservice]
+...
+@Path("/ws")
+public class QueryService {
+...
+ \end{lstlisting}  
+ 
+ Somit ergibt sich als aktuelle Gesamt-URL für den Web Service der Applikation \enquote{http://localhost:8080/plib-characteristic-query/rest/ws}.
+ 
+Der nächste Schritt ist nun, die entsprechenden Methode zu definieren, welche die Anfrage final entgegennimmt und verarbeitet (siehe Listing \ref{lst:jerseymethode}). 
+ 
+  \begin{lstlisting}[caption=Jersey Methode, language=Java, label=lst:jerseymethode]
+    @POST
+    @Path("/query")
+    @Consumes("application/xml")
+    @Produces(MediaType.APPLICATION_XML)
+    public String query(String queryXML) {
+        LOGGER.info("Incoming query XML content :" + queryXML);
+        QueryType queryType = unmarshall(queryXML);
+        LOGGER.info("QueryType: " + queryType);
+        CatalogueType catalogue = queryPipe.filter(queryType);
+
+        LOGGER.info("Filled Catalogue: " + catalogue);
+        String marshalledCatalogue = marshall(catalogue);
+
+        LOGGER.info("Marshalled catalogue: " + marshalledCatalogue);
+        return marshalledCatalogue;
+    }
+ \end{lstlisting}  
+
+Die Konfiguration der Methode wird über Annotationen vorgenommen. Nachfolgend die Erklärung der Annotationen aus Listing \ref{lst:jerseymethode}.
+
+\begin{description}
+\item[@POST] Definiert die HTTP-Methode. Hier POST. Einige weitere Möglichkeiten des HTTP-Protokolls sind GET, PUT und DELETE
+\item[@Path('/query')] Definiert den URL-Pfad Suffix für diese Methode. Um diese Methode als Web Service via HTTP aufzurufen lautet die finale URL \enquote{http://localhost:8080/plib-characteristic-query/rest/query}. 
+\item[@Consumes('application/xml')] Definiert den MIME-Typ\footnote{Internet Media Type oder auch Content-Type.}, welcher von diesem Service (diese Methode) konsumiert werden kann. Wird ein anderer Typ als POST an diesen Service geliefert, weist der Service diese Anfrage ab. 
+\item[@Produces(MediaType.APPLICATION\_XML)] Definiert den MIME-Typ des Inhaltes, der vom Service als Antwort zurückgeliefert wird.  
+\end{description}
+
