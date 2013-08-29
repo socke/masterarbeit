@@ -4,26 +4,27 @@
 
 Dieses Kapitel beschreibt die Implementierung. 
 
-\section{Configuration Management und Setup}
+\section{Configuration Management und Setup}\index{Configuration Managment}
 
 \subsection{Maven}\index{Maven}
 Maven ist ähnlich wie Ant ein Build und Deployment Werkzeug. Darüberhinaus ist es ein Dependency Management Werkzeug. Das bedeutet, dass Maven die abhängigen Artefakte und deren Versionen verwalten kann. 
 
-\subsection{Tomcat 7}\index{Apache Tomcat}
+\subsection{Apache Tomcat}\index{Apache Tomcat}
+Als Web Container wird der \gls{Apache Tomcat} in der Version 7 eingesetzt. 
 
 \subsection{Java 6}
 
-\section{Web Service}\index{Web Service}\index{REST!RESTful Web Service}
+\section{Web Service}\index{Web Service}\index{REST!RESTful Web Service}\label{kap:webservice}
 
-Wie in Kapitel XXX erwähnt, wurde entschieden einen RESTful Web Service zu erstellen. Dafür wurde das Jersey-Framework ausgewählt.
+Wie in Kapitel XXX erwähnt, wurde entschieden einen \gls{REST}ful Web Service zu erstellen. Dafür wurde das Jersey-Framework ausgewählt.
 
-Folgende Schritte sind notwendig um einen RESTful Webservice mit Jersey zu erstellen: 
+Folgende Schritte sind notwendig um einen \gls{REST}ful Webservice mit Jersey zu erstellen: 
 
 \subsection{Servlet Konfiguration in web.xml} \index{Jersey}
 
-In die Konfigurationsdatei web.xml des Webcontainers (hier Apache Tomcat) muss das Servlet für Jersey hinzugefügt werden, so dass Web Service Anfragen an dieses Servlet möglich sind. 
+In die Konfigurationsdatei web.xml des Webcontainers (hier \gls{Apache Tomcat}) muss das Servlet für \gls{Jersey} hinzugefügt werden, so dass \gls{Web Service} Anfragen an dieses Servlet möglich sind. 
 
-Listing \ref{lst:jerseywebxmlconfig} zeigt den Ausschnitt aus der web.xml des PLIB-Projektes. 
+Listing \ref{lst:jerseywebxmlconfig} zeigt den Ausschnitt aus der web.xml des \gls{PLIB}-Projektes. 
 
  \begin{lstlisting}[caption=Jersey Servlet Konfiguration in web.xml, language=XML, label=lst:jerseywebxmlconfig]
  <!-- configure jersey REST-Web Service Servlet -->
@@ -38,7 +39,7 @@ Listing \ref{lst:jerseywebxmlconfig} zeigt den Ausschnitt aus der web.xml des PL
     </servlet>
  \end{lstlisting}   
  
- Ferner muss in der web.xml ein sogenannter \enquote{Mappingeintrag} angelegt werden. Hierdurch wird dem Web Server mitgeteilt, bei zu welchem Servlet Anfragen an eine bestimmte URL zur Verarbeitung geleitet werden sollen. 
+Ferner muss in der web.xml ein sogenannter \enquote{Mappingeintrag} angelegt werden. Hierdurch wird dem Web Server mitgeteilt, bei zu welchem Servlet Anfragen an eine bestimmte URL zur Verarbeitung geleitet werden sollen. 
  
   \begin{lstlisting}[caption=Jersey Servlet Mappingkonfiguration in web.xml, language=XML, label=lst:jerseywebxmlconfigmapping]
     <servlet-mapping>
@@ -50,6 +51,7 @@ Listing \ref{lst:jerseywebxmlconfig} zeigt den Ausschnitt aus der web.xml des PL
 Das Konfigurationbeispiel  \ref{lst:jerseywebxmlconfigmapping}  besagt, dass das Servlet mit dem Namen \enquote{jersey-servlet}, welches im Beispiel \ref{lst:jerseywebxmlconfig}  konfiguriert wurde, alle Anfragen mit der URL \enquote{/rest/*} entgegennehmen soll. Das Muster \enquote{/rest/*} bedeutet, das beliebige URLs nach /rest/ akzeptiert werden. Zum Beispiel: /rest/webservice oder /rest/service/name.
 
 Unter der Annahme, dass die Applikation auf dem lokalem Rechner installiert wurde und auf Port 8080 lauscht, der Applikationskontext\footnote{XXX} \enquote{plib-characteristic-query} ist, ergibt sich als aktuelle Gesamt-URL für den Web Service der Applikation \enquote{http://localhost:8080/plib-characteristic-query/rest/}.
+\index{Apache Tomcat!Applikationskontext}
 
 \subsection{Web Service Klasse}
 Der Einstiegspunkt für den \gls{Web Service} ist eine Klasse. Eine Applikation kann mehrere solcher Einstiegspunkte haben. Damit nun die Navigation von der URL der Anfrage zur entsprechenden Klasse funktioniert, wird jede Klasse mittels Annotation markiert und ein weiterer Pfad-Präfix definiert. Das Beispiel 
@@ -61,7 +63,7 @@ public class QueryService {
 ...
  \end{lstlisting}  
  
- Somit ergibt sich als aktuelle Gesamt-URL für den Web Service der Applikation \enquote{http://localhost:8080/plib-characteristic-query/rest/ws}.
+Somit ergibt sich als aktuelle Gesamt-URL für den Web Service der Applikation \\  \enquote{http://localhost:8080/plib-characteristic-query/rest/ws}.
  
 Der nächste Schritt ist nun, die entsprechenden Methode zu definieren, welche die Anfrage final entgegennimmt und verarbeitet (siehe Listing \ref{lst:jerseymethode}). 
  
@@ -84,12 +86,147 @@ Der nächste Schritt ist nun, die entsprechenden Methode zu definieren, welche d
     }
  \end{lstlisting}  
 
-Die Konfiguration der Methode wird über Annotationen vorgenommen. Nachfolgend die Erklärung der Annotationen aus Listing \ref{lst:jerseymethode}.
+Die Konfiguration der Methode wird über \Gls{Annotation} vorgenommen. Nachfolgend die Erklärung der \Gls{Annotation} aus Listing \ref{lst:jerseymethode}.
 
 \begin{description}
-\item[@POST] Definiert die HTTP-Methode. Hier POST. Einige weitere Möglichkeiten des HTTP-Protokolls sind GET, PUT und DELETE
+\item[@POST] Definiert die \gls{HTTP-Methode}. Hier POST. Einige weitere Möglichkeiten des HTTP-Protokolls sind GET, PUT und DELETE
 \item[@Path('/query')] Definiert den URL-Pfad Suffix für diese Methode. Um diese Methode als Web Service via HTTP aufzurufen lautet die finale URL \enquote{http://localhost:8080/plib-characteristic-query/rest/query}. 
-\item[@Consumes('application/xml')] Definiert den MIME-Typ\footnote{Internet Media Type oder auch Content-Type.}, welcher von diesem Service (diese Methode) konsumiert werden kann. Wird ein anderer Typ als POST an diesen Service geliefert, weist der Service diese Anfrage ab. 
-\item[@Produces(MediaType.APPLICATION\_XML)] Definiert den MIME-Typ des Inhaltes, der vom Service als Antwort zurückgeliefert wird.  
+\item[@Consumes('application/xml')] Definiert den \gls{MIME-Type}\footnote{Internet Media Type oder auch Content-Type.}, welcher von diesem Service (diese Methode) konsumiert werden kann. Wird ein anderer Typ als POST an diesen Service geliefert, weist der Service diese Anfrage ab. 
+\item[@Produces(MediaType.APPLICATION\_XML)] Definiert den \gls{MIME-Type} des Inhaltes, der vom Service als Antwort zurückgeliefert wird.  
 \end{description}
+\index{HTTP-Methode!GET}\index{HTTP-Methode!POST}\index{HTTP-Methode!PUT}\index{HTTP-Methode!DELETE}
+\index{MIME-Type}
+
+% 
+\section{Query-Verarbeitung}
+
+Der \gls{Web Service}, welcher in Kapitel \ref{kap:webservice} beschrieben ist, nimmt in der Applikation das Query-XML File entgegen. 
+Die Struktur des XML-Files ist durch die query.xsd vorgegben \citep[27]{iso29002-31}. 
+
+Der nächste Schritt ist es, diese XML zu Verarbeiten. Dazu muss das xml geparsed und die Informationen des Queries in ein entsprechendes Modell überführt werden. Diesen Prozess nennt man Unmarshalling.
+
+\subsection{XML Unmarshalling}
+
+Welche Schritte müssen durchgeführt werden?
+
+\begin{enumerate}
+\item Ein Modell in Java erstellen
+\item XML parsen und in das Modell überführen
+\item Validierung des Modells gemäß der Regeln in Schema-Datei
+\end{enumerate}
+
+Ein entsprechend valides Model anhand der XSD in Java aufzubauen wäre sehr mühsam und fehleranfällig. Java liefert mit der JAXB Bibliothek die Möglichkeit die Modellklassen von Java aus der XSD zu generieren.
+
+\subsubsection{Benötigte XSD-Dateien}
+
+Die XSD-Dateien der ISO 29002-31 wurden freundlicherweise von Dr. Gerry Radack von der ECCMA zur Verfügung gestellt. 
+
+Die query.xsd referenziert die weiteren folgenden Schema-Dateien:
+\begin{itemize}
+\item basic.xsd
+\item identifier.xsd
+\item catalogue.xsd
+\item value.xsd
+\end{itemize}
+ 
+\subsubsection{Modell-Generierung}
+
+Die Generierung startet man als Java Kommando in der Konsole, siehe Listing \ref{lst:jaxbgeneratemodel}.
+
+\begin{lstlisting}[caption=JAXB Modellgenerierung von der Konsole, language=sh, label=lst:jaxbgeneratemodel]
+xjc query.xsd -d plib-characteristic-data/ 
+\end{lstlisting}
+
+Hier wurde dann eine Fehlermeldung erzeugt:
+
+\enquote{[ERROR] The package name iso.std.iso.ts.\_29002.\_\_-31.ed\_1.tech.xml\_schema.query used for this schema is not a valid package name. line 18 of file query.xsd}
+  
+Der Grund für den Fehler ist der, dass in der query.xsd die Namensräume wie in Listing  \ref{lst:queryschemanamespace} definiert sind. Da JAXB die Namespaces nutzt um die entsprechenden Paketstrukturen für die Modelle in Java zu erstellen, schafft es JAXB nicht, diese in entsprechende valide Form umzuwandeln. Man erkennt es daran, dass aus \enquote{urn:iso:std:iso:ts:29002:-31:ed-1:tech:xml-schema:query} in der Fehlermeldung \enquote{iso.std.iso.ts.\_29002.\_\_-31.ed\_1.tech.xml\_schema.query} wird\footnote{Java Paketnamen enthalten als Trenner zwischen den Ebenen einen Punkt. Valide wäre z.B. iso.std.iso.ts.query}. Vermutlich ist der Bindestrich vor der 31 nicht erlaubt.  
+
+\begin{lstlisting}[caption=query.xsd Namespace Definitionen, language=XML, label=lst:queryschemanamespace]
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:qy="urn:iso:std:iso:ts:29002:-31:ed-1:tech:xml-schema:query"
+           xmlns:cat="urn:iso:std:iso:ts:29002:-10:ed-1:tech:xml-schema:catalogue"
+           xmlns:val="urn:iso:std:iso:ts:29002:-10:ed-1:tech:xml-schema:value"
+           xmlns:bas="urn:iso:std:iso:ts:29002:-4:ed-1:tech:xml-schema:basic"
+           xmlns:id="urn:iso:std:iso:ts:29002:-5:ed-1:tech:xml-schema:identifier"
+           targetNamespace="urn:iso:std:iso:ts:29002:-31:ed-1:tech:xml-schema:query" elementFormDefault="qualified">
+    <xs:import namespace="urn:iso:std:iso:ts:29002:-4:ed-1:tech:xml-schema:basic" schemaLocation="basic.xsd"/>
+    <xs:import namespace="urn:iso:std:iso:ts:29002:-5:ed-1:tech:xml-schema:identifier" schemaLocation="identifier.xsd"/>
+    <xs:import namespace="urn:iso:std:iso:ts:29002:-10:ed-1:tech:xml-schema:catalogue" schemaLocation="catalogue.xsd"/>
+    <xs:import namespace="urn:iso:std:iso:ts:29002:-10:ed-1:tech:xml-schema:value" schemaLocation="value.xsd"/>
+    ...
+</xs:schema>    
+\end{lstlisting}
+
+Für dieses Problem gibt es zwei Lösungsoptionen. Entweder die Namespace-Defintionen aller Namespaces in den XSD-Dateien anpassen oder die XSD-Dateien in der Form belassen und einen programmatischen Weg finden um die Namespaces umzudefinieren. 
+
+Das Anpassen aller XSD-Dateien hat zwei große Nachteile.
+\begin{enumerate}
+\item Es ist aufwändig und fehleranfällig alle Dateien anzupassen. Diese haben Abhängigkeiten untereinander.
+\item Änderungen an der lokalen Schemadatei machen mögliche spätere Integrationen einer neuen XSD-Version des ISO-Kommitees schwierig.
+\end{enumerate}
+
+Besser wäre es, wenn die Generierung konfigurierbar ist. JAXB ermöglicht mit einem sogenanntem Binding-File, die Namespaces abzuändern. Das Listing \ref{lst:bindingfile} zeigt die Konfiguration. Die Generierung kann mit dem Shell-Befehl \enquote{xjc -b binding.xjb -d gen-src query.xsd} gestartet werden. 
+
+\begin{lstlisting}[caption=Binding File binding.xjc, language=XML, label=lst:bindingfile]
+<?xml version="1.0" encoding="UTF-8"?>
+<jaxb:bindings xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+               xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+               xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+               jaxb:version="2.0">
+  <jaxb:bindings schemaLocation="query.xsd" node="/xsd:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="de.feu.plib.xml.query" />
+    </jaxb:schemaBindings>
+  </jaxb:bindings>
+  <jaxb:bindings schemaLocation="basic.xsd" node="/xsd:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="de.feu.plib.xml.basic" />
+    </jaxb:schemaBindings>
+  </jaxb:bindings>
+  <jaxb:bindings schemaLocation="catalogue.xsd" node="/xsd:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="de.feu.plib.xml.catalogue" />
+    </jaxb:schemaBindings>
+  </jaxb:bindings>
+  <jaxb:bindings schemaLocation="identifier.xsd" node="/xsd:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="de.feu.plib.xml.identifier" />
+    </jaxb:schemaBindings>
+  </jaxb:bindings>
+  <jaxb:bindings schemaLocation="value.xsd" node="/xsd:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="de.feu.plib.xml.value" />
+    </jaxb:schemaBindings>
+  </jaxb:bindings> 
+  
+      <jaxb:globalBindings>
+         <!-- let the classes implement serialiseable -->
+        <jaxb:serializable uid="1" />
+          <!-- let the classes extend own abstract class for providing some extra functionality for each one -->
+     </jaxb:globalBindings>  
+</jaxb:bindings> 
+\end{lstlisting}
+
+Wie man erkennen kann, wird für jede Schema Datei ein eigener Paketname definiert. Das hat den Vorteil, dass die einzelnen Datentypen aus den jeweiligen XSD-Dateien passend in eigene Pakete generiert werden und nicht alle in ein Verzeichnis. Das ist deutlich übersichtlicher. 
+
+Die Modell-Dateien werden folgendermaßen abelegt:
+
+\begin{description}
+\item[query.xsd] de.feu.plib.xml.query
+\item[basic.xsd] de.feu.plib.xml.basic
+\item[catalogue.xsd] de.feu.plib.xml.catalogue
+\item[identifier.xsd] de.feu.plib.xml.identifier
+\item[value.xsd] de.feu.plib.xml.value
+\end{description}
+
+Zeile 6-10 aus Listing \ref{lst:bindingfile} zeigt wie im Binding-File ein anderer Paketname für die Datei query.xsd definiert werden kann. 
+
+\subsubsection{Einbinden in Buildprozess mit Maven}
+Da als Build-Werkzeug Maven verwendet wird, kann der gesamte Generierungsprozess darüber abgebildet werden. 
+
+* Trennen von generierten Sourcen und main sourcen, --> generated Verzeichnis als sourcen-dir in pom.
+* generierung in build prozess einbinden
+
 

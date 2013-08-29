@@ -120,7 +120,7 @@ In diesem Anwendungsfall verfügen wir bereits über Elemente/Wertenpaare einer 
 \textbf{"Ich habe hier ein mir bekanntes Item mit bestimmten Eigenschaften (Properties), Länge=300mm. Gib mir alle Items und alle Properties der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Kreuzschraube) welche die mitgelieferten Eigenschaften haben".}
 Das Ergebnis sind Items mit allen Properties der angegebenen Klasse, welche über die übergebenen Eigenschaften (Properties) verfügen. In unserem Fall vervollständigen wir unsere Properties mit den weiteren Properties "Typ" und "Spannungsfest".
 
-Die XML-Abfrage sieht so aus:
+Die XML-Abfrage gemäß query.xsd\footnote{Schema Datei ist referenziert in ISO 29002-31, liegt der Arbeit bei} sieht so aus:
 
 \begin{lstlisting}[caption=Query Beispiel - Daten abfragen, language=XML, label=UseCaseDatenabfragen]
 <?xml version="1.0" encoding="UTF-8"?>
@@ -162,7 +162,7 @@ Um nun alle Eigenschaften (Properties), wie Länge, Typ und Spannungsfest zu erh
 \textbf{"Gib mir alle Items und alle Properties der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Kreuzschraube)".}
 Das Ergebnis ist ein Item mit allen Attributen (Properties) der gewünschten Klassen und gegebenenfalls vorhandenen Unterklassen. In unserem Falle genau die oben angegebenen Werte.
 
-Die XML-Abfrage sieht so aus:
+Die XML-Abfrage gemäß query.xsd\footnote{Schema Datei ist referenziert in ISO 29002-31, liegt der Arbeit bei} sieht so aus:
 
 \begin{lstlisting}[caption=Query Beispiel - Daten abfragen, language=XML, label=UseCaseDatenabfragen]
 <?xml version="1.0" encoding="UTF-8"?>

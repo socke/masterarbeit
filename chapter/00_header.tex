@@ -131,30 +131,30 @@ appendixprefix,				% Anhang wird "Anhang" vor die ‹berschrift gesetzt
 %\usepackage[automark]{scrpage2}
 
 %workaround for lstlistoflistings
-\makeatletter% --> De-TeX-FAQ
-\renewcommand*{\lstlistoflistings}{%
-  \begingroup 
-    \if@twocolumn
-      \@restonecoltrue\onecolumn
-    \else
-      \@restonecolfalse
-    \fi
-    \lol@heading
-    \setlength{\parskip}{\z@}%
-    \setlength{\parindent}{\z@}%
-    \setlength{\parfillskip}{\z@ \@plus 1fil}%
-    \@starttoc{lol}%
-    \if@restonecol\twocolumn\fi
-  \endgroup
-}
-\makeatother% --> \makeatletter
+%\makeatletter% --> De-TeX-FAQ
+%\renewcommand*{\lstlistoflistings}{%
+%  \begingroup 
+ %   \if@twocolumn
+ %     \@restonecoltrue\onecolumn
+ %   \else
+ %     \@restonecolfalse
+ %   \fi
+ %   \lol@heading
+ %   \setlength{\parskip}{\z@}%
+ %   \setlength{\parindent}{\z@}%
+ %   \setlength{\parfillskip}{\z@ \@plus 1fil}%
+ %   \@starttoc{lol}%
+ %   \if@restonecol\twocolumn\fi
+ % \endgroup
+%}
+%\makeatother% --> \makeatletter
 
 \usepackage[usenames]{color}
 
 % for writing line numbers          
 \usepackage[pagewise,mathlines,displaymath]{lineno}
 
-\lstloadlanguages{PHP, XML, VBScript, Java, HTML}
+\lstloadlanguages{PHP, XML, VBScript, Java, HTML,SQL,sh}
 
 %color definitions
 \definecolor{mygray}{rgb}{0.2,0.2,0.2}
