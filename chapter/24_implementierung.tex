@@ -105,9 +105,7 @@ Die Struktur des XML-Files ist durch die query.xsd vorgegben \citep[27]{iso29002
 
 Der nächste Schritt ist es, diese XML zu Verarbeiten. Dazu muss das xml geparsed und die Informationen des Queries in ein entsprechendes Modell überführt werden. Diesen Prozess nennt man Unmarshalling.
 
-\subsection{XML Unmarshalling}
-
-Welche Schritte müssen durchgeführt werden?
+Die folgenden Schritte müssen für das Unmarshalling durchgeführt werden.
 
 \begin{enumerate}
 \item Ein Modell in Java erstellen
@@ -115,7 +113,9 @@ Welche Schritte müssen durchgeführt werden?
 \item Validierung des Modells gemäß der Regeln in Schema-Datei
 \end{enumerate}
 
-Ein entsprechend valides Model anhand der XSD in Java aufzubauen wäre sehr mühsam und fehleranfällig. Java liefert mit der JAXB Bibliothek die Möglichkeit die Modellklassen von Java aus der XSD zu generieren.
+\subsection{Modell-Generierung}
+
+Ein entsprechend valides Model anhand der XSD manuell in Java aufzubauen wäre sehr mühsam und fehleranfällig. Java liefert mit der JAXB Bibliothek die Möglichkeit die Modellklassen von Java aus den XSDs zu generieren.
 
 \subsubsection{Benötigte XSD-Dateien}
 
@@ -128,8 +128,8 @@ Die query.xsd referenziert die weiteren folgenden Schema-Dateien:
 \item catalogue.xsd
 \item value.xsd
 \end{itemize}
- 
-\subsubsection{Modell-Generierung}
+
+\subsubsection{Generierung mit JAXB}
 
 Die Generierung startet man als Java Kommando in der Konsole, siehe Listing \ref{lst:jaxbgeneratemodel}.
 
@@ -137,11 +137,12 @@ Die Generierung startet man als Java Kommando in der Konsole, siehe Listing \ref
 xjc query.xsd -d plib-characteristic-data/ 
 \end{lstlisting}
 
-Hier wurde dann eine Fehlermeldung erzeugt:
+\subsubsection{Problem Namensräume}
+Bei der Generierung wurde die folgende Fehlermeldung angezeigt:
 
 \enquote{[ERROR] The package name iso.std.iso.ts.\_29002.\_\_-31.ed\_1.tech.xml\_schema.query used for this schema is not a valid package name. line 18 of file query.xsd}
   
-Der Grund für den Fehler ist der, dass in der query.xsd die Namensräume wie in Listing  \ref{lst:queryschemanamespace} definiert sind. Da JAXB die Namespaces nutzt um die entsprechenden Paketstrukturen für die Modelle in Java zu erstellen, schafft es JAXB nicht, diese in entsprechende valide Form umzuwandeln. Man erkennt es daran, dass aus \enquote{urn:iso:std:iso:ts:29002:-31:ed-1:tech:xml-schema:query} in der Fehlermeldung \enquote{iso.std.iso.ts.\_29002.\_\_-31.ed\_1.tech.xml\_schema.query} wird\footnote{Java Paketnamen enthalten als Trenner zwischen den Ebenen einen Punkt. Valide wäre z.B. iso.std.iso.ts.query}. Vermutlich ist der Bindestrich vor der 31 nicht erlaubt.  
+Der Grund für den Fehler ist, dass in der query.xsd die \glslink{Namespace}{Namensräume} wie in Listing  \ref{lst:queryschemanamespace} definiert sind. Da JAXB die \Glspl{Namespace} nutzt um die entsprechenden Paketstrukturen für die Modelle in Java zu erstellen, schafft es JAXB nicht, diese in entsprechende valide Form umzuwandeln. Man erkennt es daran, dass aus \enquote{urn:iso:std:iso:ts:29002:-31:ed-1:tech:xml-schema:query} in der Fehlermeldung \enquote{iso.std.iso.ts.\_29002.\_\_-31.ed\_1.tech.xml\_schema.query} wird\footnote{Java Paketnamen enthalten als Trenner zwischen den Ebenen einen Punkt. Valide wäre z.B. iso.std.iso.ts.query}. Vermutlich ist der Bindestrich vor der 31 nicht erlaubt.  \index{Namespace}
 
 \begin{lstlisting}[caption=query.xsd Namespace Definitionen, language=XML, label=lst:queryschemanamespace]
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -167,7 +168,7 @@ Das Anpassen aller XSD-Dateien hat zwei große Nachteile.
 \item Änderungen an der lokalen Schemadatei machen mögliche spätere Integrationen einer neuen XSD-Version des ISO-Kommitees schwierig.
 \end{enumerate}
 
-Besser wäre es, wenn die Generierung konfigurierbar ist. JAXB ermöglicht mit einem sogenanntem Binding-File, die Namespaces abzuändern. Das Listing \ref{lst:bindingfile} zeigt die Konfiguration. Die Generierung kann mit dem Shell-Befehl \enquote{xjc -b binding.xjb -d gen-src query.xsd} gestartet werden. 
+Besser wäre es, wenn die Generierung konfigurierbar ist. \gls{JAXB} ermöglicht mit einem sogenanntem Binding-File, die Namespaces abzuändern. Das Listing \ref{lst:bindingfile} zeigt die Konfiguration. Die Generierung kann mit dem Shell-Befehl \enquote{xjc -b binding.xjb -d gen-src query.xsd} gestartet werden. \index{Binding} \index{JAXB}
 
 \begin{lstlisting}[caption=Binding File binding.xjc, language=XML, label=lst:bindingfile]
 <?xml version="1.0" encoding="UTF-8"?>
@@ -223,10 +224,84 @@ Die Modell-Dateien werden folgendermaßen abelegt:
 
 Zeile 6-10 aus Listing \ref{lst:bindingfile} zeigt wie im Binding-File ein anderer Paketname für die Datei query.xsd definiert werden kann. 
 
-\subsubsection{Einbinden in Buildprozess mit Maven}
+\subsection{Einbinden in Buildprozess mit Maven}\index{Maven}
 Da als Build-Werkzeug Maven verwendet wird, kann der gesamte Generierungsprozess darüber abgebildet werden. 
 
-* Trennen von generierten Sourcen und main sourcen, --> generated Verzeichnis als sourcen-dir in pom.
+\subsubsection{Separates Source-Verzeichnis}
+Die Standardprojektform eines Maven-Projektes hat einen sogenannten Source-Folder (src). Darin befindet sich ein main-Folder. Dort werden die Klassen der Applikation abgelegt. Ferner beinhaltet der src-Folder einen test-Folder. Darin werden Testklassen abgelegt. 
+Damit die generierten Sourcen klar getrennt sind von den anderen Source-Dateien, soll ein separates Source-Verzeichnis angelegt werden. Der weiterer Vorteil ist, dass dieser Folder beispielsweise auch vom Versionskontrollsystem ausgenommen werden kann, da diese Klassen während des Build-Prozesses jeweils generiert werden und somit keiner Versionierung bedürfen. Das wäre nur schwierig zu realisieren, wenn die Dateien exakt im gleichen Source-Folder generiert würden wo alle anderen Source-Dateien liegen. 
+
+Die generierten Sourcen werden in ein separates Verzeichnis namens \enquote{generated} erzeugt (siehe \ref{lst:buildhelperplugin}). 
+
+\begin{lstlisting}[caption=Build Helper Maven Plugin, language=, label=lst:buildhelperplugin]
+            <plugin>
+			    <groupId>org.codehaus.mojo</groupId>
+			    <artifactId>build-helper-maven-plugin</artifactId>
+			    <executions>
+			        <execution>
+			            <id>add-source</id>
+			            <phase>generate-sources</phase>
+			            <goals>
+			                <goal>add-source</goal>
+			            </goals>
+			            <configuration>
+			                <sources>
+			                    <source>src/main/generated</source>
+			                </sources>
+			            </configuration>
+			        </execution>
+			    </executions>
+			</plugin>
+\end{lstlisting}
+
+\subsubsection{JAXB Maven Plugin}
+
+Um JAXB mit Maven zu nutzen, muss das Maven-Plugin in die \gls{pom} eingetragen werden. Listing \ref{lst:jaxbplugin} zeigt den XML-Auschnitt aus der \gls{pom}. \index{Maven!pom.xml}
+
+\begin{lstlisting}[caption=JAXB Maven Plugin, language=, label=lst:jaxbplugin]
+            <plugin>
+                <groupId>org.jvnet.jaxb2.maven2</groupId>
+                <artifactId>maven-jaxb2-plugin</artifactId>
+                <version>0.8.0</version>
+                <configuration>
+                    <schemaDirectory>src/main/resources/schema</schemaDirectory>
+                    <generateDirectory>src/main/generated</generateDirectory>
+                    <removeOldOutput>true</removeOldOutput>
+<!-- we do not use bindingDirectory as if we put the binding.xjb in the schema directory it will be taken -->
+<!--                     <bindingDirectory>src/main/resources/binding</bindingDirectory> -->
+
+<!--  Setting the generated package in pom will override what you set in binding.xjb file, thus commented out -->
+<!--                     <generatePackage>de.feu.plib.jaxb</generatePackage> -->
+                    <strict>false</strict>
+                    <extension>true</extension>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.jvnet.jaxb2_commons</groupId>
+                            <artifactId>jaxb2-basics</artifactId>
+                            <version>0.6.2</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.jvnet.jaxb2_commons</groupId>
+                            <artifactId>jaxb2-basics-annotate</artifactId>
+                            <version>0.6.2</version>
+                        </plugin>
+                    </plugins>
+                    <args>
+                        <arg>-Xannotate</arg>
+                        <arg>-XtoString</arg>
+                    </args>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>    
+\end{lstlisting}
+
 * generierung in build prozess einbinden
 
 
