@@ -1,14 +1,15 @@
 \documentclass[
-a4paper,							% alle weiteren Papierformat einstellbar
+paper=a4,							% alle weiteren Papierformat einstellbar
 %landscape,						% Querformat
-12pt,						  		% Schriftgrˆﬂe (12pt, 11pt (Standard))
+fontsize=12pt,						  		% Schriftgrˆﬂe (12pt, 11pt (Standard))
 BCOR1cm,							% Bindekorrektur, bspw. 1 cm
 DIV=calc,							% f¸hrt die Satzspiegelberechnung neu aus scrguide 2.4
-twoside, 						% zweiseitig twoside/ einseitig oneside
+twoside=true, 						% zweiseitig twoside/ einseitig oneside
 %twocolumn,						% zweispaltiger Satz
 %openany,							% Kapitel kˆnnen auch auf linken Seiten beginnen
-openright,						% Kapitel beginnen auf der rechten Seite
-parskip=half*,			   	% Absatzformatierung s. scrguide 3.1
+open=right,						% Kapitel beginnen auf der rechten Seite
+%parskip=half*,				% Absatzformatierung s. scrguide 3.1
+parskip=half+,			   	
 headsepline,					% Trennline zum Seitenkopf	
 footsepline,					% Trennline zum Seitenfuﬂ
 %notitlepage,					% in-page-Titel, keine eigene Titelseite
@@ -23,8 +24,8 @@ appendixprefix,				% Anhang wird "Anhang" vor die ‹berschrift gesetzt
 %fleqn,						% Ausgabe von Gleichungen linksb¸ndig
 %draft,						% ¸berlangen Zeilen in Ausgabe gekennzeichnet
 %pointlessnumbers,
-%DIV13,                % Seitenrand ist 1/13 (Standard: 1/10 -> ziemlich breit)
-%BCOR5mm								% Bindekorrektur, links 5mm mehr Platz f¸r Bindung
+DIV13,                % Seitenrand ist 1/13 (Standard: 1/10 -> ziemlich breit)
+BCOR5mm								% Bindekorrektur, links 5mm mehr Platz f¸r Bindung
 ] {scrreprt}
 
 % breitere seite
@@ -128,33 +129,43 @@ appendixprefix,				% Anhang wird "Anhang" vor die ‹berschrift gesetzt
 % for listings
 \usepackage{listings}
 
-%\usepackage[automark]{scrpage2}
+% Schriften-Größen
+\setkomafont{chapter}{\Huge\rmfamily} % Überschrift der Ebene
+\setkomafont{section}{\Large\rmfamily}
+\setkomafont{subsection}{\large\rmfamily}
+\setkomafont{subsubsection}{\large\rmfamily}
+\setkomafont{chapterentry}{\large\rmfamily} % Überschrift der Ebene in Inhaltsverzeichnis
+\setkomafont{descriptionlabel}{\bfseries\rmfamily} % für description Umgebungen
+\setkomafont{captionlabel}{\small\bfseries}
+\setkomafont{caption}{\small}
+
+%\B
 
 %workaround for lstlistoflistings
-\makeatletter% --> De-TeX-FAQ
-\renewcommand*{\lstlistoflistings}{%
-  \begingroup 
-    \if@twocolumn
-      \@restonecoltrue\onecolumn
-    \else
-      \@restonecolfalse
-    \fi
-    \lol@heading
-    \setlength{\parskip}{\z@}%
-    \setlength{\parindent}{\z@}%
-    \setlength{\parfillskip}{\z@ \@plus 1fil}%
-    \@starttoc{lol}%
-    \if@restonecol\twocolumn\fi
-  \endgroup
-}
-\makeatother% --> \makeatletter
+%\makeatletter% --> De-TeX-FAQ
+%\renewcommand*{\lstlistoflistings}{%
+%  \begingroup 
+ %   \if@twocolumn
+ %     \@restonecoltrue\onecolumn
+ %   \else
+ %     \@restonecolfalse
+ %   \fi
+ %   \lol@heading
+ %   \setlength{\parskip}{\z@}%
+ %   \setlength{\parindent}{\z@}%
+ %   \setlength{\parfillskip}{\z@ \@plus 1fil}%
+ %   \@starttoc{lol}%
+ %   \if@restonecol\twocolumn\fi
+ % \endgroup
+%}
+%\makeatother% --> \makeatletter
 
 \usepackage[usenames]{color}
 
 % for writing line numbers          
 \usepackage[pagewise,mathlines,displaymath]{lineno}
 
-\lstloadlanguages{PHP, XML, VBScript, Java, HTML}
+\lstloadlanguages{PHP, XML, VBScript, Java, HTML,SQL,sh}
 
 %color definitions
 \definecolor{mygray}{rgb}{0.2,0.2,0.2}
@@ -192,6 +203,7 @@ appendixprefix,				% Anhang wird "Anhang" vor die ‹berschrift gesetzt
 % paket f¸r farbige tabellen
 \usepackage{colortbl}
 
+% Einstellungen für links, unter anderem farbige links
 \usepackage[pdftex,colorlinks=false,
                       pdfstartview=FitV,
                       linkcolor=blue,
@@ -210,13 +222,17 @@ appendixprefix,				% Anhang wird "Anhang" vor die ‹berschrift gesetzt
     pdfkeywords={FernUni Hagen, ISO 29002-31, characteristic product data, 2013}
 }
 
+% dictum kapitel zitatsbreite vergrößern
+\renewcommand*{\dictumwidth}{.6667\textwidth}
+
 %Darstellung des Glossars einstellen
 %\usepackage[style=long,toc]{glossaries}
 \usepackage[
-nonumberlist, %keine Seitenzahlen anzeigen
+%nonumberlist, %keine Seitenzahlen anzeigen
 acronym,      %ein Abkürzungsverzeichnis erstellen
 toc,          %Einträge im Inhaltsverzeichnis
-section]      %im Inhaltsverzeichnis auf section-Ebene erscheinen
+%section %im Inhaltsverzeichnis auf section-Ebene erscheinen
+]      
 {glossaries}
 
 %glossar befehle einschalten
@@ -225,5 +241,65 @@ section]      %im Inhaltsverzeichnis auf section-Ebene erscheinen
 %index
 \usepackage{makeidx}
 
+\usepackage[intoc]{nomencl}
+
 \makeindex
+
+
+% Eigene Befehle %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+% Matrix
+\newcommand{\mat}[1]{
+      {\textbf{#1}}
+}
+\newcommand{\todo}[1]{
+      {\colorbox{red}{ TODO: #1 }}
+}
+\newcommand{\todotext}[1]{
+      {\color{red} TODO: #1} \normalfont
+}
+\newcommand{\info}[1]{
+      {\colorbox{blue}{ (INFO: #1)}}
+}
+% Hinweis auf Programme in Datei
+\newcommand{\datei}[1]{
+      {\ttfamily{#1}}
+}
+\newcommand{\code}[1]{
+      {\ttfamily{#1}}
+}
+% bild mit defnierter Breite einfügen
+\newcommand{\bild}[4]{
+  \begin{figure}[!hbt]
+    \centering
+      \vspace{1ex}
+      \includegraphics[width=#2]{images/#1}
+      \caption[#4]{\label{img.#1} #3}
+    \vspace{1ex}
+  \end{figure}
+}
+% bild mit eigener Breite
+\newcommand{\bilda}[3]{
+  \begin{figure}[!hbt]
+    \centering
+      \vspace{1ex}
+      \includegraphics{images/#1}
+      \caption[#3]{\label{img.#1} #2}
+      \vspace{1ex}
+  \end{figure}
+}
+
+
+% Bild todo
+\newcommand{\bildt}[2]{
+  \begin{figure}[!hbt]
+    \begin{center}
+      \vspace{2ex}
+	      \includegraphics[width=6cm]{images/todo}
+      %\caption{\label{#1} \color{red}{ TODO: #2}}
+      \caption{\label{#1} \todotext{#2}}
+      %{\caption{\label{#1} {\todo{#2}}}}
+      \vspace{2ex}
+    \end{center}
+  \end{figure}
+}
 

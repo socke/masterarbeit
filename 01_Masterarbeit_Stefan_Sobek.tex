@@ -21,7 +21,7 @@
 %activate line numbers for corrections
 %\linenumbers 
 %\pagenumbering{arabic}
-%\pagenumbering{Roman}
+\pagenumbering{Roman}
 %\setcounter{page}{2} 
 \input{chapter/02_abstract}
 \clearpage
@@ -62,10 +62,13 @@
 %% The List of Listings
 \clearpage
 \addcontentsline{toc}{chapter}{Listingverzeichnis}
-%\lstlistoflistings
+\lstlistoflistings
 
-% Glossar
-%\renewcommand{\glossaryname}{Glossar}
+%% Glossar
+% zeige Glossar in der Überschrift als "Glossar" an
+\renewcommand{\glossaryname}{Glossar}
+% zeige Glossar im Inhaltsverzeichnis als "Glossar" an
+\deftranslation{Glossary}{Glossar}
 %Glossar ausgeben
 %\printglossary[style=altlist,title=Glossar]
 \printglossaries
@@ -77,10 +80,12 @@
 %Symbole ausgeben
 %\printglossary[type=symbolslist,style=long]
 
-%% Kapitel / Hauptteil des Dokumentes %%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%alle glossareintr‰ge gesammelt aus dem anhang
+\input{chapter/99_glossar_eintraege}
 
-%\pagenumbering{arabic}
+%% Kapitel / Hauptteil des Dokumentes %%%%%%%%%%%%%%%%%%%%%%%
+
+\pagenumbering{arabic}
 
 \input{chapter/10_Einleitung}
 \input{chapter/21_aufgabenbeschreibung}
@@ -89,9 +94,8 @@
 \input{chapter/24_implementierung}
 %\input{chapter/70_use_cases}
 \input{chapter/90_schlussfolgerung}
+\input{chapter/95_erklaerung}
 
-%alle glossareintr‰ge gesammelt aus dem anhang
-\include{chapter/99_glossar_eintraege}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% LITERATUR UND ANDERE VERZEICHNISSE
@@ -109,7 +113,7 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% ANHÄNGE
+%% ANHÄNGEvi _
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \appendix
 \addcontentsline{toc}{chapter}{Anhang}
@@ -119,6 +123,9 @@
 % Index
 \renewcommand{\indexname}{Index}
 \addcontentsline{toc}{chapter}{Index}
+
+%\renewcommand{\nomname}{Index}
+
 \printindex
 
 \end{document}
