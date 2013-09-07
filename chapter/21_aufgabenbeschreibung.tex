@@ -45,6 +45,8 @@ Dieses Kapitel beschreibt Details und den Kontext der Aufgabenstellung sowie die
 
 Um einen Überblick zu schaffen in welchem Kontext sich diese Arbeit befindet und den Gesamtzusammenhang zu verstehen, soll hier eine kurze Übersicht über die PLIB Abschlussarbeiten geschaffen werden. 
 
+%\bild{gesamtkontext_plib}{16cm}{gesamtkontext_plib}{gesamtkontext_plib}
+
 \begin{figure}[htbp]
 	\centering
 		\includegraphics[width=0.98\textwidth]{images/gesamtkontext_plib.png}
@@ -56,9 +58,9 @@ Die Abschlussarbeiten von Herrn Loth und Herrn Mende beziehen sich auf die Umset
 
 \subsection{Abgrenzung}
 
-Die Arbeit umfasst die Implementierung der Use Cases nach Kapitel \ref{kap:Use_Cases}. Dies beinhaltet im wesentlichen den Teil 31 der ISO 29002 - einen Abfragestandard für Charakteristische Produktdaten. 
-Weiterhin wird für die Datenübertragung eine Implementierung des Teils 10 der ISO 29002 benötigt, siehe Abbildung \ref{fig:lieferketten}. 
-Die Arbeit befasst sich nicht mit der Implementierung eines Identification Guides nach ISO 22745-30. Dieser wird in der Praxis von einem Klienten für eine sinnvolle Vorauswahl der für sich oder seine Organisation benötigten Attribute der Teile verwendet. Jeder Klient definiert für seinen Kontext sinnvolle Attribute und Teiledaten und definiert diese mit Hilfe des Schemas der ISO 22745-30. Dies kann mittels eines Webformular auf Klientseite erfolgen oder als allgemeines Formular mit z.B. Excel\footnote{Excel ist ein bekanntes Tabellenkalkulationsprogramm der Firma Microsoft}, welches die für den/die Klienten relevanten Attribute der Produkte enthält die abgefragt werden sollen. Für mehr Informationen zum Identification Guide siehe Kap. \ref{kap:identification_guide}.
+Die Arbeit umfasst die Implementierung der Use Cases nach \autoref{kap:Use_Cases}. Dies beinhaltet im wesentlichen den Teil 31 der ISO 29002 - einen Abfragestandard für Charakteristische Produktdaten. 
+Weiterhin wird für die Datenübertragung eine Implementierung des Teils 10 der ISO 29002 benötigt, siehe \autoref{fig:lieferketten}. 
+Die Arbeit befasst sich nicht mit der Implementierung eines Identification Guides nach ISO 22745-30. Dieser wird in der Praxis von einem Klienten für eine sinnvolle Vorauswahl der für sich oder seine Organisation benötigten Attribute der Teile verwendet. Jeder Klient definiert für seinen Kontext sinnvolle Attribute und Teiledaten und definiert diese mit Hilfe des Schemas der ISO 22745-30. Dies kann mittels eines Webformular auf Klientseite erfolgen oder als allgemeines Formular mit z.B. Excel\footnote{Excel ist ein bekanntes Tabellenkalkulationsprogramm der Firma Microsoft}, welches die für den/die Klienten relevanten Attribute der Produkte enthält die abgefragt werden sollen. Für mehr Informationen zum Identification Guide siehe \autoref{kap:identification_guide}.
 
 %Beispiel: bild mit footnote
 \begin{figure}[htbp]
@@ -74,7 +76,7 @@ Die Arbeit befasst sich nicht mit der Implementierung eines Identification Guide
 Für die Implementierung sind folgende nichtfunktionale Anforderungen vom Fachbereich vorgegeben:
 \begin{description}
 \item[Datenbanksystem Oracle] Dieses beinhaltet die PLIB Datenbank samt Abfrageprozeduren und stellt als Teiledatenbank die Basis dar. Dies wird vom Fachbereich bzw. von den Studenten Herr Mende/Herr Loth gestellt. Für die Entwicklung dieses Prototypen wird eine Version von Herrn Mende vom \todotext{Versionsdatum von der PLIB von Karsten Mende einfügen} benutzt.  
-\item[Web Services] Auf Grund der hohen Verbreitung und Integrationsmöglichkeiten soll die Schnittstelle als Web Service entwickelt werden. Wenngleich die ISO 29002-31 in einem Beispiel eine E-Mail Schnittstelle vorschlägt, ist dies nicht spezifiziert. Siehe Abbildung \ref{fig:datenfluesse}, welche besagt:
+\item[Web Services] Auf Grund der hohen Verbreitung und Integrationsmöglichkeiten soll die Schnittstelle als Web Service entwickelt werden. Wenngleich die ISO 29002-31 in einem Beispiel eine E-Mail Schnittstelle vorschlägt, ist dies nicht spezifiziert. Siehe Abbildung \autoref{fig:datenfluesse}, welche besagt:
 \begin{quotation}
 Transport: not specified in ISO/TS 29002 (could use email) Payload XML.Query XML schema in ISO/TS 29002-31
 \end{quotation}
@@ -83,7 +85,7 @@ Transport: not specified in ISO/TS 29002 (could use email) Payload XML.Query XML
 
 \subsubsection{Technische Beschreibung}
 Es soll eine System mit einem Web Service erstellt werden. Dieser Web Service soll eine XML Datei gemäß ISO 29002-31 entgegennehmen. Die entsprechende Verarbeitung des XMLs, sowie die logische Transformation der Anfrage zur Abfrageschnittstelle der Datenbank wird vom System vorgenommen. Die Antwort der Datenbank soll wieder zurücktransformiert werden und als Katalog-XML Datei gemäß ISO 29002-10 zurückgeliefert werden. 
-Der gerahmten Bereich im unteren Teil der Abbildung \ref{fig:datenfluesse} zeigt in der Datenflussabbildung was implementiert werden soll. Das System, wo die Anfragedaten hingesendet wird, ist hier als \enquote{Catalogue Server bezeichnet}. 
+Der gerahmten Bereich im unteren Teil der Abbildung \autoref{fig:datenfluesse} zeigt in der Datenflussabbildung was implementiert werden soll. Das System, wo die Anfragedaten hingesendet wird, ist hier als \enquote{Catalogue Server bezeichnet}. 
 Die Kommunikation des Klienten mit dem Location Server, Terminology Server und dem Ontology Server ist Teil der Abschlussarbeit von Fr. Janßen \citep[Vergl.][]{janssen}. 
 Die Abfrageprozeduren des Katalogservers auf Datenbankebene ist Aufgabe von Herrn Mende. Zur Zeit der Abgabe dieser Arbeit, war die Arbeit von Herrn Mende noch in Bearbeitung\footnote{Die die Basis dieser Abschlussarbeit ein stabiler Implementierungsstand, welcher von Herrn Mende geliefert wurde}. 
 

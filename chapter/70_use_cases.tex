@@ -3,17 +3,12 @@
 \section{Anwendungsfälle}\label{kap:Use_Cases}
 % Funktionale Anforderungen
 
-Dieses Kapitel beschreibt mögliche Anwendungsfälle\footnote{Use Case. Im weiteren Verlauf wird, gerade auch in den Anwendungsfall Beschreibungen von Use Cases gesprochen. Im deutschen Sprachraum ist das englische allgemein bekannte Äquivalent \enquote{Use Case} für Anwendungsfall eher geläufig als das deutsche, daher wird darauf verzichtet an manchen Stellen die Begrifflichkeiten im weiteren Verlauf zwangsweise einzudeutschen.} die sich aus ISO 29002-31 ergeben. 
+Dieses Kapitel beschreibt mögliche Anwendungsfälle\footnote{Use Case. Im weiteren Verlauf wird, gerade auch in den Anwendungsfall Beschreibungen von Use Cases gesprochen. Im deutschen Sprachraum ist das englische allgemein bekannte Äquivalent \enquote{Use Case} für Anwendungsfall eher geläufig als das deutsche, daher wird darauf verzichtet an manchen Stellen die Begrifflichkeiten zwangsweise einzudeutschen.} die sich aus ISO 29002-31 ergeben. 
 
 
 Die Query-Code-Beispiele sind gekürzt, d.h. es werden die referenzierte Schemata-Namen gemäß XSD nicht aufgeführt. 
 
-\begin{figure}[htbp]
-	\centering
-		\includegraphics[width=0.75\textwidth]{images/usecases_plib.png}
-	\caption{Use Case Übersicht}
-	\label{fig:usecaseuebersicht}
-\end{figure}
+\bild{usecases_plib.png}{13cm}{Use Case Übersicht}{usecaseuebersicht}
 
 \subsection{Akteure}
 Bei der Implementierung geht es um die Erstellung einer Software-Schnittstelle als Web Service. Das bedeutet, dass diese Schnittstelle ohne eine Benutzeroberfläche nicht sinnvoll für einen menschlichen Akteur nutzbar ist. In den nachfolgenden Anwendungsfällen wird vom Akteur \enquote{Klient} gesprochen. Der Klient ist allgemein ein Nutzer der Schnittstelle, sei es als menschlicher Akteur über welcher über eine Bedienerinterface die Schnittstelle benutzt oder eine direkte Maschinennutzung. Ein Beispiel für eine Maschinennutzung kann einen Anwendung sein, welche automatisiert die Schnittstelle aufruft und Daten abfragt.    
@@ -47,11 +42,11 @@ Bei der Implementierung geht es um die Erstellung einer Software-Schnittstelle a
 
 } %end small
 
-\paragraph{Beispiel}
+\paragraph{Beispiel}\label{lab:schraubendreher}
 
 Ein Schraubendreher könnte folgendermaßen in einer Produktdatenbank repräsentiert werden:
 
-\begin{description}\label{lab:schraubendreher}
+\begin{description}
 \item[Klassen-Identifier] 0173-1\#01-AAA352\#4 
 \item[Länge] 300mm
 \item[Typ] Kreuz
@@ -90,7 +85,7 @@ Die XML-Abfrage:
 </qy:query>
 \end{lstlisting}
 
-Listing \ref{lst:UseCaseDatenabfragenProperty} beinhaltet ein XML-Attribut property\_ref. Das wird mit gewünschten Property Identifier gefüllt, welche mit Leerzeichen getrennt werden. 
+\autoref{lst:UseCaseDatenabfragenProperty} beinhaltet ein XML-Attribut property\_ref. Das wird mit gewünschten Property Identifier gefüllt, welche mit Leerzeichen getrennt werden. 
 
 \subsubsection{Charakteristische Daten eines Produkts validieren}
 
@@ -156,7 +151,7 @@ Die XML-Abfrage gemäß query.xsd\footnote{Schema Datei ist referenziert in ISO 
 
 \paragraph{Beispiel}
 
-Wir nehmen das Schraubendreher Beispiel aus \ref{lab:schraubendreher} zur Hand, und möchten eine Abfrage absenden, welche von der Klasse Schraubendreher alle Items erhalten soll die eine Länge zwischen 200 und 300 mm haben. 
+Wir nehmen das Schraubendreher Beispiel aus \autoref{lab:schraubendreher} zur Hand, und möchten eine Abfrage absenden, welche von der Klasse Schraubendreher alle Items erhalten soll die eine Länge zwischen 200 und 300 mm haben. 
 
 Um nun alle Eigenschaften (Properties), wie Länge, Typ und Spannungsfest zu erhalten muss folgende Abfrage gesendet werden: 
 \textbf{"Gib mir alle Items und alle Properties der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Kreuzschraube)".}
