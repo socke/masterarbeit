@@ -5,12 +5,21 @@
 \section{Configuration Management und Setup}\index{Configuration Managment}
 
 \subsection{Maven}\index{Maven}
-Maven ist ähnlich wie Ant ein Build und Deployment Werkzeug. Darüberhinaus ist es ein Dependency Management Werkzeug. Das bedeutet, dass Maven die abhängigen Artefakte und deren Versionen verwalten kann. 
+
+Was ist Maven?
+
+\begin{quotation}
+\enquote{Maven ist ein deklaratives Build Management System. Das heißt, es wird lediglich der Inhalt des Projekts beschrieben, nicht die Struktur oder die Abläufe, die zur Kompilierung und Veröffentlichung notwendig sind. Die Philosophie hinter Maven heißt \enquote{Konvention über Konfiguration} - Strukturen müssen nicht definiert werden, sondern sind vorgegben. So wie die Projekt- und Verzeichnisstruktur ist auch die Reihenfolge der Arbeitsschritte vorgegeben, die Maven ausführt, um ein Projekt zu bauen. \citep[S. 27][]{Mitp-Verlag}}	
+\end{quotation}
+
+Maven ermöglicht in diesem Projekt dem Betreuer, Professor oder Studenten, deren Arbeiten ggfs. aufbauend auf diese Arbeit sind, das Projekt standardisiert, einfach und ohne Kenntnisse von Maven oder anderen Werkzeugen zu erstellen. Maven findet dazu alle benötigten Abhängigkeiten automatisiert, so wie diese konfiguriert sind und erzeugt das Projekt anschließend. Es werden gemäß des standardisierten Buildablaufes von Maven mehrere Phasen durchlaufen, die beispielsweise sicherstellen, dass erst alle automatischen Tests erfolgreich durchlaufen sein müssen, bevor das Endprodukt erzeugt wird. 
+
+Für mehr Informationen sei auf \citep[Mitp-Verlag] verwiesen. 
 
 \subsection{Apache Tomcat}\index{Apache Tomcat}
-Als Web Container wird der \gls{Apache Tomcat} in der Version 7 eingesetzt. 
-
-\subsection{Java 6}
+Als Web Container wird der \gls{Apache Tomcat} in der Version 7 eingesetzt. Die Installation wird in 
+\todotext{Im Anhang Installationsprozess beschreiben.} beschrieben. 
+ 
 
 \section{Web Service}\index{Web Service}\index{REST!RESTful Web Service}\label{kap:webservice}
 
@@ -394,14 +403,13 @@ Ferner wurde festgestellt, dass über die Metadaten, nämlich der Relation DE\_P
 
 \subsubsection{Lösung}
 
-Nach einem Gespräch mit Karsten Mende\footnote{Karsten Mende ist der Studenten, welcher für die Datenbank- und Prozedurimplementierung verantwortlich ist. Zum Zeitpunkt des Verfassens dieser Arbeit, war die Abschlussarbeit von Herrn Mende noch nicht abgeschlossen.} wurde diese Situation besprochen. Herr Mende erläuterte, dass der Standard ISO 13584-42 \citep[iso13584-42] die Möglichkeit gibt die Einheit der konkreten Instanzen von Eigenschaften zu überschreiben. Auf Grund der Heterogenität und Repräsentation in Strings empfiehlt Herr Mende an dieser Stelle auf die Metadatenbeschreibungen von UNIT, PREFIX und TOLERANCE der Relationen DE\_PROPERTY, DE\_DATA\_TYPE, DE\_UNIT und DE\_PREFIX zurückzugreifen. Das erscheint auch völlig sinnvoll und wurde in der Form umgesetzt. 
+Im einem Gespräch mit Karsten Mende\footnote{Karsten Mende ist der Studenten, welcher für die Datenbank- und Prozedurimplementierung verantwortlich ist. Zum Zeitpunkt des Verfassens dieser Arbeit, war die Abschlussarbeit von Herrn Mende noch nicht abgeschlossen.} wurde diese Situation besprochen. Herr Mende erläuterte, dass der Standard ISO 13584-42 \citep[iso13584-42] die Möglichkeit gibt die Einheit der konkreten Instanzen von Eigenschaften zu überschreiben. Auf Grund der Heterogenität und Repräsentation in Strings empfiehlt Herr Mende an dieser Stelle auf die Metadatenbeschreibungen von UNIT, PREFIX und TOLERANCE der Relationen DE\_PROPERTY, DE\_DATA\_TYPE, DE\_UNIT und DE\_PREFIX zurückzugreifen. Das erscheint auch völlig sinnvoll und wurde in der Form umgesetzt. 
 Zur Zeit werden folglich gesetzte Werte in DO\_ADDTIONAL\_DATA ignoriert. 
 
 \todotext{Den Punkt im Schlussteil erwähnen}
 
 \section{Zusammenfassung des Kapitels}
 
-
-\todotext{Ausformulieren}
+\todotext{Zusammenfassung ausformulieren}
 
 
