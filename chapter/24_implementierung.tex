@@ -4,7 +4,6 @@
 
 \section{Configuration Management und Setup}\index{Configuration Managment}
 
-
 \subsection{Maven}\index{Maven}
 Maven ist ähnlich wie Ant ein Build und Deployment Werkzeug. Darüberhinaus ist es ein Dependency Management Werkzeug. Das bedeutet, dass Maven die abhängigen Artefakte und deren Versionen verwalten kann. 
 
@@ -343,14 +342,14 @@ Diese Tabelle beinhaltet die folgenden Werte:
 
 Hier stellt sich das Problem, dass eine query.xsd generell immer auf die IRDI eines Konzeptes basiert. 
 Beispiel: \enquote{Gib mir bitte alle Instanzen und Werte der Eigenschaften des Klassenkonzeptes mit dem Identifier 0173-1\#01-BAD803\#2 (Skalpell)}
-Der Query des Standards fragt folglich explizit nach den Instanzen eines Konzeptes (hier Skalpell). Die Prozeduren benötigen allerdings einen nicht im Standard definierten Identifier einer konkreten Instanz, um alle Eigenschaftswerte zu ermitteln. 
+Der Query des Standards fragt folglich explizit nach den Instanzen eines Konzeptes (hier Skalpell). Die Prozeduren benötigen allerdings einen nicht im Standard definierten Identifier einer konkreten Instanz, um alle Eigenschaftswerte zu ermitteln. Es ist folglich nicht möglich die Prozeduren mittels IRDI aufzurufen und die entsprechend benötigten Rückgabedaten zu erhalten. 
 
 \subsubsection{Lösung}
 
 Zwei Lösungsoptionen stellen sich hier zur Auswahl:
 \begin{enumerate}
 \item Anpassen der Datenbank-Prozeduren, so dass anstatt eines externen Identifiers eine IRDI entgegengenommen werden kann.
-\item Separate Abfrage an die Datenbank in der Applikation realisieren. Diese Abfrage ermittelt anhand der vom Query übergebenen IRDI alle externen Identifier der Instanzen dieses Konzeptes. Anschließend können die Prozeduren aufgerufen werden.   
+\item Separate Abfrage an die Datenbank in der Applikation realisieren. Diese Abfrage ermittelt anhand der vom Query übergebenen IRDI alle externen Identifier der Instanzen dieses Konzeptes. Anschließend können die Prozeduren mit den ermittelten externen Identifiern aufgerufen werden.   
 \end{enumerate}
 
 Es wurde die Lösung Nummer zwei gewählt. Hierfür gibt es mehrere Gründe. Der Hauptgrund ist, dass zum Zeitpunkt der Erstellung dieser Arbeit, die Abschlussarbeit von Herrn Mende noch nicht abgeschlossen ist. Es ist damit nicht auszuschließen, dass sich Prozeduren oder Logik in den Prozeduren zu einem späteren Zeitpunkt noch ändern. Das ist im Prinzip kein Problem, da diese Arbeit sich auf einen bestimmten Entwicklungsstand der Arbeit von Herrn Mende bezieht, allerdings wird in der Zukunft versucht, die neuere Version von Herrn Mende in diese Arbeit zu integrieren, wird es sehr schwierig und aufwändig dies zu bewältigen, wenn im Rahmen dieser Arbeit die Prozeduren geändert werden. Man stände vor dem Problem, dass beide Seiten die Basis modifiziert haben. 
@@ -364,7 +363,7 @@ SELECT o.DI_ID FROM DE_CLASS c, DO_OBJECT o WHERE c.ID = o.C_ID AND c.IRDI = ?
 \end{lstlisting}
 
 Zur Erklärung des \autoref{lst:getexternalids}:
-DI\_ID ist der Attributsname des oben genannten externen Identifiers einer Instanz. Das Prädikat IRDI = ? nimmt die IRDI des eigentlichen Queries gemäß query.xsd entgegen. Das Ergebnis ist eine Liste der externen Identifier, welche dann je an die Prozedur übergeben werden können. 
+DI\_ID ist der Attributsname des oben genannten externen Identifiers einer Instanz. Das Prädikat IRDI = ? nimmt die IRDI des eigentlichen Queries gemäß query.xsd entgegen. Das Ergebnis ist eine Liste der externen Identifier, welche dann je an die Prozedur übergeben werden können, um die Daten der konkreten Instanzen des Konzeptes nach IRDI zu erhalten. 
 
 Um zu verstehen, wie diese Abfrage in der Applikation im Kontext verwendet wird, sei auf das Sequenzdiagramm in \autoref{fig:sequenzdiagrammsimplequery} verwiesen. 
 
@@ -376,9 +375,33 @@ Um zu verstehen, wie diese Abfrage in der Applikation im Kontext verwendet wird,
 \end{figure}
 
 
+\subsubsection{Problem - Daten der Teile Eigenschaften}
 
+Die genannten Prozeduren liefern die Daten der Eigenschaften eines spezifizierten Teiles nach IRDI. Die Liste der zurückgegebenen Daten scheint auf den ersten Blick ausreichend, denn man erhält die folgenden Eigenschaften der Prozedur GET\_PROP\_VALS\_STRING:
+\begin{itemize}
+  \item IRDI
+  \item VALUE
+  \item UNIT
+  \item PREFIX
+  \item TOLERANCE
+  \item VALUE\_ID
+\end{itemize}
+
+\enquote{VALUE} ist der Wert der Eigenschaft, \enquote{UNIT} die Einheit. Ein genauer Blick auf auf das Schema des Standards (siehe \autoref{lst:value_xsd} aus \autoref{kap:anhang_schema}), zeigt auf, dass es konkrete Typen für die Einheit des Wertes gibt, z.B. boolean\_value, complex\_value, composite\_value, controlled\_value usw., für eine komplette Liste siehe \autoref{lst:value_xsd}. 
+Die Daten aus dem Response der Prozedur bezüglich UNIT, PREFIX und TOLERANCE kommen aus der Relation DO\_ADDITIONAL\_DATA, die mit der jeweiligen Datenbanktabelle der Eigenschaftswerte, das sind beispielsweise DO\_STRING, DO\_NUMBER, DO\_REFERENCES usw., verknüpft wird. Das bedeutet, dass einer Eigenschaft einer Instanz eines Teiles beispielsweise die Einheit (UNIT), gesetzt werden kann. Dies erscheint an dieser Stelle fragwürdig, da es bedeuten würde, für jede Instanz jeweils eine Einheit zu speichern. 
+Es stellt sich hier das Problem, dass anhand des String-Wertes aus UNIT nicht klar ist, auf welchen Typen aus value.xsd gemappt werden soll. Es liegt ein Heterogenitätskonflikt der beiden Datenschemata vor.  
+Ferner wurde festgestellt, dass über die Metadaten, nämlich der Relation DE\_PROPERTY über DE\_DATA\_TYPE auf DE\_UNIT und DE\_PREFIX verwiesen wird, womit allen Instanzen dieser Eigenschaft die Einheit (UNIT) und der Prefix (PREFIX) gesetzt werden kann. Dies erscheint sinnvoller und würde auch ein Mapping ermöglichen. 
+
+\subsubsection{Lösung}
+
+Nach einem Gespräch mit Karsten Mende\footnote{Karsten Mende ist der Studenten, welcher für die Datenbank- und Prozedurimplementierung verantwortlich ist. Zum Zeitpunkt des Verfassens dieser Arbeit, war die Abschlussarbeit von Herrn Mende noch nicht abgeschlossen.} wurde diese Situation besprochen. Herr Mende erläuterte, dass der Standard ISO 13584-42 \citep[iso13584-42] die Möglichkeit gibt die Einheit der konkreten Instanzen von Eigenschaften zu überschreiben. Auf Grund der Heterogenität und Repräsentation in Strings empfiehlt Herr Mende an dieser Stelle auf die Metadatenbeschreibungen von UNIT, PREFIX und TOLERANCE der Relationen DE\_PROPERTY, DE\_DATA\_TYPE, DE\_UNIT und DE\_PREFIX zurückzugreifen. Das erscheint auch völlig sinnvoll und wurde in der Form umgesetzt. 
+Zur Zeit werden folglich gesetzte Werte in DO\_ADDTIONAL\_DATA ignoriert. 
+
+\todotext{Den Punkt im Schlussteil erwähnen}
 
 \section{Zusammenfassung des Kapitels}
 
+
+\todotext{Ausformulieren}
 
 
