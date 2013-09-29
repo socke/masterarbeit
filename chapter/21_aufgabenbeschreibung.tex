@@ -18,12 +18,12 @@ Konkret wurden vom Fachbereich folgende Möglichkeiten und Operationen als sinnv
 \item[Projektion] Die Attributbeschränkung gleichsam einer \enquote{Spaltenauwahl} in relationalen Datenbanken. In SQL das \enquote{select} Keyword.   
 
 In Relationenalgebra:
-$ergebnis-projektion \leftarrow  \Pi_{(attribut_1, attribut_2... attribut_n)}(plib)$ \\
+$ergebnisprojektion \leftarrow  \Pi_{(attribut_1, attribut_2... attribut_n)}(plib)$ \\
 
 \item[Selektion] Schränkt eine Suche mittels Prädikaten ein auf passende Tupel, gleichsam einer \enquote{Zeilenauswahl}. In SQL das \enquote{where} Keyword samt Mengenoperatoren, wie z.B. \enquote{UND, ODER, NICHT}.
 
 In Relationenalgebra:
-$ergebnis-selektion \leftarrow  \sigma_{(praedikat_1, praedikat_2... prädikat_n})(plib)$ \\
+$ergebnis-selektion \leftarrow  \sigma_{(praedikat_1, praedikat_2... praedikat_n})(plib)$ \\
 
 \end{description}
  
@@ -53,6 +53,25 @@ Um einen Überblick zu schaffen in welchem Kontext sich diese Arbeit befindet un
 \end{figure}
 
 Die Abschlussarbeiten von Herrn Loth und Herrn Mende beziehen sich auf die Umsetzung des PLIB Standards  \citep[Vergl.][]{iso13584-42}.
+
+Erläuterung der \autoref{fig:gesamtkontext_plib}: 
+
+\begin{table}[!hbt]\vspace{1ex}\centering\begin{tabular}{p{4cm}p{4cm}p{6cm}}
+\hline
+Bezeichung & Arbeit von & Erläuterung\\
+\hline
+\hline
+Abfrageschnittstelle als Web Service mit SOAP &  Frau Janßen & Webservices  \\
+\hline
+PLIB, Dictionary und Produktdatenbank &  Herr Mende und Herr Loth & Meta- und Produktdatenbank  sowie eine Abfrageschnittstelle basierend auf Oracle. Entwicklung von Abfrageschnittstellen mit Oracle Prozeduren \\
+\hline
+Mobiler Abfrageclient & Herr Lohmeyer & Entwicklung eines mobilen Abfrageclients basieren auf Android. Der Client nutzt die Web Servcies von Frau Janßen und beinhaltet einen eigenen Katalogserver. \\
+\hline
+Abfrageschnittstelle als Web Service mit REST für Charakteristische Produktdaten & Herr Sobek & Entwicklung einer Schnittstelle zur Abfrage von Charakteristischen Produktdaten. Die Schnittstelle wird als RESTful Web Service implementiert. \\
+\hline
+\end{tabular}
+\caption{\label{tab.gesamtkontext}Erläuterung der Gesamtkontextabbildung}
+\vspace{2ex}\end{table}
 
 \subsection{Abgrenzung}
 
@@ -84,7 +103,7 @@ Transport: not specified in ISO/TS 29002 (could use email) Payload XML.Query XML
 \subsection{Datenflüsse}
 Das System soll einen Web Service zur Verfügung stellen. Dieser Web Service soll eine XML Datei gemäß ISO 29002-31 entgegennehmen. Die entsprechende Verarbeitung des XMLs, sowie die logische Transformation der Anfrage zur Abfrageschnittstelle der Datenbank wird vom System vorgenommen. Die Antwort der Datenbank soll wieder zurücktransformiert werden und als Katalog-XML Datei gemäß ISO 29002-10 zurückgeliefert werden.
  
-Der gerahmten Bereich im unteren Teil der Abbildung \autoref{fig:datenfluesse} zeigt in der Datenflussabbildung was implementiert werden soll. Das System, wo die Anfragedaten hingesendet wird, ist hier als \enquote{Catalogue Server bezeichnet}. 
+Der gerahmten Bereich im unteren Teil der \autoref{fig:datenfluesse} zeigt in der Datenflussabbildung was implementiert werden soll. Das Zielsystem, gleichsam das System welches die Anfrage erhält wird hier als \enquote{Catalogue Server bezeichnet}. 
 Die Kommunikation des Klienten mit dem Location Server, Terminology Server und dem Ontology Server ist Teil der Abschlussarbeit von Fr. Janßen \citep[Vergl.][]{janssen}. 
 Die Abfrageprozeduren des Katalogservers auf Datenbankebene ist Aufgabe von Herrn Mende. Zur Zeit der Abgabe dieser Arbeit, war die Arbeit von Herrn Mende noch in Bearbeitung\footnote{Die die Basis dieser Abschlussarbeit ein stabiler Implementierungsstand, welcher von Herrn Mende geliefert wurde}. 
 

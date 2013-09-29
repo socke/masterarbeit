@@ -416,7 +416,7 @@ Ferner stellt diese Abfrage eine Teilfunktionalität dar und ist somit prima sep
 
 Das \autoref{lst:getexternalids} zeigt den SQL-Query der Lösung des Problems.
 
-\begin{lstlisting}[caption=JAXB Maven Plugin, language=SQL, label=lst:getexternalids]
+\begin{lstlisting}[caption=SQL Query - Externe IDs abfragen, language=SQL, label=lst:getexternalids]
 SELECT o.DI_ID FROM DE_CLASS c, DO_OBJECT o WHERE c.ID = o.C_ID AND c.IRDI = ?
 \end{lstlisting}
 
