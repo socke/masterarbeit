@@ -4,7 +4,33 @@
 
 \section{Configuration Management und Setup}\index{Configuration Managment}
 
-\subsection{Maven}\index{Maven}
+\subsection{Versionsverwaltung mit GIT}
+
+Was ist GIT?
+
+GIT ist ein Versionskontrollsystem (VCS). 
+
+\begin{quotation}
+\enquote{A version control system (VCS) is a methodology or tool that helps you keep track of changes you make to the files in your project. In its simplest, manual form, a VCS is you creating a copy of the file you’re work- ing with and adding the date and time to the end of it. \citep[S. 15][]{pragGit}}
+\end{quotation}
+
+GIT ist ferner ein verteiltes Versionskontrollsystem (DCVS).
+
+\begin{quotation}
+\enquote{Distributed version control systems (DVCSs) are no different in that respect. Their main goal is still to help us track changes we make to the projects we’re working on. The difference between VCSs and DVCSs is how developers communicate their changes to each other. \citep[S. 15][]{pragGit}}
+\end{quotation}
+
+In diesem Projekt ist aktuell kein verteiltes Versionskontrollsystem nötig, da es nur einen Bearbeiter der Daten und Quelltexte gibt. Es wurde dennoch gewählt, da es zum einen genau wie ein \enquote{normales} Versionskontrollsystem eingesetzt werden kann, der Autor mit diesem System sehr vertraut ist und ggfs. zukünftig darauf aufbauende oder weiterführende Projekte mit diesem System einfach weiterarbeiten können. 
+
+Die Quelltexte dieser Arbeit sind bei einem frei verfügbaren Versionskontrollsystemanbieter untergebracht. Das Repository kann mit dem Befehl aus \autoref{lst:klonendersourcen} geklont werden. Klonen bedeutet bei verteilten Versionskontrollsystemen, das gesamt Repository zu kopieren. Es kann dann auf diesem Repository lokal gearbeitet werden. 
+
+Für mehr informationen über GIT und den Funktionsumfang, sei auf entsprechende Literatur verwiesen \citep[vgl.][]{pragGit}.
+
+ \begin{lstlisting}[caption=Klonen der Sourcen, language=XML, label=lst:klonendersourcen]
+git clone https://username@bitbucket.org/ssobek/masterarbeit.git
+ \end{lstlisting}   
+
+\subsection{Build Management mit Maven}\index{Maven}
 
 Was ist Maven?
 
@@ -14,12 +40,37 @@ Was ist Maven?
 
 Maven ermöglicht in diesem Projekt dem Betreuer, Professor oder Studenten, deren Arbeiten ggfs. aufbauend auf diese Arbeit sind, das Projekt standardisiert, einfach und ohne Kenntnisse von Maven oder anderen Werkzeugen zu erstellen. Maven findet dazu alle benötigten Abhängigkeiten automatisiert, so wie diese konfiguriert sind und erzeugt das Projekt anschließend. Es werden gemäß des standardisierten Buildablaufes von Maven mehrere Phasen durchlaufen, die beispielsweise sicherstellen, dass erst alle automatischen Tests erfolgreich durchlaufen sein müssen, bevor das Endprodukt erzeugt wird. 
 
+In diesem Projekt wird Apache Maven 3 eingesetzt. 
+
 Für mehr Informationen sei auf \citep[Mitp-Verlag] verwiesen. 
 
 \subsection{Apache Tomcat}\index{Apache Tomcat}
 Als Web Container wird der \gls{Apache Tomcat} in der Version 7 eingesetzt. Die Installation wird in 
 \todotext{Im Anhang Installationsprozess beschreiben.} beschrieben. 
  
+ 
+\subsection{Tests}
+
+Einer der wichtigsten Punkte in der Softwareentwicklung ist das Testen. Wir beziehen uns nur auf Entwicklertests, somit gibt es zwei große Bereiche, automatische Entwicklertests und manuelle Entwicklertests. 
+
+\subsubsection{Automatische Entwicklertests mit JUnit}
+
+Für die automatischen Entwicklertests wird ein Framework namens JUnit eingesetzt. Der Vorteil ist, dass diese Framework weit verbreitet, bekannt und ausgereift ist. 
+Es gibt zwei Arten von Tests. Die Unit-Tests und die Integrationstests. 
+
+Unit Tests testen eine Komponente isoliert von allen abhängigen Komponenten. Das bedeutet, dass nur diese Komponente auf die korrekte Funktionsweise hin getestet wird. Jegliche Abhängigkeiten werden durch Mock- oder Fakeobjekte ersetzt, so dass ein genaue Testumgebung für diese Komponente simuliert werden kann. 
+
+Integrationstests testen mehrere Komponenten im Verbund und testen Anwendungszenarien. Ein Beispiel wäre ein Test, welcher auf der grafischen Benutzeroberfläche einsetzt, dort einen Knopf drückt (z.B. Benutzer anlegen) und durch alle Schichten hindurch bis hin zur Datenbank einen Eintrag in der Datenbank anlegt. Anschließend wird entweder in der Datenbank oder erneut auf der Benutzeroberfläche geprüft (Liste aller Benutzer), ob der Eintrag erzeugt wurde. 
+Dies ist ein Beispiel wo die Gesamtapplikation integriert und somit lauffähig sein muss, damit man dieses Szenario testen kann. 
+Ein Integrationstest ist es allerdings bereits schon dann, wenn automatisiert ein Datenzugriffsobjekt im Verbund mit der Datenbank getestet wird, da hier bereits mehrere Komponenten zusammen getestet werden. 
+
+\todotext{Verweis auf Beispiele im Anhang}
+
+\subsubsection{Manuelle Entwicklertests}
+
+Bei manuellen Entwicklertests werden Testcases aus den Anforderungen abgeleitet. Diese Tests sind sogenannte Black Box Tests. Das bedeutet, dass das Objekt, welches getestet wird als Black Box betrachtet wird. Es sind keine Details über technische Details dieses Testobjektes bekannt und es werden keine Annahmen getroffen. Lediglich die Schnittstelle nach Außen wird betrachtet und gemäß Spezifikation getestet. 
+
+Die Testfälle und Ergebnisse finden sich in \todotext{auf Anhang der manuellen Tests verweisen}
 
 \section{Web Service}\index{Web Service}\index{REST!RESTful Web Service}\label{kap:webservice}
 
@@ -151,8 +202,6 @@ Bei der Generierung wurde die folgende Fehlermeldung angezeigt:
 \enquote{[ERROR] The package name iso.std.iso.ts.\_29002.\_\_-31.ed\_1.tech.xml\_schema.query used for this schema is not a valid package name. line 18 of file query.xsd}
   
 Der Grund für den Fehler ist, dass in der query.xsd die \glslink{Namespace}{Namensräume} wie in  \autoref{lst:queryschemanamespace} definiert sind. Da JAXB die \Glspl{Namespace} nutzt um die entsprechenden Paketstrukturen für die Modelle in Java zu erstellen, schafft es JAXB nicht, diese in entsprechende valide Form umzuwandeln. Man erkennt es daran, dass aus \enquote{urn:iso:std:iso:ts:29002:-31:ed-1:tech:xml-schema:query} in der Fehlermeldung \enquote{iso.std.iso.ts.\_29002.\_\_-31.ed\_1.tech.xml\_schema.query} wird\footnote{Java Paketnamen enthalten als Trenner zwischen den Ebenen einen Punkt. Valide wäre z.B. iso.std.iso.ts.query}. Der Bindestrich vor der 31 ist nicht als erstes Zeichen eines  Unterpaketnamens erlaubt. Wenngleich man hier erwarten würde, dass dies abgefangen und entsprechend der Umwandlungsregeln in valide Bezeichner konvertiert wird, so wäre dennoch eine Benamung der Pakete in der Form unübersichtlich.  \index{Namespace}
-
-\code{public void doThat()}
 
 \begin{lstlisting}[caption=query.xsd Namespace Definitionen, language=XML, label=lst:queryschemanamespace]
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -403,8 +452,11 @@ Ferner wurde festgestellt, dass über die Metadaten, nämlich der Relation DE\_P
 
 \subsubsection{Lösung}
 
-Im einem Gespräch mit Karsten Mende\footnote{Karsten Mende ist der Studenten, welcher für die Datenbank- und Prozedurimplementierung verantwortlich ist. Zum Zeitpunkt des Verfassens dieser Arbeit, war die Abschlussarbeit von Herrn Mende noch nicht abgeschlossen.} wurde diese Situation besprochen. Herr Mende erläuterte, dass der Standard ISO 13584-42 \citep[iso13584-42] die Möglichkeit gibt die Einheit der konkreten Instanzen von Eigenschaften zu überschreiben. Auf Grund der Heterogenität und Repräsentation in Strings empfiehlt Herr Mende an dieser Stelle auf die Metadatenbeschreibungen von UNIT, PREFIX und TOLERANCE der Relationen DE\_PROPERTY, DE\_DATA\_TYPE, DE\_UNIT und DE\_PREFIX zurückzugreifen. Das erscheint auch völlig sinnvoll und wurde in der Form umgesetzt. 
-Zur Zeit werden folglich gesetzte Werte in DO\_ADDTIONAL\_DATA ignoriert. 
+Im einem Gespräch mit Karsten Mende\footnote{Karsten Mende ist der Studenten, welcher für die Datenbank- und Prozedurimplementierung verantwortlich ist. Zum Zeitpunkt des Verfassens dieser Arbeit, war die Abschlussarbeit von Herrn Mende noch nicht abgeschlossen.} wurde diese Situation besprochen. Herr Mende erläuterte, dass der Standard ISO 13584-42 \citep[vgl.][]{iso13584-42} die Möglichkeit gibt die Einheit der konkreten Instanzen von Eigenschaften zu überschreiben. Dies wurde von Herrn Mende implementiert. Auf Grund der Heterogenität und Repräsentation in Strings empfiehlt Herr Mende an dieser Stelle auf die Metadatenbeschreibungen von UNIT, PREFIX und TOLERANCE der Relationen DE\_PROPERTY, DE\_DATA\_TYPE, DE\_UNIT und DE\_PREFIX zurückzugreifen. 
+Da dies sinnvoll erscheint und ferner die Implementierung vereinfacht, wurde dies in der Form umgesetzt. Es bleibt an dieser Stelle zu bemerken, dass für eine spätere Implementierung und Unterstützung dieser Funktionalität zu analyiseren ist, wie die Heterogenität zu lösen ist. Ggfs. muss dazu eine Mappingtabelle erstellt werden.
+
+Fazit:
+Zur Zeit werden folglich gesetzte Werte von UNIT, PREFIX und TOLERANCE in DO\_ADDTIONAL\_DATA ignoriert und nur die Metadatenrepräsentationen benutzt.  
 
 \todotext{Den Punkt im Schlussteil erwähnen}
 
