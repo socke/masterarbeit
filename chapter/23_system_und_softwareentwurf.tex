@@ -9,7 +9,7 @@ Dieses Kapitel beschreibt den System- und Softwareentwurf sowie die Auswahl der 
 
 Teil der Aufgabe der Arbeit ist es, für das System im Rahmen der nichtfunktionalen Anforderungen eine geeignete Umgebung zu schaffen. Dafür sind einige Entscheidungen zu treffen. 
 
-\subsection{Webservice}\index{Webservice}
+\subsection{Webservice}\index{Webservice}\label{sec:webservice}
 Wenn von Webservices gesprochen wird, dann werden meistens \gls{SOAP}-basierte Webservices gemeint. Allerdings gibt es die sogenannten \gls{SOAP}-basierten Webservices als auch die RESTful Webservices. Anforderung ist es ein Web Service zu implementieren. Dazu muss entschieden werden, ob ein \gls{SOAP}-basierter oder RESTful Webservice implementiert werden soll. \index{REST@\textbf{REST}} \index{REST!RESTful}
 
 \subsubsection{Definition}
@@ -99,12 +99,12 @@ Die Bausteinsicht Level 1 zeigt alle Komponenten des entwickelten Systems auf un
 \end{figure}
 
 \begin{description}
-\item[QueryService] Der Zweck dieser Komponente ist das entgegennehmen des Requests (Query-XML File), das Weiterleiten an die entsprechenden Weiterverarbeitenden Komponenten und letztlich das Zurücksenden der Rückantwort (Katalog-XML).
+\item[QueryService] Der Zweck dieser Komponente ist das entgegennehmen des Requests (Query-XML File), das Weiterleiten an die weiterverarbeitenden Komponenten und letztlich das Zurücksenden der Rückantwort (Katalog-XML).
 \item[Data Access] Diese technische Komponente beinhaltet die Zugriffsschicht auf die externe Datenbankschnittstelle und bietet entsprechend vereinfachte Abfrageschnittstellen für die anderen Komponenten an. 
 \item[Marshaller] Eine weitere technische Komponente, diese ist für das Einlesen und Validieren der eingegangenen Query-XML Datei verantwortlich. Ferner transformiert diese Komponente die Informationen aus der Query-XML nach Validierung in das im System benutze Datenmodell aus der Komponente XMLData.
 \item[XMLData] Beinhaltet das Datenmodell des Systems. Sowohl die eingehenden Query-XML Daten, als auch die ausgehenden Katalog-XML Daten werden intern in ein entsprechendes Model zur Verarbeitung abgelegt, so dass darauf gearbeitet werden kann.  
-\item[Analyser] \todotext{Erläuterung fehlt}
-\item[Handler] \todotext{Erläuterung fehlt}
+\item[Analyser] Diese Komponente ist für die Analyse des Queries, welches bereits als Modell vorliegt, verantwortlich. Erkennt ob es sich um einen \enquote{Simple Query} oder um einen \enquote{Parametric Query} handelt und leitet den Query zur Weiterverarbeitung an die Handler-Komponente weiter. 
+\item[Handler] Erhält den Query vom Analyser und verarbeitet gemäß der Erkennung vom Analyser den Query weiter. Dazu werden die Querydaten gemäß des Datenbankmodells transformiert und die Data Access Komponente aufgerufen. Die Antwort der Data Access Komponente, werden in das entsprechende Modell für die Katalogdaten umgewandelt und zurück an den Handler geleitet.  
 \end{description}
 
 \subsubsection{Level 2 - Whiteboxansicht - Komponente XMLData} 
@@ -126,3 +126,4 @@ Die Komponente XMLData beinhaltet alle Datenmodelle für die beiden Hauptkonzept
 \item[Identifier] Diese Komponente beinhaltet das Datenmodell für Identifier (IRDI) nach ISO/TS 29002-5. 
 \end{description}
 
+\todotext{Whiteboxansicht der Komponente Handler und Analyser einfügen zum besseren Verständnisses, ggfs. alle detaillierten Whiteboxansichten in Anhang?!}
