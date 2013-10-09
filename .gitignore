@@ -29,3 +29,13 @@ target/
 *aux
 10_Use_Cases_ISO_29002.pdf
 20_Aufgabenbeschreibung.pdf
+.AppleDouble
+.DS_STore
+*.acn
+*.blg
+*.glo
+*.idx
+*.ist
+*.lof
+*.lot
+*.syntex.gz*

@@ -1,16 +1,25 @@
-\chapter{Use Cases}\label{kap:Use_Cases} 
+%\setchapterpreamble[u]{
+%\dictum[Johann Wolfgang von Goethe]{Es ist nicht genug, zu wissen, man muß auch anwenden; es ist nicht genug, zu wollen, man muß auch tun. \dots}}
+\section{Anwendungsfälle}\label{kap:Use_Cases}
 % Funktionale Anforderungen
 
-Dieses Kapitel beschreibt mögliche Use Cases die sich aus ISO 29002-31 ergeben. 
+Dieses Kapitel beschreibt mögliche Anwendungsfälle\footnote{Use Case. Im weiteren Verlauf wird, gerade auch in den Anwendungsfall Beschreibungen von Use Cases gesprochen. Im deutschen Sprachraum ist das englische allgemein bekannte Äquivalent \enquote{Use Case} für Anwendungsfall eher geläufig als das deutsche, daher wird darauf verzichtet an manchen Stellen die Begrifflichkeiten einzudeutschen.} die sich aus ISO 29002-31 ergeben. 
 
-Die Query-Code-Beispiele sind gekürzt, d.h. es werden beispielsweise referenzierte Schemata-Namen nicht aufgeführt. 
 
-\section{Akteure}
-Bei der Implementierung geht es um eine generische Schnittstelle. In den nachfolgenden Anwendungsfällen wird vom Akteur \enquote{Klient} gesprochen. Der Klient ist allgemein ein Nutzer der Schnittstelle, sei es als menschlicher Akteur welcher über eine Bedienerinterface die Schnittstelle benutzt oder eine direkte Maschinennutzung.    
+Die Query-Code-Beispiele sind gekürzt, d.h. es werden die referenzierte Schemata-Namen gemäß XSD nicht aufgeführt. 
 
-\section{Use Case Beschreibungen}
+\bild{usecases_plib.png}{13cm}{Use Case Übersicht}{Use Case Übersicht}
 
-\subsection{Alle Charakteristische Daten eines Produkts abfragen}
+\subsection{Akteure}
+Bei der Implementierung geht es um die Erstellung einer Software-Schnittstelle als Web Service. Das bedeutet, dass diese Schnittstelle ohne eine Benutzeroberfläche nicht sinnvoll für einen menschlichen Akteur nutzbar ist. In den nachfolgenden Anwendungsfällen wird vom Akteur \enquote{Klient} gesprochen. Der Klient ist allgemein ein Nutzer der Schnittstelle, sei es als menschlicher Akteur welcher über eine Bedienerinterface die Schnittstelle benutzt oder eine direkte Maschinennutzung. Ein Beispiel für eine Maschinennutzung kann einen Anwendung sein, welche automatisiert die Schnittstelle aufruft und Daten abfragt.    
+
+%TODO Use Case Diagram
+
+\subsection{Use Case Beschreibungen}
+
+Die Use Case Beschreibungen wurden gemäß des Templates für Use Cases aus dem Kurs Software Engineering I entnommen. 
+
+\subsubsection{Alle Charakteristische Daten eines Produkts abfragen}
 
 {\small
 
@@ -21,13 +30,13 @@ Bei der Implementierung geht es um eine generische Schnittstelle. In den nachfol
      \item[  precondition]~\\
      Der Klient verwendet einen gültigen Identifier.
      \item[  main flow]~\\
-     Der Klient gibt einen Identifier (IRDI\footnote{International Registration Data Identifier}) einer Klasse von Elementen ein und sendet eine Anfrage ab. Die Anfrage wird auf Gültigkeit überprüft. Als Antwort bekommt er ein oder mehrere Datensätze von Elementen \footnote{Item, ISO 29002-10 Kapitel 5.3.2} mit den entsprechenden charakteristischen Daten \footnote{property\_values, ISO 29002-10 Kapitel 5.2.4}  des Elementes mit dem übergebenen Identifier zurück.
+     Der Klient gibt einen Identifier (IRDI\footnote{International Registration Data Identifier}) eines Konzeptes von Elementen ein und sendet eine Anfrage ab. Die Anfrage wird auf Gültigkeit überprüft. Als Antwort bekommt er ein oder mehrere Datensätze von Elementen \footnote{Item, ISO 29002-10 Kapitel 5.3.2} mit den entsprechenden charakteristischen Daten \footnote{property\_values, ISO 29002-10 Kapitel 5.2.4}  des Elementes mit dem übergebenen Identifier zurück.
      \item[  postcondition]~\\
-     Alle Daten aller Elemente der gewählten Klassen des Identifiers wurden zurückgegeben.    
+     Alle Daten aller Elemente der gewählten Konzepte des Identifiers wurden zurückgegeben.    
      \item[  alternative flow] Properties auswählen ~\\
      Zusammen mit dem Identifier übergibt der Klient einen oder mehrere Property-Identifier und sendet diese erweiterte Anfrage ab.    
      \item[  postcondition]~\\
-     Die mittels Property-Identifier ausgewählten Daten aller Elemente der gewählten Klassen wurden zurückgegeben.    
+     Die mittels Property-Identifier ausgewählten Daten aller Elemente der gewählten Konzepte wurden zurückgegeben.    
      \item[end] Charakteristische Daten abfragen
 \end{description}
 
@@ -35,11 +44,11 @@ Bei der Implementierung geht es um eine generische Schnittstelle. In den nachfol
 
 } %end small
 
-\subsubsection{Beispiel}
+\paragraph{Beispiel}\label{lab:schraubendreher}
 
 Ein Schraubendreher könnte folgendermaßen in einer Produktdatenbank repräsentiert werden:
 
-\begin{description}\label{lab:schraubendreher}
+\begin{description}
 \item[Klassen-Identifier] 0173-1\#01-AAA352\#4 
 \item[Länge] 300mm
 \item[Typ] Kreuz
@@ -49,8 +58,8 @@ Ein Schraubendreher könnte folgendermaßen in einer Produktdatenbank repräsent
 Korrekterweise müssten anstatt der Attribute wie Länge oder Typ ebenfalls ein Identifier stehen. Die Benamungen sind hier zur besseren Lesbarkeit aufgelöst. 
 
 Um nun alle Eigenschaften (Properties), wie Länge, Typ und Spannungsfest zu erhalten muss folgende Abfrage gesendet werden: 
-\textbf{"Gib mir alle Items und alle Properties der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Schraubendreher)".}
-Das Ergebnis ist ein Item mit allen Attributen (Properties) der gewünschten Klassen und gegebenenfalls vorhandenen Unterklassen. In unserem Falle genau die oben angegebenen Werte.
+\enquote{Gib mir alle Items und alle Properties der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Schraubendreher).}
+Das Ergebnis ist ein Item mit allen Attributen (Properties) der gewünschten Konzepte und gegebenenfalls vorhandenen Unterkonzepte. In unserem Falle genau die oben angegebenen Werte.
 
 Die XML-Abfrage sieht wie folgt aus:
 
@@ -62,7 +71,7 @@ Die XML-Abfrage sieht wie folgt aus:
 \end{lstlisting}
 
 Eine Abfrage, welche die Properties der Klasse auswählt die zurückgeliefert werden sollen könnte lauten: 
-\textbf{"Gib mir alle Items und die Properties Länge und Typ der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Schraubendreher)".}
+\enquote{"Gib mir alle Items und die Properties Länge und Typ der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Schraubendreher).}
 Das Ergebnis ist ein Item mit den gewünschten Attributen (Properties). 
 
 Die XML-Abfrage:
@@ -78,9 +87,9 @@ Die XML-Abfrage:
 </qy:query>
 \end{lstlisting}
 
-Listing \ref{lst:UseCaseDatenabfragenProperty} beinhaltet ein XML-Attribut property\_ref. Das wird mit gewünschten Property Identifier gefüllt, welche mit Leerzeichen getrennt werden. 
+\autoref{lst:UseCaseDatenabfragenProperty} beinhaltet ein XML-Attribut property\_ref. Das wird mit gewünschten Property Identifier gefüllt, welche mit Leerzeichen getrennt werden. 
 
-\subsection{Charakteristische Daten eines Produkts validieren}
+\subsubsection{Charakteristische Daten eines Produkts validieren}
 
 {\small
 
@@ -101,16 +110,16 @@ Listing \ref{lst:UseCaseDatenabfragenProperty} beinhaltet ein XML-Attribut prope
 
 } %end small
 
-\subsubsection{Beispiel}
+\paragraph{Beispiel}
 
-In diesem Anwendungsfall verfügen wir bereits über Elemente/Wertenpaare einer bestimmten Klasse, z.B. eben jenen Schraubendreher
+In diesem Anwendungsfall verfügen wir bereits über Elemente/Wertepaare eines bestimmten Konzeptes, z.B. eben jenen Schraubendreher.
 
-\textbf{"Ich habe hier ein mir bekanntes Item mit bestimmten Eigenschaften (Properties), Länge=300mm. Gib mir alle Items und alle Properties der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Kreuzschraube) welche die mitgelieferten Eigenschaften haben".}
-Das Ergebnis sind Items mit allen Properties der angegebenen Klasse, welche über die übergebenen Eigenschaften (Properties) verfügen. In unserem Fall vervollständigen wir unsere Properties mit den weiteren Properties "Typ" und "Spannungsfest".
+\enquote{Ich habe hier ein mir bekanntes Item mit bestimmten Eigenschaften (Properties), Länge=300mm. Gib mir alle Items und alle Properties der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Kreuzschraube) welche die mitgelieferten Eigenschaften haben.}
+Das Ergebnis sind Teile mit allen Properties des angegebenen Konzeptes, welche über die übergebenen Eigenschaften (Properties) verfügen. In unserem Fall vervollständigen wir unsere Properties mit den weiteren Properties \enquote{Typ} und \enquote{Spannungsfest}.
 
-Die XML-Abfrage sieht so aus:
+Die XML-Abfrage gemäß query.xsd\footnote{Schema Datei ist referenziert in ISO 29002-31, liegt der Arbeit bei} sieht so aus:
 
-\begin{lstlisting}[caption=Query Beispiel - Daten abfragen, language=XML, label=UseCaseDatenabfragen]
+\begin{lstlisting}[caption=Query Beispiel - Daten validieren, language=XML, label=UseCaseDatenvalidieren]
 <?xml version="1.0" encoding="UTF-8"?>
 <qy:query xsi:schemaLocation="...query query.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cat="...catalogue" xmlns:val="...value" xmlns:qy="...query" xmlns:bas="...basic">
 	<cat:item class_ref="0173-1#01-AAA352#4..">
@@ -121,7 +130,7 @@ Die XML-Abfrage sieht so aus:
 </qy:query>
 \end{lstlisting}
 
-\subsection{Chrarakteristische Daten mittels Suchausdruck abfragen }
+\subsubsection{Chrarakteristische Daten mittels Suchausdruck abfragen }
 
 {\small
 
@@ -132,7 +141,7 @@ Die XML-Abfrage sieht so aus:
      \item[  precondition]~\\
      Der Klient verwendet einen gültigen Identifier.
      \item[  main flow]~\\
-     Der Klient gibt einen Identifier eines Elementes (Klasse) ein. Ferner übergibt er ein oder mehrere bekannte Property Identifier sowie passend dazu Werte zur Sucheinschränkung. 
+     Der Klient gibt einen Identifier eines Konzeptes ein. Ferner übergibt er ein oder mehrere bekannte Property Identifier sowie passend dazu Werte zur Sucheinschränkung. 
      \item[  postcondition]~\\
      Alle Elemente auf jene diese Einschränkung der übergebenen Werte zutrifft wurden zurückgegeben. 
      \item[end] Charakteristische Daten mit Suchausdruck abfragen
@@ -142,17 +151,17 @@ Die XML-Abfrage sieht so aus:
 
 } %end small
 
-\subsubsection{Beispiel}
+\paragraph{Beispiel}
 
-Wir nehmen das Schraubendreher Beispiel aus \ref{lab:schraubendreher} zur Hand, und möchten eine Abfrage absenden, welche von der Klasse Schraubendreher alle Items erhalten soll die eine Länge zwischen 200 und 300 mm haben. 
+Wir nehmen das Schraubendreher Beispiel aus \autoref{lab:schraubendreher} zur Hand, und möchten eine Abfrage absenden, welche von der Klasse Schraubendreher alle Items erhalten soll die eine Länge zwischen 200 und 300 mm haben. 
 
 Um nun alle Eigenschaften (Properties), wie Länge, Typ und Spannungsfest zu erhalten muss folgende Abfrage gesendet werden: 
-\textbf{"Gib mir alle Items und alle Properties der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Kreuzschraube)".}
+\enquote{Gib mir alle Items und alle Properties der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Kreuzschraube).}
 Das Ergebnis ist ein Item mit allen Attributen (Properties) der gewünschten Klassen und gegebenenfalls vorhandenen Unterklassen. In unserem Falle genau die oben angegebenen Werte.
 
-Die XML-Abfrage sieht so aus:
+Die XML-Abfrage gemäß query.xsd\footnote{Schema Datei ist referenziert in ISO 29002-31, liegt der Arbeit bei} sieht so aus:
 
-\begin{lstlisting}[caption=Query Beispiel - Daten abfragen, language=XML, label=UseCaseDatenabfragen]
+\begin{lstlisting}[caption=Query Beispiel - Daten mit Suchausdruck abfragen, language=XML, label=UseCaseDatenabfragen]
 <?xml version="1.0" encoding="UTF-8"?>
 <qy:query xsi:schemaLocation="...query query.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cat="...catalogue" xmlns:val="...value" xmlns:qy="...query" xmlns:bas="...basic">
 	<qy:class_ref>0173-1#01-AAA352#4</qy:class_ref>
