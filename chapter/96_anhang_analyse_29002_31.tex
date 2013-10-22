@@ -1,8 +1,6 @@
-\section{Analyse ISO 29002-31 - Exchange of characteristics data}
+\chapter{Analyse ISO 29002-31 - Exchange of characteristics data}\label{kap:analyse2900231}
 
-\todotext{Einen definierten Großteil in den Anhang packen. Hier nur ein Beispiel und das Ergebnis erklären}
-
-\subsection{XML Datencontaineranalyse ISO 29002-31}\index{ISO 29002-31}
+\section{XML Datencontaineranalyse ISO 29002-31}\index{ISO 29002-31}
 Die Unterkapitel beschreiben die einzelnen (XML) Datencontainer aus der ISO 29002-31. Der Ausgangspunkt ist der query\_context, welcher einige Metadaten zum eigentlichen query enthält. 
 
 \begin{figure}[htbp]
@@ -13,7 +11,7 @@ Die Unterkapitel beschreiben die einzelnen (XML) Datencontainer aus der ISO 2900
 \end{figure}
 \footnotetext{Quelle: ISO 29002-31 Kapitel 5.2.1}
 
-\subsubsection{query\_context}
+\subsection{query\_context}
 Dies ist eine Art Container für eine Menge von Queries. Inhalt sind Informationen über den Anforderer der Daten zwecks persönlicher Kontaktaufnahme, wie z.B. die Anfragezeit, Informationen über die Organisation welche die Anfrage schickt sowie einen gewünschten Antwortzeitpunkt mit Antwort-Email Adresse. Siehe dazu \autoref{fig:querymain} und \citep[Kap. 5.2.2][]{iso29002-31}.  
 
 Da die Vorgabe lautet, den Service auf Basis eines Web Services zu erstellen, entfällt die Benutzung des query\_context. Der Grund ist, dass der Kontext  implizit durch den Web Service respektive dem Server zur Verfügung gestellt wird. Beispielsweise wird die Anfragezeit zwar nicht explizit durch den Serviceaufrufer selbst übergeben, allerdings durch die Anfrage an den technischen Server wie z.B. Apache Tomcat Server mittels Logeintrag implizit ermittelt. Somit lassen sich diese Metadaten über Verbindungsprotokolle der Infrastruktur herausfinden.  
@@ -21,15 +19,15 @@ Siehe dazu auch \citep[Kap. 6][]{iso29002-31}, welche besagt: \\ \enquote{ISO/TS
 a. with another envelope standard, such as EDI, or \\
 b. by itself, using the query\_context to carry envelope information.}
 
-\subsubsection{query}\label{sec:query}
-Die Unterstützung aller Funktionalitäten des queries entspricht laut ISO 29002-31 der Conformance class 1: simple query \citep[Anhang 6][]{iso29002-31}. .
+\subsection{query}\label{sec:query}
+Die Unterstützung aller Funktionalitäten des queries entspricht laut ISO 29002-31 der Conformance class 1: simple query \citep[Anhang 6][]{iso29002-31}.
 Dies ist der eigentliche Abfrage-Datensatz. Abgefragt werden kann mittels class IRDI\footnote{IRDI  - International registration data identifier}, data\_specification IRDI, eine Menge von property IRDI, Teiledaten (das sind Teile gefüllt mit Daten ihrer Eigenschaften die dem Klienten bereits bekannt sind) und einer item\_description. Das bedeutet, dass bereits bekannte Eigenschaften eines Teils übertragen werden können, um die Suche auf Teile mit diesen Werte-Eigenschaften einzuschränken.
 
 Die data\_specification IRDI verweist auf eine Spezifikation aus ISO 22745-30, die besagt welche Properties für dieses Teil sinnvoll sind. Die angegebenen Property IRDIs sind dann eine Teilmenge aus den mittels data\_specification IRDI definierten erlaubten Eigenschaften. Für weitere Informationen zur ISO 22745-30 siehe \autoref{kap:identification_guide}. 
 
 Ad hoc denkbar wären einfache Abfragen wie z.B.: \enquote{Gib mir alle Teile der Klasse xyz}. Mitgeliefert werden auch Teile von Subklassen. Weiterhin kann die Abfrage nach bestimmten Eigenschaften eingeschränkt werden. Eine weitere Möglichkeit ist es bereits bekannte Daten über ein Element zu übermitteln, mit dem Zwecke hierüber die IRDI zu erfahren oder weitere Eigenschafts-Daten zu erhalten. Siehe Beispielqueries simple queries in \autoref{kap:query_beispiele}. 
 
-\subsubsection{characteristic\_data\_query\_expression (parametric\_query)}\label{sec:characteristicdataqueryexpression}
+\subsection{characteristic\_data\_query\_expression (parametric\_query)}\label{sec:characteristicdataqueryexpression}
 Das entspricht laut ISO 29002-31 Anhang 6 der Conformance class 2: parametric query.
 
 \begin{figure}[htbp]
@@ -57,7 +55,7 @@ darüberhinaus noch folgende Attribute
 \end{itemize}
 Solch eine Expression ermöglicht das Filtern, gleichsam ein Einschränken bestimmter Properties und Werte. 
 
-\subsubsection{Query Beispiele}\label{kap:query_beispiele}
+\subsection{Query Beispiele}\label{kap:query_beispiele}
 
 Nachfolgend seien einige Query-Beispielszenarien aufgestellt, die sich aus der Analyse der Standards ergeben.
 
@@ -69,7 +67,7 @@ Eine Schraube hat die folgenden möglichen Eigenschaften:
 \item[Länge] 80mm (Property IRDI: 1234-abcd\# ab-cccccc\# 1)
 \end{description}
 
-\paragraph{Simple Query}\index{Query!Simple Query}
+\subsubsection{Simple Query}\index{Query!Simple Query}
 
 Ein simpler query ermöglicht folgende Abfrage: \enquote{Gib mir alle Teile zum Konzept Kreuzschraube mit dem Identifier (IRDI) 1234-abcd\#ab-cdefgh\#1}. Das Ergebnis ist ein Teil, mit allen Attributen wie oben angegeben. 
 
@@ -77,7 +75,7 @@ Ein anderer Query könnte lauten: \enquote{Gib mir die Properties 1234-abcd\#ab-
 
 Es könnte auch mit Hilfe von vorhandenen Daten gesucht werden, z.B.:  \enquote{Hier ist ein Teil mit der Property Typ: M6 (Property IRDI: 1234-abcd\# ab-bbbbbb\# 1), gib mir bitte dazu die Properties 1234-abcd\#ab-cccccc\#1 und 1234-abcd\# bbbbbb\#1} 
 
-\paragraph{Parametric Query}\index{Query!Parametric Query}
+\subsubsection{Parametric Query}\index{Query!Parametric Query}
 
 Hat man jetzt noch eine Schraube mit folgenden Eigenschaften:
 \begin{description}
@@ -90,7 +88,7 @@ ermöglicht der Parametric Query mit Hilfe der characteristic\_data\_query\_expr
 
 Dies ermöglicht das Filtern auf genau eine übergebene Property. Rekursive Abfragen sind auch möglich, beispielsweise wenn die gesuchte Property eine Multi-Property ist (Property: Loch als Wert zwei Properties mit Form und Durchmesser und Durchmesser soll gefiltert werden)
 
-\subsection{Analyse ISO 22745-30 - Identification Guide}\label{kap:identification_guide}\index{ISO 22745-30}
+\section{Analyse ISO 22745-30 - Identification Guide}\label{kap:identification_guide}\index{ISO 22745-30}
 
 \todotext{Quelle für i-xml file aus eotd-i-xml angeben} 
 Ein Identification Guide beschreibt, welche Daten für ein Objekt benötigt werden, damit dies überhaupt sinnvoll für einen bestimmten Zweck eingesetzt werden kann. Der Käufer, Produktmanager oder Benutzer definiert die Anforderungen an die Daten. Ein  \enquote{Datenanforderungsstatement} wird als ein i-xml identification guide xml file erzeugt. Es wird definiert, was der Name des Artikels ist mit den charakteristischen Daten. Es wird die Frage beantwortet, welche Daten (Properties) zu einem bestimmten Konzept eines Objektes benötigt werden um den Artikeln zu kaufen oder zu sinnvoll zu verwalten. Diese Anforderungen werden von der Abfrageseite (Kundenseite) definiert, also derjenige, der Daten abfragen möchte. \(Quelle: ECCMA\_ISO\_8000\_certification.pdf\) \todotext{Quelle sauber in library file verlinken}

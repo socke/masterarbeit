@@ -34,7 +34,7 @@ Diese Abfrageschnittstelle soll die Standards der ISO 29002-31, sowie für deren
 Das Hauptziel ist die Machbarkeit und die Integration der ISO-Schnittstelle aufbauend auf die vorhandene PLIB Datenbankimplementierung des Fachbereiches aufzuzeigen. 
 Ferner ist mit aktuellen Techniken eine Integration, gleichsam Nutzbarkeit der Abfrage der Datenbank zu ermöglichen. Wichtig ist es, die gegebenen ISO Normen zu unterstützen, um Wiederverwendbarkeit zu gewährleisten. Falls Teile der Implementierung von den ISO Normen abweichen oder die Standards erweitert oder geändert werden, wird darauf mit ausführlicher Erläuterung der Gründe hingewiesen. 
 
-Um das Ziel zu erreichen, soll im Rahmen der Arbeit untersucht werden welche mögliche sinnvollen Anwendungsfälle sich in der Praxis basierend auf den zu unterstützenden ISO Standards ergeben. Dafür ist eine Analyse der Standards nötig, um zu prüfen, ob und in welcher Form die Abfragemöglichkeiten aus \autoref{sec.abstrakte_beschreibung}, analog zu SQL, unterstützt werden können. Für die Schnittstelle ist eine prototypische Implementierung zu erstellen. Weiterer Bestandteil der Arbeit ist unter Beachtung der technischen Vorgaben eine Beschreibung des Auswahlprozesses der Techniken, Plattform, Architektur und Programmiersprachen. Die Vor- und Nachteile der einzelnen Optionen des Auswahlprozesses und weitere Nutzungs-, respektive Erweiterungs- und Integrationsmöglichkeiten der entwickelten Schnittstelle sind zu erläutern. 
+Um das Ziel zu erreichen, soll im Rahmen der Arbeit untersucht werden welche mögliche sinnvollen Anwendungsfälle sich in der Praxis basierend auf den zu unterstützenden ISO Standards ergeben. Dafür ist eine Analyse der Standards nötig, um zu prüfen, ob und in welcher Form die Abfragemöglichkeiten aus \autoref{sec.abstrakte_beschreibung}, analog zu SQL, unterstützt werden können. Für die Schnittstelle ist eine prototypische Implementierung zu erstellen. Weiterer Bestandteil der Arbeit ist unter Beachtung der technischen Vorgaben, eine Beschreibung des Auswahlprozesses der Techniken, Plattform, Architektur und Programmiersprachen. Die Vor- und Nachteile der einzelnen Optionen des Auswahlprozesses und weitere Nutzungs-, respektive Erweiterungs- und Integrationsmöglichkeiten der entwickelten Schnittstelle sind zu erläutern. 
 Die Entwicklung der Software soll nach einem aktuell üblichen Softwareentwicklungsprozess erfolgen. 
 
 \section{Details und Abgrenzung}
@@ -52,23 +52,23 @@ Um einen Überblick zu schaffen in welchem Kontext sich diese Arbeit befindet un
 	\label{fig:gesamtkontext_plib}
 \end{figure}
 
-Die Abschlussarbeiten von Herrn Loth und Herrn Mende beziehen sich auf die Umsetzung des PLIB Standards  \citep[Vergl.][]{iso13584-42}.
+Die \autoref{tab.gesamtkontext} erläutert die \autoref{fig:gesamtkontext_plib} und listet dazu die auf die jeweiligen Arbeiten basierenden ISO-Standards auf: 
 
-Erläuterung der \autoref{fig:gesamtkontext_plib}: 
-
-\begin{table}[!hbt]\vspace{1ex}\centering\begin{tabular}{p{4cm}p{4cm}p{6cm}}
+% \cellcolor{<Farbe>}, \rowcolor{<Farbe>}, {\columncolor{<Farbe>}}, ändern die Hintergrundfarbe. 
+\begin{table}[!hbt]\vspace{1ex}\centering
+\scriptsize
+\begin{tabular}{p{3.15cm}p{2.8cm}p{5.5cm}p{3cm}}
+\toprule \rowcolor{mylightergray}
+\textbf{Bezeichnung} & \textbf{Arbeit von} & \textbf{Erläuterung} &  \textbf{ISO Standards}\\
+\midrule
+Abfrageschnittstelle als Web Service mit SOAP &  Frau Janßen & Implementierung eines Webservices zur Auflösung von Konzept-Identifikatore in Konzept-Dictionaries/Ontologien & ISO 29002-20 \\
 \hline
-Bezeichung & Arbeit von & Erläuterung\\
+PLIB, Dictionary und Produktdatenbank &  Herr Mende und Herr Loth & Meta- und Produktdatenbank  sowie eine Abfrageschnittstelle basierend auf Oracle. Entwicklung von Abfrageschnittstellen mit Oracle Prozeduren & ISO 13584-42 \citep[Vergl.][]{iso13584-42}  \\
 \hline
+Mobiler Abfrageclient & Herr Lohmeyer & Entwicklung eines mobilen Abfrageclients basieren auf Android. Der Client nutzt die Web Servcies von Frau Janßen und beinhaltet einen eigenen Katalogserver. & ISO 29002-10, ISO 13584-42 \\
 \hline
-Abfrageschnittstelle als Web Service mit SOAP &  Frau Janßen & Webservices  \\
-\hline
-PLIB, Dictionary und Produktdatenbank &  Herr Mende und Herr Loth & Meta- und Produktdatenbank  sowie eine Abfrageschnittstelle basierend auf Oracle. Entwicklung von Abfrageschnittstellen mit Oracle Prozeduren \\
-\hline
-Mobiler Abfrageclient & Herr Lohmeyer & Entwicklung eines mobilen Abfrageclients basieren auf Android. Der Client nutzt die Web Servcies von Frau Janßen und beinhaltet einen eigenen Katalogserver. \\
-\hline
-Abfrageschnittstelle als Web Service mit REST für Charakteristische Produktdaten & Herr Sobek & Entwicklung einer Schnittstelle zur Abfrage von Charakteristischen Produktdaten. Die Schnittstelle wird als RESTful Web Service implementiert. \\
-\hline
+Abfrageschnittstelle als Web Service mit REST für Charakteristische Produktdaten & Herr Sobek & Entwicklung einer Schnittstelle zur Abfrage von Charakteristischen Produktdaten. Die Schnittstelle wird als RESTful Web Service implementiert. & ISO 29002-31, ISO 29002-10 \\
+\bottomrule
 \end{tabular}
 \caption{\label{tab.gesamtkontext}Erläuterung der Gesamtkontextabbildung}
 \vspace{2ex}\end{table}
@@ -93,7 +93,7 @@ Die Arbeit befasst sich nicht mit der Implementierung eines Identification Guide
 Für die Implementierung sind folgende nichtfunktionale Anforderungen vom Fachbereich vorgegeben:
 \begin{description}
 \item[Datenbanksystem Oracle] Dieses beinhaltet die PLIB Datenbank samt Abfrageprozeduren und stellt als Teiledatenbank die Basis dar. Dies wird vom Fachbereich bzw. von den Studenten Herr Mende/Herr Loth gestellt. Für die Entwicklung dieses Prototypen wird eine Version von Herrn Mende vom \todotext{Versionsdatum von der PLIB von Karsten Mende einfügen} benutzt.  
-\item[Web Services] Auf Grund der hohen Verbreitung und Integrationsmöglichkeiten soll die Schnittstelle als Web Service entwickelt werden. Wenngleich die ISO 29002-31 in einem Beispiel eine E-Mail Schnittstelle vorschlägt, ist dies nicht spezifiziert. Siehe Abbildung \autoref{fig:datenfluesse}, welche besagt:
+\item[Web Services] Auf Grund der hohen Verbreitung und Integrationsmöglichkeiten soll die Schnittstelle als Web Service entwickelt werden. Die ISO 29002-31 schlägt als Beispiel eine E-Mail Schnittstelle vor, dies ist aber keine Vorgabe. Siehe Abbildung \autoref{fig:datenfluesse}, welche besagt:
 \begin{quotation}
 Transport: not specified in ISO/TS 29002 (could use email) Payload XML.Query XML schema in ISO/TS 29002-31
 \end{quotation}
@@ -101,19 +101,16 @@ Transport: not specified in ISO/TS 29002 (could use email) Payload XML.Query XML
 \end{description}
 
 \subsection{Datenflüsse}
-Das System soll einen Web Service zur Verfügung stellen. Dieser Web Service soll eine XML Datei gemäß ISO 29002-31 entgegennehmen. Die entsprechende Verarbeitung des XMLs, sowie die logische Transformation der Anfrage zur Abfrageschnittstelle der Datenbank wird vom System vorgenommen. Die Antwort der Datenbank soll wieder zurücktransformiert werden und als Katalog-XML Datei gemäß ISO 29002-10 zurückgeliefert werden.
+Das System soll einen \gls{Webservice} zur Verfügung stellen. Dieser \gls{Webservice} soll eine XML Datei gemäß ISO 29002-31 entgegennehmen. Die entsprechende Verarbeitung des XMLs, sowie die logische Transformation der Anfrage zur Abfrageschnittstelle der Datenbank wird vom System vorgenommen. Die Antwort der Datenbank soll wieder zurücktransformiert werden und als Katalog-XML Datei gemäß ISO 29002-10 zurückgeliefert werden.
  
-Der gerahmten Bereich im unteren Teil der \autoref{fig:datenfluesse} zeigt in der Datenflussabbildung was implementiert werden soll. Das Zielsystem, gleichsam das System welches die Anfrage erhält wird hier als \enquote{Catalogue Server bezeichnet}. 
+Der gerahmte Bereich im unteren Teil der \autoref{fig:datenfluesse} zeigt in der Datenflussabbildung was implementiert werden soll. Das Zielsystem, gleichsam das System welches die Anfrage erhält wird hier als \enquote{Catalogue Server bezeichnet}. 
 Die Kommunikation des Klienten mit dem Location Server, Terminology Server und dem Ontology Server ist Teil der Abschlussarbeit von Fr. Janßen \citep[Vergl.][]{janssen}. 
-Die Abfrageprozeduren des Katalogservers auf Datenbankebene ist Aufgabe von Herrn Mende. Zur Zeit der Abgabe dieser Arbeit, war die Arbeit von Herrn Mende noch in Bearbeitung\footnote{Die die Basis dieser Abschlussarbeit ein stabiler Implementierungsstand, welcher von Herrn Mende geliefert wurde}. 
+Die Abfrageprozeduren des Katalogservers auf Datenbankebene ist Aufgabe von Herrn Mende. Zur Zeit der Abgabe dieser Arbeit, war die Arbeit von Herrn Mende noch in Bearbeitung\footnote{Die die Basis dieser Abschlussarbeit ist ein stabiler Implementierungsstand, welcher von Herrn Mende geliefert wurde}. 
 
 \begin{figure}[htbp]
 	\centering
 		\includegraphics[width=0.99\textwidth]{images/datenfluesse_plib.png}
-	\caption{Datenflüsse}
+	\caption[Datenflüsse]{Datenflüsse\footnotemark}
 	\label{fig:datenfluesse}
 \end{figure}
-\todotext{Quelle???}
-
-\todotext{was passiert bei langläufigen Abfragen? z.B. kaskadiert wie in einer Präsentation, wo der Anbieter weiteren Subanbietern einen Query schicken muss? Idee? Lösung? Asynchron im Web?}
-
+\footnotetext{Quelle: entnommen ISO 29002-31 Figure 3 - Major Dataflows. Zu besseren Visualisierung wurde der untere Bereich farblich hervorgehoben.}

@@ -2,10 +2,120 @@
 \dictum[René Descartes]{Vor eine Frage gestellt, die wir vollständig verstanden haben, müssen wir sie von jeder überflüssigen Darstellung abstrahieren, sie auf ihre einfachste Form reduzieren und sie in möglichst kleine Teile zerlegen, die wir dann aufzählen. \dots}}
 \chapter{Analyse und Definition der Anforderungen } \index{Analyse und Definition der Anforderungen}\label{kap:analyse_und_definition}
 
-Die ISO Standards 29002-31 und 22745-30 wurden vom Fachbereich als mögliche zu implementierende Standards genannt, um die Anforderungen einer Abfrageschnittstelle analog zu SQL-Möglichkeiten (Projektion, Selektion) zu gewährleisten.   
+Die ISO Standards 29002-31 und 22745-30 wurden vom Fachbereich als mögliche zu implementierende Standards genannt, um die Anforderungen einer Abfrageschnittstelle analog zu den Möglichkeiten von SQL (Projektion, Selektion) zu gewährleisten.   
 
-Mittels den Erkenntnissen der Analyse werden mögliche Use Cases erarbeitet. Wichtig ist auch zu evaluieren, welche Standards gegebenenfalls betrachtet und implementiert werden müssen, um die Anforderungen umzusetzen. 
+Mittels den Erkenntnissen der Analyse werden mögliche Use Cases erarbeitet. Wichtig ist es, zu evaluieren, welche Standards gegebenenfalls betrachtet und implementiert werden müssen, um die Anforderungen umzusetzen. 
 
-\input{chapter/71_analyse_ISO22745-30_29002-31}
+\section{Analyse der ISO 29002-31 - Exchange of characteristics data}\label{kap:analyseiso2900231}\index{ISO 29002-31}
 
-\input{chapter/70_use_cases}
+In diesem Abschnitt wird auf die Analyse der vom Fachbereich zur Erfüllung der Anforderungen angegebenen ISO 29002-31 eingegangen. Ziel der Analyse ist es, herauszufinden ob die ISO-Norm zur Erfüllung der Anforderungen ausreichend ist, wie mit der ISO-Norm die Anforderungen umgesetzt werden können und ob gegebenenfalls weitere ISO Normen zur Erfüllung der Anforderungen betrachtet werden müssen. 
+
+Die gesamte Analyse der ISO 29002-31 mit Beschreibung der einzelnen Datencontainer findet sich in \autoref{kap:analyse2900231}. Die Analyse zeigt anhand von Beispielen auf, welche Abfragen mit der ISO 29002-31 möglich sind.
+
+Zusammenfassend aus der Analyse ergeben sich folgende Abfragemöglichkeiten:
+\begin{description}
+\item[Simple Query] Eine Abfrage nach eindeutigem Identifier eines Konzeptes, mit der Möglichkeit der Einschränkung nach Eigenschaften eines Konzeptes (Selektion). Ferner ermöglicht der Simple Query die Übergabe bekannter Daten eines konkreten Teiles, nach denen gesucht und entsprechend passendes Ergebnis geliefert wird. Siehe dazu \autoref{sec:query}.
+\item[Parametric Query] Ermöglicht die Abfrage nach eindeutigem Identifier eines Konzeptes und zusätzlich die Einschränkung einer Eigenschaft nach konkretem Wert (Projektion). Dies erfolgt mittels Angabe einer characteristic\_data\_query\_expression. Siehe dazu \autoref{sec:characteristicdataqueryexpression}.
+\end{description}
+
+Die konkreten Query Beispiele finden sich dazu in \autoref{kap:query_beispiele}.
+
+\section{Analyse ISO 22745-30 - Identification Guide}\label{kap:identification_guide}\index{ISO 22745-30}
+
+Als weiterer möglicher zu betrachtender Standard wurde ISO 22745-30 - Identification Guide, genannt. 
+
+\todotext{Quelle für i-xml file aus eotd-i-xml angeben} 
+Ein Identification Guide beschreibt, welche Daten für ein Objekt benötigt werden, damit dies überhaupt sinnvoll für einen bestimmten Zweck eingesetzt werden kann. Der Käufer, Produktmanager oder Benutzer definiert die Anforderungen an die Daten. Ein  \enquote{Datenanforderungsstatement} wird als ein i-xml identification guide xml file erzeugt. Siehe dazu auch \autoref{fig:lieferketten}. Es wird die Frage beantwortet, welche Daten und Eigenschaften zu einem bestimmten Konzept eines Objektes benötigt werden, um den Artikel beispielsweise zu kaufen oder sinnvoll zu verwalten. Diese Anforderungen werden von der Abfrageseite (Kundenseite) definiert, also diejenige, die Daten abfragen möchte\citep[Vergl.][]{bensonQuality}. 
+Ein Identification Guide referenziert Konzepte eines Dictionaries um Datenanforderungen einer bestimmten Klasse zu beschreiben \citep[Vergl.][Kap. 5]{iso22745-30}.
+Ein Datenempfänger kann eine Organisation oder eine Gruppe von Organisationen oder Firmen sein, welche ähnliche Datenanforderungen haben. Somit wird eine Identification Guide Gruppe von einer speziellen Organisation verwaltet, welche wiederum selbst Datenempfänger sein kann.  
+
+Es kann somit festgehalten werden, dass für die Erfüllung der Aufgabenbeschreibung nach \autoref{kap:aufgabenbeschreibung} eine Implementierung des Standards ISO 22745-30 nicht notwendig ist, da dieser Standard eine zusätzliche Einschränkung der Konzepte und benötigten Daten auf Anfrageseite beschreibt. 
+Die Abfrage gemäß einer SQL-Selektion und -Projektion ist mit dem Standard 29002-31 möglich. 
+
+\section{Anwendungsfälle}\label{kap:Use_Cases}
+
+Dieser Abschnitt beschreibt mögliche Anwendungsfälle\footnote{Use Case. Im weiteren Verlauf wird, gerade auch in den Anwendungsfall Beschreibungen von Use Cases gesprochen. Im deutschen Sprachraum ist das englische allgemein bekannte Äquivalent \enquote{Use Case} für Anwendungsfall eher geläufig als das deutsche, daher wird darauf verzichtet an manchen Stellen die Begrifflichkeiten einzudeutschen.} die sich aus ISO 29002-31 ergeben. 
+Es wird nur beispielhaft ein Use Case aufgelistet und erläutert. Alle weiteren Use Cases sind in \autoref{kap:analyse_use_cases} zu finden. 
+
+Die Query-Code-Beispiele sind gekürzt, d.h. es werden die referenzierte Schemata-Namen gemäß XSD nicht aufgeführt. 
+
+\bild{usecases_plib.png}{13cm}{Use Case Übersicht}{Use Case Übersicht}
+
+\section{Akteure}
+Bei der Implementierung geht es um die Erstellung einer Software-Schnittstelle als \gls{Webservice}. Das bedeutet, dass diese Schnittstelle ohne eine Benutzeroberfläche nicht sinnvoll für einen menschlichen Akteur nutzbar ist. In den nachfolgenden Anwendungsfällen wird vom Akteur \enquote{Klient} gesprochen. Der Klient ist allgemein ein Nutzer der Schnittstelle, sei es als menschlicher Akteur welcher über eine Bedienerinterface die Schnittstelle benutzt oder eine direkte Maschinennutzung. Ein Beispiel für eine Maschinennutzung kann einen Anwendung sein, welche automatisiert die Schnittstelle aufruft und Daten abfragt.    
+
+\section{Use Case Beschreibungen}
+
+Die \gls{Use Case} Beschreibungen wurden gemäß des Templates für Use Cases aus dem Kurs Software Engineering I entnommen. 
+
+\subsection{Alle Charakteristische Daten eines Produkts abfragen}
+
+{\small
+
+\begin{description}
+     \item[use case] Charakteristische Daten abfragen
+     \item[  actors]~\\
+     Klient
+     \item[  precondition]~\\
+     Der Klient verwendet einen gültigen Identifier.
+     \item[  main flow]~\\
+     Der Klient gibt einen Identifier (IRDI\footnote{International Registration Data Identifier}) eines Konzeptes von Elementen ein und sendet eine Anfrage ab. Die Anfrage wird auf Gültigkeit überprüft. Als Antwort bekommt er ein oder mehrere Datensätze von Elementen \footnote{Item, ISO 29002-10 Kapitel 5.3.2} mit den entsprechenden charakteristischen Daten \footnote{property\_values, ISO 29002-10 Kapitel 5.2.4}  des Elementes mit dem übergebenen Identifier zurück.
+     \item[  postcondition]~\\
+     Alle Daten aller Elemente der gewählten Konzepte des Identifiers wurden zurückgegeben.    
+     \item[  alternative flow] Properties auswählen ~\\
+     Zusammen mit dem Identifier übergibt der Klient einen oder mehrere Property-Identifier und sendet diese erweiterte Anfrage ab.    
+     \item[  postcondition]~\\
+     Die mittels Property-Identifier ausgewählten Daten aller Elemente der gewählten Konzepte wurden zurückgegeben.    
+     \item[end] Charakteristische Daten abfragen
+\end{description}
+
+~\\
+
+} %end small
+
+\subsubsection{Beispiel}\label{lab:schraubendreher}
+
+Ein Schraubendreher könnte folgendermaßen in einer Produktdatenbank repräsentiert werden:
+
+\begin{description}
+\item[Klassen-Identifier] 0173-1\#01-AAA352\#4 
+\item[Länge] 300mm
+\item[Typ] Kreuz
+\item[Spannungsfest] ja
+\end{description}
+
+Korrekterweise müssten anstatt der Attribute wie Länge oder Typ ebenfalls ein Identifier stehen. Die Benamungen sind hier zur besseren Lesbarkeit aufgelöst. 
+
+Um alle Eigenschaften (Properties), wie Länge, Typ und Spannungsfest zu erhalten, muss folgende Abfrage gesendet werden: 
+\enquote{Gib mir alle Items und alle Properties der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Schraubendreher).}
+Das Ergebnis ist ein Item mit allen Attributen (Properties) der gewünschten Konzepte und gegebenenfalls vorhandenen Unterkonzepte. In unserem Falle genau die oben angegebenen Werte.
+
+Die XML-Abfrage sieht wie folgt aus:
+
+\begin{lstlisting}[caption=Query Beispiel - Daten abfragen, language=XML, label=UseCaseDatenabfragen]
+<?xml version="1.0" encoding="UTF-8"?>
+<qy:query xsi:schemaLocation="...query query.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cat="...catalogue" xmlns:val="...value" xmlns:qy="...query" xmlns:bas="...basic">
+	<qy:class_ref>0173-1#01-AAA352#4</qy:class_ref>
+</qy:query>
+\end{lstlisting}
+
+Eine Abfrage, welche die Properties der Klasse auswählt die zurückgeliefert werden sollen könnte lauten: 
+\enquote{"Gib mir alle Items und die Properties Länge und Typ der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Schraubendreher).}
+Das Ergebnis ist ein Item mit den gewünschten Attributen (Properties). 
+
+Die XML-Abfrage:
+\begin{lstlisting}[caption=Query Beispiel - Daten abfragen mit Propertyeinschränkung, language=XML, label=lst:UseCaseDatenabfragenProperty]
+
+<?xml version="1.0" encoding="UTF-8"?>
+<qy:query xsi:schemaLocation="...query query.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cat="...catalogue" xmlns:val="...value" xmlns:qy="...query" xmlns:bas="...basic">
+	<qy:class_ref>0173-1#01-AAA352#4</qy:class_ref>
+	
+	<!-- typ und laenge -->
+	<qy:property_ref>0173-1#01-BBB111#1 0173-1#01-BBB222#1</qy:property_ref> 
+	
+</qy:query>
+\end{lstlisting}
+
+\autoref{lst:UseCaseDatenabfragenProperty} beinhaltet ein XML-Attribut property\_ref. Das wird mit gewünschten Property Identifier gefüllt, welche mit Leerzeichen getrennt werden. 
+
+
