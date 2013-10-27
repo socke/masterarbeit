@@ -1,0 +1,418 @@
+\chapter{Automatische Entwicklertests} \index{JUnit}\label{anh:automatischeentwicklertests}
+ 
+\section{Unit Test}\index{Unit Test}
+Nachfolgend ein Beispiel eines Unit Tests. Das Testobjekt ist die Klasse XMLMarshaller, welcher für das \gls{Marshalling} und \gls{Unmarshalling} der XML-Daten verantwortlich ist. 
+ 
+\begin{lstlisting}[caption=Beispiel eines Unit Tests, language=XML, label=lst:unittest_beispiel]
+package de.feu.plib.xml;
+
+import de.feu.plib.xml.catalogue.CatalogueType;
+import de.feu.plib.xml.catalogue.ItemType;
+import de.feu.plib.xml.catalogue.PropertyValueType;
+import de.feu.plib.xml.query.QueryType;
+import de.feu.plib.xml.value.BooleanValueType;
+import org.apache.log4j.Logger;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+/**
+ * Tests the marshalling and unmarshalling of xml files.
+ */
+public class XMLMarshallerTest extends AbstractXMLTest {
+
+    /** XML Marshaller instance under test */
+    XMLMarshaller marshaller;
+
+    /** Logger instance */
+    private static final Logger LOGGER = Logger.getLogger(XMLMarshallerTest.class);
+
+    /**
+     * Simple marshalling test with arbitrary catalogue item.
+     */
+    @Test
+    public void testMarshallingWithValidArbitraryCatalogue() {
+        String catalogue = marshaller.marshall(createCatalogueWithOneItem());
+        LOGGER.info(catalogue);
+        assertTrue(catalogue.contains("0173-1#01-AAA352#4"));
+        assertTrue(catalogue.contains("true"));
+    }
+
+    /**
+     * Simple test with unmarshalling an arbitrary item from xml.
+     */
+    @Test
+    public void testUnMarshallingWithValidArbitraryClassIrdi() {
+        QueryType queryType = marshaller.unmarshallXML(readXMLFrom("/de/feu/plib/xml/query_class_irdi.xml"),
+                QueryType.class);
+        assertEquals("0173-1#01-BAD803#2", queryType.getClassRef());
+    }
+
+    /**
+     * Throws an exception while parsing on illegal irdi passed.
+     *
+     * @throws Exception on illegal irdi
+     */
+    @Test(expected = RuntimeException.class)
+    public void shouldThrowExceptionDuringXMLValidationWithIllegalIrdi() throws Exception {
+        QueryType queryType = marshaller.unmarshallXML(readXMLFrom("/de/feu/plib/xml/query_class_irdi_illegal.xml"),
+                QueryType.class);
+    }
+
+    /**
+     * creates a sample catalogue for testing
+     * 
+     * @return the sample catalogue with one item
+     */
+    private CatalogueType createCatalogueWithOneItem() {
+        ItemType item = new ItemType();
+        item.setClassRef("0173-1#01-AAA352#4");
+        PropertyValueType propertyValueType = new PropertyValueType();
+
+        BooleanValueType bvt = new BooleanValueType();
+        bvt.setValue(true);
+        propertyValueType.setBooleanValue(bvt);
+        propertyValueType.setPropertyRef("0173-1#01-A35AA2#4");
+        item.getPropertyValue().add(propertyValueType);
+        CatalogueType catalogue = new CatalogueType();
+        catalogue.getItem().add(item);
+
+        return catalogue;
+    }
+
+    /**
+     * @throws java.lang.Exception
+     */
+    @Before
+    public void setUp() {
+        marshaller = new XMLMarshallerImpl();
+    }
+
+    /**
+     * @throws java.lang.Exception
+     */
+    @After
+    public void tearDown() {
+        marshaller = null;
+    }
+
+}
+\end{lstlisting}  
+
+Das \autoref{lst:abstrakte_unit_testklasse} zeigt die abstrakte Klasse \enquote{AbstractXMLTest}, welche Hilfsmethoden für XML-Tests kapselt. Hier kapselt diese Klasse die Funktionalität XML-Dateien einzulesen.  
+
+\begin{lstlisting}[caption=Abstrakte Unit Testklasse, language=Java, label=lst:abstrakte_unit_testklasse]
+package de.feu.plib.xml;
+
+import org.apache.log4j.Logger;
+import org.junit.After;
+import org.junit.Before;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+/**
+ * Abstract test class. Extend from this class to get functionality to read XML files for your test.
+ */
+public class AbstractXMLTest {
+
+    protected XMLMarshaller marshaller;
+
+    /**
+     * Logger instance
+     */
+    private static Logger LOGGER = Logger.getLogger(AbstractXMLTest.class);
+
+
+    @Before
+    public void setUp() {
+        marshaller = new XMLMarshallerImpl();
+    }
+
+    @After
+    public void tearDown() {
+        marshaller = null;
+    }
+
+    /**
+     * Reads the xml file from given filename
+     *
+     * @param filename the filename of the xml
+     * @return the string content of the xml file
+     */
+    protected String readXMLFrom(String filename) {
+        BufferedReader br = null;
+        StringBuffer sb = new StringBuffer();
+
+        try {
+            String currentLine;
+
+            InputStream is = XMLMarshallerImpl.class.getResourceAsStream(filename);
+            br = new BufferedReader(new InputStreamReader(is));
+
+            while ((currentLine = br.readLine()) != null) {
+                sb.append(currentLine);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (br != null) br.close();
+            } catch (IOException ex) {
+                LOGGER.info("Exception occured during reading file: " + ex);
+            }
+        }
+
+        return sb.toString();
+    }
+}
+\end{lstlisting}  
+
+\section{Integrationstest}\index{Integrationstest}
+
+Dieser Abschnitt zeigt beispielhaft einen Integrationstest auf. Der Integrationstest unterscheidet sich vom Unit-Test darin, dass eine Komponente integriert mit mehreren abhängigen Komponenten getestet wird. 
+Der Nachfolgende Integrationstestfall \enquote{PlibDaoIT} tested die Klasse \enquote{PlibDao}. Es ist ein Integrationstest, da für den Test die gesamte Datenbank benötigt wird. Nur so kann sinnvoll das Datenzugriffsobjekt getestet werden. 
+
+\begin{lstlisting}[caption=Beispiel eines Integrationstests, language=Java, label=lst:integrationstest_beispiel]
+package de.feu.plib.dao;
+
+import de.feu.plib.processor.analyser.EnrichedQuery;
+import de.feu.plib.processor.analyser.Irdi;
+import de.feu.plib.processor.analyser.QueryKind;
+import de.feu.plib.xml.catalogue.CatalogueType;
+import de.feu.plib.xml.catalogue.ItemType;
+import de.feu.plib.xml.query.QueryType;
+import org.apache.log4j.Logger;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import static org.junit.Assert.*;
+
+/**
+ * Integration Test of PLIB Dao
+ */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"/beans_for_tests.xml"})
+public class PlibDaoIT {
+
+    /**
+     * Logger instance
+     */
+    private static Logger LOGGER = Logger.getLogger(PlibDaoIT.class);
+
+    @Autowired
+    private PlibDao plib;
+
+    @Test
+    public void shouldReturnTrueWithExistingIRDI() {
+        Irdi irdi = createMultiListTestIrdi();
+        assertTrue(plib.doObjectsExistsWithThis(irdi));
+    }
+
+    @Test
+    public void shouldReturnFalseWithIRDINotinDB() {
+        Irdi irdi = createNonExistingTestIrdi();
+        assertFalse(plib.doObjectsExistsWithThis(irdi));
+    }
+
+    @Test
+    public void shouldReturnFalseWithEmptyIRDI() {
+        Irdi irdi = new Irdi() {
+            @Override
+            public String getIrdi() {
+                return "";
+            }
+        };
+        assertFalse(plib.doObjectsExistsWithThis(irdi));
+    }
+
+    @Test
+    public void testGetNumberOfObjectsOfIrdiExistingIrdi() {
+        Irdi irdi = createMultiListTestIrdi();
+        assertEquals(8, plib.getNumberOfObjectsOfIrdi(irdi));
+    }
+
+    @Test
+    public void testGetNumberOfObjectsOfIrdiNotExistingIrdi() {
+        Irdi irdi = createNonExistingTestIrdi();
+        assertEquals(0, plib.getNumberOfObjectsOfIrdi(irdi));
+    }
+
+    @Test
+    public void testThatWhenReadExternalProductIdsByIrdiMustReturnSome() throws Exception {
+        Irdi irdi = createMultiListTestIrdi();
+        List<BigDecimal> productIds = plib.readExternalProductIdsBy(irdi);
+        assertNotNull(productIds);
+        assertEquals(8, productIds.size());
+    }
+
+    /**
+     * Currently there are two instances in the database, seems that these are duplicates but not sure.
+     */
+    @Test
+    public void shouldReturnOneTestExternalIdWithTestIrdi() {
+        Irdi irdi = createSkalpellIrdi();
+        List<BigDecimal> externalProductIds = plib.readExternalProductIdsBy(irdi);
+        assertNotNull(externalProductIds);
+        assertEquals(2, externalProductIds.size());
+        LOGGER.info("external product ids: " + externalProductIds.get(0));
+        assertEquals(new BigDecimal("300000001"), externalProductIds.get(0));
+    }
+
+    /**
+     * This is a bigger integration test.
+     * <ul>
+     *     <li>First create an irdi instance</li>
+     *     <li>create an enriched query</li>
+     *     <li>Then load the objects from the database with its properties</li>
+     *     <li>There should be the same number ob objects than with the previous check</li>
+     * </ul>
+     */
+    @Test
+    @Ignore("loadObjectsFrom is obsolte, maybe later reimplemented")
+    public void shouldReturnOneInstanceOfSkalpellWithTwoProperties() {
+        Irdi skalpellIrdi = createSkalpellIrdi();
+
+        List<BigDecimal> externalProductIds = plib.readExternalProductIdsBy(skalpellIrdi);
+
+        EnrichedQuery query = createEnrichedQueryFrom(skalpellIrdi);
+        query.setType(QueryKind.SIMPLE);
+        CatalogueType catalogueType = plib.loadObjectsFrom(query);
+        List<ItemType> itemTypes = catalogueType.getItem();
+        assertEquals(externalProductIds.size(), itemTypes.size());
+        assertEquals(1, itemTypes.get(0).getPropertyValue().size());
+    }
+
+    /**
+     * Test should return two items where the first one would be checked.
+     * Should have two properties.
+     */
+    @Test
+    public void testLoadPropertiesByExternalIds() {
+        List<BigDecimal> externalIds = new ArrayList<BigDecimal>();
+        BigDecimal bigDecimal = new BigDecimal("300000001");
+
+        externalIds.add(bigDecimal);
+        List<List<Map<String, Object>>> valueTypeList = plib.loadStringPropertiesByExternalIds(externalIds);
+        LOGGER.info("valuetype list: " + valueTypeList);
+        assertEquals("should be one instance", 1, valueTypeList.size());
+        assertEquals("should be two properties",2, valueTypeList.get(0).size());
+        assertThatIrdiAndValueAreAvailable(valueTypeList.get(0).get(0).entrySet(), "0173-1#02-AAA762#1");
+        assertThatIrdiAndValueAreAvailable(valueTypeList.get(0).get(1).entrySet(), "0173-1#02-AAB011#1");
+    }
+
+    private void assertThatIrdiAndValueAreAvailable(Set<Map.Entry<String, Object>> entrySet, String knownIRDI) {
+
+        Set<Map.Entry<String, Object>> entries = entrySet;
+        boolean irdiFound = false;
+        boolean valueFound = false;
+        for (Map.Entry<String, Object> entry : entries) {
+            LOGGER.info("key of property: " + entry.getKey());
+            LOGGER.info("value of property: " + entry.getValue());
+            if ("IRDI".equals(entry.getKey()) && null != entry.getValue() && !"null".equals(entry.getValue())) {
+                irdiFound = true;
+                assertEquals(knownIRDI, entry.getValue());
+            }
+            if ("VALUE".equals(entry.getKey()) && null != entry.getValue() && !"null".equals(entry.getValue())) {
+                valueFound = true;
+            }
+
+        }
+        assertTrue(irdiFound && valueFound);
+    }
+
+    /**
+     * Load data type and unit for skalpell length property which should be mm and mm as well.
+     * Property id: 300903090000033914 and 300903090000034450
+     */
+    @Test
+    public void testLoadDataTypeAndUnitForAPropertyById() {
+        List<Map<String, Object>> propertyTypeAndUnit = plib.loadTypeAndUnitOfPropertyBy("300903090000033914");
+        LOGGER.info("property size: " + propertyTypeAndUnit.size());
+        assertTrue(propertyTypeAndUnit.size() == 1);
+
+        assertThatUnitAndSubTypeAreAvailable(propertyTypeAndUnit);
+
+    }
+
+    private void assertThatUnitAndSubTypeAreAvailable(List<Map<String, Object>> propertyTypeAndUnit) {
+        Set<Map.Entry<String,Object>> entries = propertyTypeAndUnit.get(0).entrySet();
+
+        /*
+        * we need to assure that we have the unit (in this case SYMBOL, e.g. mm or m or cm)
+        * in the values as well as the type of the value (in this case real_measure_type)
+        */
+        String property_unit_symbol = "SYMBOL";
+        String property_type = "SUB_TYPE";
+        boolean unitfound = false;
+        boolean typefound = false;
+        for (Map.Entry<String, Object> entry : entries) {
+            LOGGER.info("property key: " + entry.getKey());
+            LOGGER.info("property value: " + entry.getValue());
+            if ("SYMBOL".equals(entry.getKey()) && null != entry.getValue() && !"null".equals(entry.getValue())) {
+                unitfound = true;
+            }
+            if ("SUB_TYPE".equals(entry.getKey()) && null != entry.getValue() && !"null".equals(entry.getValue())) {
+                typefound = true;
+            }
+        }
+        assertTrue(unitfound && typefound);
+    }
+
+    private EnrichedQuery createEnrichedQueryFrom(Irdi skalpellIrdi) {
+        QueryType queryType = new QueryType();
+        queryType.setClassRef(skalpellIrdi.getIrdi());
+        return new EnrichedQuery(queryType);
+    }
+
+    private Irdi createNonExistingTestIrdi() {
+        return new Irdi() {
+            @Override
+            public String getIrdi() {
+                return "0141-1#01-xxx#1";
+            }
+        };
+    }
+
+    private Irdi createMultiListTestIrdi() {
+        return new Irdi() {
+            @Override
+            public String getIrdi() {
+                return "0141-1#01-UKU1#1";
+            }
+        };
+    }
+
+    /**
+     * Creates the irdi of an item which was created by me as testdata.
+     * It is a Skalpell (PREFERRED_NAME of class in DB)
+     * @return the irdi of the test item skalpell.
+     */
+    private Irdi createSkalpellIrdi() {
+        return new Irdi() {
+            @Override
+            public String getIrdi() {
+                return "0173-1#01-BAD803#2";
+            }
+        };
+    }
+}
+
+\end{lstlisting}  
+   

@@ -1,0 +1,52 @@
+\chapter{Installationsanleitung Apache Tomcat 7}\label{kap:anhangtomcat}
+
+
+\section{Installation auf Mac OS 10.8}
+
+Diese Installationsanleitung bezieht sich auf die Installation des Apache Tomcat 7 in Mac OS 10.8. 
+
+\subsection{Prüfen der Java Version}
+
+Mittels 
+
+java -version
+
+prüfen, ob Version 1.6 oder 1.7 installiert ist. Falls nein, muss Java vorher installiert werden. Dazu das Java Development Kit herunterladen und installieren: \href{http://www.oracle.com/technetwork/java/javase/overview/index.html}{http://www.oracle.com/technetwork/java/javase/overview/index.html}
+
+Für den Mac ist das ggfs über die Apple Webseite verfügbar. 
+
+\subsection{Tomcat herunterladen und entpacken}
+
+\begin{itemize}
+\item Auf \href{https://tomcat.apache.org/download-70.cgi}{https://tomcat.apache.org/download-70.cgi} Tomcat herunterladen. Darauf achten eine Binary distribution herunterzuladen, z.B. apache-tomcat-7.0.42.tar.gz
+\item Das Paket entpacken mittels tar -xvzf apache-tomcat-7.0.42.tar.gz
+\end{itemize}
+
+\begin{itemize}
+\item Ein Verzeichnis unter \href{file:///usr/local}{/usr/local} erstellen, wo der Apache später laufen soll, danach die Dateien dort hinkopieren
+\begin{itemize}
+	\item sudo mkdir -p \href{file:///usr/local}{/usr/local}
+	\item sudo mv \href{file:///Users/stefan/Downloads/apache-tomcat-7.0.42}{~/Downloads/apache-tomcat-7.0.42} \href{file:///usr/local}{/usr/local/}
+\end{itemize}\item Einen symbolischen Link erstellen um später einfacherer zwischen Versionen umzuschalten:
+\begin{itemize}
+	\item sudo rm -f \href{file:///Library/Tomcat}{/Library/Tomcat}
+	\item sudo ln -s \href{file:///usr/local/apache-tomcat-7.0.42}{/usr/local/apache-tomcat-7.0.42} \href{file:///Library/Tomcat}{/Library/Tomcat}
+\end{itemize}\item Allen Apache Dateien den aktuellen User als Besitzer setzen und Rechte vergeben:
+\begin{itemize}
+	\item sudo chown -R \textless{}dein\_username\textgreater{} \href{file:///Library/Tomcat}{/Library/Tomcat}
+	\item sudo chmod +x \href{file:///Library/Tomcat/bin/*.sh}{/Library/Tomcat/bin/*.sh}
+\end{itemize}\end{itemize}
+
+\subsection{Tomcat starten}
+
+\href{file:///Library/Tomcat/bin/startup.sh}{/Library/Tomcat/bin/startup.sh}
+
+\subsection{Tomcat stoppen}
+
+\href{file:///Library/Tomcat/bin/shutdown.sh}{/Library/Tomcat/bin/shutdown.sh}
+
+\section{Installation unter Windows}
+
+Am besten wird der Tomcat mittels Installer installiert. Hier wird man durch eine grafische Benutzeroberfläche geführt und Apache Tomcat wird als Dienst in das System integriert. 
+
+

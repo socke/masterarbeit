@@ -1,0 +1,22 @@
+\chapter{Testszenarios} \index{Testszenarios}\index{Manuelle Entwicklertests}\label{anh:testszenarios}
+
+Anbei die Testszenarien und Testprotokolle der manuellen Entwicklertests.
+
+\todotext{Testszenarien ausfüllen und für jeden Fall anlegen.}
+
+\section{Vorhandene Teile anhand IRDI abfragen}
+
+\begin{description}
+\item[Vorbedingungen] 
+  \begin{itemize}
+   \item Die Datenbankverbindung aufbauen: Oracle Datenbank muss gestartet werden.
+  \end{itemize}
+\item[Eingabedaten] Testdatei query\_class\_irdi.xml. 
+\item[Durchführung]
+   \begin{itemize}
+   \item XML-Datei wird mittels curl Befehl an den Server gesendet.
+   \item curl -v -H "Content-Type: application/xml" -X POST --data "@query\_class\_irdi.xml" http://localhost:8080/rest/ws/query
+  \end{itemize}
+\item[Erwartetes Ergebnis] ...
+\item[Tatsächliches Ergebnis] ...
+\end{description}

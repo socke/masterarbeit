@@ -24,9 +24,12 @@ Die konkreten Query Beispiele finden sich dazu in \autoref{kap:query_beispiele}.
 
 Als weiterer möglicher zu betrachtender Standard wurde ISO 22745-30 - Identification Guide, genannt. 
 
-\todotext{Quelle für i-xml file aus eotd-i-xml angeben} 
-Ein Identification Guide beschreibt, welche Daten für ein Objekt benötigt werden, damit dies überhaupt sinnvoll für einen bestimmten Zweck eingesetzt werden kann. Der Käufer, Produktmanager oder Benutzer definiert die Anforderungen an die Daten. Ein  \enquote{Datenanforderungsstatement} wird als ein i-xml identification guide xml file erzeugt. Siehe dazu auch \autoref{fig:lieferketten}. Es wird die Frage beantwortet, welche Daten und Eigenschaften zu einem bestimmten Konzept eines Objektes benötigt werden, um den Artikel beispielsweise zu kaufen oder sinnvoll zu verwalten. Diese Anforderungen werden von der Abfrageseite (Kundenseite) definiert, also diejenige, die Daten abfragen möchte\citep[Vergl.][]{bensonQuality}. 
+Ein Identification Guide beschreibt, welche Daten für ein Objekt benötigt werden, damit dies überhaupt sinnvoll für einen bestimmten Zweck eingesetzt werden kann. Der Käufer, Produktmanager oder Benutzer definiert die Anforderungen an die Daten. Ein  \enquote{Datenanforderungsstatement} wird als ein i-xml identification guide xml file erzeugt. Siehe dazu auch \autoref{fig:lieferketten}. 
+
+Es wird die Frage beantwortet, welche Daten und Eigenschaften zu einem bestimmten Konzept eines Objektes benötigt werden, um den Artikel beispielsweise zu kaufen oder sinnvoll zu verwalten. Diese Anforderungen werden von der Abfrageseite (Kundenseite) definiert, also diejenige, die Daten abfragen möchte\citep[Vergl.][]{bensonQuality}. 
+
 Ein Identification Guide referenziert Konzepte eines Dictionaries um Datenanforderungen einer bestimmten Klasse zu beschreiben \citep[Vergl.][Kap. 5]{iso22745-30}.
+
 Ein Datenempfänger kann eine Organisation oder eine Gruppe von Organisationen oder Firmen sein, welche ähnliche Datenanforderungen haben. Somit wird eine Identification Guide Gruppe von einer speziellen Organisation verwaltet, welche wiederum selbst Datenempfänger sein kann.  
 
 Es kann somit festgehalten werden, dass für die Erfüllung der Aufgabenbeschreibung nach \autoref{kap:aufgabenbeschreibung} eine Implementierung des Standards ISO 22745-30 nicht notwendig ist, da dieser Standard eine zusätzliche Einschränkung der Konzepte und benötigten Daten auf Anfrageseite beschreibt. 
@@ -41,14 +44,14 @@ Die Query-Code-Beispiele sind gekürzt, d.h. es werden die referenzierte Schemat
 
 \bild{usecases_plib.png}{13cm}{Use Case Übersicht}{Use Case Übersicht}
 
-\section{Akteure}
+\subsection{Akteure}
 Bei der Implementierung geht es um die Erstellung einer Software-Schnittstelle als \gls{Webservice}. Das bedeutet, dass diese Schnittstelle ohne eine Benutzeroberfläche nicht sinnvoll für einen menschlichen Akteur nutzbar ist. In den nachfolgenden Anwendungsfällen wird vom Akteur \enquote{Klient} gesprochen. Der Klient ist allgemein ein Nutzer der Schnittstelle, sei es als menschlicher Akteur welcher über eine Bedienerinterface die Schnittstelle benutzt oder eine direkte Maschinennutzung. Ein Beispiel für eine Maschinennutzung kann einen Anwendung sein, welche automatisiert die Schnittstelle aufruft und Daten abfragt.    
 
-\section{Use Case Beschreibungen}
+\subsection{Use Case Beschreibungen}
 
-Die \gls{Use Case} Beschreibungen wurden gemäß des Templates für Use Cases aus dem Kurs Software Engineering I entnommen. 
+Als Vorlage für die \gls{Use Case} Beschreibungen wurden die \glspl{Use Case} aus dem Kurs Software Engineering I entnommen, da diese sehr übersichtlich, knapp und präzise sind \citep[Vgl.][S. 120ff]{sixse1}. 
 
-\subsection{Alle Charakteristische Daten eines Produkts abfragen}
+\subsubsection{Alle Charakteristische Daten eines Produkts abfragen}
 
 {\small
 
@@ -59,7 +62,7 @@ Die \gls{Use Case} Beschreibungen wurden gemäß des Templates für Use Cases au
      \item[  precondition]~\\
      Der Klient verwendet einen gültigen Identifier.
      \item[  main flow]~\\
-     Der Klient gibt einen Identifier (IRDI\footnote{International Registration Data Identifier}) eines Konzeptes von Elementen ein und sendet eine Anfrage ab. Die Anfrage wird auf Gültigkeit überprüft. Als Antwort bekommt er ein oder mehrere Datensätze von Elementen \footnote{Item, ISO 29002-10 Kapitel 5.3.2} mit den entsprechenden charakteristischen Daten \footnote{property\_values, ISO 29002-10 Kapitel 5.2.4}  des Elementes mit dem übergebenen Identifier zurück.
+     Der Klient gibt einen eindeutigen Identifier (\gls{IRDI}\footnote{International Registration Data Identifier}) eines Konzeptes von Elementen ein und sendet eine Anfrage ab. Die Anfrage wird auf Gültigkeit überprüft. Als Antwort bekommt er ein oder mehrere Datensätze von Elementen \footnote{Item, ISO 29002-10 Kapitel 5.3.2} mit den entsprechenden charakteristischen Daten \footnote{property\_values, ISO 29002-10 Kapitel 5.2.4}  des Elementes mit dem übergebenen Identifier zurück.
      \item[  postcondition]~\\
      Alle Daten aller Elemente der gewählten Konzepte des Identifiers wurden zurückgegeben.    
      \item[  alternative flow] Properties auswählen ~\\
@@ -87,8 +90,11 @@ Ein Schraubendreher könnte folgendermaßen in einer Produktdatenbank repräsent
 Korrekterweise müssten anstatt der Attribute wie Länge oder Typ ebenfalls ein Identifier stehen. Die Benamungen sind hier zur besseren Lesbarkeit aufgelöst. 
 
 Um alle Eigenschaften (Properties), wie Länge, Typ und Spannungsfest zu erhalten, muss folgende Abfrage gesendet werden: 
-\enquote{Gib mir alle Items und alle Properties der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Schraubendreher).}
-Das Ergebnis ist ein Item mit allen Attributen (Properties) der gewünschten Konzepte und gegebenenfalls vorhandenen Unterkonzepte. In unserem Falle genau die oben angegebenen Werte.
+\begin{quotation}
+\enquote{Gib mir alle \glslink{item}{Teile} und alle Properties der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Schraubendreher).}
+\end{quotation}
+
+Das Ergebnis ist ein \gls{item} mit allen Attributen (Properties) der gewünschten Konzepte und gegebenenfalls vorhandenen Unterkonzepte. In unserem Falle genau die oben angegebenen Werte.
 
 Die XML-Abfrage sieht wie folgt aus:
 
@@ -99,9 +105,12 @@ Die XML-Abfrage sieht wie folgt aus:
 </qy:query>
 \end{lstlisting}
 
-Eine Abfrage, welche die Properties der Klasse auswählt die zurückgeliefert werden sollen könnte lauten: 
-\enquote{"Gib mir alle Items und die Properties Länge und Typ der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Schraubendreher).}
-Das Ergebnis ist ein Item mit den gewünschten Attributen (Properties). 
+Eine Abfrage, welche mittels Selektion die Properties der Klasse auswählt, die zurückgeliefert werden sollen, könnte lauten: 
+\begin{quotation}
+\enquote{Gib mir alle \glslink{item}{Teile} und die Properties Länge und Typ der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Schraubendreher).}
+\end{quotation}
+
+Das Ergebnis ist ein \gls{item} mit den gewünschten Attributen (Properties). 
 
 Die XML-Abfrage:
 \begin{lstlisting}[caption=Query Beispiel - Daten abfragen mit Propertyeinschränkung, language=XML, label=lst:UseCaseDatenabfragenProperty]
@@ -110,7 +119,7 @@ Die XML-Abfrage:
 <qy:query xsi:schemaLocation="...query query.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cat="...catalogue" xmlns:val="...value" xmlns:qy="...query" xmlns:bas="...basic">
 	<qy:class_ref>0173-1#01-AAA352#4</qy:class_ref>
 	
-	<!-- typ und laenge -->
+	<!-- identifier von typ und laenge werden uebergeben -->
 	<qy:property_ref>0173-1#01-BBB111#1 0173-1#01-BBB222#1</qy:property_ref> 
 	
 </qy:query>
@@ -119,3 +128,8 @@ Die XML-Abfrage:
 \autoref{lst:UseCaseDatenabfragenProperty} beinhaltet ein XML-Attribut property\_ref. Das wird mit gewünschten Property Identifier gefüllt, welche mit Leerzeichen getrennt werden. 
 
 
+\section{Zusammenfassung des Kapitels}
+
+Das Ergebnis der Analyse der Standards ISO 29002-31 und 22745-30 ergibt, dass für die Erfüllung der Anforderungen einer Abfrageschnittstelle analog zur SQL-Selektion und -Projektion der Standard ISO 29002-31 ausreichend ist. Sowohl Projektion als auch Selektion ist dadurch möglich. ISO 22745-30 beschreibt als Identification Guide eine weitere klientseitige Einschränkung der abzufragenden Daten. Man stelle sich eine Einschränkung (Definition einer Teilmenge) durch ein Formular vor, das Formular schränkt die abzufragenden Daten auf die tatsächlich benötigte Menge von Daten gegebenenfalls stark ein und gibt ebenfalls den Typ der Daten vor.
+
+Aus den Anforderungen wurden sinnvolle \glspl{Use Case} formuliert, welche das Verhalten des Systems beschreiben sollen.  

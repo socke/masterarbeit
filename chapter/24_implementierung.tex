@@ -20,11 +20,11 @@ GIT ist ferner ein verteiltes Versionskontrollsystem (DCVS).
 \enquote{Distributed version control systems (DVCSs) are no different in that respect. Their main goal is still to help us track changes we make to the projects we’re working on. The difference between VCSs and DVCSs is how developers communicate their changes to each other. \citep[S. 15][]{pragGit}}
 \end{quotation}
 
-In diesem Projekt ist aktuell kein verteiltes Versionskontrollsystem nötig, da es nur einen Bearbeiter der Daten und Quelltexte gibt. Es wurde dennoch gewählt, da es zum einen genau wie ein \enquote{normales} Versionskontrollsystem eingesetzt werden kann, der Autor mit diesem System sehr vertraut ist und ggfs. zukünftig darauf aufbauende oder weiterführende Projekte mit diesem System einfach weiterarbeiten können. 
+In diesem Projekt ist kein verteiltes Versionskontrollsystem nötig, da es nur einen Bearbeiter der Daten und Quelltexte gibt. Es wurde dennoch gewählt, da es zum einen genau wie ein \enquote{normales}, folglich nicht verteiltets Versionskontrollsystem eingesetzt werden kann, der Autor mit diesem System sehr vertraut ist und ggfs. zukünftig darauf aufbauende oder weiterführende Projekte mit diesem System einfach weiterarbeiten können. 
 
 Die Quelltexte dieser Arbeit sind bei einem frei verfügbaren Versionskontrollsystemanbieter untergebracht. Das Repository kann mit dem Befehl aus \autoref{lst:klonendersourcen} geklont werden. Klonen bedeutet bei verteilten Versionskontrollsystemen, das gesamt Repository zu kopieren. Es kann dann auf diesem Repository lokal gearbeitet werden. 
 
-Für mehr informationen über GIT und den Funktionsumfang, sei auf entsprechende Literatur verwiesen \citep[vgl.][]{pragGit}.
+Für mehr Informationen über GIT und den Funktionsumfang, sei auf entsprechende Literatur verwiesen \citep[vgl.][]{pragGit}.
 
  \begin{lstlisting}[caption=Klonen der Sourcen, language=XML, label=lst:klonendersourcen]
 git clone https://username@bitbucket.org/ssobek/masterarbeit.git
@@ -35,7 +35,7 @@ git clone https://username@bitbucket.org/ssobek/masterarbeit.git
 Was ist Maven?
 
 \begin{quotation}
-\enquote{Maven ist ein deklaratives Build Management System. Das heißt, es wird lediglich der Inhalt des Projekts beschrieben, nicht die Struktur oder die Abläufe, die zur Kompilierung und Veröffentlichung notwendig sind. Die Philosophie hinter Maven heißt \enquote{Konvention über Konfiguration} - Strukturen müssen nicht definiert werden, sondern sind vorgegben. So wie die Projekt- und Verzeichnisstruktur ist auch die Reihenfolge der Arbeitsschritte vorgegeben, die Maven ausführt, um ein Projekt zu bauen. \citep[S. 27][]{Mitp-Verlag}}	
+\enquote{Maven ist ein deklaratives Build Management System. Das heißt, es wird lediglich der Inhalt des Projekts beschrieben, nicht die Struktur oder die Abläufe, die zur Kompilierung und Veröffentlichung notwendig sind. Die Philosophie hinter Maven heißt \enquote{Konvention über Konfiguration} - Strukturen müssen nicht definiert werden, sondern sind vorgegeben. So wie die Projekt- und Verzeichnisstruktur ist auch die Reihenfolge der Arbeitsschritte vorgegeben, die Maven ausführt, um ein Projekt zu bauen. \citep[S. 27][]{Mitp-Verlag}}	
 \end{quotation}
 
 Maven ermöglicht in diesem Projekt dem Betreuer, Professor oder Studenten, deren Arbeiten ggfs. aufbauend auf diese Arbeit sind, das Projekt standardisiert, einfach und ohne Kenntnisse von Maven oder anderen Werkzeugen zu erstellen. Maven findet dazu alle benötigten Abhängigkeiten automatisiert gemäß Konfiguration und erzeugt das Projekt. Es werden gemäß des standardisierten Buildablaufes von Maven mehrere Phasen durchlaufen, die beispielsweise sicherstellen, dass erst alle automatischen Tests erfolgreich durchlaufen sein müssen, bevor das Endprodukt erzeugt wird. 
@@ -46,12 +46,11 @@ Für mehr Informationen sei auf entsprechende Literatur verwiesen \citep[vgl.][]
 
 \subsection{Apache Tomcat}\index{Apache Tomcat}
 Als Web Container wird der \gls{Apache Tomcat} in der Version 7 eingesetzt. Die Installation wird in 
-\todotext{Im Anhang Installationsprozess beschreiben.} beschrieben. 
- 
+\autoref{kap:anhangtomcat} beschrieben. 
  
 \subsection{Tests}
 
-Einer der wichtigsten Punkte in der Softwareentwicklung ist das Testen. Wir beziehen uns nur auf Entwicklertests, somit gibt es zwei große Bereiche, automatische Entwicklertests und manuelle Entwicklertests. 
+Einer der wichtigsten Punkte in der Softwareentwicklung ist das Testen. Ich beziehe mich nur auf Entwicklertests, somit gibt es zwei große Bereiche, automatische Entwicklertests und manuelle Entwicklertests. 
 
 \subsubsection{Automatische Entwicklertests mit JUnit}
 
@@ -64,13 +63,13 @@ Integrationstests testen mehrere Komponenten im Verbund und testen Anwendungszen
 Dies ist ein Beispiel wo die Gesamtapplikation integriert und somit lauffähig sein muss, damit man dieses Szenario testen kann. 
 Ein Integrationstest ist es allerdings bereits schon dann, wenn automatisiert ein Datenzugriffsobjekt im Verbund mit der Datenbank getestet wird, da hier bereits mehrere Komponenten zusammen getestet werden. 
 
-\todotext{Verweis auf Beispiele im Anhang}
+Mehr Informationen und einige Code-Beispiele in \autoref{anh:automatischeentwicklertests}.
 
 \subsubsection{Manuelle Entwicklertests}
 
 Bei manuellen Entwicklertests werden Testcases aus den Anforderungen abgeleitet. Diese Tests sind sogenannte Black Box Tests. Das bedeutet, dass das Objekt, welches getestet wird als Black Box betrachtet wird. Es sind keine technischen Details über Aufbau dieses Testobjektes bekannt und es werden keine Annahmen getroffen. Lediglich die Schnittstelle nach Außen wird betrachtet und gemäß Spezifikation der Ein- und Ausgangsdaten getestet. 
 
-Die Testfälle und Ergebnisse finden sich in \todotext{auf Anhang der manuellen Tests verweisen}
+Die Testfälle und Ergebnisse finden sich in \autoref{anh:testszenarios}.
 
 \subsubsection{Testtools}
 
@@ -94,7 +93,7 @@ curl -v -H "Content-Type: application/xml" -X POST --data "@src/test/resources/d
 
 \paragraph{Advanced REST Client} \index{Advanced REST Client}
 
-Eine andere Möglichkeit den REST Webservice zu testen ist ein Plugin des Browsers Chrome, genannt \enquote{Advanced REST Client}. Dieser kann auch einen POST-Request erzeugen und an eine URL senden. Die \autoref{fig:advancedrestclienttest} zeigt einen Test eines einfachen XML-Files. Dazu muss der XML Inhalt in das untere Eingabefeld unter dem Reiter \enquote{Payload} eingeben werden. Ferner muss der Content-Type auf \enquote{application/xml} gesetzt werden, um entsprechende HTTP-Header mitzuschicken, welche dem Webservice mitteilen, dass auch tatsächlich XML Daten kommen. 
+Eine andere Möglichkeit den \gls{REST} Webservice zu testen ist ein Plugin des Browsers Chrome, genannt \enquote{Advanced REST Client}. Dieser kann auch einen POST-Request erzeugen und an eine URL senden. Die \autoref{fig:advancedrestclienttest} zeigt einen Test eines einfachen XML-Files. Dazu muss der XML Inhalt in das untere Eingabefeld unter dem Reiter \enquote{Payload} eingeben werden. Ferner muss der Content-Type auf \enquote{application/xml} gesetzt werden, um entsprechende HTTP-Header mitzuschicken, welche dem Webservice mitteilen, dass auch tatsächlich XML Daten kommen. 
 
 \begin{figure}[htbp]
 	\centering
@@ -102,8 +101,6 @@ Eine andere Möglichkeit den REST Webservice zu testen ist ein Plugin des Browse
 	\caption{Advanced REST Client Test des Webservices}
 	\label{fig:advancedrestclienttest}
 \end{figure}
-
-\todotext{ggfs. in Anhang auslagern}
 
 \section{Webservice}\index{Webservice}\index{REST!RESTful Webservice}\label{kap:webservice}
 
@@ -181,11 +178,11 @@ Der nächste Schritt ist es, die entsprechenden Methode zu definieren, welche di
     }
  \end{lstlisting}  
 
-Die Konfiguration der Methode wird über \Gls{Annotation} vorgenommen. Nachfolgend die Erklärung der \Gls{Annotation} aus \autoref{lst:jerseymethode}.
+Die Konfiguration der Methode wird über \Gls{Annotation} vorgenommen. Nachfolgend die Erklärung der \Glspl{Annotation} aus \autoref{lst:jerseymethode}.
 
 \begin{description}
-\item[@POST] Definiert die \gls{HTTP-Methode}. Hier POST. Einige weitere Möglichkeiten des HTTP-Protokolls sind GET, PUT und DELETE
-\item[@Path('/query')] Definiert den URL-Pfad Suffix für diese Methode. Um diese Methode als Web Service via HTTP aufzurufen lautet die finale URL \enquote{http://localhost:8080/plib-characteristic-query/rest/query}. 
+\item[@POST] Definiert die \gls{HTTP-Methode}. Hier \gls{POST}. Einige weitere Möglichkeiten des \gls{HTTP}-Protokolls sind GET, PUT und DELETE
+\item[@Path('/query')] Definiert den URL-Pfad Suffix für diese Methode. Um diese Methode als Web Service via \gls{HTTP} aufzurufen lautet die finale URL \enquote{http://localhost:8080/plib-characteristic-query/rest/query}. 
 \item[@Consumes('application/xml')] Definiert den \gls{MIME-Type}\footnote{Internet Media Type oder auch Content-Type.}, welcher von diesem Service (diese Methode) konsumiert werden kann. Wird ein anderer Typ als POST an diesen Service geliefert, weist der Service diese Anfrage ab. 
 \item[@Produces(MediaType.APPLICATION\_XML)] Definiert den \gls{MIME-Type} des Inhaltes, der vom Service als Antwort zurückgeliefert wird.  
 \end{description}
@@ -198,18 +195,18 @@ Die Konfiguration der Methode wird über \Gls{Annotation} vorgenommen. Nachfolge
 Der \gls{Webservice}, welcher in \autoref{kap:webservice} beschrieben ist, nimmt in der Applikation das Query-XML-File entgegen. 
 Die Struktur des XML-Files ist durch die query.xsd vorgegben \citep[27]{iso29002-31}. 
 
-Der nächste Schritt ist es, diese XML zu verarbeiten. Dazu muss das xml geparsed und die Informationen des Queries in ein entsprechendes Modell überführt werden. Diesen Prozess nennt man \gls{Unmarshalling}. 
+Der nächste Schritt ist es, diese XML-Datei zu verarbeiten. Dazu muss die XML-Datei geparsed und die Informationen des Queries in ein entsprechendes Modell überführt werden. Diesen Prozess nennt man \gls{Unmarshalling}. 
 
 Die folgenden Schritte müssen für das \gls{Unmarshalling} durchgeführt werden.
 
 \begin{enumerate}
 \item Ein Modell in Java erstellen
 \item XML parsen und in das Modell überführen
-\item Validierung des Modells gemäß der Regeln in Schema-Datei
+\item Validierung des Modells gemäß der Regeln aus Schema-Datei
 \end{enumerate}
 
 %modell
-\subsection{Modell-Generierung}
+\subsection{Modell-Generierung}\label{sec:modellgenerierung}
 
 Ein entsprechend valides Model anhand der XSD manuell in Java aufzubauen wäre sehr mühsam und fehleranfällig. Java liefert mit der \gls{JAXB} Bibliothek die Möglichkeit die Modellklassen von Java aus den XSDs zu generieren.
 
@@ -225,7 +222,7 @@ Die query.xsd referenziert die weiteren folgenden Schema-Dateien:
 \item value.xsd
 \end{itemize}
 
-\subsubsection{Generierung mit JAXB}\index{Codegenerierung}
+\subsubsection{Generierung mit JAXB}\index{Codegenerierung}\index{JAXB}
 
 Die Generierung startet man als Java Kommando in der Konsole, siehe \autoref{lst:jaxbgeneratemodel}.
 
@@ -238,7 +235,7 @@ Bei der Generierung wurde die folgende Fehlermeldung angezeigt:
 
 \enquote{[ERROR] The package name iso.std.iso.ts.\_29002.\_\_-31.ed\_1.tech.xml\_schema.query used for this schema is not a valid package name. line 18 of file query.xsd}
   
-Der Grund für den Fehler ist, dass in der query.xsd die \glslink{Namespace}{Namensräume} wie in  \autoref{lst:queryschemanamespace} definiert sind. Da JAXB die \Glspl{Namespace} nutzt um die entsprechenden Paketstrukturen für die Modelle in Java zu erstellen, schafft es JAXB nicht, diese in entsprechende valide Form umzuwandeln. Man erkennt es daran, dass aus 
+Der Grund für den Fehler ist, dass in der query.xsd die \glslink{Namespace}{Namensräume}\footnote{Im weiteren Verlauf wird der englische Begriff Namespaces für Namensräume benutzt.} wie in  \autoref{lst:queryschemanamespace} definiert sind. Da JAXB die \Glspl{Namespace} nutzt um die entsprechenden Paketstrukturen für die Modelle in Java zu erstellen, schafft es JAXB nicht, diese in entsprechende valide Form umzuwandeln. Man erkennt es daran, dass aus 
 \enquote{urn:iso:std:iso:ts:29002:-31:ed-1:tech:xml-schema:query} 
 in der Fehlermeldung 
 \enquote{iso.std.iso.ts.\_29002.\_\_-31.ed\_1.tech.xml\_schema.query} wird\footnote{Java Paketnamen enthalten als Trenner zwischen den Ebenen einen Punkt. Valide wäre z.B. iso.std.iso.ts.query}.
@@ -329,7 +326,7 @@ An dieser Stelle wissen wir, wie aus den Schema-Dateien gemäß den ISO-Standard
 \subsection{Einbinden in Buildprozess mit Maven}\index{Maven}\index{Buildprozess}
 Da als Build-Werkzeug \gls{Maven} verwendet wird, kann der gesamte Generierungsprozess darüber abgebildet werden. 
 
-\subsubsection{Separates Source-Verzeichnis}
+\subsubsection{Separates Source-Verzeichnis}\index{VCS}\index{Versionierung}
 Die Standardprojektform eines \gls{Maven}-Projektes hat einen sogenannten Source-Folder (src). Darin befindet sich ein main-Folder. Dort werden die Klassen der Applikation abgelegt. Ferner beinhaltet der src-Folder einen test-Folder. Darin werden Testklassen abgelegt. 
 Damit die generierten Sourcen klar von den anderen Source-Dateien getrennt sind, soll ein separates Source-Verzeichnis angelegt werden. Der weiterer Vorteil ist, dass dieser Folder beispielsweise auch vom \gls{VCS} ausgenommen werden kann, da diese Klassen während des Build-Prozesses jeweils generiert werden und somit keiner Versionierung bedürfen. Das wäre aufwändiger zu realisieren, wenn die Dateien exakt im gleichen Source-Folder generiert würden wo alle anderen Source-Dateien liegen\footnote{Hinweis: Moderne \gls{VCS} wie das eingesetzte GIT ermöglicht es nach Mustern Dateien oder Ordner von der Versionierung auszunehmen. Allerdings müsste das hier auf Paketbasis erfolgen, sozusagen ab de.feu.plib.xml.*, das macht die Umgebung im Ganzen komplexer}. 
 
@@ -357,7 +354,7 @@ Die generierten Sourcen der XSD-Dateien werden in ein separates Verzeichnis name
 </plugin>
 \end{lstlisting}
 
-\subsubsection{JAXB Maven Plugin}
+\subsubsection{JAXB Maven Plugin}\index{Maven-Plugin}
 
 Um JAXB mit \gls{Maven} zu nutzen, muss das \gls{Maven}-Plugin \enquote{maven-jaxb2-plugin} in die \gls{pom} eingetragen werden. \autoref{lst:jaxbplugin} zeigt den XML-Auschnitt aus der \gls{pom}. \index{Maven!pom.xml}
 
@@ -405,12 +402,12 @@ Um JAXB mit \gls{Maven} zu nutzen, muss das \gls{Maven}-Plugin \enquote{maven-ja
             </plugin>    
 \end{lstlisting}
 
-\subsection{Abfrage der PLIB Prozeduren}
+\section{Abfrage der PLIB Prozeduren}\index{PLIB Prozeduren}\index{Oracle Prozeduren}\label{sec:abfrage_plib_prozeduren}
 
 Die Anforderung ist es, so weit wie möglich die vorhandenen Prozeduren aus der Arbeit von Herrn Mende zu nutzen. 
 
-Die Prozeduren von Herrn Mende nehmen einen sogenannten Externen Identifier entgegen. Dieser identifiziert eindeutig eine Instanz eines \gls{item}. 
-Beispiel: Ich habe das Konzept \enquote{Sechskantschraube} und in der Teiledatenbank gibt es davon genau eine gespeicherte Instanz, also eine Schraube mit definierten Werteeigenschaften. 
+Die Prozeduren von Herrn Mende nehmen einen sogenannten Externen Identifier entgegen. Dieser identifiziert eindeutig eine Instanz eines \glspl{item}. 
+Beispiel: Ich habe das Konzept \enquote{Sechskantschraube} und in der Teiledatenbank gibt es davon genau eine gespeicherte Instanz, das ist eine Schraube mit definierten Werteeigenschaften. 
 
 Zur Abfrage stehen folgende Oracle-Prozeduren zur Verfügung:
 
@@ -418,29 +415,91 @@ Zur Abfrage stehen folgende Oracle-Prozeduren zur Verfügung:
 \item[GET\_PROP\_VALS\_STRING] Nimmt als IN-Parameter eine Externe Produkt-ID entgegen und liefert eine Tabelle vom Typ PROP\_STRING\_NTT zurück. 
 Diese Tabelle beinhaltet die folgenden Werte: 
   \begin{description}
-  \item[IRDI] xxx
-  \item[VALUE] xxx
-  \item[UNIT] xxx
-  \item[PREFIX] xxx
-  \item[TOLERANCE] xxx
-  \item[VALUE\_ID] xxx
+  \item[IRDI] Eindeutiger Identifier der Teileeigenschaft.
+  \item[VALUE] Wert der mittels IRDI identifizierten Teileeigenschaft.
+  \item[UNIT] Einheit der Teileeigenschaft.
+  \item[PREFIX] Prefix für den konkreten Wert.
+  \item[TOLERANCE] Wertetoleranzangabe.
+  \item[VALUE\_ID] Identifier des konkreten Wertes.
   \end{description}
-
-\todotext{Attribute beschreiben}  
 
 \item[GET\_PROP\_VALS\_NUMBER]  Nimmt als IN-Parameter eine Externe Produkt-ID entgegen und liefert eine Tabelle vom Typ PROP\_NUMBER\_NTT zurück. 
 Die Rückgabetabelle entspricht der Tabelle von PROP\_STRING\_NTT, bis auf die Typisierung des Values. 
-\item[GET\_PROP\_VALS\_REFERENCES]  xxx
-\item[GET\_PROP\_VALS\_LIST\_NUMBER] xxx
-\item[GET\_PROP\_VALS\_LIST\_STRING] xxx
-\item[GET\_PROP\_VALS\_MULTILIST\_NUMBER] xxx
-\item[GET\_PROP\_VALS\_MULTILIST\_STRING]  xxx
-\item[GET\_PROP\_VALS] xxx  
+\item[GET\_PROP\_VALS\_REFERENCES]  Nimmt als IN-Parameter eine Externe Produkt-ID entgegen und liefert eine Tabelle vom Typ PROP\_REF\_NTT zurück. 
+Diese Tabelle beinhaltet die folgenden Werte: 
+  \begin{description}
+  \item[IRDI] Eindeutiger Identifier der Teileeigenschaft.
+  \item[VALUE] Wert der mittels IRDI identifizierten Teileeigenschaft.
+  \end{description}
+\item[GET\_PROP\_VALS\_LIST\_NUMBER] Nimmt als IN-Parameter eine Externe Produkt-ID entgegen und liefert eine Tabelle vom Typ PROP\_LIST\_NUMBER\_NTT zurück. Stellt eine Liste von Zahlenwerten dar. 
+Diese Tabelle beinhaltet die folgenden Werte: 
+
+  \begin{description}
+  \item[IRDI] Eindeutiger Identifier der Teileeigenschaft.
+  \item[POS\_IN\_LIST] Position des Wertes der Teileeigenschaft in der Liste.
+  \item[VALUE] Wert der mittels IRDI identifizierten Teileeigenschaft.
+  \item[UNIT] Einheit der Teileeigenschaft.
+  \item[PREFIX] Prefix für den konkreten Wert.
+  \item[TOLERANCE] Wertetoleranzangabe.
+  \item[VALUE\_ID] Identifier des konkreten Wertes.
+  \end{description}
+  
+\item[GET\_PROP\_VALS\_LIST\_STRING] Nimmt als IN-Parameter eine Externe Produkt-ID entgegen und liefert eine Tabelle vom Typ PROP\_LIST\_STRING\_NTT zurück. Stellt eine Liste von String-Werten dar. 
+Diese Tabelle beinhaltet die folgenden Werte: 
+
+  \begin{description}
+  \item[IRDI] Eindeutiger Identifier der Teileeigenschaft.
+  \item[POS\_IN\_LIST] Position des Wertes der Teileeigenschaft in der Liste.
+  \item[VALUE] Wert der mittels IRDI identifizierten Teileeigenschaft.
+  \item[UNIT] Einheit der Teileeigenschaft.
+  \item[PREFIX] Prefix für den konkreten Wert.
+  \item[TOLERANCE] Wertetoleranzangabe.
+  \item[VALUE\_ID] Identifier des konkreten Wertes.
+  \end{description}
+\item[GET\_PROP\_VALS\_MULTILIST\_NUMBER] Nimmt als IN-Parameter eine Externe Produkt-ID entgegen und liefert eine Tabelle vom Typ PROP\_MULTILIST\_NUMBER\_NTT zurück. Stellt eine Liste von Zahlenwerten in mehreren Dimensionen dar (Matrix). 
+Diese Tabelle beinhaltet die folgenden Werte: 
+
+  \begin{description}
+  \item[IRDI] Eindeutiger Identifier der Teileeigenschaft.
+  \item[POS\_IN\_LIST] Position des Wertes der Teileeigenschaft in der Liste.
+  \item[LIST\_COORD\_T\_REC] Ein Eintrag vom Typ LIST\_COORD\_T\_REC, gleichsam einem Feld in einer Matrix. Besteht aus folgenden Einträgen:
+    \begin{description}	
+    \item[DIM] Zeigt die Dimension an.
+    \item[POS] Zeigt die Position in der Dimension an. 
+    \end{description}
+  \item[VAL] Wert der mittels IRDI identifizierten Teileeigenschaft.
+  \item[UNIT] Einheit der Teileeigenschaft.
+  \item[PREFIX] Prefix für den konkreten Wert.
+  \item[TOLERANCE] Wertetoleranzangabe.
+  \item[VALUE\_ID] Identifier des konkreten Wertes.
+  \end{description}
+
+\item[GET\_PROP\_VALS\_MULTILIST\_STRING]  Nimmt als IN-Parameter eine Externe Produkt-ID entgegen und liefert eine Tabelle vom Typ PROP\_MULTILIST\_NUMBER\_NTT zurück. Stellt eine Liste von String-Werten in mehreren Dimensionen dar (Matrix). 
+Diese Tabelle beinhaltet die folgenden Werte: 
+
+  \begin{description}
+  \item[IRDI] Eindeutiger Identifier der Teileeigenschaft.
+  \item[POS\_IN\_LIST] Position des Wertes der Teileeigenschaft in der Liste.
+  \item[LIST\_COORD\_T\_REC] Ein Eintrag vom Typ LIST\_COORD\_T\_REC, gleichsam einem Feld in einer Matrix. Besteht aus folgenden Einträgen:
+    \begin{description}	
+    \item[DIM] Zeigt die Dimension an.
+    \item[POS] Zeigt die Position in der Dimension an. 
+    \end{description}
+  \item[VAL] Wert der mittels IRDI identifizierten Teileeigenschaft.
+  \item[UNIT] Einheit der Teileeigenschaft.
+  \item[PREFIX] Prefix für den konkreten Wert.
+  \item[TOLERANCE] Wertetoleranzangabe.
+  \item[VALUE\_ID] Identifier des konkreten Wertes.
+  \end{description}
+\item[GET\_PROP\_VALS] Die globale Methode, welche alle Prozeduren aufruft. Nimmt als IN-Parameter eine Externe Produkt-ID entgegen und liefert die folgenden Tabellen zurück PROP\_NUMBER\_NTT,  PROP\_STRING\_NTT,  PROP\_REF\_NTT,  
+PROP\_LIST\_NUMBER\_NTT, PROP\_LIST\_STRING\_NTT, PROP\_MULTILIST\_NUMBER\_NTT
+PROP\_MULTILIST\_STRING\_NTT.
+Diese Tabellen sind bereits einzeln oben beschrieben. 
 \end{description}
 
-\todotext{Attribute beschreiben} 
+Für genaue konzeptuelle Beschreibungen sei auf die Abschlussarbeit von Herrn Karsten Mende verwiesen\footnote{Diese Arbeit wird parallel zu dieser Abschlussarbeit verfasst, daher könnte diese zum Zeitpunkt der Abgabe die Arbeit von Herrn Mende noch nicht verfügbar sein. Der Leser sei deshalb für weitere Informationen an den Fachbereich verwiesen.}
 
-\subsubsection{Problem - Externer Identifier}
+\subsection{Problem - Externer Identifier}
 
 Hier stellt sich das Problem, dass eine query.xsd generell immer auf die \gls{IRDI} eines Konzeptes basiert. 
 Beispiel: \enquote{Gib mir bitte alle Instanzen und Werte der Eigenschaften des Klassenkonzeptes mit dem Identifier 0173-1\#01-BAD803\#2 (Skalpell)}
@@ -523,7 +582,7 @@ Schritt & Beschreibung\\
 \vspace{2ex}\end{table}
  
 
-\subsubsection{Problem - Daten der Teile Eigenschaften}
+\subsection{Problem - Daten der Teile Eigenschaften}
 
 Die genannten Prozeduren liefern die Daten der Eigenschaften eines spezifizierten Teiles nach IRDI. Die Liste der zurückgegebenen Daten scheint auf den ersten Blick ausreichend, denn man erhält die folgenden Eigenschaften der Prozedur GET\_PROP\_VALS\_STRING:
 \begin{itemize}
@@ -547,10 +606,222 @@ Da dies sinnvoll erscheint und ferner die Implementierung vereinfacht, wurde die
 
 Fazit:
 Zur Zeit werden folglich gesetzte Werte von UNIT, PREFIX und TOLERANCE in DO\_ADDTIONAL\_DATA ignoriert und nur die Metadatenrepräsentationen benutzt.  
-
 \todotext{Den Punkt im Schlussteil erwähnen}
 
+\subsection{Problem - Aufruf der Prozeduren mit Java}
+Um die Prozeduren von Oracle aufzurufen wurde das Spring Data Oracle eingesetzt. \index{Spring Data Oracle}
+
+Die eigentlichen Hilfsprozeduren, welche von Karsten Mende zur Verfügung gestellt werden lieferten keine Rückgabewerte. Das \autoref{lst:spring_data_hilf} zeigt die erste Testimplementierung. 
+
+Der Grund, weshalb keine Rückgabewerte geliefert werden ist, dass die Hilfsprozeduren Ausgaben mit der Oracle Funktion \enquote{dbms\_output.put\_line} erzeugen. Auf diese manuell erzeugten Ausgabetexte kann nicht zugegriffen werden. 
+
+\begin{lstlisting}[caption=Spring Data Oracle - Klasse zum Aufruf der Hilfsprozeduren, language=, label=lst:spring_data_hilf]
+package de.feu.plib.dao.procedures;
+
+import org.apache.log4j.Logger;
+import org.springframework.jdbc.core.SqlOutParameter;
+import org.springframework.jdbc.core.SqlParameter;
+import org.springframework.jdbc.object.StoredProcedure;
+
+import javax.sql.DataSource;
+import java.sql.Types;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * This class calls the HILF_GET_PROP_VALS procedure.
+ * However, during tests I found out that we have no real out-parameter.
+ * Thus either must be changed or Queries from the procedures must be used as simple sql.
+ */
+public class PropertyValuesStoredProcedure extends StoredProcedure {
+    private static final String PROCEDURE_NAME = "PACK_PROPERTY.HILF_GET_PROP_VALS_STRING";
+
+    /**
+     * Logger instance
+     */
+    private static Logger LOGGER = Logger.getLogger(TestProcedure.class);
+
+    public PropertyValuesStoredProcedure(DataSource ds) {
+        super(ds, PROCEDURE_NAME);
+        declareParameter(new SqlParameter("OBJ_ID", Types.VARCHAR));
+        compile();
+    }
+
+    public String execute(String objectId) {
+        Map in = new HashMap();
+        in.put("OBJ_ID", objectId);
+        Map out = execute(in);
+        LOGGER.info("Output: " + out);
+        if (!out.isEmpty())
+            return out.get("OBJ_ID").toString();
+        else
+            return null;
+    }
+}
+
+\end{lstlisting}
+
+Im \autoref{lst:spring_data_hilf} leitet die Klasse PropertyValuesStoredProcedure von der Spring-Klasse StoredProcedure ab. Im Konstruktor werden die Parameter definiert, in diesem Falle lediglich OBJ\_ID als Externer Identifier. Ferner wird die Methode execute überschrieben, welche den Aufruf der Prozedur kapselt. 
+
+\autoref{lst:spring_data_hilf_test} zeigt eine Testklasse, welche die Prozedur aufruft. Die Testklasse verfügt über zwei Testmethoden, testShowsThatWeHaveThatinDB und testShouldThrowExceptionAsExtIDIsNotInDB. 
+
+\begin{description}
+\item[ testShowsThatWeHaveThatinDB] Diese Methode übergibt einen gültigen und in der Datenbank vorhandenen Externen Identifier. Wird die Hilfsmethode über SQL direkt auf der Datenbank mit diesem Parameter aufgerufen, so wird folgendes zurückgegeben:
+
+  LIST\_STRING\_PROPS 1. Stelle
+  Property-IRDI :  val : Euro
+  LIST\_STRING\_PROPS 2. Stelle
+  Property-IRDI :  val : 2008-12-31
+  LIST\_STRING\_PROPS 3. Stelle
+  Property-IRDI :  val : 170202
+  LIST\_STRING\_PROPS 4. Stelle
+  Property-IRDI :  val : 24-31-01-01
+  LIST\_STRING\_PROPS 5. Stelle
+  Property-IRDI :  val : Rundolf-75
+  LIST\_STRING\_PROPS 6. Stelle
+  Property-IRDI :  val : 2008-05-01
+  
+Es ist eine Liste mit sechs Eigenschaftswerten.
+Wird die Prozedur über den Test aufgerufen, so läuft der Test durch, liefert aber kein Ergebnis zurück. Dieses Verhalten wurde nicht erwartet. 
+  
+\item[ testShouldThrowExceptionAsExtIDIsNotInDB] Diese Testmethode nutzt einen nicht vorhandenen Externen Identifier. Via SQL direkt auf der Datenbank ausgeführt liefert die Testmethode: \enquote{No Data found} zurück. 
+Wird die Prozedur über den Test aufgerufen, so wird eine Exception geworfen, welche ebenfalls den Text  \enquote{No Data found} beinhaltet. Dies ist somit ein korrektes Verhalten. 
+\end{description}
+
+Der Grund, weshalb der Aufruf der Prozedur mit einem gültigen externen Identifier keinen Wert zurückliefert ist der, dass die Hilfsmethoden mit dem Prefix HILF\_* (z.B. HILF\_GET\_PROP\_VAL\_STRING) in der Prozedurdefinition Ausgaben mittels DBMS\_OUTPUT.PUT\_LINE erzeugen. Das ist eine Oracle spezifische Funktion um Ausgaben zu erzeugen. Hierauf kann nicht zugegriffen werden. Ferner sind die Daten nicht strukturiert.   
+
+\begin{lstlisting}[caption=Spring Data Oracle - Testklasse zum Aufruf der Hilfsprozeduren, language=, label=lst:spring_data_hilf_test]
+package de.feu.plib.dao.procedures;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import javax.sql.DataSource;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"/beans.xml"})
+public class PropertyValuesStoredProcedureIT {
+    @Autowired
+    javax.sql.DataSource ds;
+
+
+    @Before
+    public void setUp() throws Exception {
+    }
+
+    @After
+    public void tearDown() throws Exception {
+    }
+
+    @Test
+    public void testShowsThatWeHaveThatinDB() {
+
+        PropertyValuesStoredProcedure propertyValuesStoredProcedure = new PropertyValuesStoredProcedure(ds);
+        propertyValuesStoredProcedure.execute("EXT_50766884");
+
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testShouldThrowExceptionAsExtIDIsNotInDB() {
+
+        PropertyValuesStoredProcedure propertyValuesStoredProcedure = new PropertyValuesStoredProcedure(ds);
+        propertyValuesStoredProcedure.execute("EXT_555");
+
+    }
+
+    public DataSource getDs() {
+        return ds;
+    }
+
+    public void setDs(DataSource ds) {
+        this.ds = ds;
+    }
+
+}
+
+\end{lstlisting}
+
+Der nächste Test muss demnach eine Ebene höher ansetzen, und zwar dort, wo die Daten in Typstrukturen genutzt werden. Das sind die konkreten Prozeduren wie z.B. GET\_PROP\_VALS\_STRING. Diese liefern Tabellen vom Typ konkreter Rückgabetypen wie in \autoref{sec:abfrage_plib_prozeduren} beschrieben. 
+
+Das Listing \autoref{lst:spring_data_oracle} zeigt beispielhaft die Zugriffsklasse für die Prozedur GET\_PROP\_VALS\_STRING.
+
+\begin{lstlisting}[caption=Spring Data Oracle - Aufruf der Prozeduren mit Rückgabetabellen, language=, label=lst:spring_data_oracle]
+package de.feu.plib.dao.procedures;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.sql.DataSource;
+
+import de.feu.plib.dao.procedures.types.PropStringNtt;
+import oracle.jdbc.OracleTypes;
+import org.apache.log4j.Logger;
+import org.springframework.data.jdbc.support.oracle.SqlReturnSqlData;
+import org.springframework.jdbc.core.SqlOutParameter;
+import org.springframework.jdbc.core.SqlParameter;
+import org.springframework.jdbc.object.StoredProcedure;
+
+public class TestProcedure extends StoredProcedure {
+
+    private static final String SQL = "PACK_PROPERTY.GET_PROP_VALS_STRING";
+
+    /**
+     * Logger instance
+     */
+    private static Logger LOGGER = Logger.getLogger(TestProcedure.class);
+
+	public TestProcedure(DataSource ds) {
+		super(ds, SQL);
+		declareParameter(new SqlParameter("EXT_PROD_ID", OracleTypes.VARCHAR));
+
+		declareParameter(new SqlOutParameter("OUTTABLE_STRING", OracleTypes.STRUCT, "PACK_PROPERTY.PROP_STRING_T", new SqlReturnSqlData(PropStringNtt.class)));
+		//declareParameter(new SqlOutParameter("OUTTABLE_STRING", OracleTypes.ARRAY));
+
+		//setFunction(true);// you must set this as it distinguishes it from a sproc
+		compile();
+	}
+
+	public String execute(Long propertyId, Long is_cvp) {
+		Map in = new HashMap();
+		in.put("EXT_PROD_ID", propertyId);
+        in.put("is_cvp", is_cvp);
+		Map out = execute(in);
+		if (!out.isEmpty())
+			return out.get("message").toString();
+		else
+			return null;
+	}
+
+    public String execute(String propertyId) {
+		Map in = new HashMap();
+		in.put("EXT_PROD_ID", propertyId);
+        //in.put("is_cvp", is_cvp);
+		Map out = execute(in);
+		if (!out.isEmpty())
+			return out.get("OUTTABLE_STRING").toString();
+		else
+			return null;
+	}
+}
+\end{lstlisting}
+
+
+\subsubsection{Lösung}
+
+Eine längere Internetrecherche hat ergeben, dass die Typdefinitionen global definiert sein müssen, da diese sonst mittels JDBC-Treiber nicht genutzt werden können.
+
+Somit wurden die Typen, die sich im Oracle Paket \enquote{PACK\_PROPERTY} befinden global als Typen neu definiert. Das ermöglichte das Aufrufen der Prozeduren mittels Java JDBC. 
+
+\todotext{listing anpassen, sobald procedurabfrage korrigiert}
+
 \section{Zusammenfassung des Kapitels}
+
+
 
 \todotext{Zusammenfassung ausformulieren}
 
