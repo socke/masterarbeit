@@ -499,7 +499,7 @@ Diese Tabellen sind bereits einzeln oben beschrieben.
 
 Für genaue konzeptuelle Beschreibungen sei auf die Abschlussarbeit von Herrn Karsten Mende verwiesen\footnote{Diese Arbeit wird parallel zu dieser Abschlussarbeit verfasst, daher könnte diese zum Zeitpunkt der Abgabe die Arbeit von Herrn Mende noch nicht verfügbar sein. Der Leser sei deshalb für weitere Informationen an den Fachbereich verwiesen.}
 
-\subsection{Problem - Externer Identifier}
+\subsection{Problemstellung - Externer Identifier}\label{sec:problemidentifier}
 
 Hier stellt sich das Problem, dass eine query.xsd generell immer auf die \gls{IRDI} eines Konzeptes basiert. 
 Beispiel: \enquote{Gib mir bitte alle Instanzen und Werte der Eigenschaften des Klassenkonzeptes mit dem Identifier 0173-1\#01-BAD803\#2 (Skalpell)}
@@ -582,7 +582,7 @@ Schritt & Beschreibung\\
 \vspace{2ex}\end{table}
  
 
-\subsection{Problem - Daten der Teile Eigenschaften}
+\subsection{Problemstellung - Daten der Teile Eigenschaften}\label{sec:problemdateneigenschaften}
 
 Die genannten Prozeduren liefern die Daten der Eigenschaften eines spezifizierten Teiles nach IRDI. Die Liste der zurückgegebenen Daten scheint auf den ersten Blick ausreichend, denn man erhält die folgenden Eigenschaften der Prozedur GET\_PROP\_VALS\_STRING:
 \begin{itemize}
@@ -608,7 +608,7 @@ Fazit:
 Zur Zeit werden folglich gesetzte Werte von UNIT, PREFIX und TOLERANCE in DO\_ADDTIONAL\_DATA ignoriert und nur die Metadatenrepräsentationen benutzt.  
 \todotext{Den Punkt im Schlussteil erwähnen}
 
-\subsection{Problem - Aufruf der Prozeduren mit Java}
+\subsection{Problemstellung - Aufruf der Prozeduren mit Java}
 Um die Prozeduren von Oracle aufzurufen wurde das Spring Data Oracle eingesetzt. \index{Spring Data Oracle}
 
 Die eigentlichen Hilfsprozeduren, welche von Karsten Mende zur Verfügung gestellt werden lieferten keine Rückgabewerte. Das \autoref{lst:spring_data_hilf} zeigt die erste Testimplementierung. 
@@ -690,7 +690,7 @@ Wird die Prozedur über den Test aufgerufen, so wird eine Exception geworfen, we
 
 Der Grund, weshalb der Aufruf der Prozedur mit einem gültigen externen Identifier keinen Wert zurückliefert ist der, dass die Hilfsmethoden mit dem Prefix HILF\_* (z.B. HILF\_GET\_PROP\_VAL\_STRING) in der Prozedurdefinition Ausgaben mittels DBMS\_OUTPUT.PUT\_LINE erzeugen. Das ist eine Oracle spezifische Funktion um Ausgaben zu erzeugen. Hierauf kann nicht zugegriffen werden. Ferner sind die Daten nicht strukturiert.   
 
-\begin{lstlisting}[caption=Spring Data Oracle - Testklasse zum Aufruf der Hilfsprozeduren, language=, label=lst:spring_data_hilf_test]
+\begin{lstlisting}[caption=Spring Data Oracle - Testklasse zum Aufruf der Hilfsprozeduren, language=java, label=lst:spring_data_hilf_test]
 package de.feu.plib.dao.procedures;
 
 import org.junit.After;
@@ -746,11 +746,15 @@ public class PropertyValuesStoredProcedureIT {
 
 \end{lstlisting}
 
-Der nächste Test muss demnach eine Ebene höher ansetzen, und zwar dort, wo die Daten in Typstrukturen genutzt werden. Das sind die konkreten Prozeduren wie z.B. GET\_PROP\_VALS\_STRING. Diese liefern Tabellen vom Typ konkreter Rückgabetypen wie in \autoref{sec:abfrage_plib_prozeduren} beschrieben. 
 
-Das Listing \autoref{lst:spring_data_oracle} zeigt beispielhaft die Zugriffsklasse für die Prozedur GET\_PROP\_VALS\_STRING.
 
-\begin{lstlisting}[caption=Spring Data Oracle - Aufruf der Prozeduren mit Rückgabetabellen, language=, label=lst:spring_data_oracle]
+\subsubsection{Lösung}
+
+Der nächste Test muss demnach eine Ebene tiefer ansetzen, und zwar dort, wo die Daten in Typstrukturen genutzt werden. Das sind die konkreten Prozeduren wie z.B. GET\_PROP\_VALS\_STRING. Diese liefern Tabellen vom Typ konkreter Rückgabetypen wie in \autoref{sec:abfrage_plib_prozeduren} beschrieben. 
+
+Das \autoref{lst:spring_data_oracle} zeigt beispielhaft die Zugriffsklasse für die Prozedur GET\_PROP\_VALS\_STRING.
+
+\begin{lstlisting}[caption=Spring Data Oracle - Aufruf der Prozeduren mit Rückgabetabellen, language=java, label=lst:spring_data_oracle]
 package de.feu.plib.dao.procedures;
 
 import java.util.HashMap;
@@ -779,10 +783,7 @@ public class TestProcedure extends StoredProcedure {
 		super(ds, SQL);
 		declareParameter(new SqlParameter("EXT_PROD_ID", OracleTypes.VARCHAR));
 
-		declareParameter(new SqlOutParameter("OUTTABLE_STRING", OracleTypes.STRUCT, "PACK_PROPERTY.PROP_STRING_T", new SqlReturnSqlData(PropStringNtt.class)));
-		//declareParameter(new SqlOutParameter("OUTTABLE_STRING", OracleTypes.ARRAY));
-
-		//setFunction(true);// you must set this as it distinguishes it from a sproc
+		declareParameter(new SqlOutParameter("OUTTABLE_STRING", OracleTypes.STRUCT, "PACK_PROPERTY.PROP_STRING_NTT", new SqlReturnSqlData(PropStringNtt.class)));
 		compile();
 	}
 
@@ -800,7 +801,6 @@ public class TestProcedure extends StoredProcedure {
     public String execute(String propertyId) {
 		Map in = new HashMap();
 		in.put("EXT_PROD_ID", propertyId);
-        //in.put("is_cvp", is_cvp);
 		Map out = execute(in);
 		if (!out.isEmpty())
 			return out.get("OUTTABLE_STRING").toString();
@@ -810,19 +810,211 @@ public class TestProcedure extends StoredProcedure {
 }
 \end{lstlisting}
 
+\subsection{Problemstellung - RECORD-Types als als Argumente werden nicht von Java JDBC unterstützt}
+
+Im \autoref{lst:spring_data_oracle} wird ein Test dargestellt, der vermeintlich die Prozedur \enquote{GET\_PROP\_VALS\_STRING} aufrufen kann. Dies ist der nächste logische Schritt, welcher allerdings nicht funktioniert. Beim Aufruf der Prozedur von Java, wird eine Fehlermeldung zurückgegeben, welche den Rückgabetyp PACK\_PROPERTY.PROP\_STRING\_NTT nicht erkennt. 
+
+Zur Erklärung dazu, PACK\_PROPERTY ist das von Herrn Mende definierte Paket, welches zum Ziel hat zusammengehörigen Prozeduren, Typen und Funktionen zu gruppieren. Dies erhöht die Wart- und Lesbarkeit des Oracle-PL/SQL Codes. 
+
+Eine längere Internetrecherche hat ergeben, dass eine Oracle Prozedur welche RECORD-Types als IN oder OUT-Parameter benutzt, mittels Java JDBC-Treiber nicht benutzt werden können. 
+
+Der SQLJ Developer's Guide and Reference sagt dazu \citep[Kap. 5][]{oracle-dev-guide}:
+
+\begin{quotation}
+\enquote{Oracle SQLJ and JDBC do not support calling arguments or return values of the PL/SQL BOOLEAN type or RECORD types. Also, when using the Thin driver, they do not support calling arguments or return values of PL/SQL TABLE types (known as indexed-by tables). TABLE types are supported for the OCI driver, however.}
+\end{quotation}
 
 \subsubsection{Lösung}
 
-Eine längere Internetrecherche hat ergeben, dass die Typdefinitionen global definiert sein müssen, da diese sonst mittels JDBC-Treiber nicht genutzt werden können.
+Es gibt mehrere Lösungsansätze. Der erste Ansatz ist autark zu lösen, ohne Anpassung der Prozeduren. Hierzu werden nicht die Prozeduren eingesetzt, sondern die benutzten SQL-Anfragen aus den Prozeduren werden eigenständig benutzt. 
+Der Vorteil dieser Lösung ist, dass die Prozeduren nicht angepasst werden müssen. Der Nachteil ist allerdings, dass die Prozeduren, welche in der Arbeit von Herrn Mende entwickelt wurden in der Form gar nicht mehr genutzt werden. Das ist nicht das eigentliche Ziel, führt allerdings zum Ergebnis. 
 
-Somit wurden die Typen, die sich im Oracle Paket \enquote{PACK\_PROPERTY} befinden global als Typen neu definiert. Das ermöglichte das Aufrufen der Prozeduren mittels Java JDBC. 
+Die erste Lösung wurde zu Testzwecken implementiert, siehe \autoref{lst:select_string}.
 
-\todotext{listing anpassen, sobald procedurabfrage korrigiert}
+\begin{lstlisting}[caption=SELECT-Abfrage für String-Properties aus den Prozeduren, language=sql, label=lst:select_string]
+SELECT 
+    P.ID, 
+    P.IRDI, 
+    LOJ.VALUE, 
+    LOJ.UNIT, 
+    LOJ.PREFIX, 
+    LOJ.TOLERANCE, 
+    LOJ.VALUE_ID 
+FROM 
+    (SELECT 
+    	DI_ID, 
+	P_ID, 
+	VALUE, 
+	UNIT, 
+	PREFIX, 
+	TOLERANCE, 
+	VALUE_ID
+     FROM 
+     	DO_STRING 
+		LEFT OUTER JOIN 
+			(SELECT 
+				DI_ID, 
+				P_ID, 
+				UNIT, 
+				PREFIX, 
+				TOLERANCE, 
+				VALUE_ID
+			 FROM 
+			 	DO_ADDITIONAL_DATA 
+			 WHERE 
+			 	ERR_CODE = 1)
+			 USING (DI_ID, P_ID)
+                          	WHERE (DI_ID =?) 
+                          		AND (DO_STRING.ERR_CODE = 1))
+                          	LOJ JOIN DE_PROPERTY P  
+                          	ON LOJ.P_ID = P.ID
+\end{lstlisting}
 
+Wenngleich die Abfrage zum Ergebnis führt, so ist sie sehr komplex. Daher sollte wie geplant die Abfragekomplexität in der Prozedur gekapselt sein. Damit sind wir gleich beim zweiten Lösungsansatz. Hierbei müssen die Prozeduren angepasst und als Rückgabetyp einen OBJECT-Typ benutzt werden. 
+
+Es wurde wie folgt vorgegangen: 
+Erst wurde die erste Lösung implementiert, um eine Basis für die weitere Entwicklung zu haben, denn für die zweite Lösung muss Herr Mende die Prozeduren anpassen. So konnte die Entwicklung fortgeführt werden und gleichzeitig Herr Mende die Änderungen für die zweite, gleichsam die empfohlene Lösung entwickeln. \autoref{lst:prop_string_typen} zeigt den von Herrn Mende neuen Beispieltypen PROP\_STRING\_OBJ. Analog zu den anderen Typen aus \autoref{sec:abfrage_plib_prozeduren} gibt es folglich weitere Typdefintionen wie z.B. PROP\_NUMBER\_OBJ oder PROP\_REFERENZ\_OBJ. 
+Die Prozeduren mit den RECORD Typen wurden beibehalten und neue Prozeduren entwickelt. Die Benamung ist GET\_OBJ\_STRING, GET\_OBJ\_NUMBER usw..
+
+\begin{lstlisting}[caption=PROP\_STRING\_OBJ Typen, language=sql, label=lst:prop_string_typen]
+create or replace
+  TYPE        "PROP_STRING_OBJ_T" AS OBJECT(
+  P_IRDI    VARCHAR2(4000),
+  "VALUE"   VARCHAR2(4000),
+  unit      VARCHAR2(30),
+  prefix    VARCHAR2(30),
+  tolerance NUMBER,
+  VALUE_ID  NUMBER
+);
+
+create or replace
+TYPE   "PROP_STRING_OBJ_NTT"  AS TABLE OF  "PROP_STRING_OBJ_T";
+\end{lstlisting}
+
+\subsection{Problemstellung - Fehlender Fremdschlüsselidentifier in Prozedurrückgabedaten}
+
+Wie bereits in \autoref{sec:problemdateneigenschaften} beschrieben liefern die Prozeduren mit den folgenden Attributen zurück: 
+
+IRDI, VALUE, UNIT, PREFIX, TOLERANCE, VALUE\_ID
+
+Ferner wird aufgezeigt, dass die Tabellen DE\_PROPERTY über DE\_DATA\_TYPE auf DE\_UNIT und DE\_PREFIX an alle relevanten Daten für das semantische Mapping kommt. Es stellt sich aber das Problem, dass die Rückgabedaten keinen Identifier beinhalten (P\_ID - Property ID), über welche die Tabellen miteinander verknüpft werden können (Join). 
+ 
+\subsubsection{Lösung}
+
+Es gibt zwei Lösungsansätze. Die erste Lösung ist, weitere SQL Anfragen zu stellen um die benötigten Daten zu erfragen. Nachteilig ist an dieser Lösung, dass bereits für die Ermittlung des Externen Identifiers aus \autoref{sec:problemidentifier} zusätzliche Anfragen nötig sind. In diesem Fall kommen weitere hinzu. 
+
+Die andere Lösung ist die Anpassung der Prozeduren und Rückgabetypen, so dass unmittelbar die Property ID mitgeliefert wird. Das hat den Vorteil, dass keine weitere SQL-Anfrage an die Datenbank gesendet werden muss. Innerhalb der Prozedur wird ein weiteres Attribut selektiert. 
+
+Es wurde die zweite Lösung gewählt. Hierbei müssen alle Typdefinitionen angepasst werden, siehe beispielhaft \autoref{lst:prop_string_typen_mod}. Dazu wird die Property ID eingefügt \enquote{P\_ID	 NUMBER}.
+
+ \begin{lstlisting}[caption=PROP\_STRING\_OBJ Typanpassung, language=sql, label=lst:prop_string_typen_mod]
+create or replace
+  TYPE        "PROP_STRING_OBJ_T" AS OBJECT(
+  P_ID	NUMBER
+  P_IRDI    VARCHAR2(4000),
+  "VALUE"   VARCHAR2(4000),
+  unit      VARCHAR2(30),
+  prefix    VARCHAR2(30),
+  tolerance NUMBER,
+  VALUE_ID  NUMBER
+);
+
+create or replace
+TYPE   "PROP_STRING_OBJ_NTT"  AS TABLE OF  "PROP_STRING_OBJ_T";
+\end{lstlisting}
+
+Das \autoref{lst:get_obj_string_anpassung} zeigt die gesamte GET\_OBJ\_STRING Prozedur samt Anpassung. 
+
+ \begin{lstlisting}[caption=GET\_OBJ\_STRING Anpassung auf Property ID, language=sql, label=lst:get_obj_string_anpassung]
+
+PROCEDURE GET_OBJ_STRING (
+       EXT_PROD_ID                 IN VARCHAR2,
+       OUTTBL_OBJ_STRING           OUT PROP_STRING_OBJ_NTT,
+       CREATED_VIEW                IN NUMBER := NULL
+       )
+IS
+       
+       CURSOR CUR_DO_STRING (IN_OBJ_ID NUMBER) 
+       IS
+       SELECT p.id, P.IRDI, LOJ.VALUE, LOJ.UNIT, LOJ.PREFIX, LOJ.TOLERANCE, LOJ.VALUE_ID 
+       FROM (SELECT DI_ID, P_ID,  VALUE, UNIT, PREFIX, TOLERANCE, VALUE_ID 
+             FROM DO_STRING LEFT OUTER JOIN (SELECT DI_ID, P_ID, UNIT, PREFIX, TOLERANCE, VALUE_ID
+                                             FROM DO_ADDITIONAL_DATA 
+                                             WHERE ERR_CODE = 1)
+             USING (DI_ID, P_ID) 
+             WHERE (DI_ID =IN_OBJ_ID) AND (DO_STRING.ERR_CODE = 1))LOJ JOIN DE_PROPERTY P
+             ON LOJ.P_ID = P.ID
+       ORDER BY P.IRDI;      
+ 
+  OBJ_ID_NR               NUMBER;
+  OUTTABLE_STRING         PROP_STRING_NTT := PROP_STRING_NTT();
+  OUTTBL_OBJ_STRING_ELEM  PROP_STRING_OBJ_T := PROP_STRING_OBJ_T(NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+  I                       INTEGER;
+  EMPTY_OUTTBL_OBJ_STRING PROP_STRING_OBJ_NTT := PROP_STRING_OBJ_NTT();
+
+BEGIN
+  OUTTBL_OBJ_STRING :=  EMPTY_OUTTBL_OBJ_STRING;
+   
+  IF CREATED_VIEW IS NULL THEN
+    EXECUTE IMMEDIATE 'SELECT DI_ID FROM DO_OBJECT WHERE EXT_PROD_ID = ''' || EXT_PROD_ID || ''' AND CREATED_VIEW IS NULL' INTO OBJ_ID_NR;
+  ELSE
+    EXECUTE IMMEDIATE 'SELECT DI_ID FROM DO_OBJECT WHERE EXT_PROD_ID = ''' || EXT_PROD_ID || ''' AND CREATED_VIEW = ' || CREATED_VIEW INTO OBJ_ID_NR ;
+  END IF;
+      
+  OPEN CUR_DO_STRING(OBJ_ID_NR);
+  FETCH CUR_DO_STRING BULK COLLECT INTO OUTTABLE_STRING; 
+  CLOSE CUR_DO_STRING; 
+  
+  IF OUTTABLE_STRING.FIRST IS NULL THEN
+    DBMS_OUTPUT.PUT_LINE('OUTTABLE_STRING ist leer!');
+  ELSE 
+    DBMS_OUTPUT.PUT_LINE('OUTTABLE_STRING ist NICHT leer!');
+    FOR I IN OUTTABLE_STRING.FIRST .. OUTTABLE_STRING.LAST LOOP
+      
+      DBMS_OUTPUT.PUT_LINE('OUTTABLE_STRING(I).PROP_IRDI: '||  OUTTABLE_STRING(I).PROP_IRDI);
+      OUTTBL_OBJ_STRING_ELEM.P_ID := OUTTABLE_STRING(I).PROP_ID;
+      OUTTBL_OBJ_STRING_ELEM.P_IRDI := OUTTABLE_STRING(I).PROP_IRDI;
+      OUTTBL_OBJ_STRING_ELEM.VALUE := OUTTABLE_STRING(I).VAL;
+      OUTTBL_OBJ_STRING_ELEM.UNIT := OUTTABLE_STRING(I).UNIT;
+      OUTTBL_OBJ_STRING_ELEM.PREFIX := OUTTABLE_STRING(I).PREFIX;
+      OUTTBL_OBJ_STRING_ELEM.TOLERANCE := OUTTABLE_STRING(I).TOLERANCE;
+      OUTTBL_OBJ_STRING_ELEM.VALUE_ID := OUTTABLE_STRING(I).VALUE_ID;
+      OUTTBL_OBJ_STRING.EXTEND;
+      OUTTBL_OBJ_STRING(OUTTBL_OBJ_STRING.LAST) := OUTTBL_OBJ_STRING_ELEM;
+      DBMS_OUTPUT.PUT_LINE('Wertzuweisung an OUTTBL_OBJ_STRING erfolgreich!');
+    END LOOP; 
+  END IF;
+   
+END GET_OBJ_STRING;
+\end{lstlisting}
+ 
+Es müssen drei Stellen angepasst werden: 
+
+\begin{itemize}
+\item Das SELECT Statement für die Rückgabe, so dass die Property ID übergeben wird: 
+  \begin{description}
+  \item[vorher] SELECT P.IRDI, LOJ.VALUE, LOJ.UNIT, LOJ.PREFIX, LOJ.TOLERANCE, LOJ.VALUE\_ID 
+  \item[nachher] SELECT p.id, P.IRDI, LOJ.VALUE, LOJ.UNIT, LOJ.PREFIX, LOJ.TOLERANCE, LOJ.VALUE\_ID  
+  \end{description}
+\item Die Erweiterung bei Instanzierung des Tabelleneintrages für den Tabellentypen um ein Attribut (NULL hinzugefügt): 
+  \begin{description}
+  \item[vorher] OUTTBL\_OBJ\_STRING\_ELEM  PROP\_STRING\_OBJ\_T := PROP\_STRING\_OBJ\_T(NULL, NULL, NULL, NULL, NULL, NULL);
+  \item[nachher] OUTTBL\_OBJ\_STRING\_ELEM  PROP\_STRING\_OBJ\_T := PROP\_STRING\_OBJ\_T(NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+  \end{description}
+\item Hinzufügen des Mappings von der RECORD-Tabelle auf den OBJECT-Typen:
+  \begin{description}
+  \item[vorher] -
+  \item[nachher] OUTTBL\_OBJ\_STRING\_ELEM.P\_ID := OUTTABLE\_STRING(I).PROP\_ID;  
+  \end{description}
+\end{itemize}
+ 
 \section{Zusammenfassung des Kapitels}
 
+Zunächst wird das Configuration Management ein wichtiges Thema, dazu gehört die Auswahl der Werkzeuge, Prozesse, Build-Umgebung, Frameworks und Plattformen. Es wird kurz auf das Thema Testen eingegangen und anhand einiger Beispiele erläutert. Da ein \gls{REST}ful Webservice entwickelt wird, ist eine Beschreibung dieses Webservices Bestandteil des Kapitels. Es wird aufgezeigt wie ein RESTful Webservice mit Hilfe des Frameworks Jersey entwickelt wird. 
+Der nächste Schritt ist die Betrachtung des Datenmodells. Die Anfrage und die Antwort des Webservices ist mittels Schema beschrieben. Die Herausforderung ist die Umwandlung der XML-Daten gemäß Schema in ein Modell der Programmiersprache zu Weiterverarbeitung.  
+Der wichtigste Punkt ist die Abfrage der Oracle PLIB-Prozeduren. Hier ergeben sich diverse Problemstellungen wie semantische Heterogenität, fehlende Daten bei Eingabe- und Ausgabeschnittstelle der Prozeduren als auch technische Schwierigkeiten, wie die fehlende Unterstützung von RECORD-Typen bei Abfrage mit Java JDBC.
+Die aufgetretenen Probleme zeigen auf, dass bei der Implementierung und Integration von Schnittstellen mit Problemen zu rechnen ist. Die Prozeduren wurden nicht mit Augenmerk auf die ISO 29002-31 entwickelt und weisen dadurch eine deutliche Heterogenität zu den tatsächlich benötigen Daten auf. Die Ergebnisse der Implementierung zeigen ferner, dass Abstraktionen behilflich sind. Würden die Prozeduren gemäß den tatsächlich benötigen Daten und mit Betrachtung der ISO 29002-31 angepasst, ließen sich zusätzliche Datenbankabfragen vermeiden und die Komplexität in der Business Logik Schicht verringern. 
 
-
-\todotext{Zusammenfassung ausformulieren}
+\todotext{Zusammenfassung reviewn}
 
 
