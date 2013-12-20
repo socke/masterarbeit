@@ -13,7 +13,11 @@
 %Was ist das Problem, aktuelle Situation?
 %Automatisierter Datenaustausch von Produktdaten in der Industrie, konkretes Problem Abfrage der Produktdaten und Antwort. 
 
-Der automatisierte Austausch von Produktdaten spielt in der Geschäftswelt eine enorm große Rolle. Es fallen in der Industrie, der Wissenschaft, der Gesellschaft große Datenmengen an wie z.B. die Daten von Produkten, Bestellungen, Rechnungen, Lieferungen oder in der Verwaltung von Personen. Der elektronische Datenaustausch erfolgt in der Regel nach einem festem Schema. Hierbei ist das Austauschformat sowie die Schnittstelle über die diese Daten ausgetauscht werden dem Anfragenden als auch dem Anbieter festgelegt und bekannt. Man \enquote{einigt} sich auf definierte Schema. Dazu nutzt man definierte Standards. Geben die Parteien an, die Anforderungen an einen öffentlichen Standard zu erfüllen, sind diese Parteien in der Lage über diesen Standard Daten auszutauschen. Mit Hilfe dieser Standards werden Geschäftsprozess definiert, um beispielsweise den Austausch der Daten zu realisieren. Diese wohldefinierten Prozesse in der Geschäftswelt sind in der Regel sehr unflexibel. Dadurch, dass das Modell der Daten sowie die Schnittstelle \enquote{fest verdrahtet} ist, bedeuten beispielsweise Änderungen in den Anforderungen nach Inhalten der Daten meistens eine Änderung des Modells, gleichsam der auszutauschenden Daten mit Ihren Eigenschaften, als auch eine Anpassung der Schnittstelle. 
+Der automatisierte Austausch von Produktdaten spielt in der Geschäftswelt eine enorm große Rolle. Es fallen in der Industrie, der Wissenschaft, der Gesellschaft große Datenmengen an wie z.B. die Daten von Produkten, Bestellungen, Rechnungen, Lieferungen oder in der Verwaltung von Personen. Der elektronische Datenaustausch erfolgt in der Regel nach einem festem Schema. Hierbei ist das Austauschformat sowie die Schnittstelle über die diese Daten ausgetauscht werden dem Anfragenden als auch dem Anbieter bekannt. Man \enquote{einigt} sich auf definierte Schemata. Dafür nutzt man definierte Standards um Interoperabilität\footnote{Die Fähigkeit homogener Systeme Informationen effizient auszutauschen.} zu gewährleisten. Geben die Parteien an, die Anforderungen an einen öffentlichen Standard zu erfüllen, sind diese Parteien in der Lage mit Hilfe dieses Standards Daten auszutauschen. Basierend auf diese Standards werden Geschäftsprozess definiert, um beispielsweise den Austausch der Daten und somit den Zugriff eines anderen ggfs. entfernten Systems auf diese Daten zu realisieren. Diese wohldefinierten Prozesse  der Geschäftswelt sind in der Regel sehr unflexibel. Dadurch, dass das Modell der Daten sowie die Schnittstelle \enquote{fest verdrahtet} ist, bedeuten Änderungen in den Anforderungen bezogen auf Semantik und Inhalte der Daten meistens eine Änderung des Modells, gleichsam der auszutauschenden Daten mit Ihren Eigenschaften, als auch eine Anpassung der Schnittstelle. Diese Anpassungen sind in der Regel mit hohen Kosten verbunden. 
+Ferner stellt sich das Problem, dass für komplexere Produkte auch komplexe eigene Schnittstellen geschaffen werden müssen. 
+Folglich ist es wichtig, möglichst flexibel zu sein, gleichzeitig aber auch abstrakte Modelle, welche Konzepte und Daten trennen, zu unterstützen. 
+
+Halten wir fest: Der Anfrage- und Antwortprozess muss absolut automatisierbar respektive machinenlesbar sein, gleichzeitig fehlerfrei und absolut flexibel \citep[vgl.][]{uiterwykEclass}.
 
 %Beispiele für relationen algebra in latex
 %Query \verb$SELECT x.a FROM x,y,z WHERE x.a=y.a OR x.a=z.a$
@@ -23,21 +27,20 @@ Der automatisierte Austausch von Produktdaten spielt in der Geschäftswelt eine 
 %$basic-cust-accts \leftarrow \Pi_{(name, customer.sin, account-number)} (temp2) $ \\
 %$basic-cust-accts \leftarrow \Pi_{(name, customer.sin, account-number)} (\sigma_{customer.sin = account.sin}(customer \times account))$
 
-Um das Problem zu lösen bieten sich flexible Mechanismen einer Abfrage- und Antwortschnittstelle an. Herkömmlicherweise wird dann diese Schnittstelle anbieterseitig implementiert. Dann werden Methoden angeboten, welche diese Abfragen ermöglichen und passend zu diesen Abfragen entsprechende Antworten mit den gewünschten Daten erzeugt. 
-Diese herkömmlichen Datenaustauschmechanismen einigen sich somit auf eine Schnittstelle, auf ein Schema und sind somit gekoppelt an das Modell. Die flexiblen Abfragemechanismen sind anbieterseitig nahe der Datenquelle implementiert, zumeist bereit implizit vorhanden, beispielsweise durch ein Datenbanksystem mit einer SQL\footnote{Standard Query Language - Abfragesprache für relationale Datenbanken}-Abfrageschnittstelle. 
-Eine weitere zusätzliche Metaebene hingegen ermöglicht einen flexiblen und standardisierten Datenaustausch, wobei die tatsächlichen Werte der Daten vom Modell abgekoppelt sind. Der Vorteil dieser Lösung ist, dass diese Abfrage- und Antwortschnittstelle auf Schemaebene lose gekoppelt von der tatsächlichen Implementierung ist. 
+Um das Problem zu lösen bieten sich flexible Mechanismen einer Abfrage- und Antwortschnittstelle an. Herkömmlicherweise ist diese Schnittstelle anbieterseitig im Datenbanksystem implementiert. Dann werden Methoden angeboten, welche diese Abfragen ermöglichen und passend zu diesen Abfragen entsprechende Antworten mit den gewünschten Daten erzeugt. 
+Diese herkömmlichen Datenaustauschmechanismen einigen sich somit auf eine Schnittstelle, auf ein Schema zum Datenaustausch und sind eng an das Modell gekoppelt. Die flexiblen Abfragemechanismen sind anbieterseitig nahe der Datenquelle implementiert, zumeist bereit implizit vorhanden, beispielsweise durch ein Datenbanksystem mit einer SQL\footnote{Standard Query Language - Abfragesprache für relationale Datenbanken}-Abfrageschnittstelle. 
+Führt man hingegen eine weitere zusätzliche Metaebene ein, so ermöglicht diese einen flexiblen und standardisierten Datenaustausch, wobei die tatsächlichen Werte der Daten vom Modell abgekoppelt sind. Diese lose Kopplung ist der große Vorteil dieser Lösung und ermöglicht eine große Anpassungsflexibilität. Konkret werden Daten über die Eigenschaften eines Produktes übermittelt, allerdings liegt der Nachricht keine Semantik bei. In der Nachricht wird mittels eines eindeutigen Identifiers auf eine Ontologie verwiesen. Der Anfragende muss folglich eine weitere Ontologie-Quelle abfragen, um Metainformationen über die Bedeutung des erhaltenen Wertes zu erlangen. 
 
-Der ISO Standard 29002-31 beschreibt eine solche Abfrage- und Antwortschnittstelle für Produktdaten. Diese ermöglicht den flexiblen automatisierten Austausch von Produktdaten. Diese Daten (Master Data) werden abgekoppelt von der Semantik abgefragt. Die Semantik wird mittels Konzepten beschrieben. Auf diese Konzepte wird mittels eindeutigem Identifier referenziert. 
+Mit diesem Problem haben sich bereits mehrere Interessensgruppen befasst. Es gibt mehrere Standards welche hierbei unterstützen. Zu nennen ist ISO Standard 22745-35 oder ISO Standard 29002-31. Diese beschreiben eine solche Abfrage- und Antwortschnittstelle. Die Standards zeigen den flexiblen automatisierten Austausch von charakteristischen Produktdaten auf. Diese Daten (Master Data) werden abgekoppelt von der Semantik abgefragt. Die Semantik wird mittels Konzepten beschrieben. Auf diese Konzepte wird wie bereits vorab beschrieben mittels eindeutigem Identifier referenziert und die konkreten Daten als Werte hinterlegt.  
 
 \section{Zielsetzung}
 
-Es soll eine Abfrageschnittstelle (Query-Schnittstelle) für die bereits vorhandene PLIB\footnote{Parts Library - Implementierung nach ISO-13584}  des Fachbereiches erstellt werden. 
+Ziel der Arbeit ist es eine eine Abfrageschnittstelle (Query-Schnittstelle) zu implementieren. Als Datenbasis mit notwendigen Katalog- und Konzeptdaten soll die bereits vorhandene PLIB\footnote{Parts Library - Implementierung nach ISO-13584} des Fachbereiches dienen. 
 
-Diese Abfrageschnittstelle soll die Standards der ISO 29002-31, sowie für deren Nutzung gegebenenfalls weitere nötige Standards unterstützen. Diese Schnittstelle soll einen automatisierten Datenaustausch ermöglichen und technisch auf den Abfrageprozeduren der Datenbankebene basieren. Die Implementierung dieser Prozeduren und des Datenbankschemas ist Teil der Arbeit zweier Kommilitonen (Herr Mende und Herr Loth).
+Für diese Abfrageschnittstelle soll der Standards der ISO 29002-31 implementiert werden, sowie für deren Nutzung gegebenenfalls weitere nötige Standards. Diese Schnittstelle soll einen automatisierten Datenaustausch ermöglichen und technisch auf den Abfrageprozeduren der Datenbankebene (Katalog- und Konzeptdaten) basieren. Die Implementierung dieser Prozeduren und des Datenbankschemas ist Teil der Arbeit zweier Kommilitonen (Herr Mende und Herr Loth).
  
 Das Hauptziel ist die Machbarkeit und die Integration der ISO-Schnittstelle aufbauend auf die vorhandene PLIB Datenbankimplementierung des Fachbereiches aufzuzeigen. 
-Ferner ist mit aktuellen Techniken eine Integration, gleichsam Nutzbarkeit der Abfrage der Datenbank zu ermöglichen. Wichtig ist es, die gegebenen ISO Normen zu unterstützen, um Wiederverwendbarkeit zu gewährleisten. Falls Teile der Implementierung von den ISO Normen abweichen oder die Standards erweitert oder geändert werden, wird darauf mit ausführlicher Erläuterung der Gründe hingewiesen. 
-
+Ferner ist mit aktuellen Techniken eine Integration, gleichsam Nutzbarkeit der Abfrage der Datenbank zu ermöglichen. Wichtig ist es, die gegebenen ISO Normen zu unterstützen, um Interoperabilität zu gewährleisten. Falls Teile der Implementierung von den ISO Normen abweichen oder die Standards erweitert oder geändert werden, wird darauf mit ausführlicher Erläuterung der Gründe hingewiesen. 
 
 Um das Ziel zu erreichen, soll im Rahmen der Arbeit untersucht werden welche mögliche sinnvollen Anwendungsfälle sich in der Praxis basierend auf den zu unterstützenden ISO Standards ergeben. Dafür ist eine Analyse der Standards nötig, um zu prüfen, ob und in welcher Form die flexiblen Abfragemöglichkeiten unterstützt werden. Wie in \autoref{sec:problemstellung} erwähnt, gibt es auf Datenbankebene oft eine implizite Abfrageschnittstelle, welche in SQL realisiert ist. Es bietet sich daher an, die Möglichkeiten von SQL-Abfragen als Basis für die Untersuchung zu nehmen, und zu prüfen welche Abfragen mit Hilfe des Standards realisiert werden können. 
 Betrachtet werden soll die Projektion und die Selektion.
@@ -62,7 +65,7 @@ Die Entwicklung der Software soll nach einem aktuell üblichen Softwareentwicklu
 
 \subsection{Gesamtkontext der PLIB Abschlussarbeiten}
 
-Um einen Überblick zu schaffen in welchem Kontext sich diese Arbeit befindet und den Gesamtzusammenhang zu verstehen, soll hier eine kurze Übersicht über die PLIB Abschlussarbeiten des Fachbereiches geschaffen werden. 
+Um einen Überblick zu schaffen in welchem Kontext sich diese Arbeit befindet und den Gesamtzusammenhang zu verstehen, wird nachfolgend eine kurze Übersicht über die PLIB Abschlussarbeiten des Fachbereiches gegeben.
 
 %\bild{gesamtkontext_plib}{16cm}{gesamtkontext_plib}{gesamtkontext_plib}
 
@@ -73,7 +76,7 @@ Um einen Überblick zu schaffen in welchem Kontext sich diese Arbeit befindet un
 	\label{fig:gesamtkontext_plib}
 \end{figure}
 
-Die \autoref{tab.gesamtkontext} erläutert die \autoref{fig:gesamtkontext_plib} und listet dazu die auf die jeweiligen Arbeiten basierenden ISO-Standards auf: 
+Die \autoref{tab.gesamtkontext} erläutert die \autoref{fig:gesamtkontext_plib} und listet dazu die auf die jeweiligen Arbeiten und betrachteten ISO-Standards auf: 
 
 % \cellcolor{<Farbe>}, \rowcolor{<Farbe>}, {\columncolor{<Farbe>}}, ändern die Hintergrundfarbe. 
 \begin{table}[!hbt]\vspace{1ex}\centering
