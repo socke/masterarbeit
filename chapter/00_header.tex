@@ -25,7 +25,6 @@ appendixprefix,				% Anhang wird "Anhang" vor die ‹berschrift gesetzt
 %draft,						% ¸berlangen Zeilen in Ausgabe gekennzeichnet
 %pointlessnumbers,
 DIV13,                % Seitenrand ist 1/13 (Standard: 1/10 -> ziemlich breit)
-%BCOR5mm								% Bindekorrektur, links 5mm mehr Platz f¸r Bindung
 ] {scrreprt}
 
 % breitere seite
@@ -76,7 +75,13 @@ DIV13,                % Seitenrand ist 1/13 (Standard: 1/10 -> ziemlich breit)
 \usepackage{amsthm}
 \usepackage{amsfonts}
 
-\usepackage{times}    % Schriftstil Times New Roman (wie Word)
+%\usepackage{ccfonts} % Schrift  concrete
+%\usepackage{chancery} % Schrift  Zapf Chancery -> sehr schnörkelig
+%\usepackage{bookman} % Schrift  bookman -> sehr schöne Schrift!
+%\usepackage{mathpazo} % Schrift  Palatino -> sehr schöne Schrift!
+%\usepackage{newcent} % New Century Schoolbook -> sehr schön, kräftig!
+\usepackage{charter} % Schrift  Charter -> 
+%\usepackage{times}    % Schriftstil Times New Roman (wie Word)
 \usepackage{url}      % zur Dartellung von URLs mit Befehl \url{}
 %\usepackage{xspace}   % Intelligenter Platzhalter nach Makros
 \usepackage{booktabs} % schˆne Tabellen mit \toprule, \midrule und \bottomrule
@@ -104,7 +109,7 @@ DIV13,                % Seitenrand ist 1/13 (Standard: 1/10 -> ziemlich breit)
 
 %% Use Helvetica-Narrow Bold for Chapter entries
 %\renewcommand{\cftchapfont}{%
- % \fontsize{11}{13}\usefont{OT1}{phv}{bc}{n}\selectfont
+%  \fontsize{11}{13}\usefont{OT1}{phv}{bc}{n}\selectfont
 %}
 
 % \renewcommand{\baselinestretch}{1.5} % Zeilenabstand 1.5
@@ -118,8 +123,8 @@ DIV13,                % Seitenrand ist 1/13 (Standard: 1/10 -> ziemlich breit)
 
 %% Zeilenabstand %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{setspace}
-%\singlespacing        %% 1-zeilig (Standard)
-\onehalfspacing       %% 1,5-zeilig
+\singlespacing        %% 1-zeilig (Standard)
+%\onehalfspacing       %% 1,5-zeilig
 %\doublespacing        %% 2-zeilig
 \usepackage{fancyhdr} %%Fancy Kopf- und Fuﬂzeilen
 \usepackage{longtable} %%F¸r Tabellen, die eine Seite ¸berschreiten
@@ -221,7 +226,7 @@ DIV13,                % Seitenrand ist 1/13 (Standard: 1/10 -> ziemlich breit)
 \hypersetup{
     pdftitle={Masterarbeit - Implementierung eines Web Services nach ISO 29002-31 - Query for characteristic data},
     pdfauthor={Stefan Sobek},
-    pdfkeywords={FernUni Hagen, ISO 29002-31, characteristic product data, 2013}
+    pdfkeywords={FernUni Hagen, ISO 29002-31, characteristic product data, 2014}
 }
 
 % dictum kapitel zitatsbreite vergrößern
