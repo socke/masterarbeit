@@ -1,6 +1,6 @@
 #!/bin/sh
 echo "delete schrott";
-./deleteSchrott.sh
+./_deleteSchrott.sh
 echo "pre-compile";
 latex 01_Masterarbeit_Stefan_Sobek.tex && latex 01_Masterarbeit_Stefan_Sobek.tex
 echo "make bibliography"; 
