@@ -5,7 +5,7 @@ Die Unterkapitel beschreiben die einzelnen (XML) Datencontainer aus der ISO 2900
 
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=0.99\textwidth]{images/query_main.png}
+		\includegraphics[width=0.99\textwidth]{images/query_main.jpg}
 		\caption[UML-Diagramm Query Main]{UML-Diagramm Query Main\footnotemark}
 	\label{fig:querymain}
 \end{figure}
@@ -23,7 +23,7 @@ b. by itself, using the query\_context to carry envelope information.}
 Die Unterstützung aller Funktionalitäten des queries entspricht laut ISO 29002-31 der Conformance class 1: simple query \citep[Anhang 6][]{iso29002-31}.
 Dies ist der eigentliche Abfrage-Datensatz. Abgefragt werden kann mittels class IRDI\footnote{IRDI  - International registration data identifier}, data\_specification IRDI, eine Menge von property IRDI, Teiledaten (das sind Teile gefüllt mit Daten ihrer Eigenschaften die dem Klienten bereits bekannt sind) und einer item\_description. Das bedeutet, dass bereits bekannte Eigenschaften eines Teils übertragen werden können, um die Suche auf Teile mit diesen Werte-Eigenschaften einzuschränken.
 
-Die data\_specification IRDI verweist auf eine Spezifikation aus ISO 22745-30, die besagt welche Properties für dieses Teil sinnvoll sind. Die angegebenen Property IRDIs sind dann eine Teilmenge aus den mittels data\_specification IRDI definierten erlaubten Eigenschaften. Für weitere Informationen zur ISO 22745-30 siehe \autoref{kap:identification_guide}. 
+Die data\_specification IRDI verweist auf eine Spezifikation aus ISO 22745-30, die besagt welche Properties für dieses Teil sinnvoll sind. Die angegebenen Property IRDIs sind dann eine Teilmenge aus den mittels data\_specification IRDI definierten erlaubten Eigenschaften. Für weitere Informationen zur ISO 22745-30 siehe \autoref{kap:identification_guide_anhang}. 
 
 Ad hoc denkbar wären einfache Abfragen wie z.B.: \enquote{Gib mir alle Teile der Klasse xyz}. Mitgeliefert werden auch Teile von Subklassen. Weiterhin kann die Abfrage nach bestimmten Eigenschaften eingeschränkt werden. Eine weitere Möglichkeit ist es bereits bekannte Daten über ein Element zu übermitteln, mit dem Zwecke hierüber die IRDI zu erfahren oder weitere Eigenschafts-Daten zu erhalten. Siehe Beispielqueries simple queries in \autoref{kap:query_beispiele}. 
 
@@ -32,9 +32,9 @@ Das entspricht laut ISO 29002-31 Anhang 6 der Conformance class 2: parametric qu
 
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=0.99\textwidth]{images/query_expression.png}
+		\includegraphics[width=0.99\textwidth]{images/query_expression.jpg}
 		\caption[UML-Diagramm Query Expression]{UML-Diagramm Query Expression\footnotemark}
-	\label{fig:querymain}
+	\label{fig:umlqueryexpression}
 \end{figure}
 \footnotetext{Quelle: ISO 29002-31 Kapitel 5.3.1}
 
@@ -88,7 +88,7 @@ ermöglicht der Parametric Query mit Hilfe der characteristic\_data\_query\_expr
 
 Dies ermöglicht das Filtern auf genau eine übergebene Property. Rekursive Abfragen sind auch möglich, beispielsweise wenn die gesuchte Property eine Multi-Property ist (Property: Loch als Wert zwei Properties mit Form und Durchmesser und Durchmesser soll gefiltert werden)
 
-\section{Analyse ISO 22745-30 - Identification Guide}\label{kap:identification_guide}\index{ISO 22745-30}
+\section{Analyse ISO 22745-30 - Identification Guide}\label{kap:identification_guide_anhang}\index{ISO 22745-30}
 
 \todotext{Quelle für i-xml file aus eotd-i-xml angeben} 
 Ein Identification Guide beschreibt, welche Daten für ein Objekt benötigt werden, damit dies überhaupt sinnvoll für einen bestimmten Zweck eingesetzt werden kann. Der Käufer, Produktmanager oder Benutzer definiert die Anforderungen an die Daten. Ein  \enquote{Datenanforderungsstatement} wird als ein i-xml identification guide xml file erzeugt. Es wird definiert, was der Name des Artikels ist mit den charakteristischen Daten. Es wird die Frage beantwortet, welche Daten (Properties) zu einem bestimmten Konzept eines Objektes benötigt werden um den Artikeln zu kaufen oder zu sinnvoll zu verwalten. Diese Anforderungen werden von der Abfrageseite (Kundenseite) definiert, also derjenige, der Daten abfragen möchte. \(Quelle: ECCMA\_ISO\_8000\_certification.pdf\) \todotext{Quelle sauber in library file verlinken}

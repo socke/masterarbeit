@@ -2,9 +2,9 @@
 \dictum[René Descartes]{Vor eine Frage gestellt, die wir vollständig verstanden haben, müssen wir sie von jeder überflüssigen Darstellung abstrahieren, sie auf ihre einfachste Form reduzieren und sie in möglichst kleine Teile zerlegen, die wir dann aufzählen. \dots}}
 \chapter{Analyse und Definition der Anforderungen } \index{Analyse und Definition der Anforderungen}\label{kap:analyse_und_definition}
 
-Die ISO Standards 29002-31 und 22745-30 wurden vom Fachbereich als mögliche zu implementierende Standards genannt, um die Anforderungen einer Abfrageschnittstelle analog zu den Möglichkeiten von SQL (Projektion, Selektion) zu gewährleisten.   
+Das \autoref{kap:aufgabenbeschreibung} erwähnte bereits mehrere ISO Standards, welche zur Lösung der Problemstellung unterstützen können. In diesem Kapitel wird der ausgewählte ISO Standard ISO 29002-31 sowie der Standard ISO 22745-30 analyisert um festzustellen, wie und welche Anforderungen mit Hilfe dieser Standards umgesetzt werden können. 
 
-Mittels den Erkenntnissen der Analyse werden mögliche Use Cases erarbeitet. Wichtig ist es, zu evaluieren, welche Standards gegebenenfalls betrachtet und implementiert werden müssen, um die Anforderungen umzusetzen. 
+Mittels den Erkenntnissen der Analyse werden mögliche Use Cases erarbeitet. 
 
 \section{Analyse der ISO 29002-31 - Exchange of characteristics data}\label{kap:analyseiso2900231}\index{ISO 29002-31}
 
@@ -22,8 +22,6 @@ Die konkreten Query Beispiele finden sich dazu in \autoref{kap:query_beispiele}.
 
 \section{Analyse ISO 22745-30 - Identification Guide}\label{kap:identification_guide}\index{ISO 22745-30}
 
-Als weiterer möglicher zu betrachtender Standard wurde ISO 22745-30 - Identification Guide, genannt. 
-
 Ein Identification Guide beschreibt, welche Daten für ein Objekt benötigt werden, damit dies überhaupt sinnvoll für einen bestimmten Zweck eingesetzt werden kann. Der Käufer, Produktmanager oder Benutzer definiert die Anforderungen an die Daten. Ein  \enquote{Datenanforderungsstatement} wird als ein i-xml identification guide xml file erzeugt. Siehe dazu auch \autoref{fig:lieferketten}. 
 
 Es wird die Frage beantwortet, welche Daten und Eigenschaften zu einem bestimmten Konzept eines Objektes benötigt werden, um den Artikel beispielsweise zu kaufen oder sinnvoll zu verwalten. Diese Anforderungen werden von der Abfrageseite (Kundenseite) definiert, also diejenige, die Daten abfragen möchte\citep[Vergl.][]{bensonQuality}. 
@@ -39,7 +37,7 @@ Basierend auf dieser Erkenntnis zeigt \autoref{fig:query_kombinationen} möglich
 
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=0.98\textwidth]{images/queries.png}
+		\includegraphics[width=0.98\textwidth]{images/queries.jpg}
 	\caption{Mögliche Abfragen anhand der Kombination der Daten in XML Query}
 	\label{fig:query_kombinationen}
 \end{figure}
@@ -61,7 +59,7 @@ Alistair Cockburn schreibt dazu \citep[Vergl.][Kap. 1.1]{cockburn2000}:
 
 \gls{Stakeholder}\footnote{Stakeholder sind Projektbeteiligte, gleichsam Personen oder Institutionen und Dokumente die in irgendeiner Weise vom Betrieb des Systems betroffen sind.} definieren respektive erwarten folglich ein gewisses Verhalten des Systems unter bestimmten Bedingungen. Dieses Verhalten des Systems in Interaktion mit Akteuren wird durch \glspl{Use Case} beschrieben.
 
-\bild{usecases_plib.png}{13cm}{Use Case Übersicht}{Use Case Übersicht}
+\bild{usecases_plib.jpg}{13cm}{Use Case Übersicht}{Use Case Übersicht}
 
 \subsection{Akteure}
 Bei der Implementierung geht es um die Erstellung einer Software-Schnittstelle als \gls{Webservice}. Das bedeutet, dass diese Schnittstelle ohne eine Benutzeroberfläche nicht sinnvoll für einen menschlichen Akteur nutzbar ist. In den nachfolgenden Anwendungsfällen wird vom Akteur \enquote{Klient} gesprochen. Der Klient ist allgemein ein Nutzer der Schnittstelle, sei es als menschlicher Akteur welcher über eine Bedienerinterface die Schnittstelle benutzt oder eine direkte Maschinennutzung. Ein Beispiel für eine Maschinennutzung kann einen Anwendung sein, welche automatisiert die Schnittstelle aufruft und Daten abfragt.    

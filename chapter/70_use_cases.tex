@@ -8,7 +8,7 @@ Dieses Kapitel beschreibt mögliche Anwendungsfälle\footnote{Use Case. Im weite
       
 Die Query-Code-Beispiele sind gekürzt, d.h. es werden die referenzierte Schemata-Namen gemäß XSD nicht aufgeführt. 
 
-\bild{usecases_plib.png}{13cm}{Use Case Übersicht}{Use Case Übersicht}
+\bild{usecases_plib.jpg}{13cm}{Use Case Übersicht}{Use Case Übersicht}
 
 \subsection{Akteure}
 Bei der Implementierung geht es um die Erstellung einer Software-Schnittstelle als Web Service. Das bedeutet, dass diese Schnittstelle ohne eine Benutzeroberfläche nicht sinnvoll für einen menschlichen Akteur nutzbar ist. In den nachfolgenden Anwendungsfällen wird vom Akteur \enquote{Klient} gesprochen. Der Klient ist allgemein ein Nutzer der Schnittstelle, sei es als menschlicher Akteur welcher über eine Bedienerinterface die Schnittstelle benutzt oder eine direkte Maschinennutzung. Ein Beispiel für eine Maschinennutzung kann einen Anwendung sein, welche automatisiert die Schnittstelle aufruft und Daten abfragt.    
@@ -63,7 +63,7 @@ Das Ergebnis ist ein Item mit allen Attributen (Properties) der gewünschten Kon
 
 Die XML-Abfrage sieht wie folgt aus:
 
-\begin{lstlisting}[caption=Query Beispiel - Daten abfragen, language=XML, label=UseCaseDatenabfragen]
+\begin{lstlisting}[caption=Query Beispiel - Daten abfragen, language=XML, label=UseCaseDatenabfragenAnhang]
 <?xml version="1.0" encoding="UTF-8"?>
 <qy:query xsi:schemaLocation="...query query.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cat="...catalogue" xmlns:val="...value" xmlns:qy="...query" xmlns:bas="...basic">
 	<qy:class_ref>0173-1#01-AAA352#4</qy:class_ref>
@@ -161,7 +161,7 @@ Das Ergebnis ist ein Item mit allen Attributen (Properties) der gewünschten Kla
 
 Die XML-Abfrage gemäß query.xsd\footnote{Schema Datei ist referenziert in ISO 29002-31, liegt der Arbeit bei} sieht so aus:
 
-\begin{lstlisting}[caption=Query Beispiel - Daten mit Suchausdruck abfragen, language=XML, label=UseCaseDatenabfragen]
+\begin{lstlisting}[caption=Query Beispiel - Daten mit Suchausdruck abfragen, language=XML, label=UseCaseDatenabfragenProperty]
 <?xml version="1.0" encoding="UTF-8"?>
 <qy:query xsi:schemaLocation="...query query.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cat="...catalogue" xmlns:val="...value" xmlns:qy="...query" xmlns:bas="...basic">
 	<qy:class_ref>0173-1#01-AAA352#4</qy:class_ref>

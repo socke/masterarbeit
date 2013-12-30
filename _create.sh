@@ -1,6 +1,6 @@
 #!/bin/sh
 echo "delete schrott";
-./deleteSchrott.sh
+./_deleteSchrott.sh
 echo "pre-compile";
 latex 01_Masterarbeit_Stefan_Sobek.tex && latex 01_Masterarbeit_Stefan_Sobek.tex
 echo "make bibliography"; 
@@ -15,3 +15,5 @@ latex 01_Masterarbeit_Stefan_Sobek.tex
 latex 01_Masterarbeit_Stefan_Sobek.tex
 echo "create finally";
 pdflatex 01_Masterarbeit_Stefan_Sobek.tex
+echo "create zip from final version"
+zip 01_Masterarbeit_Stefan_Sobek.zip 01_Masterarbeit_Stefan_Sobek.pdf
