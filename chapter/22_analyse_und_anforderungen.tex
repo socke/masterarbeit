@@ -2,13 +2,13 @@
 \dictum[René Descartes]{Vor eine Frage gestellt, die wir vollständig verstanden haben, müssen wir sie von jeder überflüssigen Darstellung abstrahieren, sie auf ihre einfachste Form reduzieren und sie in möglichst kleine Teile zerlegen, die wir dann aufzählen. \dots}}
 \chapter{Analyse und Definition der Anforderungen } \index{Analyse und Definition der Anforderungen}\label{kap:analyse_und_definition}
 
-Das \autoref{kap:aufgabenbeschreibung} erwähnte bereits mehrere ISO Standards, welche zur Lösung der Problemstellung unterstützen können. In diesem Kapitel wird der ausgewählte ISO Standard ISO 29002-31 sowie der Standard ISO 22745-30 analyisert um festzustellen, wie und welche Anforderungen mit Hilfe dieser Standards umgesetzt werden können. 
+Das \autoref{kap:aufgabenbeschreibung} erwähnt mehrere ISO Standards, welche zur Lösung der Problemstellung unterstützen können. In diesem Kapitel wird der ausgewählte ISO Standard ISO 29002-31 sowie der Standard ISO 22745-30 analyisert um festzustellen, wie und welche Anforderungen mit Hilfe dieser Standards umgesetzt werden können. 
 
 Mittels den Erkenntnissen der Analyse werden mögliche Use Cases erarbeitet. 
 
 \section{Analyse der ISO 29002-31 - Exchange of characteristics data}\label{kap:analyseiso2900231}\index{ISO 29002-31}
 
-In diesem Abschnitt wird auf die Analyse der vom Fachbereich zur Erfüllung der Anforderungen angegebenen ISO 29002-31 eingegangen. Ziel der Analyse ist es, herauszufinden ob die ISO-Norm zur Erfüllung der Anforderungen ausreichend ist, wie mit der ISO-Norm die Anforderungen umgesetzt werden können und ob gegebenenfalls weitere ISO Normen zur Erfüllung der Anforderungen betrachtet werden müssen. 
+Ziel der Analyse ist es, herauszufinden ob die ISO-Norm zur Erfüllung der Anforderungen ausreichend ist, wie mit der ISO-Norm die Anforderungen umgesetzt werden können und ob gegebenenfalls weitere ISO Normen zur Erfüllung der Anforderungen betrachtet werden müssen. 
 
 Die gesamte Analyse der ISO 29002-31 mit Beschreibung der einzelnen Datencontainer findet sich in \autoref{kap:analyse2900231}. Die Analyse zeigt anhand von Beispielen auf, welche Abfragen mit der ISO 29002-31 möglich sind.
 
@@ -66,7 +66,7 @@ Bei der Implementierung geht es um die Erstellung einer Software-Schnittstelle a
 
 \subsection{Use Case Beschreibungen}
 
-Da \glspl{Use Case} auf verschiedene Weise verfasst werden können wir hier als Vorlage die \gls{Use Case} Beschreibungen aus dem Kurs Software Engineering I entnommen, da diese Vorlage sehr übersichtlich, knapp und präzise ist \citep[Vgl.][S. 120ff]{sixse1}. 
+Da \glspl{Use Case} auf verschiedene Weise verfasst werden können, wird hier als Vorlage die \gls{Use Case} Beschreibungen aus dem Kurs Software Engineering I übernommen, da diese Vorlage sehr übersichtlich, knapp und präzise ist \citep[Vgl.][S. 120ff]{sixse1}. 
 
 \subsubsection{Alle Charakteristische Daten eines Produkts abfragen}
 
@@ -115,14 +115,14 @@ Das Ergebnis ist ein \gls{item} mit allen Attributen (Properties) der gewünscht
 
 Die XML-Abfrage sieht wie folgt aus:
 
-\begin{lstlisting}[caption=Query Beispiel - Daten abfragen, language=XML, label=UseCaseDatenabfragen]
+\begin{lstlisting}[caption=Query Beispiel - alle Daten abfragen, language=XML, label=UseCaseDatenabfragen]
 <?xml version="1.0" encoding="UTF-8"?>
 <qy:query xsi:schemaLocation="...query query.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cat="...catalogue" xmlns:val="...value" xmlns:qy="...query" xmlns:bas="...basic">
 	<qy:class_ref>0173-1#01-AAA352#4</qy:class_ref>
 </qy:query>
 \end{lstlisting}
 
-Eine Abfrage, welche mittels Selektion die Properties der Klasse auswählt, die zurückgeliefert werden sollen, könnte lauten: 
+Eine Abfrage, welche als Projektion die Properties der Klasse auswählt, die zurückgeliefert werden sollen, könnte lauten: 
 \begin{quotation}
 \enquote{Gib mir alle \glslink{item}{Teile} und die Properties Länge und Typ der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Schraubendreher).}
 \end{quotation}
@@ -130,7 +130,7 @@ Eine Abfrage, welche mittels Selektion die Properties der Klasse auswählt, die 
 Das Ergebnis ist ein \gls{item} mit den gewünschten Attributen (Properties). 
 
 Die XML-Abfrage:
-\begin{lstlisting}[caption=Query Beispiel - Daten abfragen mit Propertyeinschränkung, language=XML, label=lst:UseCaseDatenabfragenProperty]
+\begin{lstlisting}[caption=Query Beispiel - Daten abfragen mit Propertyeinschränkung (Projektion), language=XML, label=lst:UseCaseDatenabfragenProperty]
 
 <?xml version="1.0" encoding="UTF-8"?>
 <qy:query xsi:schemaLocation="...query query.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cat="...catalogue" xmlns:val="...value" xmlns:qy="...query" xmlns:bas="...basic">
@@ -147,6 +147,6 @@ Die XML-Abfrage:
 
 \section{Zusammenfassung des Kapitels}
 
-Das Ergebnis der Analyse der Standards ISO 29002-31 und 22745-30 ergibt, dass für die Erfüllung der Anforderungen einer Abfrageschnittstelle analog zur SQL-Selektion und -Projektion der Standard ISO 29002-31 ausreichend ist. Sowohl Projektion als auch Selektion ist dadurch möglich. ISO 22745-30 beschreibt als Identification Guide eine weitere klientseitige Einschränkung der abzufragenden Daten. Man stelle sich eine Einschränkung (Definition einer Teilmenge) durch ein Formular vor, das Formular schränkt die abzufragenden Daten auf die tatsächlich benötigte Menge von Daten gegebenenfalls stark ein und gibt ebenfalls den Typ der Daten vor.
+Das Ergebnis der Analyse der Standards ISO 29002-31 und 22745-30 ergibt, dass diese Beschreibungen für die Lösung der Problemstellung, die Entwicklung einer \gls{Abfrageschnittstelle} analog zur SQL-Selektion und -Projektion der Standard ISO 29002-31, ausreichend sind. Sowohl Projektion als auch Selektion ist dadurch möglich. ISO 22745-30 beschreibt als \gls{IG} eine weitere klientseitige Einschränkung der abzufragenden Daten. Man stelle sich eine Einschränkung (Definition einer Teilmenge) durch ein Formular vor. Das Formular schränkt die abzufragenden Daten auf die tatsächlich benötigte Menge von Daten gegebenenfalls stark ein und gibt ebenfalls den Typ der Daten vor. Dies wird durch referenzieren auf Konzepte eines Dictionaries erreicht.
 
 Aus den Anforderungen wurden sinnvolle \glspl{Use Case} formuliert, welche das Verhalten des Systems beschreiben sollen.  

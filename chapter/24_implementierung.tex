@@ -4,25 +4,26 @@
 
 \section{Configuration Management und Setup}\index{Configuration Managment}
 
-\subsection{Versionsverwaltung mit GIT}
+\subsection{Versionsverwaltung}\index{Versionsverwaltung}
+\begin{quotation}
+\enquote{A version control system (VCS) is a methodology or tool that helps you keep track of changes you make to the files in your project. In its simplest, manual form, a VCS is you creating a copy of the file you’re working with and adding the date and time to the end of it. \citep[S. 15][]{pragGit}}
+\end{quotation}
+
+Ein Versionskontrollsystem sollte in der Regel immer in der Softwareentwicklung eingesetzt werden um einerseits Änderungen nachvollziehen zu können, allerdings auch und vorallem um Änderungen rückgängig machen zu können die ggfs. fälschlicherweise durchgeführt wurden. Ferner ist es möglich verschiedene Versionen der Software gleichsam des Quellcodes zu führen und zu verwalten. Außerdem ermöglichen aktuelle \glslink{VCS}{Versionskontrollsysteme} die Zusammenarbeit mehrerer Entwickler am Quellcode. Hierbei hilft die Wiederherstellbarkeit und Nachvollziehbarkeit der Änderungen. 
+
+\subsection{Versionsverwaltung mit GIT}\index{GIT}\index{Versionsverwaltung!verteilte Versionsverwaltung}
 
 Was ist GIT?
 
-GIT ist ein Versionskontrollsystem (VCS). 
-
-\begin{quotation}
-\enquote{A version control system (VCS) is a methodology or tool that helps you keep track of changes you make to the files in your project. In its simplest, manual form, a VCS is you creating a copy of the file you’re work- ing with and adding the date and time to the end of it. \citep[S. 15][]{pragGit}}
-\end{quotation}
-
-GIT ist ferner ein verteiltes Versionskontrollsystem (DCVS).
+GIT ist ein \gls{VCS}, kurz VCS, GIT ist darüberhinaus ein verteiltes \gls{VCS}, kurz DCVS.
 
 \begin{quotation}
 \enquote{Distributed version control systems (DVCSs) are no different in that respect. Their main goal is still to help us track changes we make to the projects we’re working on. The difference between VCSs and DVCSs is how developers communicate their changes to each other. \citep[S. 15][]{pragGit}}
 \end{quotation}
 
-In diesem Projekt ist kein verteiltes Versionskontrollsystem nötig, da es nur einen Bearbeiter der Daten und Quelltexte gibt. Es wurde dennoch gewählt, da es zum einen genau wie ein \enquote{normales}, folglich nicht verteiltets Versionskontrollsystem eingesetzt werden kann, der Autor mit diesem System sehr vertraut ist und ggfs. zukünftig darauf aufbauende oder weiterführende Projekte mit diesem System einfach weiterarbeiten können. 
+In diesem Projekt ist kein verteiltes \gls{VCS} nötig, da es nur einen Bearbeiter der Daten und Quelltexte gibt. Es wurde dennoch gewählt, da es zum einen genau wie ein \enquote{normales}, folglich nicht verteiltets \gls{VCS} eingesetzt werden kann, der Autor mit diesem System sehr vertraut ist und ggfs. zukünftig darauf aufbauende oder weiterführende Projekte mit diesem System einfach weiterarbeiten können. 
 
-Die Quelltexte dieser Arbeit sind bei einem frei verfügbaren Versionskontrollsystemanbieter untergebracht. Das Repository kann mit dem Befehl aus \autoref{lst:klonendersourcen} geklont werden. Klonen bedeutet bei verteilten Versionskontrollsystemen, das gesamt Repository zu kopieren. Es kann dann auf diesem Repository lokal gearbeitet werden. 
+Die Quelltexte dieser Arbeit sind bei einem frei verfügbaren \glslink{VCS}{Versionskontrollsystemanbieter} untergebracht. Das Repository kann mit dem Befehl aus \autoref{lst:klonendersourcen} geklont werden. Klonen bedeutet bei verteilten \glslink{VCS}{Versionskontrollsystem}, das gesamt Repository zu kopieren. Es kann dann auf diesem Repository lokal gearbeitet werden. 
 
 Für mehr Informationen über GIT und den Funktionsumfang, sei auf entsprechende Literatur verwiesen \citep[vgl.][]{pragGit}.
 
@@ -38,9 +39,11 @@ Was ist Maven?
 \enquote{Maven ist ein deklaratives Build Management System. Das heißt, es wird lediglich der Inhalt des Projekts beschrieben, nicht die Struktur oder die Abläufe, die zur Kompilierung und Veröffentlichung notwendig sind. Die Philosophie hinter Maven heißt \enquote{Konvention über Konfiguration} - Strukturen müssen nicht definiert werden, sondern sind vorgegeben. So wie die Projekt- und Verzeichnisstruktur ist auch die Reihenfolge der Arbeitsschritte vorgegeben, die Maven ausführt, um ein Projekt zu bauen. \citep[S. 27][]{Mitp-Verlag}}	
 \end{quotation}
 
-Maven ermöglicht in diesem Projekt dem Betreuer, Professor oder Studenten, deren Arbeiten ggfs. aufbauend auf diese Arbeit sind, das Projekt standardisiert, einfach und ohne Kenntnisse von Maven oder anderen Werkzeugen zu erstellen. Maven findet dazu alle benötigten Abhängigkeiten automatisiert gemäß Konfiguration und erzeugt das Projekt. Es werden gemäß des standardisierten Buildablaufes von Maven mehrere Phasen durchlaufen, die beispielsweise sicherstellen, dass erst alle automatischen Tests erfolgreich durchlaufen sein müssen, bevor das Endprodukt erzeugt wird. 
+Wozu ist Maven in diesem Projekt nötig?
 
-In diesem Projekt wird Apache Maven 3 eingesetzt. 
+Maven ermöglicht konkret in diesem Projekt dem Betreuer, Professor oder Studenten, deren Arbeiten ggfs. aufbauend auf diese Arbeit sind, das Projekt standardisiert, einfach und ohne Kenntnisse von Maven oder anderen Werkzeugen zu erstellen. Maven findet dazu alle benötigten Abhängigkeiten automatisiert gemäß Konfiguration und erzeugt das Projekt. Es werden gemäß des standardisierten Buildablaufes von Maven mehrere Phasen durchlaufen, die beispielsweise sicherstellen, dass erst alle automatischen Tests erfolgreich durchlaufen sein müssen, bevor das Endprodukt erzeugt wird. 
+
+In diesem Projekt wird Apache Maven in der Version 3 eingesetzt. 
 
 Für mehr Informationen sei auf entsprechende Literatur verwiesen \citep[vgl.][]{Mitp-Verlag}.
 
@@ -48,24 +51,24 @@ Für mehr Informationen sei auf entsprechende Literatur verwiesen \citep[vgl.][]
 Als Web Container wird der \gls{Apache Tomcat} in der Version 7 eingesetzt. Die Installation wird in 
 \autoref{kap:anhangtomcat} beschrieben. 
  
-\subsection{Tests}
+\subsection{Tests}\index{Tests}\index{Entwicklertest}
 
-Einer der wichtigsten Punkte in der Softwareentwicklung ist das Testen. Ich beziehe mich nur auf Entwicklertests, somit gibt es zwei große Bereiche, automatische Entwicklertests und manuelle Entwicklertests. 
+Einer der wichtigsten Punkte in der Softwareentwicklung ist das Testen. Ich beziehe mich nur auf Entwicklertests. Hier gibt es zwei große Bereiche, automatische Entwicklertests und manuelle Entwicklertests. 
 
-\subsubsection{Automatische Entwicklertests mit JUnit}
+\subsubsection{Automatische Entwicklertests mit JUnit}\index{Unit Test}\index{Integrationstest}
 
 Für die automatischen Entwicklertests wird ein Framework namens JUnit eingesetzt. Der Vorteil ist, dass diese Framework weit verbreitet, bekannt und ausgereift ist. 
-Es gibt zwei Arten von Tests. Die Unit-Tests und die Integrationstests. 
+Es gibt zwei Arten von Tests. Die \glspl{Unit-Test} und die \glspl{Integrationstest}. 
 
-Unit Tests testen eine Komponente isoliert von allen abhängigen Komponenten. Das bedeutet, dass nur diese Komponente auf die korrekte Funktionsweise hin getestet wird. Jegliche Abhängigkeiten werden durch Mock- oder Fakeobjekte ersetzt, so dass ein genaue Testumgebung für diese Komponente simuliert werden kann. 
+\glspl{Unit-Test} testen eine Komponente isoliert von allen abhängigen Komponenten. Das bedeutet, dass nur diese Komponente auf die korrekte Funktionsweise hin getestet wird. Jegliche Abhängigkeiten werden durch Mock- oder Fakeobjekte ersetzt, so dass ein genaue Testumgebung für diese Komponente simuliert werden kann. 
 
-Integrationstests testen mehrere Komponenten im Verbund und testen Anwendungszenarien. Ein Beispiel wäre ein Test, welcher auf der grafischen Benutzeroberfläche einsetzt, dort einen Knopf drückt (z.B. Benutzer anlegen) und durch alle Schichten hindurch bis hin zur Datenbank einen Eintrag in der Datenbank anlegt. Anschließend wird entweder in der Datenbank oder erneut auf der Benutzeroberfläche geprüft (Liste aller Benutzer), ob der Eintrag erzeugt wurde. 
+\glspl{Integrationstest} testen mehrere Komponenten im Verbund und testen Anwendungszenarien. Ein Beispiel ist ein Test, welcher auf der grafischen Benutzeroberfläche einsetzt, dort einen Knopf drückt (z.B. Benutzer anlegen) und durch alle Schichten hindurch bis hin zur Datenbank einen Eintrag in der Datenbank anlegt. Anschließend wird entweder in der Datenbank oder erneut auf der Benutzeroberfläche geprüft (Liste aller Benutzer), ob der Eintrag erzeugt wurde. 
 Dies ist ein Beispiel wo die Gesamtapplikation integriert und somit lauffähig sein muss, damit man dieses Szenario testen kann. 
 Ein Integrationstest ist es allerdings bereits schon dann, wenn automatisiert ein Datenzugriffsobjekt im Verbund mit der Datenbank getestet wird, da hier bereits mehrere Komponenten zusammen getestet werden. 
 
 Mehr Informationen und einige Code-Beispiele in \autoref{anh:automatischeentwicklertests}.
 
-\subsubsection{Manuelle Entwicklertests}
+\subsubsection{Manuelle Entwicklertests}\index{Manuelle Entwicklertests}
 
 Bei manuellen Entwicklertests werden Testcases aus den Anforderungen abgeleitet. Diese Tests sind sogenannte Black Box Tests. Das bedeutet, dass das Objekt, welches getestet wird als Black Box betrachtet wird. Es sind keine technischen Details über Aufbau dieses Testobjektes bekannt und es werden keine Annahmen getroffen. Lediglich die Schnittstelle nach Außen wird betrachtet und gemäß Spezifikation der Ein- und Ausgangsdaten getestet. 
 
@@ -107,7 +110,7 @@ Eine andere Möglichkeit den \gls{REST} Webservice zu testen ist ein Plugin des 
 Wie in \autoref{sec:webservice} erwähnt, wurde entschieden einen \gls{REST}ful \gls{Webservice} zu erstellen. Dafür wurde das \gls{Jersey}-Framework ausgewählt. 
 
 \begin{description}
-\item[Zur Erklärung] Java unterstützt REST durch die Java Specification Request 311 (JSR)\footnote{Spezifikation ist zu finden unter: http://jcp.org/aboutJava/communityprocess/mrel/jsr311/index.html}. \todotext{Referenz auf JSR}. Diese Spezifikation wird JAX-RS - die Java API for RESTful Webservices genannt. Jersey ist die Referenzimplementierung, bereits in Java 6 integriert Das ist somit der Grund, weshalb die Jersey Implementierung gewählt wurde.  
+\item[Zur Erklärung] Java unterstützt REST durch die Java Specification Request 311 (JSR)\footnote{Spezifikation ist zu finden unter: http://jcp.org/aboutJava/communityprocess/mrel/jsr311/index.html}. Diese Spezifikation wird JAX-RS - die Java API for RESTful Webservices genannt. Jersey ist die Referenzimplementierung, bereits in Java 6 integriert. Das auch der Grund, weshalb die Jersey Implementierung als Basis gewählt wurde.  
 \end{description}
 
 Folgende Schritte sind notwendig um einen \gls{REST}ful Webservice mit Jersey zu erstellen: 
@@ -140,9 +143,9 @@ Ferner muss in der web.xml ein sogenannter \enquote{Mappingeintrag} angelegt wer
     </servlet-mapping>
  \end{lstlisting}  
  
-Das Konfigurationbeispiel in \autoref{lst:jerseywebxmlconfigmapping}  besagt, dass das \gls{Servlet} mit dem Namen \enquote{jersey-servlet}, welches im Beispiel \autoref{lst:jerseywebxmlconfig}  konfiguriert wurde, alle Anfragen mit der URL \enquote{/rest/*} entgegennehmen soll. Das Muster \enquote{/rest/*} bedeutet, das beliebige URLs nach /rest/ akzeptiert werden. Zum Beispiel: /rest/webservice oder /rest/service/name.
+Das Konfigurationbeispiel in \autoref{lst:jerseywebxmlconfigmapping}  besagt, dass das \gls{Servlet} mit dem Namen \enquote{jersey-servlet}, welches im Beispiel \autoref{lst:jerseywebxmlconfig}  konfiguriert wurde, alle Anfragen mit der URL \enquote{/rest/*} entgegennehmen soll. Das Muster \enquote{/rest/*} bedeutet, das beliebige URLs nach /rest/ akzeptiert werden. Zum Beispiel: \enquote{/rest/webservice} oder \enquote{/rest/service/name}.
 
-Unter der Annahme, dass die Applikation auf dem lokalem Rechner installiert wurde und auf Port 8080 lauscht, der Applikationskontext \enquote{plib-characteristic-query} ist, ergibt sich als aktuelle Gesamt-URL für den \gls{Webservice} der Applikation \enquote{http://localhost:8080/plib-characteristic-query/rest/}.
+Unter der Annahme, dass die Applikation auf dem lokalen Rechner installiert wurde und auf Port 8080 lauscht, der \gls{Applikationskontext} \enquote{plib-characteristic-query} ist, ergibt sich als aktuelle Gesamt-URL für den \gls{Webservice} der Applikation \enquote{http://localhost:8080/plib-characteristic-query/rest/}.
 \index{Apache Tomcat!Applikationskontext} \todotext{Applikationskontext footnote}
 
 \subsection{Webservice Klasse}
@@ -155,7 +158,7 @@ public class QueryService {
 ...
  \end{lstlisting}  
  
-Somit ergibt sich als aktuelle Gesamt-\gls{URL} für den Web Service der Applikation \\  \enquote{http://localhost:8080/plib-characteristic-query/rest/ws}.
+Somit ergibt sich als aktuelle Gesamt-\gls{URL} für den \gls{Webservice} der Applikation \\  \enquote{http://localhost:8080/plib-characteristic-query/rest/ws}.
  
 Der nächste Schritt ist es, die entsprechenden Methode zu definieren, welche die Anfrage final entgegennimmt und verarbeitet (siehe \autoref{lst:jerseymethode}). 
  
@@ -226,7 +229,7 @@ Die query.xsd referenziert die weiteren folgenden Schema-Dateien:
 
 Die Generierung startet man als Java Kommando in der Konsole, siehe \autoref{lst:jaxbgeneratemodel}.
 
-\begin{lstlisting}[caption=JAXB Modellgenerierung von der Konsole, language=sh, label=lst:jaxbgeneratemodel]
+\begin{lstlisting}[caption=JAXB Modellgenerierung mittels Konsolenbefehl, language=sh, label=lst:jaxbgeneratemodel]
 xjc query.xsd -d plib-characteristic-data/ 
 \end{lstlisting}
 
@@ -236,9 +239,14 @@ Bei der Generierung wurde die folgende Fehlermeldung angezeigt:
 \enquote{[ERROR] The package name iso.std.iso.ts.\_29002.\_\_-31.ed\_1.tech.xml\_schema.query used for this schema is not a valid package name. line 18 of file query.xsd}
   
 Der Grund für den Fehler ist, dass in der query.xsd die \glslink{Namespace}{Namensräume}\footnote{Im weiteren Verlauf wird der englische Begriff Namespaces für Namensräume benutzt.} wie in  \autoref{lst:queryschemanamespace} definiert sind. Da JAXB die \Glspl{Namespace} nutzt um die entsprechenden Paketstrukturen für die Modelle in Java zu erstellen, schafft es JAXB nicht, diese in entsprechende valide Form umzuwandeln. Man erkennt es daran, dass aus 
+
 \enquote{urn:iso:std:iso:ts:29002:-31:ed-1:tech:xml-schema:query} 
+
 in der Fehlermeldung 
-\enquote{iso.std.iso.ts.\_29002.\_\_-31.ed\_1.tech.xml\_schema.query} wird\footnote{Java Paketnamen enthalten als Trenner zwischen den Ebenen einen Punkt. Valide wäre z.B. iso.std.iso.ts.query}.
+
+\enquote{iso.std.iso.ts.\_29002.\_\_-31.ed\_1.tech.xml\_schema.query} 
+
+wird\footnote{Java Paketnamen enthalten als Trenner zwischen den Ebenen einen Punkt. Valide wäre z.B. iso.std.iso.ts.query}.
 Der Bindestrich vor der 31 ist nicht als erstes Zeichen eines Unterpaketnamens erlaubt. Wenngleich man hier erwarten würde, dass dies abgefangen und entsprechend der Umwandlungsregeln in valide Bezeichner konvertiert wird, so führt eine Benamung der Pakete nach den \Glspl{Namespace} zu unübersichtlichen und nicht aussagekräftigen Paketstrukturen. \index{Namespace}
 
 \begin{lstlisting}[caption=query.xsd Namespace Definitionen, language=XML, label=lst:queryschemanamespace]
@@ -265,7 +273,11 @@ Das Anpassen aller XSD-Dateien hat zwei große Nachteile.
 \item Änderungen an der lokalen Schemadatei machen mögliche spätere Integrationen einer neuen XSD-Version des ISO-Komitees schwierig.
 \end{enumerate}
 
-Besser wäre es, wenn die Generierung konfigurierbar ist. \gls{JAXB} ermöglicht mit einem sogenanntem Binding-File\footnote{Ein Binding-File ist eine XML-Datei, welche gemäß JAXB eine Konfiguration für die Genierung ermöglicht.}, die \Glspl{Namespace} abzuändern. \autoref{lst:bindingfile} zeigt die Konfiguration. Die Generierung kann mit dem Shell-Befehl \enquote{xjc -b binding.xjb -d gen-src query.xsd} gestartet werden. \index{Binding} \index{JAXB}
+Zu bevorzugen ist eine konfigurierbare Generierung. \gls{JAXB} ermöglicht mit einem sogenanntem Binding-File\footnote{Ein Binding-File ist eine XML-Datei, welche gemäß JAXB eine Konfiguration für die Genierung ermöglicht.}, die \Glspl{Namespace} abzuändern. \autoref{lst:bindingfile} zeigt die Konfiguration. Die Generierung kann mit dem Shell-Befehl 
+
+\enquote{xjc -b binding.xjb -d gen-src query.xsd} 
+
+gestartet werden. \index{Binding} \index{JAXB}
 
 \begin{lstlisting}[caption=Binding File binding.xjc, language=XML, label=lst:bindingfile]
 <?xml version="1.0" encoding="UTF-8"?>
@@ -307,7 +319,7 @@ Besser wäre es, wenn die Generierung konfigurierbar ist. \gls{JAXB} ermöglicht
 </jaxb:bindings> 
 \end{lstlisting}
 
-Wie man erkennen kann, wird für jede Schema Datei ein eigener Paketname definiert. Das hat den Vorteil, dass die einzelnen Datentypen aus den jeweiligen XSD-Dateien passend in eigene Pakete generiert werden und nicht alle in ein Verzeichnis. Das ist somit deutlich übersichtlicher. 
+Wie man erkennen kann, wird für jede Schema Datei ein eigener Paketname definiert. Das hat den Vorteil, dass die einzelnen Datentypen aus den jeweiligen XSD-Dateien passend in eigene Pakete generiert werden und nicht alle in ein Verzeichnis. Das ist deutlich übersichtlicher. 
 
 Die Modell-Dateien werden folgendermaßen abgelegt:
 
@@ -491,9 +503,17 @@ Diese Tabelle beinhaltet die folgenden Werte:
   \item[TOLERANCE] Wertetoleranzangabe.
   \item[VALUE\_ID] Identifier des konkreten Wertes.
   \end{description}
-\item[GET\_PROP\_VALS] Die globale Methode, welche alle Prozeduren aufruft. Nimmt als IN-Parameter eine Externe Produkt-ID entgegen und liefert die folgenden Tabellen zurück PROP\_NUMBER\_NTT,  PROP\_STRING\_NTT,  PROP\_REF\_NTT,  
-PROP\_LIST\_NUMBER\_NTT, PROP\_LIST\_STRING\_NTT, PROP\_MULTILIST\_NUMBER\_NTT
-PROP\_MULTILIST\_STRING\_NTT.
+\item[GET\_PROP\_VALS] Die globale Methode, welche alle Prozeduren aufruft. Nimmt als IN-Parameter eine Externe Produkt-ID entgegen und liefert die folgenden Tabellen zurück:
+\begin{itemize}
+\item PROP\_NUMBER\_NTT
+\item PROP\_STRING\_NTT
+\item PROP\_REF\_NTT
+\item PROP\_LIST\_NUMBER\_NTT
+\item PROP\_LIST\_STRING\_NTT
+\item PROP\_MULTILIST\_NUMBER\_NTT
+\item PROP\_MULTILIST\_STRING\_NTT
+\end{itemize} 
+
 Diese Tabellen sind bereits einzeln oben beschrieben. 
 \end{description}
 
@@ -556,7 +576,7 @@ Schritt & Beschreibung\\
 \hline
 1.3.2 2 &  true wird zurückgeliefert. \\
 \hline
-1.3.2.3 &  Die external IDs\footnote{Hinweis: wie bereits erwähnt, liefern die Prozeduren keine Möglichkeit eine IRDI unmittelbar zu übergeben, sondern nur den external Identifier des konkreten Objektes.} der mittels IRDI übergebenen Objekte werden geladen. \\
+1.3.2.3 &  Die external IDs der mittels IRDI übergebenen Objekte werden geladen. Hinweis: wie bereits erwähnt, liefern die Prozeduren keine Möglichkeit eine IRDI unmittelbar zu übergeben, sondern nur den external Identifier des konkreten Objektes. \\
 \hline
 1.3.2.4 &  Die externen IDs der Teile werden zurückgeliefert \\
 \hline
@@ -567,7 +587,7 @@ Schritt & Beschreibung\\
 1.3.2.7 &  Alle IRDIs der Eigenschaften müssen aus den Ergebnissen ausgelesen und in das Katalog-Modell übertragen werden. \\
 \hline
 1.3.2.8 &  Alle Typen und Einheiten müssen aus den Ergebnissen ausgelesen und in das Katalog-Modell übertragen werden. \\
-1.3.2.9 &  Das gefüllt Katalog-Modell wird zurückgeliefert. \\
+1.3.2.9 &  Das gefüllte Katalog-Modell wird zurückgeliefert. \\
 \hline
 1.4 &  Das gefüllte Katalog-Modell wird zurückgeliefert. \\
 \hline
@@ -575,7 +595,7 @@ Schritt & Beschreibung\\
 \hline
 1.6 &  Die XML-Repräsentation des Katalog-Modells wird zurückgeliefert. \\
 \hline
-1.7 &  Die XML-Repräsentation des Katalog-Modells wird an den Client zurückgeliefert. \\
+1.7 &  Die XML-Repräsentation des Katalog-Modells wird an den Klient zurückgeliefert. \\
 \hline
 \end{tabular}
 \caption{\label{tab.abfrageablauf}Erläuterung des Abfrageablaufes der Applikation}
@@ -584,7 +604,10 @@ Schritt & Beschreibung\\
 
 \subsection{Problemstellung - Daten der Teile Eigenschaften}\label{sec:problemdateneigenschaften}
 
-Die genannten Prozeduren liefern die Daten der Eigenschaften eines spezifizierten Teiles nach IRDI. Die Liste der zurückgegebenen Daten scheint auf den ersten Blick ausreichend, denn man erhält die folgenden Eigenschaften der Prozedur GET\_PROP\_VALS\_STRING:
+Die genannten Prozeduren liefern die Daten der Eigenschaften eines spezifizierten Teiles nach IRDI. Die Liste der zurückgegebenen Daten scheint auf den ersten Blick ausreichend, denn man erhält die folgenden Eigenschaften der Prozedur
+
+GET\_PROP\_VALS\_STRING:
+
 \begin{itemize}
   \item IRDI
   \item VALUE
@@ -601,12 +624,11 @@ Ferner wurde festgestellt, dass über die Metadaten, nämlich der Relation DE\_P
 
 \subsubsection{Lösung}
 
-Im einem Gespräch mit Karsten Mende\footnote{Karsten Mende ist der Studenten, welcher für die Datenbank- und Prozedurimplementierung verantwortlich ist. Zum Zeitpunkt des Verfassens dieser Arbeit, war die Abschlussarbeit von Herrn Mende noch nicht abgeschlossen.} wurde diese Situation besprochen. Herr Mende erläuterte, dass der Standard ISO 13584-42 \citep[vgl.][]{iso13584-42} die Möglichkeit gibt die Einheit der konkreten Instanzen von Eigenschaften zu überschreiben. Dies wurde von Herrn Mende implementiert. Auf Grund der Heterogenität und Repräsentation in Strings empfiehlt Herr Mende an dieser Stelle auf die Metadatenbeschreibungen von UNIT, PREFIX und TOLERANCE der Relationen DE\_PROPERTY, DE\_DATA\_TYPE, DE\_UNIT und DE\_PREFIX zurückzugreifen. 
+In einem Gespräch mit Karsten Mende\footnote{Karsten Mende ist der Studenten, welcher für die Datenbank- und Prozedurimplementierung verantwortlich ist. Zum Zeitpunkt des Verfassens dieser Arbeit, war die Abschlussarbeit von Herrn Mende noch nicht abgeschlossen.} wurde diese Situation besprochen. Herr Mende erläuterte, dass der Standard ISO 13584-42 \citep[vgl.][]{iso13584-42} die Möglichkeit gibt die Einheit der konkreten Instanzen von Eigenschaften zu überschreiben. Dies wurde von Herrn Mende implementiert. Auf Grund der Heterogenität und Repräsentation in Strings empfiehlt Herr Mende an dieser Stelle auf die Metadatenbeschreibungen von UNIT, PREFIX und TOLERANCE der Relationen DE\_PROPERTY, DE\_DATA\_TYPE, DE\_UNIT und DE\_PREFIX zurückzugreifen. 
 Da dies sinnvoll erscheint und ferner die Implementierung vereinfacht, wurde dies in der Form umgesetzt. Es bleibt an dieser Stelle zu bemerken, dass für eine spätere Implementierung und Unterstützung dieser Funktionalität zu analyiseren ist, wie die Heterogenität zu lösen ist. Ggfs. muss dazu eine Mappingtabelle erstellt werden.
 
 Fazit:
 Zur Zeit werden folglich gesetzte Werte von UNIT, PREFIX und TOLERANCE in DO\_ADDTIONAL\_DATA ignoriert und nur die Metadatenrepräsentationen benutzt.  
-\todotext{Den Punkt im Schlussteil erwähnen}
 
 \subsection{Problemstellung - Aufruf der Prozeduren mit Java}
 Um die Prozeduren von Oracle aufzurufen wurde das Spring Data Oracle eingesetzt. \index{Spring Data Oracle}
@@ -666,29 +688,42 @@ Im \autoref{lst:spring_data_hilf} leitet die Klasse PropertyValuesStoredProcedur
 \autoref{lst:spring_data_hilf_test} zeigt eine Testklasse, welche die Prozedur aufruft. Die Testklasse verfügt über zwei Testmethoden, testShowsThatWeHaveThatinDB und testShouldThrowExceptionAsExtIDIsNotInDB. 
 
 \begin{description}
-\item[ testShowsThatWeHaveThatinDB] Diese Methode übergibt einen gültigen und in der Datenbank vorhandenen Externen Identifier. Wird die Hilfsmethode über SQL direkt auf der Datenbank mit diesem Parameter aufgerufen, so wird folgendes zurückgegeben:
+\item[ testShowsThatWeHaveThatinDB] Diese Methode übergibt einen gültigen und in der Datenbank vorhandenen Externen Identifier. Wird die Hilfsmethode über SQL direkt auf der Datenbank mit diesem Parameter aufgerufen, so wird folgendes ausgegeben:
 
   LIST\_STRING\_PROPS 1. Stelle
   Property-IRDI :  val : Euro
+  
   LIST\_STRING\_PROPS 2. Stelle
   Property-IRDI :  val : 2008-12-31
+  
   LIST\_STRING\_PROPS 3. Stelle
   Property-IRDI :  val : 170202
+  
   LIST\_STRING\_PROPS 4. Stelle
   Property-IRDI :  val : 24-31-01-01
+  
   LIST\_STRING\_PROPS 5. Stelle
   Property-IRDI :  val : Rundolf-75
+  
   LIST\_STRING\_PROPS 6. Stelle
   Property-IRDI :  val : 2008-05-01
   
 Es ist eine Liste mit sechs Eigenschaftswerten.
-Wird die Prozedur über den Test aufgerufen, so läuft der Test durch, liefert aber kein Ergebnis zurück. Dieses Verhalten wurde nicht erwartet. 
+Wird die Prozedur über den Test aufgerufen, so ist der Testablauf zwar erfolgreich, allerdings liefert dieser kein Ergebnis zurück. Dieses Verhalten wurde nicht erwartet. 
   
 \item[ testShouldThrowExceptionAsExtIDIsNotInDB] Diese Testmethode nutzt einen nicht vorhandenen Externen Identifier. Via SQL direkt auf der Datenbank ausgeführt liefert die Testmethode: \enquote{No Data found} zurück. 
 Wird die Prozedur über den Test aufgerufen, so wird eine Exception geworfen, welche ebenfalls den Text  \enquote{No Data found} beinhaltet. Dies ist somit ein korrektes Verhalten. 
 \end{description}
 
-Der Grund, weshalb der Aufruf der Prozedur mit einem gültigen externen Identifier keinen Wert zurückliefert ist der, dass die Hilfsmethoden mit dem Prefix HILF\_* (z.B. HILF\_GET\_PROP\_VAL\_STRING) in der Prozedurdefinition Ausgaben mittels DBMS\_OUTPUT.PUT\_LINE erzeugen. Das ist eine Oracle spezifische Funktion um Ausgaben zu erzeugen. Hierauf kann nicht zugegriffen werden. Ferner sind die Daten nicht strukturiert.   
+Der Grund, weshalb der Aufruf der Prozedur mit einem gültigen externen \gls{IRDI} keinen Wert zurückliefert ist der, dass die Hilfsmethoden mit dem Prefix 
+
+HILF\_* (z.B. HILF\_GET\_PROP\_VAL\_STRING) 
+
+in der Prozedurdefinition Ausgaben mittels 
+
+DBMS\_OUTPUT.PUT\_LINE 
+
+erzeugen. Das ist eine Oracle spezifische Funktion um Ausgaben zu erzeugen. Hierauf kann nicht zugegriffen werden. Ferner sind die Daten nicht strukturiert.   
 
 \begin{lstlisting}[caption=Spring Data Oracle - Testklasse zum Aufruf der Hilfsprozeduren, language=java, label=lst:spring_data_hilf_test]
 package de.feu.plib.dao.procedures;
@@ -812,7 +847,11 @@ public class TestProcedure extends StoredProcedure {
 
 \subsection{Problemstellung - RECORD-Types als als Argumente werden nicht von Java JDBC unterstützt}
 
-Im \autoref{lst:spring_data_oracle} wird ein Test dargestellt, der vermeintlich die Prozedur \enquote{GET\_PROP\_VALS\_STRING} aufrufen kann. Dies ist der nächste logische Schritt, welcher allerdings nicht funktioniert. Beim Aufruf der Prozedur von Java, wird eine Fehlermeldung zurückgegeben, welche den Rückgabetyp PACK\_PROPERTY.PROP\_STRING\_NTT nicht erkennt. 
+Im \autoref{lst:spring_data_oracle} wird ein Test dargestellt, der vermeintlich die Prozedur 
+
+\enquote{GET\_PROP\_VALS\_STRING} 
+
+aufrufen kann. Dies ist der nächste logische Schritt, welcher allerdings nicht funktioniert. Beim Aufruf der Prozedur von Java, wird eine Fehlermeldung zurückgegeben, welche den Rückgabetyp PACK\_PROPERTY.PROP\_STRING\_NTT nicht erkennt. 
 
 Zur Erklärung dazu, PACK\_PROPERTY ist das von Herrn Mende definierte Paket, welches zum Ziel hat zusammengehörigen Prozeduren, Typen und Funktionen zu gruppieren. Dies erhöht die Wart- und Lesbarkeit des Oracle-PL/SQL Codes. 
 
@@ -905,7 +944,9 @@ Es gibt zwei Lösungsansätze. Die erste Lösung ist, weitere SQL Anfragen zu st
 
 Die andere Lösung ist die Anpassung der Prozeduren und Rückgabetypen, so dass unmittelbar die Property ID mitgeliefert wird. Das hat den Vorteil, dass keine weitere SQL-Anfrage an die Datenbank gesendet werden muss. Innerhalb der Prozedur wird ein weiteres Attribut selektiert. 
 
-Es wurde die zweite Lösung gewählt. Hierbei müssen alle Typdefinitionen angepasst werden, siehe beispielhaft \autoref{lst:prop_string_typen_mod}. Dazu wird die Property ID eingefügt \enquote{P\_ID	 NUMBER}.
+Es wurde die zweite Lösung gewählt. Hierbei müssen alle Typdefinitionen angepasst werden, siehe beispielhaft \autoref{lst:prop_string_typen_mod}. Dazu wird die Property ID eingefügt:
+
+\enquote{P\_ID	 NUMBER}.
 
  \begin{lstlisting}[caption=PROP\_STRING\_OBJ Typanpassung, language=sql, label=lst:prop_string_typen_mod]
 create or replace
@@ -993,13 +1034,30 @@ Es müssen drei Stellen angepasst werden:
 \begin{itemize}
 \item Das SELECT Statement für die Rückgabe, so dass die Property ID übergeben wird: 
   \begin{description}
-  \item[vorher] SELECT P.IRDI, LOJ.VALUE, LOJ.UNIT, LOJ.PREFIX, LOJ.TOLERANCE, LOJ.VALUE\_ID 
-  \item[nachher] SELECT p.id, P.IRDI, LOJ.VALUE, LOJ.UNIT, LOJ.PREFIX, LOJ.TOLERANCE, LOJ.VALUE\_ID  
+  \item[vorher] SELECT \\
+  P.IRDI, \\
+  LOJ.VALUE, \\ 
+  LOJ.UNIT, \\
+  LOJ.PREFIX, \\ 
+  LOJ.TOLERANCE, \\
+  LOJ.VALUE\_ID \\
+  ...
+  \item[nachher] SELECT \\
+  P.ID, \\
+  P.IRDI, \\ 
+  LOJ.VALUE, \\ 
+  LOJ.UNIT, \\
+  LOJ.PREFIX, \\ 
+  LOJ.TOLERANCE, \\ 
+  LOJ.VALUE\_ID \\
+  ...
   \end{description}
 \item Die Erweiterung bei Instanzierung des Tabelleneintrages für den Tabellentypen um ein Attribut (NULL hinzugefügt): 
   \begin{description}
-  \item[vorher] OUTTBL\_OBJ\_STRING\_ELEM  PROP\_STRING\_OBJ\_T := PROP\_STRING\_OBJ\_T(NULL, NULL, NULL, NULL, NULL, NULL);
-  \item[nachher] OUTTBL\_OBJ\_STRING\_ELEM  PROP\_STRING\_OBJ\_T := PROP\_STRING\_OBJ\_T(NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+  \item[vorher] OUTTBL\_OBJ\_STRING\_ELEM  PROP\_STRING\_OBJ\_T :=  \\
+  PROP\_STRING\_OBJ\_T(NULL, NULL, NULL, NULL, NULL, NULL);
+  \item[nachher] OUTTBL\_OBJ\_STRING\_ELEM  PROP\_STRING\_OBJ\_T :=  \\
+  PROP\_STRING\_OBJ\_T(NULL, NULL, NULL, NULL, NULL, NULL, NULL);
   \end{description}
 \item Hinzufügen des Mappings von der RECORD-Tabelle auf den OBJECT-Typen:
   \begin{description}
@@ -1010,11 +1068,8 @@ Es müssen drei Stellen angepasst werden:
  
 \section{Zusammenfassung des Kapitels}
 
-Zunächst wird das Configuration Management ein wichtiges Thema, dazu gehört die Auswahl der Werkzeuge, Prozesse, Build-Umgebung, Frameworks und Plattformen. Es wird kurz auf das Thema Testen eingegangen und anhand einiger Beispiele erläutert. Da ein \gls{REST}ful Webservice entwickelt wird, ist eine Beschreibung dieses Webservices Bestandteil des Kapitels. Es wird aufgezeigt wie ein RESTful Webservice mit Hilfe des Frameworks Jersey entwickelt wird. 
+Zunächst wird das Configuration Management erläutert, dazu gehört die Auswahl der Werkzeuge, Prozesse, Build-Umgebung, Frameworks und Plattformen. Es wird kurz auf das Thema Testen eingegangen und anhand einiger Beispiele erläutert. Da ein \gls{REST}ful Webservice entwickelt wird, ist eine Beschreibung dieses Webservices Bestandteil des Kapitels. Es wird aufgezeigt wie ein RESTful Webservice mit Hilfe des Frameworks Jersey entwickelt wird. 
 Der nächste Schritt ist die Betrachtung des Datenmodells. Die Anfrage und die Antwort des Webservices ist mittels Schema beschrieben. Die Herausforderung ist die Umwandlung der XML-Daten gemäß Schema in ein Modell der Programmiersprache zu Weiterverarbeitung.  
 Der wichtigste Punkt ist die Abfrage der Oracle PLIB-Prozeduren. Hier ergeben sich diverse Problemstellungen wie semantische Heterogenität, fehlende Daten bei Eingabe- und Ausgabeschnittstelle der Prozeduren als auch technische Schwierigkeiten, wie die fehlende Unterstützung von RECORD-Typen bei Abfrage mit Java JDBC.
 Die aufgetretenen Probleme zeigen auf, dass bei der Implementierung und Integration von Schnittstellen mit Problemen zu rechnen ist. Die Prozeduren wurden nicht mit Augenmerk auf die ISO 29002-31 entwickelt und weisen dadurch eine deutliche Heterogenität zu den tatsächlich benötigen Daten auf. Die Ergebnisse der Implementierung zeigen ferner, dass Abstraktionen behilflich sind. Würden die Prozeduren gemäß den tatsächlich benötigen Daten und mit Betrachtung der ISO 29002-31 angepasst, ließen sich zusätzliche Datenbankabfragen vermeiden und die Komplexität in der Business Logik Schicht verringern. 
-
-\todotext{Zusammenfassung reviewn}
-
 
