@@ -10,7 +10,7 @@ Dieses Kapitel beschreibt den System- und Softwareentwurf sowie die Auswahl der 
 Teil der Aufgabe der Arbeit ist es, für das System im Rahmen der nichtfunktionalen Anforderungen eine geeignete Laufzeitumgebung zu schaffen. Dafür sind einige Entscheidungen zu treffen. 
 
 \subsection{Webservice}\index{Webservice}\label{sec:webservice}
-Wenn von \glspl{Webservice} gesprochen wird, dann werden meistens \gls{SOAP}-basierte \glspl{Webservice} gemeint. Allerdings gibt es die sogenannten \gls{SOAP}-basierten \glspl{Webservice} als auch die \gls{REST}ful \glspl{Webservice}. Anforderung ist es ein \gls{Webservice} zu implementieren. Dazu muss entschieden werden, ob ein \gls{SOAP}-basierter oder \gls{REST}ful \glspl{Webservice} implementiert werden soll. \index{REST@\textbf{REST}} \index{REST!RESTful}
+Wenn von \glspl{Webservice} gesprochen wird, dann werden meistens \gls{SOAP}-basierte \glspl{Webservice} gemeint. Allerdings gibt es die sogenannten \gls{SOAP}-basierten \glspl{Webservice} als auch die \gls{REST}ful \glspl{Webservice}. Anforderung ist es ein \gls{Webservice} zu implementieren. Dazu muss entschieden werden, ob ein \gls{SOAP}-basierter oder \gls{REST}ful \glspl{Webservice} implementiert werden soll. \index{REST!RESTful}
 
 \subsubsection{Definition}
 
@@ -45,7 +45,7 @@ Es wurde ein \gls{REST}ful \gls{Webservice} ausgewählt. Die Gründe stellen sic
 \item[SOAP Webservice bereits im Einsatz] Ein weiterer Grund ist der, dass Frau Janßen in Ihrer Abschlussarbeit bereits einen SOAP-Webservice einsetzt. Nennen wir es Vielfältigkeit der Technologien im Fachbereich, jedenfalls bietet es die Möglichkeit eine weitere Technologie zu betrachten, einzusetzen und ggfs. zu vergleichen. 
 \end{description}
 
-\subsection{Plattform} \index{Apache Tomcat} \label{sec:plattform}
+\subsection{Plattform} \index{Apache Tomcat} \label{sec:plattform}\index{Web Server}\index{Web Container}
 Als Laufzeitumgebung kann prinzipiell ein beliebieger Web Container bzw. Web Server ausgewählt werden, welcher Webservices, sei es \gls{REST}ful \glspl{Webservice} oder \gls{SOAP} \glspl{Webservice}, unterstützt. 
 Es wurde der \gls{Apache Tomcat} Server in der Version 7 ausgewählt. Das ist ein üblicher Web Container (Web Server), welcher mit entsprechenden Frameworks bzw. Bibliotheken sowohl \gls{SOAP} als auch \gls{REST}ful \glspl{Webservice} anbieten kann. 
 
@@ -64,7 +64,7 @@ Festzuhalten sei noch, dass es sich beim JBoss Server um einen sogenannten Appli
 
 \item[Jersey] Framework zur Erstellung von RESTful Web Services \index{Jersey}\gls{Jersey}
 \item[JSF2.0] Komponentenbasiertes Web Framework zur Erstellung von Benutzeroberflächen \index{JSF2.0}
-\item[Spring] Dependency Injection Framework. Bietet darüber hinaus noch weitere Komponenten an. Ausgewählt wurde unter anderem \gls{Spring} JDBC und \gls{Spring} Data Oracle, welche einfacheren Zugriff auf relationale Datenbanken sowie auf Prozeduren von relationalen Datenbanken ermöglicht. \index{Spring} 
+\item[Spring] Dependency Injection Framework. Bietet darüber hinaus noch weitere Komponenten an. Ausgewählt wurde unter anderem \gls{Spring} JDBC und \gls{Spring} Data Oracle, welche einfacheren Zugriff auf relationale Datenbanken sowie auf Prozeduren von relationalen Datenbanken ermöglicht. \index{Spring} \index{Spring!Data Oracle}
     
 \end{description}
 
@@ -87,7 +87,7 @@ Die Bausteinsicht bildet die Aufgaben des Systems auf Software-Bausteine oder -K
 
 Es soll mit Hilfe dieser Sichten ein Überblick über den Aufbau des Systems und den Abhängigkeiten der einzelnen Komponenten geschaffen werden. Dazu wird das System im top-down Ansatz aufgezeigt und verfeinert. 
 
-\subsection{Kontextabgrenzung - Systemüberblick und angrenzende Systeme} 
+\subsection{Kontextabgrenzung - Systemüberblick und angrenzende Systeme}\index{Kontextabgrenzung}
 
 Die Kontextabgrenzung zeigt das System im Zusammenspiel mit anderen Systeme und zeigt somit gleichsam die Systemgrenzen auf. 
 
@@ -104,7 +104,7 @@ Die Kontextabgrenzung zeigt das System im Zusammenspiel mit anderen Systeme und 
 \item[Datenbankserver] Der Datenbankserver beinhaltet die PLIB Datenbank mit den entsprechenden Zugriffsprozeduren auf die Daten. \index{Datenbankserver}\index{PLIB}
 \end{description}
 
-\subsection{Level 1 - Plib characteristic query} 
+\subsection{Level 1 - Plib characteristic query} \index{Characteristic query}
 
 Die Bausteinsicht Level 1 zeigt alle Komponenten des entwickelten Systems auf und deutet die externen Schnittstellen an. Mittels <<use>> Beziehungen erkennt man die Abhängigkeiten der einzelnen Komponenten. 
 
