@@ -2,9 +2,9 @@
 \dictum[René Descartes]{Vor eine Frage gestellt, die wir vollständig verstanden haben, müssen wir sie von jeder überflüssigen Darstellung abstrahieren, sie auf ihre einfachste Form reduzieren und sie in möglichst kleine Teile zerlegen, die wir dann aufzählen. \dots}}
 \chapter{Analyse und Definition der Anforderungen } \index{Analyse und Definition der Anforderungen}\label{kap:analyse_und_definition}
 
-Das \autoref{kap:aufgabenbeschreibung} erwähnt mehrere ISO Standards, welche zur Lösung der Problemstellung unterstützen können. In diesem Kapitel wird der ausgewählte ISO Standard ISO 29002-31 sowie der Standard ISO 22745-30 analyisert um festzustellen, wie und welche Anforderungen mit Hilfe dieser Standards umgesetzt werden können. 
+Das \autoref{kap:aufgabenbeschreibung} erwähnt mehrere ISO Standards, welche zur Lösung der Problemstellung unterstützen können. In diesem Kapitel wird der ausgewählte ISO Standard ISO 29002-31 sowie der Standard ISO 22745-30 analysiert um festzustellen, wie und welche Anforderungen mit Hilfe dieser Standards umgesetzt werden können. 
 
-Mittels den Erkenntnissen der Analyse werden mögliche Use Cases erarbeitet. 
+Mittels den Erkenntnissen der Analyse werden Use Cases erarbeitet. 
 
 \section{Analyse der ISO 29002-31 - Exchange of characteristics data}\label{kap:analyseiso2900231}\index{ISO 29002-31}
 
@@ -14,15 +14,15 @@ Die gesamte Analyse der ISO 29002-31 mit Beschreibung der einzelnen Datencontain
 
 Zusammenfassend aus der Analyse ergeben sich folgende Abfragemöglichkeiten:
 \begin{description}
-\item[Simple Query] Eine Abfrage nach eindeutigem Identifier eines Konzeptes, mit der Möglichkeit der Einschränkung nach Eigenschaften eines Konzeptes (Selektion). Ferner ermöglicht der Simple Query die Übergabe bekannter Daten eines konkreten Teiles, nach denen gesucht und entsprechend passendes Ergebnis geliefert wird. Siehe dazu \autoref{sec:query}.
-\item[Parametric Query] Ermöglicht die Abfrage nach eindeutigem Identifier eines Konzeptes und zusätzlich die Einschränkung einer Eigenschaft nach konkretem Wert (Projektion). Dies erfolgt mittels Angabe einer characteristic\_data\_query\_expression. Siehe dazu \autoref{sec:characteristicdataqueryexpression}.
+\item[Simple Query] Eine Abfrage nach eindeutigem Identifier eines Konzeptes, mit der Möglichkeit der Einschränkung nach Eigenschaften eines Konzeptes (Projektion). Ferner ermöglicht der Simple Query die Übergabe bekannter Daten eines konkreten Teiles, nach denen gesucht und entsprechend passendes Ergebnis geliefert wird. Siehe dazu \autoref{sec:query}.
+\item[Parametric Query] Ermöglicht die Abfrage nach eindeutigem Identifier eines Konzeptes und zusätzlich die Einschränkung einer Eigenschaft nach konkretem Wert (Selektion). Dies erfolgt mittels Angabe einer characteristic\_data\_query\_expression. Siehe dazu \autoref{sec:characteristicdataqueryexpression}.
 \end{description}
 
 Die konkreten Query Beispiele finden sich dazu in \autoref{kap:query_beispiele}.
 
 \section{Analyse ISO 22745-30 - Identification Guide}\label{kap:identification_guide}\index{ISO 22745-30}
 
-Ein Identification Guide beschreibt, welche Daten für ein Objekt benötigt werden, damit dies überhaupt sinnvoll für einen bestimmten Zweck eingesetzt werden kann. Der Käufer, Produktmanager oder Benutzer definiert die Anforderungen an die Daten. Ein  \enquote{Datenanforderungsstatement} wird als ein i-xml identification guide xml file erzeugt. Siehe dazu auch \autoref{fig:lieferketten}. 
+Ein Identification Guide beschreibt, welche Daten für ein Objekt benötigt werden, damit diese überhaupt sinnvoll für einen bestimmten Zweck eingesetzt werden können. Der Käufer, Produktmanager oder Benutzer definiert die Anforderungen an die Daten. Ein  \enquote{Datenanforderungsstatement} wird als ein i-xml, ein identification guide xml file, erzeugt. Siehe dazu auch \autoref{fig:lieferketten}. 
 
 Es wird die Frage beantwortet, welche Daten und Eigenschaften zu einem bestimmten Konzept eines Objektes benötigt werden, um den Artikel beispielsweise zu kaufen oder sinnvoll zu verwalten. Diese Anforderungen werden von der Abfrageseite (Kundenseite) definiert, also diejenige, die Daten abfragen möchte\citep[Vergl.][]{bensonQuality}. 
 
@@ -37,7 +37,7 @@ Basierend auf dieser Erkenntnis zeigt \autoref{fig:query_kombinationen} möglich
 
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=0.98\textwidth]{images/queries.jpg}
+		\includegraphics[width=0.90\textwidth]{images/queries.jpg}
 	\caption{Mögliche Abfragen anhand der Kombination der Daten in XML Query}
 	\label{fig:query_kombinationen}
 \end{figure}
@@ -45,7 +45,7 @@ Basierend auf dieser Erkenntnis zeigt \autoref{fig:query_kombinationen} möglich
 \section{Anwendungsfälle}\label{kap:Use_Cases}
 
 Dieser Abschnitt beschreibt mögliche Anwendungsfälle\footnote{Use Case. Im weiteren Verlauf wird, gerade auch in den Anwendungsfallbeschreibungen von Use Cases gesprochen. Im deutschen Sprachraum ist das englische allgemein bekannte Äquivalent \enquote{Use Case} für Anwendungsfall eher geläufig als das deutsche, daher wird darauf verzichtet an manchen Stellen die Begrifflichkeiten einzudeutschen.} die sich aus ISO 29002-31 ergeben. 
-Es wird nur beispielhaft ein Use Case aufgelistet und erläutert. Alle weiteren Use Cases sind in \autoref{kap:analyse_use_cases} zu finden. 
+Es wird beispielhaft ein Use Case aufgelistet und erläutert. Alle weiteren Use Cases sind in \autoref{kap:analyse_use_cases} zu finden. 
 
 Die Query-Code-Beispiele sind gekürzt, d.h. es werden die referenzierte Schemata-Namen gemäß XSD nicht aufgeführt. 
 
@@ -129,7 +129,7 @@ Eine Abfrage, welche als Projektion die Properties der Klasse auswählt, die zur
 
 Das Ergebnis ist ein \gls{item} mit den gewünschten Attributen (Properties). 
 
-Die XML-Abfrage:
+Die XML-Abfrage lautet:
 \begin{lstlisting}[caption=Query Beispiel - Daten abfragen mit Propertyeinschränkung (Projektion), language=XML, label=lst:UseCaseDatenabfragenProperty]
 
 <?xml version="1.0" encoding="UTF-8"?>
@@ -147,6 +147,6 @@ Die XML-Abfrage:
 
 \section{Zusammenfassung des Kapitels}
 
-Das Ergebnis der Analyse der Standards ISO 29002-31 und 22745-30 ergibt, dass diese Beschreibungen für die Lösung der Problemstellung, die Entwicklung einer \gls{Abfrageschnittstelle} analog zur SQL-Selektion und -Projektion der Standard ISO 29002-31, ausreichend sind. Sowohl Projektion als auch Selektion ist dadurch möglich. ISO 22745-30 beschreibt als \gls{IG} eine weitere klientseitige Einschränkung der abzufragenden Daten. Man stelle sich eine Einschränkung (Definition einer Teilmenge) durch ein Formular vor. Das Formular schränkt die abzufragenden Daten auf die tatsächlich benötigte Menge von Daten gegebenenfalls stark ein und gibt ebenfalls den Typ der Daten vor. Dies wird durch referenzieren auf Konzepte eines Dictionaries erreicht.
+Das Ergebnis der Analyse der Standards ISO 29002-31 und 22745-30 ergibt, dass diese Beschreibungen für die Lösung der Problemstellung, die Entwicklung einer \gls{Abfrageschnittstelle} analog zur SQL-Selektion und -Projektion der Standard ISO 29002-31, ausreichend sind. Sowohl Projektion als auch Selektion ist dadurch möglich. ISO 22745-30 beschreibt als \gls{IG} eine weitere klientseitige Einschränkung der abzufragenden Daten. Man stelle sich eine Einschränkung (Definition einer Teilmenge) durch ein Formular vor. Das Formular schränkt die abzufragenden Daten auf die tatsächlich benötigte Menge von Daten gegebenenfalls stark ein und gibt ebenfalls den Typ der Daten vor. Dies wird durch Referenzieren auf Konzepte eines Dictionaries erreicht.
 
 Aus den Anforderungen wurden sinnvolle \glspl{Use Case} formuliert, welche das Verhalten des Systems beschreiben sollen.  

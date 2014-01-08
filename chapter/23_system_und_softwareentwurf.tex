@@ -20,7 +20,7 @@ Wenn von \glspl{Webservice} gesprochen wird, dann werden meistens \gls{SOAP}-bas
 
 \subsubsection{SOAP/WSDL Webservice}\index{SOAP}\index{WSDL}\index{Webservice}
 Frau Janssen hat in ihrer Abschlussarbeit einen \glspl{Webservice} nach ISO 29002-20 mittels einem  \gls{SOAP}/\gls{WSDL} \glspl{Webservice} implementiert \citep[vgl.][]{janssen}. Die ISO 29002-20 verweist in Annex-B auf entsprechende \gls{WSDL}-Definitionen. 
-Ich möchte an dieser Stelle darauf verzichten, die Einzelheiten eines SOAP/WSDL Webservice zu erläutern und verweise auf Frau Janßens Abschlussarbeit \citep[vgl.][Kap. 3]{janssen}. 
+An dieser Stelle wird darauf verzichten, die Einzelheiten eines SOAP/WSDL Webservice zu erläutern und auf Frau Janßens Abschlussarbeit verwiesen \citep[vgl.][Kap. 3]{janssen}. 
 
 Es sei an dieser Stelle kurz erwähnt, dass \glspl{Webservice} auf \gls{SOAP}/\gls{WSDL} basierend ein W3C\footnote{World Wide Web Consortium - http://www.w3.org} Standard sind. Dies ist häufig auch ein Kriterium, weshalb in der Industrie \gls{SOAP}/\gls{WSDL} \glspl{Webservice} stark verbreitet sind. 
 
@@ -59,7 +59,7 @@ Folgende Server sind zum Einsatz ebenfalls möglich:
 
 Festzuhalten sei noch, dass es sich beim JBoss Server um einen sogenannten Application Server handelt. Er verfügt zusätzlich zur Web Container Funktionalität noch über weitere Dienste, wie beispielsweise Transaktionsmanagement, Securitymanagement oder verteilte Applikationsunterstützung. 
 
-\subsection{Bibilotheken und Frameworks} \index{Bibilotheken und Frameworks}\label{sec:bibliotheken_und_frameworks}
+\subsection{Bibliotheken und Frameworks} \index{Bibilotheken und Frameworks}\label{sec:bibliotheken_und_frameworks}
 \begin{description}
 
 \item[Jersey] Framework zur Erstellung von RESTful Web Services \index{Jersey}\gls{Jersey}
@@ -68,14 +68,12 @@ Festzuhalten sei noch, dass es sich beim JBoss Server um einen sogenannten Appli
     
 \end{description}
 
-\todotext{Eine detaillierte Erklärung der Frameworks nötig, Erläuterung des Nutzens und weshalb diese ausgesucht wurden. Ggfs in Anhang}
-
 \subsection{Programmiersprache}\index{Programmiersprache}
 Vorgegeben ist die Umsetzung eines \glspl{Webservice}. Diese lassen sich in fast allen aktuellen Programmiersprachen entwickeln, folglich kann prinzipiell jede Sprache ausgewählt werden die Webservices anbieten kann.  
 
 Es wurde die Sprache Java gewählt, da diese zum einen in der aktuellen Industrie stark verbreitet und zum anderen der Autor dieser Arbeit seit vielen Jahren damit vertraut ist. Ferner besteht hier eine Abhängigkeit zur Auswahl der Plattform gleichsam des Web Containers, siehe \autoref{sec:plattform}. Beim Einsatz von Java ist man an einen Web Container (Web Server) gebunden, welcher auch Java unterstützt. 
 
-Ein weiterer Aspekt ist, dass Software welche mit Java entwickelt wurde im Prinzip auf jedem Betriebssystem lauffähig, und somit portierbar ist. Dies ist zwar keine Anforderung des Projektes, aber ermöglicht die Arbeit und Entwicklung in beliebigen Systemen. 
+Ein weiterer Aspekt ist, dass Software welche mit Java entwickelt wurde im Prinzip auf jedem Betriebssystem lauffähig, und somit portierbar ist. Dies ist zwar keine Anforderung des Projektes, ermöglicht allerdings die Arbeit und Entwicklung in beliebigen Systemen. 
 
 \section{Softwaredesign und Architektur}\index{Softwarearchitektur}\index{Softwaredesign}
 
@@ -89,7 +87,7 @@ Es soll mit Hilfe dieser Sichten ein Überblick über den Aufbau des Systems und
 
 \subsection{Kontextabgrenzung - Systemüberblick und angrenzende Systeme}\index{Kontextabgrenzung}
 
-Die Kontextabgrenzung zeigt das System im Zusammenspiel mit anderen Systeme und zeigt somit gleichsam die Systemgrenzen auf. 
+Die Kontextabgrenzung in \autoref{fig:bausteinsicht_level0} zeigt das System im Zusammenspiel mit anderen Systeme und zeigt somit gleichsam die Systemgrenzen auf. 
 
 \begin{figure}[!htbp]
 	\centering
@@ -106,7 +104,7 @@ Die Kontextabgrenzung zeigt das System im Zusammenspiel mit anderen Systeme und 
 
 \subsection{Level 1 - Plib characteristic query} \index{Characteristic query}
 
-Die Bausteinsicht Level 1 zeigt alle Komponenten des entwickelten Systems auf und deutet die externen Schnittstellen an. Mittels <<use>> Beziehungen erkennt man die Abhängigkeiten der einzelnen Komponenten. 
+Die Bausteinsicht Level 1 in \autoref{fig:bausteinsicht_level1} zeigt alle Komponenten des entwickelten Systems auf und deutet die externen Schnittstellen an. Mittels <<use>> Beziehungen erkennt man die Abhängigkeiten der einzelnen Komponenten. 
 
 \begin{figure}[htbp]
 	\centering
@@ -126,7 +124,7 @@ Die Bausteinsicht Level 1 zeigt alle Komponenten des entwickelten Systems auf un
 
 \subsection{Level 2 - Whiteboxansicht - Komponente XMLData}\index{Whiteboxansicht}
 
-Die Komponente XMLData beinhaltet alle Datenmodelle für die beiden Hauptkonzepte \enquote{Query for characteristic data} nach. 
+Die Komponente XMLData beinhaltet alle Datenmodelle für die beiden Hauptkonzepte \enquote{Query for characteristic data} nach. Siehe dazu \autoref{fig:bausteinsicht_level2_xmldata}. 
 
 \begin{figure}[htbp]
 	\centering

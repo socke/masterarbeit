@@ -21,7 +21,7 @@ GIT ist ein \gls{VCS}, kurz VCS, GIT ist darüberhinaus ein verteiltes \gls{VCS}
 \enquote{Distributed version control systems (DVCSs) are no different in that respect. Their main goal is still to help us track changes we make to the projects we’re working on. The difference between VCSs and DVCSs is how developers communicate their changes to each other. \citep[S. 15][]{pragGit}}
 \end{quotation}
 
-In diesem Projekt ist kein verteiltes \gls{VCS} nötig, da es nur einen Bearbeiter der Daten und Quelltexte gibt. Es wurde dennoch gewählt, da es zum einen genau wie ein \enquote{normales}, folglich nicht verteiltets \gls{VCS} eingesetzt werden kann, der Autor mit diesem System sehr vertraut ist und ggfs. zukünftig darauf aufbauende oder weiterführende Projekte mit diesem System einfach weiterarbeiten können. 
+In diesem Projekt ist kein verteiltes \gls{VCS} nötig, da es nur einen Bearbeiter der Daten und Quelltexte gibt. Es wurde dennoch gewählt, da es zum einen genau wie ein \enquote{normales}, folglich nicht verteiltes \gls{VCS} eingesetzt werden kann, der Autor mit diesem System sehr vertraut ist und ggfs. zukünftig auf diese Arbeit aufbauende oder weiterführende Projekte mit diesem System einfach weiterarbeiten können. 
 
 Die Quelltexte dieser Arbeit sind bei einem frei verfügbaren \glslink{VCS}{Versionskontrollsystemanbieter} untergebracht. Das Repository kann mit dem Befehl aus \autoref{lst:klonendersourcen} geklont werden. Klonen bedeutet bei verteilten \glslink{VCS}{Versionskontrollsystem}, das gesamt Repository zu kopieren. Es kann dann auf diesem Repository lokal gearbeitet werden. 
 
@@ -53,11 +53,11 @@ Als Web Container wird der \gls{Apache Tomcat} in der Version 7 eingesetzt. Die 
  
 \subsection{Tests}\index{Tests}\index{Entwicklertest}
 
-Einer der wichtigsten Punkte in der Softwareentwicklung ist das Testen. Ich beziehe mich nur auf Entwicklertests. Hier gibt es zwei große Bereiche, automatische Entwicklertests und manuelle Entwicklertests. 
+Einer der wichtigsten Punkte in der Softwareentwicklung ist das Testen. Es werden auschließlich Entwicklertests betrachtet. Hier gibt es zwei Bereiche, automatische Entwicklertests und manuelle Entwicklertests. 
 
 \subsubsection{Automatische Entwicklertests mit JUnit}\index{Unit Test}\index{Integrationstest}
 
-Für die automatischen Entwicklertests wird ein Framework namens JUnit eingesetzt. Der Vorteil ist, dass diese Framework weit verbreitet, bekannt und ausgereift ist. 
+Für die automatischen Entwicklertests wird ein Framework namens JUnit eingesetzt. Der Vorteil ist, dass dieses Framework weit verbreitet, bekannt und ausgereift ist. 
 Es gibt zwei Arten von Tests. Die \glspl{Unit-Test} und die \glspl{Integrationstest}. 
 
 \glspl{Unit-Test} testen eine Komponente isoliert von allen abhängigen Komponenten. Das bedeutet, dass nur diese Komponente auf die korrekte Funktionsweise hin getestet wird. Jegliche Abhängigkeiten werden durch Mock- oder Fakeobjekte ersetzt, so dass ein genaue Testumgebung für diese Komponente simuliert werden kann. 
@@ -192,7 +192,6 @@ Die Konfiguration der Methode wird über \Gls{Annotation} vorgenommen. Nachfolge
 \index{HTTP-Methode!GET}\index{HTTP-Methode!POST}\index{HTTP-Methode!PUT}\index{HTTP-Methode!DELETE}
 \index{MIME-Type}
 
-% 
 \section{Query-Verarbeitung}
 
 Der \gls{Webservice}, welcher in \autoref{kap:webservice} beschrieben ist, nimmt in der Applikation das Query-XML-File entgegen. 
@@ -333,8 +332,6 @@ Die Modell-Dateien werden folgendermaßen abgelegt:
 
 Zeile 6-10 aus \autoref{lst:bindingfile} zeigt auf, wie im Binding-File ein anderer Paketname für die Datei query.xsd definiert werden kann. 
 
-An dieser Stelle wissen wir, wie aus den Schema-Dateien gemäß den ISO-Standards geeignete Java Modellklassen zur Verarbeitung generiert werden können. 
-
 \subsection{Einbinden in Buildprozess mit Maven}\index{Maven}\index{Buildprozess}
 Da als Build-Werkzeug \gls{Maven} verwendet wird, kann der gesamte Generierungsprozess darüber abgebildet werden. 
 
@@ -416,10 +413,11 @@ Um JAXB mit \gls{Maven} zu nutzen, muss das \gls{Maven}-Plugin \enquote{maven-ja
 
 \section{Abfrage der PLIB Prozeduren}\index{PLIB Prozeduren}\index{Oracle Prozeduren}\label{sec:abfrage_plib_prozeduren}
 
-Die Anforderung ist es, so weit wie möglich die vorhandenen Prozeduren aus der Arbeit von Herrn Mende zu nutzen. 
+Die Anforderung ist es, so weit wie möglich die vorhandenen Prozeduren der PLIB zu nutzen. 
 
-Die Prozeduren von Herrn Mende nehmen einen sogenannten Externen Identifier entgegen. Dieser identifiziert eindeutig eine Instanz eines \glspl{item}. 
-Beispiel: Ich habe das Konzept \enquote{Sechskantschraube} und in der Teiledatenbank gibt es davon genau eine gespeicherte Instanz, das ist eine Schraube mit definierten Werteeigenschaften. 
+Die Prozeduren der PLIB nehmen einen sogenannten Externen Identifier entgegen. Dieser identifiziert eindeutig eine Instanz eines \glspl{item}. 
+Beispiel: 
+Das Konzept \enquote{Sechskantschraube} hat in der Teiledatenbank genau eine gespeicherte Instanz, das ist eine Schraube mit definierten Werteeigenschaften. 
 
 Zur Abfrage stehen folgende Oracle-Prozeduren zur Verfügung:
 
@@ -517,12 +515,15 @@ Diese Tabelle beinhaltet die folgenden Werte:
 Diese Tabellen sind bereits einzeln oben beschrieben. 
 \end{description}
 
-Für genaue konzeptuelle Beschreibungen sei auf die Abschlussarbeit von Herrn Karsten Mende verwiesen\footnote{Diese Arbeit wird parallel zu dieser Abschlussarbeit verfasst, daher könnte diese zum Zeitpunkt der Abgabe die Arbeit von Herrn Mende noch nicht verfügbar sein. Der Leser sei deshalb für weitere Informationen an den Fachbereich verwiesen.}
+Für genaue konzeptuelle Beschreibungen sei auf die Abschlussarbeit von Herrn Karsten Mende verwiesen\footnote{Diese Arbeit wird parallel zu dieser Abschlussarbeit verfasst, daher könnte diese zum Zeitpunkt der Abgabe die Arbeit von Herrn Mende noch nicht verfügbar sein. Der Leser sei deshalb für weitere Informationen an den Fachbereich verwiesen.}.
 
 \subsection{Problemstellung - Externer Identifier}\label{sec:problemidentifier}
 
-Hier stellt sich das Problem, dass eine query.xsd generell immer auf die \gls{IRDI} eines Konzeptes basiert. 
+Hier stellt sich das Problem, dass eine query.xsd generell immer auf die \gls{IRDI} eines Konzeptes basiert.
+
+ 
 Beispiel: \enquote{Gib mir bitte alle Instanzen und Werte der Eigenschaften des Klassenkonzeptes mit dem Identifier 0173-1\#01-BAD803\#2 (Skalpell)}
+
 Der Query des Standards fragt folglich explizit nach den Instanzen eines Konzeptes (hier Skalpell). Die Prozeduren benötigen allerdings einen nicht im Standard definierten Identifier einer konkreten Instanz, um alle Eigenschaftswerte zu ermitteln. Es ist folglich nicht möglich die Prozeduren mittels \gls{IRDI} aufzurufen und die entsprechend benötigten Rückgabedaten zu erhalten. 
 
 \subsubsection{Lösung}
@@ -533,7 +534,9 @@ Zwei Lösungsoptionen stellen sich hier zur Auswahl:
 \item Separate Abfrage an die Datenbank in der Applikation realisieren. Diese Abfrage ermittelt anhand der vom Query übergebenen \gls{IRDI} alle externen Identifier der Instanzen dieses Konzeptes. Anschließend können die Prozeduren mit den ermittelten externen Identifiern aufgerufen werden.   
 \end{enumerate}
 
-Es wurde die Lösung Nummer zwei gewählt. Hierfür gibt es mehrere Gründe. Der Hauptgrund ist, dass zum Zeitpunkt der Erstellung dieser Arbeit, die Abschlussarbeit von Herrn Mende noch nicht abgeschlossen ist. Es ist damit nicht auszuschließen, dass sich Prozeduren oder Logik in den Prozeduren zu einem späteren Zeitpunkt noch ändern. Das ist im Prinzip kein Problem, da diese Arbeit sich auf einen bestimmten Entwicklungsstand der Arbeit von Herrn Mende bezieht, allerdings wird in der Zukunft versucht, die neuere Version von Herrn Mende in diese Arbeit zu integrieren, wird es sehr schwierig und aufwändig dies zu bewältigen, wenn im Rahmen dieser Arbeit die Prozeduren geändert werden. Man stände vor dem Problem, dass beide Seiten die Basis modifiziert haben. 
+Es wurde die Lösung Nummer zwei gewählt. Hierfür gibt es mehrere Gründe. 
+
+Der Hauptgrund ist, dass zum Zeitpunkt der Erstellung dieser Arbeit, die Abschlussarbeit von Herrn Mende noch nicht abgeschlossen ist. Es ist damit nicht auszuschließen, dass sich Prozeduren oder Logik in den Prozeduren zu einem späteren Zeitpunkt noch ändern. Das ist im Prinzip kein Problem, da diese Arbeit sich auf einen bestimmten Entwicklungsstand der Arbeit von Herrn Mende bezieht, allerdings wird in der Zukunft versucht, die neuere Version in diese Arbeit zu integrieren, wird es sehr schwierig und aufwändig dies zu bewältigen, wenn im Rahmen dieser Arbeit die Prozeduren geändert werden. Man stände vor dem Problem, dass beide Seiten die Basis modifiziert haben. 
 Ein weiterer Grund für die separate Abfrage ist, dass dies in der Ebene der Applikationslogik für einen Nicht-\gls{Oracle}-Datenbank Experten einfacher zu implementieren, und damit weniger fehleranfällig ist. Die Prozeduren sind bereits sehr komplex und im Detail nicht einfach zu verstehen. 
 Ferner stellt diese Abfrage eine Teilfunktionalität dar und ist somit prima separat testbar.  
 
@@ -631,7 +634,7 @@ Fazit:
 Zur Zeit werden folglich gesetzte Werte von UNIT, PREFIX und TOLERANCE in DO\_ADDTIONAL\_DATA ignoriert und nur die Metadatenrepräsentationen benutzt.  
 
 \subsection{Problemstellung - Aufruf der Prozeduren mit Java}
-Um die Prozeduren von Oracle aufzurufen wurde das Spring Data Oracle eingesetzt. \index{Spring Data Oracle}
+Um die Prozeduren von Oracle aufzurufen wurde Spring Data Oracle eingesetzt. \index{Spring Data Oracle}
 
 Die eigentlichen Hilfsprozeduren, welche von Karsten Mende zur Verfügung gestellt werden lieferten keine Rückgabewerte. Das \autoref{lst:spring_data_hilf} zeigt die erste Testimplementierung. 
 
@@ -781,13 +784,13 @@ public class PropertyValuesStoredProcedureIT {
 
 \end{lstlisting}
 
-
-
 \subsubsection{Lösung}
 
 Der nächste Test muss demnach eine Ebene tiefer ansetzen, und zwar dort, wo die Daten in Typstrukturen genutzt werden. Das sind die konkreten Prozeduren wie z.B. GET\_PROP\_VALS\_STRING. Diese liefern Tabellen vom Typ konkreter Rückgabetypen wie in \autoref{sec:abfrage_plib_prozeduren} beschrieben. 
 
-Das \autoref{lst:spring_data_oracle} zeigt beispielhaft die Zugriffsklasse für die Prozedur GET\_PROP\_VALS\_STRING.
+Das \autoref{lst:spring_data_oracle} zeigt beispielhaft die Zugriffsklasse für die Prozedur 
+
+GET\_PROP\_VALS\_STRING.
 
 \begin{lstlisting}[caption=Spring Data Oracle - Aufruf der Prozeduren mit Rückgabetabellen, language=java, label=lst:spring_data_oracle]
 package de.feu.plib.dao.procedures;
@@ -845,7 +848,7 @@ public class TestProcedure extends StoredProcedure {
 }
 \end{lstlisting}
 
-\subsection{Problemstellung - RECORD-Types als als Argumente werden nicht von Java JDBC unterstützt}
+\subsection{Problemstellung - RECORD-Types als Argumente werden nicht von Java JDBC unterstützt}
 
 Im \autoref{lst:spring_data_oracle} wird ein Test dargestellt, der vermeintlich die Prozedur 
 
@@ -853,9 +856,9 @@ Im \autoref{lst:spring_data_oracle} wird ein Test dargestellt, der vermeintlich 
 
 aufrufen kann. Dies ist der nächste logische Schritt, welcher allerdings nicht funktioniert. Beim Aufruf der Prozedur von Java, wird eine Fehlermeldung zurückgegeben, welche den Rückgabetyp PACK\_PROPERTY.PROP\_STRING\_NTT nicht erkennt. 
 
-Zur Erklärung dazu, PACK\_PROPERTY ist das von Herrn Mende definierte Paket, welches zum Ziel hat zusammengehörigen Prozeduren, Typen und Funktionen zu gruppieren. Dies erhöht die Wart- und Lesbarkeit des Oracle-PL/SQL Codes. 
+Zur Erklärung dazu, PACK\_PROPERTY ist das von Herrn Mende definierte Paket, welches zum Ziel hat zusammengehörigen Prozeduren, Typen und Funktionen zu gruppieren. Die Erstellung von Paketen erhöht die Wart- und Lesbarkeit des Oracle-PL/SQL Codes. 
 
-Eine längere Internetrecherche hat ergeben, dass eine Oracle Prozedur welche RECORD-Types als IN oder OUT-Parameter benutzt, mittels Java JDBC-Treiber nicht benutzt werden können. 
+Eine Recherche hat ergeben, dass eine Oracle Prozedur welche RECORD-Types als IN oder OUT-Parameter benutzt, mittels Java JDBC-Treiber nicht aufgerufen werden können. 
 
 Der SQLJ Developer's Guide and Reference sagt dazu \citep[Kap. 5][]{oracle-dev-guide}:
 
@@ -911,7 +914,6 @@ FROM
 
 Wenngleich die Abfrage zum Ergebnis führt, so ist sie sehr komplex. Daher sollte wie geplant die Abfragekomplexität in der Prozedur gekapselt sein. Damit sind wir gleich beim zweiten Lösungsansatz. Hierbei müssen die Prozeduren angepasst und als Rückgabetyp einen OBJECT-Typ benutzt werden. 
 
-Es wurde wie folgt vorgegangen: 
 Erst wurde die erste Lösung implementiert, um eine Basis für die weitere Entwicklung zu haben, denn für die zweite Lösung muss Herr Mende die Prozeduren anpassen. So konnte die Entwicklung fortgeführt werden und gleichzeitig Herr Mende die Änderungen für die zweite, gleichsam die empfohlene Lösung entwickeln. \autoref{lst:prop_string_typen} zeigt den von Herrn Mende neuen Beispieltypen PROP\_STRING\_OBJ. Analog zu den anderen Typen aus \autoref{sec:abfrage_plib_prozeduren} gibt es folglich weitere Typdefintionen wie z.B. PROP\_NUMBER\_OBJ oder PROP\_REFERENZ\_OBJ. 
 Die Prozeduren mit den RECORD Typen wurden beibehalten und neue Prozeduren entwickelt. Die Benamung ist GET\_OBJ\_STRING, GET\_OBJ\_NUMBER usw..
 
@@ -1066,10 +1068,19 @@ Es müssen drei Stellen angepasst werden:
   \end{description}
 \end{itemize}
  
+\section{SOAP Webservice}
+
+Um beide Technologien miteinander zu vergleichen wurde nach der REST-Implementierung noch ein SOAP-Webservice implementiert. 
+
+Das \autoref{kap:anhang_soap_webservice} erläutert die Implementierung des SOAP-Webservices basierend auf der Business Logik und des vorhandenen Modells. 
+
+Das Ergebnis ist, dass sehr einfach auf der vorhandenen Implementierung ein weiterer Webservice mit einer anderen Technologie erstellt werden kann, da bereits alle vorbereitenden Maßnahmen, wie Modellgenerierung aus den Schemadateien, getroffen wurden. 
+ 
 \section{Zusammenfassung des Kapitels}
 
 Zunächst wird das Configuration Management erläutert, dazu gehört die Auswahl der Werkzeuge, Prozesse, Build-Umgebung, Frameworks und Plattformen. Es wird kurz auf das Thema Testen eingegangen und anhand einiger Beispiele erläutert. Da ein \gls{REST}ful Webservice entwickelt wird, ist eine Beschreibung dieses Webservices Bestandteil des Kapitels. Es wird aufgezeigt wie ein RESTful Webservice mit Hilfe des Frameworks Jersey entwickelt wird. 
 Der nächste Schritt ist die Betrachtung des Datenmodells. Die Anfrage und die Antwort des Webservices ist mittels Schema beschrieben. Die Herausforderung ist die Umwandlung der XML-Daten gemäß Schema in ein Modell der Programmiersprache zu Weiterverarbeitung.  
 Der wichtigste Punkt ist die Abfrage der Oracle PLIB-Prozeduren. Hier ergeben sich diverse Problemstellungen wie semantische Heterogenität, fehlende Daten bei Eingabe- und Ausgabeschnittstelle der Prozeduren als auch technische Schwierigkeiten, wie die fehlende Unterstützung von RECORD-Typen bei Abfrage mit Java JDBC.
 Die aufgetretenen Probleme zeigen auf, dass bei der Implementierung und Integration von Schnittstellen mit Problemen zu rechnen ist. Die Prozeduren wurden nicht mit Augenmerk auf die ISO 29002-31 entwickelt und weisen dadurch eine deutliche Heterogenität zu den tatsächlich benötigen Daten auf. Die Ergebnisse der Implementierung zeigen ferner, dass Abstraktionen behilflich sind. Würden die Prozeduren gemäß den tatsächlich benötigen Daten und mit Betrachtung der ISO 29002-31 angepasst, ließen sich zusätzliche Datenbankabfragen vermeiden und die Komplexität in der Business Logik Schicht verringern. 
+Auf die vorhandene Implementierung der Business Logik und der Modelle der Schemata lässt sich sehr einfach ein weiterer \gls{Webservice} basierend auf SOAP implementieren. Das bedeutet, dass die oberste Schicht ausgetauscht werden kann. Es ist möglich einen RESTful \gls{Webservice} oder einen SOAP-\gls{Webservice} zuerstellen. 
 
