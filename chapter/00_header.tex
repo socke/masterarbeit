@@ -186,25 +186,59 @@ appendixprefix,				% Anhang wird "Anhang" vor die ‹berschrift gesetzt
 \definecolor{myyellow}{cmyk}{0.0, 0.05, 1.0, 0.24} 
 \definecolor{mydarkgreen}{cmyk}{1.0, 0.0, 1.63, 0.67} 
 
+\definecolor{hellgelb}{rgb}{1,1,0.9}
+\definecolor{colKeys}{rgb}{0,0,1}
+\definecolor{colIdentifier}{rgb}{0,0,0}
+\definecolor{colComments}{rgb}{0,0.5,0}
+\definecolor{colString}{rgb}{1,0,0}
+
 % listing settings
-%\lstset{frame=single, numbers=left, numberstyle=\tiny, basicstyle=\footnotesize, stepnumber=1, numbersep=5pt, backgroundcolor=\color{mygray}, breaklines=true}
+\lstset{frame=single, numbers=left, numberstyle=\tiny, basicstyle=\footnotesize, stepnumber=1, numbersep=5pt, backgroundcolor=\color{mygray}, breaklines=true}
 \lstset{
-        basicstyle=\ttfamily\scriptsize\mdseries,
-        keywordstyle=\bfseries\color{mydarkblue},
-        identifierstyle=,
-        commentstyle=\color{mydarkgreen},      
-        stringstyle=\itshape\color{mydarkred},
+       basicstyle=\ttfamily\scriptsize\mdseries,
+        %keywordstyle=\bfseries\color{mydarkblue},
+        keywordstyle=\color{colKeys}, 
+        identifierstyle=\color{colIdentifier},
+        %commentstyle=\color{mydarkgreen},   
+        commentstyle=\color{colComments},
+        stringstyle=\color{colString},   
+        %stringstyle=\itshape\color{mydarkred},
         numbers=left,
         numberstyle=\tiny,
         stepnumber=1,
         breaklines=true,
-        frame=none,
+        frame=single,
         showstringspaces=false,
-        tabsize=4,
-        backgroundcolor=\color{mylightergray},
+        tabsize=2,
+        %backgroundcolor=\color{mylightergray},
+        backgroundcolor=\color{hellgelb},
         captionpos=b,
         float=htbp,
+        breakautoindent=true
 } 
+
+% Zum Einbinden von Programmcode --------------------------------------------
+
+%\lstset{%
+% float=hbp,%
+%    basicstyle=\texttt\small, %
+%    identifierstyle=\color{colIdentifier}, %
+%    keywordstyle=\color{colKeys}, %
+%    stringstyle=\color{colString}, %
+%    commentstyle=\color{colComments}, %
+%    columns=flexible, %
+%    tabsize=2, %
+%    frame=single, %
+%    extendedchars=true, %
+%    showspaces=false, %
+%    showstringspaces=false, %
+%    numbers=left, %
+%    numberstyle=\tiny, %
+%    breaklines=true, %
+%    backgroundcolor=\color{hellgelb}, %
+%    breakautoindent=true, %
+%    captionpos=b%
+%}
 
 % f¸r tabellen
 \usepackage{array}
