@@ -1068,19 +1068,158 @@ Es müssen drei Stellen angepasst werden:
   \end{description}
 \end{itemize}
  
+\section{Fehlerbehandlung}
+
+Treten während der Verarbeitung Fehler auf, wie z.B. ein Validierungsfehler des übergebenen XML Queries, so ergibt sich das Problem, dass diese Fehlermeldung nicht an den Klienten zurückgegeben werden kann. Das ist nicht möglich, da das aktuelle Schema der Rückgabedatei \enquote{query.xsd}  (siehe \autoref{sec:query_xsd}) kein Modell für Fehlernachrichten beinhaltet. 
+Dieses Verhalten ist genau genommen korrekt, denn hier wird ein Datenmodell beschrieben und Kontext- und Zusatzinformationen gehören streng genommen nicht in dieses Modell, sondern sollten über eine darüber liegende Ebene verarbeitet werden.
+
+Dies ist in der Lösung mit \gls{REST}ful \gls{Webservice} nicht sinnvoll möglich, daher bieten sich zwei Möglichkeiten an. Die erste Möglichkeit wäre beim Auftreten eines Fehlers in der Verarbeitung immer einen leeren Katalog zurückzuliefern. Der Vorteil der Lösung ist die Einfachheit. Der Nachteil ist, dass nach wie vor keinerlei Fehlerinformation an den Klienten zurückgeliefert wird. 
+
+Die zweite Möglichkeit ist ein weiteres Schema zu erstellen, dieses im Katalog-Schema zu referenzieren. In diesem \enquote{Fehler-Schema} wird dann ein Fehlertyp definiert, welcher Fehlernachrichten aufnehmen kann. Der Vorteil dieser Lösung ist, dass es einfach umzusetzen und in das vorhandenen Katalog-Schema zu integrieren ist. Der Nachteil ist, dass es eine Anpassung der Katalog-Schemas bedeutet. 
+
+Um Anhand der Antwort (Katalogdaten) einen Fehler überhaupt erkennen zu können, wurde die zweite Lösung gewählt. Die \autoref{lst:error_schema} zeigt die Schemadatei error.xsd, welche einen Typen definiert (errorType) der zwei Fehlertexte beinhalten kann, shortErrorMessageType und longErrorMessageType. 
+
+ \begin{lstlisting}[caption=Fehlerbehandlung - Error Schemadatei, language=xml, label=lst:error_schema]
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+error.xsd - Additional simple Schema for adding to another Schema. Allows Error Messages. 
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:err="error" targetNamespace="error" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:complexType name="errorType">
+		<xs:sequence>
+			<xs:element name="shortErrorMessage" type="err:shortErrorMessageType" />
+			<xs:element name="longErrorMessage" type="err:longErrorMessageType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="shortErrorMessageType">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="longErrorMessageType">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+</xs:schema>
+\end{lstlisting}
+
+Diese lässt sich in die Katalog-Schemadatei einbinden mittels
+
+\lstinline[basicstyle=\ttfamily\small\mdseries]{<xs:import namespace="error" schemaLocation="error.xsd" /> }
+
+Anschließend wird ein globales Error-Element angegeben:
+
+\lstinline[basicstyle=\ttfamily\small\mdseries]{<xs:element name="error" type="err:errorType" />}
+
+Schließlich wird der Catalogue-Type neben dem Item-Type noch durch den Error Type erweitert, das zeigt \autoref{lst:error_catalogue_erweitern}.
+
+ \begin{lstlisting}[caption=Fehlerbehandlung - Catalogue Type erweitern, language=xml, label=lst:error_catalogue_erweitern]
+	<xs:complexType name="catalogue_Type">
+		<xs:sequence>
+			<xs:element ref="cat:item" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="cat:error" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType> 
+	
+\end{lstlisting} 
+
+Das \autoref{lst:error_catalogue_beispiel} zeigt eine Beispielantwort einer Fehlermeldung. Hier wurde ein ungültige IRDI im Query gesendet. Die shortErrorMessage besagt, dass es sich um einen Fehler beim Unmarshalling handelt. Der gesamte Java-Stacktrace aus der aufgetretenen Exception im Programm wird in der longErrorMessage angegeben. Hier kann genau nach der Ursache des Fehlers geforscht werden. In diesem Fall findet man folgende Fehlernachricht:
+
+\enquote{Caused by: org.xml.sax.SAXParseException: cvc-pattern-valid: Value '01x73x-1#01-AAA352#4' is not facet-valid with respect to pattern ... for type 'IRDI_type'.}
+
+Es ist ein Fehler bei der Validierung der IRDI aufgetreten. Diese entspricht nicht dem erlaubten Muster.
+
+ \begin{lstlisting}[caption=Fehlerbehandlung - Beispielantwort mit Validierungsfehler=xml, label=lst:error_catalogue_beispiel]
+?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<catalogue xmlns:ns2="urn:iso:std:iso:ts:29002:-4:ed-1:tech:xml-schema:basic" xmlns="urn:iso:std:iso:ts:29002:-10:ed-1:tech:xml-schema:catalogue" xmlns:ns4="error" xmlns:ns3="urn:iso:std:iso:ts:29002:-10:ed-1:tech:xml-schema:value">
+    <error>
+        <ns4:shortErrorMessage>Error occured during unmarshalling of xml</ns4:shortErrorMessage>
+        <ns4:longErrorMessage>java.lang.RuntimeException: Error during unmarshalling of XML.
+	at de.feu.plib.xml.XMLMarshallerImpl.unmarshallXML(XMLMarshallerImpl.java:63)
+	at de.feu.plib.webservice.rest.QueryRESTService.unmarshall(QueryRESTService.java:151)
+	at de.feu.plib.webservice.rest.QueryRESTService.query(QueryRESTService.java:91)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+	at java.lang.reflect.Method.invoke(Method.java:597)
+	at com.sun.jersey.spi.container.JavaMethodInvokerFactory$1.invoke(JavaMethodInvokerFactory.java:60)
+	at com.sun.jersey.server.impl.model.method.dispatch.AbstractResourceMethodDispatchProvider$TypeOutInvoker._dispatch(AbstractResourceMethodDispatchProvider.java:185)
+	at com.sun.jersey.server.impl.model.method.dispatch.ResourceJavaMethodDispatcher.dispatch(ResourceJavaMethodDispatcher.java:75)
+	at com.sun.jersey.server.impl.uri.rules.HttpMethodRule.accept(HttpMethodRule.java:288)
+	at com.sun.jersey.server.impl.uri.rules.RightHandPathRule.accept(RightHandPathRule.java:147)
+	at com.sun.jersey.server.impl.uri.rules.ResourceClassRule.accept(ResourceClassRule.java:108)
+	at com.sun.jersey.server.impl.uri.rules.RightHandPathRule.accept(RightHandPathRule.java:147)
+	at com.sun.jersey.server.impl.uri.rules.RootResourceClassesRule.accept(RootResourceClassesRule.java:84)
+	at com.sun.jersey.server.impl.application.WebApplicationImpl._handleRequest(WebApplicationImpl.java:1469)
+	at com.sun.jersey.server.impl.application.WebApplicationImpl._handleRequest(WebApplicationImpl.java:1400)
+	at com.sun.jersey.server.impl.application.WebApplicationImpl.handleRequest(WebApplicationImpl.java:1349)
+	at com.sun.jersey.server.impl.application.WebApplicationImpl.handleRequest(WebApplicationImpl.java:1339)
+	at com.sun.jersey.spi.container.servlet.WebComponent.service(WebComponent.java:416)
+	at com.sun.jersey.spi.container.servlet.ServletContainer.service(ServletContainer.java:537)
+	at com.sun.jersey.spi.container.servlet.ServletContainer.service(ServletContainer.java:699)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:728)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:305)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:222)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:123)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:99)
+	at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:953)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:118)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1023)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:589)
+	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:310)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:895)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:918)
+	at java.lang.Thread.run(Thread.java:695)
+Caused by: org.xml.sax.SAXParseException: cvc-pattern-valid: Value '01x73x-1#01-AAA352#4' is not facet-valid with respect to pattern '[0-9]{4}-[0-9A-Z:_\.]{1,35}(-[0-9A-Z:_\.]{1,35}(-[0-9A-Z]{1,1}(-[0-9A-Z:_\.]{1,70})?)?)?(#[0-9A-Z]{2,2}-[0-9A-Z:_\.]{1,131}#[0-9]{1,10})?|[0-9]{4}-[0-9A-Z:_\.]{1,35}(-[0-9A-Z:_\.]{1,35})?--[0-9A-Z:_\.]{1,70}(#[0-9A-Z]{2,2}-[0-9A-Z:_\.]{1,131}#[0-9]{1,10})?|[0-9]{4}-[0-9A-Z:_\.]{1,35}---[0-9A-Z:_\.]{1,70}(#[0-9A-Z]{2,2}-[0-9A-Z:_\.]{1,131}#[0-9]{1,10})?' for type 'IRDI_type'.
+	at com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.createSAXParseException(ErrorHandlerWrapper.java:195)
+	at com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.error(ErrorHandlerWrapper.java:131)
+	at com.sun.org.apache.xerces.internal.impl.XMLErrorReporter.reportError(XMLErrorReporter.java:384)
+	at com.sun.org.apache.xerces.internal.impl.XMLErrorReporter.reportError(XMLErrorReporter.java:318)
+	at com.sun.org.apache.xerces.internal.impl.xs.XMLSchemaValidator$XSIErrorReporter.reportError(XMLSchemaValidator.java:423)
+	at com.sun.org.apache.xerces.internal.impl.xs.XMLSchemaValidator.reportSchemaError(XMLSchemaValidator.java:3188)
+	at com.sun.org.apache.xerces.internal.impl.xs.XMLSchemaValidator.elementLocallyValidType(XMLSchemaValidator.java:3103)
+	at com.sun.org.apache.xerces.internal.impl.xs.XMLSchemaValidator.processElementContent(XMLSchemaValidator.java:3013)
+	at com.sun.org.apache.xerces.internal.impl.xs.XMLSchemaValidator.handleEndElement(XMLSchemaValidator.java:2156)
+	at com.sun.org.apache.xerces.internal.impl.xs.XMLSchemaValidator.endElement(XMLSchemaValidator.java:824)
+	at com.sun.org.apache.xerces.internal.jaxp.validation.ValidatorHandlerImpl.endElement(ValidatorHandlerImpl.java:566)
+	at com.sun.xml.bind.v2.runtime.unmarshaller.ValidatingUnmarshaller.endElement(ValidatingUnmarshaller.java:106)
+	at com.sun.xml.bind.v2.runtime.unmarshaller.SAXConnector.endElement(SAXConnector.java:158)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.endElement(AbstractSAXParser.java:604)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanEndElement(XMLDocumentFragmentScannerImpl.java:1789)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl$FragmentContentDriver.next(XMLDocumentFragmentScannerImpl.java:2950)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl.next(XMLDocumentScannerImpl.java:647)
+	at com.sun.org.apache.xerces.internal.impl.XMLNSDocumentScannerImpl.next(XMLNSDocumentScannerImpl.java:140)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanDocument(XMLDocumentFragmentScannerImpl.java:513)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:815)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:744)
+	at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(XMLParser.java:128)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(AbstractSAXParser.java:1208)
+	at com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser.parse(SAXParserImpl.java:543)
+	at com.sun.xml.bind.v2.runtime.unmarshaller.UnmarshallerImpl.unmarshal0(UnmarshallerImpl.java:218)
+	at com.sun.xml.bind.v2.runtime.unmarshaller.UnmarshallerImpl.unmarshal(UnmarshallerImpl.java:196)
+	at com.sun.xml.bind.v2.runtime.unmarshaller.UnmarshallerImpl.unmarshal(UnmarshallerImpl.java:250)
+	at de.feu.plib.xml.XMLMarshallerImpl.unmarshallXML(XMLMarshallerImpl.java:57)
+	... 38 more
+</ns4:longErrorMessage>
+    </error>
+</catalogue>
+\end{lstlisting} 
+
 \section{SOAP Webservice}
 
-Um beide Technologien miteinander zu vergleichen wurde nach der REST-Implementierung noch ein SOAP-Webservice implementiert. 
+Um beide Technologien miteinander zu vergleichen wurde nach der \gls{REST}ful \gls{Webservice}-Implementierung noch ein \gls{SOAP}-\gls{Webservice} implementiert. 
 
-Das \autoref{kap:anhang_soap_webservice} erläutert die Implementierung des SOAP-Webservices basierend auf der Business Logik und des vorhandenen Modells. 
-
-Das Ergebnis ist, dass sehr einfach auf der vorhandenen Implementierung ein weiterer Webservice mit einer anderen Technologie erstellt werden kann, da bereits alle vorbereitenden Maßnahmen, wie Modellgenerierung aus den Schemadateien, getroffen wurden. 
+Das Ergebnis ist, dass basierend auf der vorhandenen Implementierung ein weiterer Webservice in einer anderen Technologie mit recht geringem Aufwand erstellt werden kann. Im Rahmen der \gls{REST}ful \gls{Webservice}-Implementierung wurden bereits alle vorbereitenden Maßnahmen, wie Modellgenerierung aus den Schemadateien, getroffen. 
+ 
+Mehr Informationen zur Implementierung und Beispielquellcode des \gls{SOAP}-\glspl{Webservice} gibt das\autoref{kap:anhang_soap_webservice}. 
  
 \section{Zusammenfassung des Kapitels}
 
-Zunächst wird das Configuration Management erläutert, dazu gehört die Auswahl der Werkzeuge, Prozesse, Build-Umgebung, Frameworks und Plattformen. Es wird kurz auf das Thema Testen eingegangen und anhand einiger Beispiele erläutert. Da ein \gls{REST}ful Webservice entwickelt wird, ist eine Beschreibung dieses Webservices Bestandteil des Kapitels. Es wird aufgezeigt wie ein RESTful Webservice mit Hilfe des Frameworks Jersey entwickelt wird. 
-Der nächste Schritt ist die Betrachtung des Datenmodells. Die Anfrage und die Antwort des Webservices ist mittels Schema beschrieben. Die Herausforderung ist die Umwandlung der XML-Daten gemäß Schema in ein Modell der Programmiersprache zu Weiterverarbeitung.  
-Der wichtigste Punkt ist die Abfrage der Oracle PLIB-Prozeduren. Hier ergeben sich diverse Problemstellungen wie semantische Heterogenität, fehlende Daten bei Eingabe- und Ausgabeschnittstelle der Prozeduren als auch technische Schwierigkeiten, wie die fehlende Unterstützung von RECORD-Typen bei Abfrage mit Java JDBC.
-Die aufgetretenen Probleme zeigen auf, dass bei der Implementierung und Integration von Schnittstellen mit Problemen zu rechnen ist. Die Prozeduren wurden nicht mit Augenmerk auf die ISO 29002-31 entwickelt und weisen dadurch eine deutliche Heterogenität zu den tatsächlich benötigen Daten auf. Die Ergebnisse der Implementierung zeigen ferner, dass Abstraktionen behilflich sind. Würden die Prozeduren gemäß den tatsächlich benötigen Daten und mit Betrachtung der ISO 29002-31 angepasst, ließen sich zusätzliche Datenbankabfragen vermeiden und die Komplexität in der Business Logik Schicht verringern. 
-Auf die vorhandene Implementierung der Business Logik und der Modelle der Schemata lässt sich sehr einfach ein weiterer \gls{Webservice} basierend auf SOAP implementieren. Das bedeutet, dass die oberste Schicht ausgetauscht werden kann. Es ist möglich einen RESTful \gls{Webservice} oder einen SOAP-\gls{Webservice} zuerstellen. 
+Zunächst wird das Configuration Management erläutert, dazu gehört die Auswahl der Werkzeuge, Prozesse, Build-Umgebung, Frameworks und Plattformen. Es wird kurz auf das Thema Testen eingegangen und anhand einiger Beispiele erläutert. Da ein \gls{REST}ful \gls{Webservice} entwickelt wird, ist eine Beschreibung dieses Webservices Bestandteil des Kapitels. Es wird aufgezeigt wie ein  \gls{REST}ful \gls{Webservice} mit Hilfe des Frameworks Jersey entwickelt wird. 
+Der nächste Schritt ist die Betrachtung des Datenmodells. Die Anfrage und die Antwort des  \glspl{Webservice} ist mittels Schema beschrieben. Die Herausforderung ist die Umwandlung der XML-Daten gemäß Schema in ein Modell der Programmiersprache zu Weiterverarbeitung.  
+Der wichtigste Punkt ist die Abfrage der \gls{Oracle} \gls{PLIB}-Prozeduren. Hier ergeben sich diverse Problemstellungen wie semantische Heterogenität, fehlende Daten bei Eingabe- und Ausgabeschnittstelle der Prozeduren als auch technische Schwierigkeiten, wie die fehlende Unterstützung von RECORD-Typen bei Abfrage mit Java JDBC.
+Die aufgetretenen Probleme zeigen auf, dass bei der Implementierung und Integration von Schnittstellen mit Problemen zu rechnen ist. Die Prozeduren wurden nicht mit Augenmerk auf die ISO 29002-31 entwickelt und weisen dadurch eine deutliche Heterogenität zu den tatsächlich benötigen Daten auf. Die Ergebnisse der Implementierung zeigen ferner, dass Abstraktionen behilflich sind. Würden die Prozeduren gemäß den tatsächlich benötigen Daten und mit Betrachtung der ISO 29002-31 angepasst, ließen sich zusätzliche Datenbankabfragen vermeiden und die Komplexität in der Business Logik Schicht verringern. Dennoch vereinfachen die Prozeduren den Zugriff enorm, denn wie \autoref{lst:select_string} zeigt, kapseln die Prozeduren komplexe Anfragen und vereinfachen die Schnittstelle zur Datenbank. 
+Das Fehlerhandling wird in den Modellen nicht betrachtet. Um Informationen beim Auftreten von Fehlern an den Klienten zu senden, wurde eine Fehler-Schemadatei mit Fehlertypen erstellt und das Katalog-Schema angepasst, so dass als Antwort ggfs. Fehlertexte mitgesendet werden können. 
+Auf die vorhandene Implementierung der Business Logik und der Modelle der Schemata lässt sich sehr einfach ein weiterer \gls{Webservice} basierend auf SOAP implementieren. Das bedeutet, dass die oberste Schicht ausgetauscht werden kann. Es wurden beide Technologien verwendet, welche die gleiche Business Logik aufrufen. 
 
