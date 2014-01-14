@@ -1122,7 +1122,7 @@ Schließlich wird der Catalogue-Type neben dem Item-Type noch durch den Error Ty
 
 Das \autoref{lst:error_catalogue_beispiel} zeigt eine Beispielantwort einer Fehlermeldung. Hier wurde ein ungültige IRDI im Query gesendet. Die shortErrorMessage besagt, dass es sich um einen Fehler beim Unmarshalling handelt. Der gesamte Java-Stacktrace aus der aufgetretenen Exception im Programm wird in der longErrorMessage angegeben. Hier kann genau nach der Ursache des Fehlers geforscht werden. In diesem Fall findet man folgende Fehlernachricht:
 
-\enquote{Caused by: org.xml.sax.SAXParseException: cvc-pattern-valid: Value '01x73x-1#01-AAA352#4' is not facet-valid with respect to pattern ... for type 'IRDI_type'.}
+\enquote{Caused by: org.xml.sax.SAXParseException: cvc-pattern-valid: Value '01x73x-1\#01-AAA352\#4' is not facet-valid with respect to pattern ... for type 'IRDI\_type'.}
 
 Es ist ein Fehler bei der Validierung der IRDI aufgetreten. Diese entspricht nicht dem erlaubten Muster.
 

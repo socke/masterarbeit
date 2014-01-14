@@ -49,4 +49,25 @@ Für den Mac ist das ggfs über die Apple Webseite verfügbar.
 
 Am besten wird der Tomcat mittels Installer installiert. Hier wird man durch eine grafische Benutzeroberfläche geführt und Apache Tomcat wird als Dienst in das System integriert. 
 
+\section{Tomcat mittels Maven starten}
+
+Um Tomcat mittels Maven zu starten, muss Tomcat als Plugin in der Maven \gls{pom} konfiguriert werden. Das \autoref{lst:tomcat_plugin} zeigt die Konfiguration für die \gls{pom}.
+
+ \begin{lstlisting}[caption=Tomcat 7 Maven Plugin, language=XML, label=lst:tomcat_plugin]
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.tomcat.maven</groupId>
+      <artifactId>tomcat7-maven-plugin</artifactId>
+    </plugin>
+  </plugins>
+</build>
+ \end{lstlisting}  
+ 
+Anschließend kann der Tomcat-Server mit folgendem Befehl gestartet werden:
+ 
+\lstinline[basicstyle=\ttfamily\small\mdseries]{mvn tomcat7:run}
+ 
+
+ 
 
