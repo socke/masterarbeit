@@ -14,18 +14,18 @@ Die Unterkapitel beschreiben die einzelnen (XML) Datencontainer aus der ISO 2900
 \subsection{query\_context}
 Dies ist eine Art Container für eine Menge von Queries. Inhalt sind Informationen über den Anforderer der Daten zwecks persönlicher Kontaktaufnahme, wie z.B. die Anfragezeit, Informationen über die Organisation welche die Anfrage schickt sowie einen gewünschten Antwortzeitpunkt mit Antwort-Email Adresse. Siehe dazu \autoref{fig:querymain} und \citep[Kap. 5.2.2][]{iso29002-31}.  
 
-Da die Vorgabe lautet, den Service auf Basis eines Web Services zu erstellen, entfällt die Benutzung des query\_context. Der Grund ist, dass der Kontext  implizit durch den Web Service respektive dem Server zur Verfügung gestellt wird. Beispielsweise wird die Anfragezeit zwar nicht explizit durch den Serviceaufrufer selbst übergeben, allerdings durch die Anfrage an den technischen Server wie z.B. Apache Tomcat Server mittels Logeintrag implizit ermittelt. Somit lassen sich diese Metadaten über Verbindungsprotokolle der Infrastruktur herausfinden.  
+Da die Vorgabe lautet, den Service auf Basis eines \glspl{Webservice} zu erstellen, entfällt die Benutzung des query\_context. Der Grund ist, dass der Kontext  implizit durch den \gls{Webservice} respektive dem Server zur Verfügung gestellt wird. Beispielsweise wird die Anfragezeit zwar nicht explizit durch den Serviceaufrufer selbst übergeben, allerdings durch die Anfrage an den technischen Server wie z.B. Apache Tomcat Server mittels Logeintrag implizit ermittelt. Somit lassen sich diese Metadaten über Verbindungsprotokolle der Infrastruktur herausfinden.  
 Siehe dazu auch \citep[Kap. 6][]{iso29002-31}, welche besagt: \\ \enquote{ISO/TS 29002 can be implemented: \\
 a. with another envelope standard, such as EDI, or \\
 b. by itself, using the query\_context to carry envelope information.}
 
 \subsection{query}\label{sec:query}
 Die Unterstützung aller Funktionalitäten des queries entspricht laut ISO 29002-31 der Conformance class 1: simple query \citep[Anhang 6][]{iso29002-31}.
-Dies ist der eigentliche Abfrage-Datensatz. Abgefragt werden kann mittels class IRDI\footnote{IRDI  - International registration data identifier}, data\_specification IRDI, eine Menge von property IRDI, Teiledaten (das sind Teile gefüllt mit Daten ihrer Eigenschaften die dem Klienten bereits bekannt sind) und einer item\_description. Das bedeutet, dass bereits bekannte Eigenschaften eines Teils übertragen werden können, um die Suche auf Teile mit diesen Werte-Eigenschaften einzuschränken.
+Dies ist der eigentliche Abfrage-Datensatz. Abgefragt werden kann mittels class \gls{IRDI},\footnote{IRDI  - International registration data identifier}, data\_specification IRDI, eine Menge von property \gls{IRDI}, Teiledaten (das sind \glslink{item}{Teile} gefüllt mit Daten ihrer Eigenschaften die dem Klienten bereits bekannt sind) und einer item\_description. Das bedeutet, dass bereits bekannte Eigenschaften eines \glslink{item}{Teils} übertragen werden können, um die Suche auf \glslink{item}{Teile} mit diesen Werte-Eigenschaften einzuschränken.
 
-Die data\_specification IRDI verweist auf eine Spezifikation aus ISO 22745-30, die besagt welche Properties für dieses Teil sinnvoll sind. Die angegebenen Property IRDIs sind dann eine Teilmenge aus den mittels data\_specification IRDI definierten erlaubten Eigenschaften. Für weitere Informationen zur ISO 22745-30 siehe \autoref{kap:identification_guide_anhang}. 
+Die data\_specification IRDI verweist auf eine Spezifikation aus ISO 22745-30, die besagt welche Properties für dieses \glslink{item}{Teil} sinnvoll sind. Die angegebenen Property \glspl{IRDI} sind dann eine Teilmenge aus den mittels data\_specification IRDI definierten erlaubten Eigenschaften. Für weitere Informationen zur ISO 22745-30 siehe \autoref{kap:identification_guide_anhang}. 
 
-Ad hoc denkbar wären einfache Abfragen wie z.B.: \enquote{Gib mir alle Teile der Klasse xyz}. Mitgeliefert werden auch Teile von Subklassen. Weiterhin kann die Abfrage nach bestimmten Eigenschaften eingeschränkt werden. Eine weitere Möglichkeit ist es bereits bekannte Daten über ein Element zu übermitteln, mit dem Zwecke hierüber die IRDI zu erfahren oder weitere Eigenschafts-Daten zu erhalten. Siehe Beispielqueries simple queries in \autoref{kap:query_beispiele}. 
+Denkbar sind einfache Abfragen wie z.B.: \enquote{Gib mir alle Teile der Klasse xyz}. Mitgeliefert werden auch \glslink{item}{Teile} von Subklassen. Weiterhin kann die Abfrage nach bestimmten Eigenschaften eingeschränkt werden. Eine weitere Möglichkeit ist es bereits bekannte Daten über ein \glslink{item}{Teil} zu übermitteln, mit dem Zwecke hierüber die \gls{IRDI}, zu erfahren oder weitere Eigenschaftsdaten zu erhalten. Siehe Beispielqueries simple queries in \autoref{kap:query_beispiele}. 
 
 \subsection{characteristic\_data\_query\_expression (parametric\_query)}\label{sec:characteristicdataqueryexpression}
 Das entspricht laut ISO 29002-31 Anhang 6 der Conformance class 2: parametric query.
@@ -48,6 +48,7 @@ Z.B.
 \item cardinality\_expression
 \item subset\_expression
 \end{itemize}
+
 darüberhinaus noch folgende Attribute
 
 \begin{itemize}
@@ -69,19 +70,19 @@ Eine Schraube hat die folgenden möglichen Eigenschaften:
 
 \subsubsection{Simple Query}\index{Query!Simple Query}
 
-Ein simpler query ermöglicht folgende Abfrage: \enquote{Gib mir alle Teile zum Konzept Kreuzschraube mit dem Identifier (IRDI) 1234-abcd\#ab-cdefgh\#1}. Das Ergebnis ist ein Teil, mit allen Attributen wie oben angegeben. 
+Ein simpler query ermöglicht folgende Abfrage: \enquote{Gib mir alle Teile zum Konzept Kreuzschraube mit dem Identifier (IRDI) 1234-abcd\#ab-cdefgh\#1}. Das Ergebnis ist ein \glslink{item}{Teil}, mit allen Attributen wie oben angegeben. 
 
-Ein anderer Query könnte lauten: \enquote{Gib mir die Properties 1234-abcd\#ab-cccccc\#1 und 1234-abcd\#bbbbbb\# 1 des Items der Klasse 1234-abcd\#ab-cdefgh\#1}. Das Ergebnis wäre das Teil mit Typ: M6 und der Länge: 80mm.
+Ein anderer Query könnte lauten: \enquote{Gib mir die Properties 1234-abcd\#ab-cccccc\#1 und 1234-abcd\#bbbbbb\# 1 des \glspl{item} der Klasse 1234-abcd\#ab-cdefgh\#1}. Das Ergebnis wäre das \glslink{item}{Teil} mit Typ: M6 und der Länge: 80mm.
 
-Es könnte auch mit Hilfe von vorhandenen Daten gesucht werden, z.B.:  \enquote{Hier ist ein Teil mit der Property Typ: M6 (Property IRDI: 1234-abcd\# ab-bbbbbb\# 1), gib mir bitte dazu die Properties 1234-abcd\#ab-cccccc\#1 und 1234-abcd\# bbbbbb\#1} 
+Es könnte auch mit Hilfe von vorhandenen Daten gesucht werden, z.B.:  \enquote{Hier ist ein \glslink{item}{Teil} mit der Property Typ: M6 (Property IRDI: 1234-abcd\# ab-bbbbbb\# 1), gib mir bitte dazu die Properties 1234-abcd\#ab-cccccc\#1 und 1234-abcd\# bbbbbb\#1} 
 
 \subsubsection{Parametric Query}\index{Query!Parametric Query}
 
 Hat man jetzt noch eine Schraube mit folgenden Eigenschaften:
 \begin{description}
-\item[Klassen-Identifier] 1234-abcd\#ab-cdefgh\#1 (IRDI)
+\item[Klassen-Identifier] 1234-abcd\#ab-cdefgh\#1 (\gls{IRDI})
 \item[Typ] M5 (Property IRDI: 1234-abcd\#xx-bbbbbb\#1)
-\item[Länge] 100mm (Property IRDI: 1234-abcd\#xx-cccccc\#1)
+\item[Länge] 100mm (Property \gls{IRDI}: 1234-abcd\#xx-cccccc\#1)
 \end{description}
 
 ermöglicht der Parametric Query mit Hilfe der characteristic\_data\_query\_expression folgende Abfragen:  \enquote{Gib mir die Properties 1234-abcd\# ab-cccccc\#1 (Länge) und 1234-abcd\#bbbbbb\#1 (Typ) des Konzeptes 1234-abcd\#ab-cdefgh\#1 (Schraube) mit einer Länge zwischen 50 und 150mm und dem Typen M5 oder M6.}
@@ -90,8 +91,7 @@ Dies ermöglicht das Filtern auf genau eine übergebene Property. Rekursive Abfr
 
 \section{Analyse ISO 22745-30 - Identification Guide}\label{kap:identification_guide_anhang}\index{ISO 22745-30}
 
-\todotext{Quelle für i-xml file aus eotd-i-xml angeben} 
-Ein Identification Guide beschreibt, welche Daten für ein Objekt benötigt werden, damit dies überhaupt sinnvoll für einen bestimmten Zweck eingesetzt werden kann. Der Käufer, Produktmanager oder Benutzer definiert die Anforderungen an die Daten. Ein  \enquote{Datenanforderungsstatement} wird als ein i-xml identification guide xml file erzeugt. Es wird definiert, was der Name des Artikels ist mit den charakteristischen Daten. Es wird die Frage beantwortet, welche Daten (Properties) zu einem bestimmten Konzept eines Objektes benötigt werden um den Artikeln zu kaufen oder zu sinnvoll zu verwalten. Diese Anforderungen werden von der Abfrageseite (Kundenseite) definiert, also derjenige, der Daten abfragen möchte. \(Quelle: ECCMA\_ISO\_8000\_certification.pdf\) \todotext{Quelle sauber in library file verlinken}
-Ein Identification guide referenziert Konzepte eines Dictionaries um Datenanforderungen einer bestimmten Klasse zu beschreiben. (ISO 22745-30 Kapitel 5). 
+Ein Identification Guide beschreibt, welche Daten für ein Objekt benötigt werden, damit dies überhaupt sinnvoll für einen bestimmten Zweck eingesetzt werden kann. Der Käufer, Produktmanager oder Benutzer definiert die Anforderungen an die Daten. Ein  \enquote{Datenanforderungsstatement} wird als ein i-xml identification guide xml file erzeugt \citep[vgl.][Slide 14 - Automating the Data Supply Chain]{bensonQuality}. Es wird die Frage beantwortet, welche Daten (Properties) zu einem bestimmten Konzept eines Objektes benötigt werden um den Artikeln zu kaufen oder zu sinnvoll zu verwalten. Diese Anforderungen werden von der Abfrageseite (Kundenseite) definiert, also derjenige, der Daten abfragen möchte\footnote{Quelle: ECCMA\_ISO\_8000\_certification.pdf - Zertifizierungspräsentation der ECCMA zur ISO 8000}.
+Ein Identification guide referenziert Konzepte eines Dictionaries um Datenanforderungen einer bestimmten Klasse zu beschreiben \citep[vgl.][Kapitel 5]{iso22745-30}.  
 Ein Datenempfänger kann eine Organisation oder eine Gruppe von Organisationen oder Firmen sein, welche ähnliche Datenanforderungen haben. Somit wird eine Identification Guide Gruppe von einer speziellen Organisation verwaltet, welche wiederum selbst Datenempfänger sein kann.  
 

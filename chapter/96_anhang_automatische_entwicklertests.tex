@@ -177,7 +177,11 @@ public class AbstractXMLTest {
 \section{Integrationstest}\index{Integrationstest}
 
 Dieser Abschnitt zeigt beispielhaft einen Integrationstest auf. Der Integrationstest unterscheidet sich vom Unit-Test darin, dass eine Komponente integriert mit mehreren abhängigen Komponenten getestet wird. 
-Der Nachfolgende Integrationstestfall \enquote{PlibDaoIT} tested die Klasse \enquote{PlibDao}. Es ist ein Integrationstest, da für den Test die gesamte Datenbank benötigt wird. Nur so kann sinnvoll das Datenzugriffsobjekt getestet werden. 
+Der Nachfolgende Integrationstestfall \enquote{PlibDaoIT} aus \autoref{lst:integrationstest_beispiel} testet die Klasse \enquote{PlibDao}. Es ist ein Integrationstest, da für den Test die gesamte Datenbank benötigt wird. Nur so kann sinnvoll das Datenzugriffsobjekt getestet werden. 
+
+Gestartet werden kann der Integrationstest mit Maven mittles Aufruf von 
+
+\lstinline[basicstyle=\ttfamily\small\mdseries]{mvn integration-test}
 
 \begin{lstlisting}[caption=Beispiel eines Integrationstests, language=Java, label=lst:integrationstest_beispiel]
 package de.feu.plib.dao;

@@ -1,22 +1,114 @@
 \chapter{Testszenarios} \index{Testszenarios}\index{Manuelle Entwicklertests}\label{anh:testszenarios}
 
-Anbei die Testszenarien und Testprotokolle der manuellen Entwicklertests.
+Anbei die Testprotokolle der manuellen Entwicklertests.
 
-\todotext{Testszenarien ausfüllen und für jeden Fall anlegen.}
+Alle Tests können alternativ mit der Testbenutzeroberfläche durchgeführt werden:
 
-\section{Vorhandene Teile anhand IRDI abfragen}
+http://localhost:8080/plib-characteristic-query/query.xhtml
+
+\section{Simple query}
+
+\subsection{Vorhandene Teile anhand IRDI abfragen}
+
+Es wird eine IRDI übermittelt.
 
 \begin{description}
 \item[Vorbedingungen] 
   \begin{itemize}
    \item Die Datenbankverbindung aufbauen: Oracle Datenbank muss gestartet werden.
   \end{itemize}
-\item[Eingabedaten] Testdatei query\_class\_irdi.xml. 
+\item[Eingabedaten] Testdatei simple\_query\_irdi.xml. 
 \item[Durchführung]
    \begin{itemize}
    \item XML-Datei wird mittels curl Befehl an den Server gesendet.
-   \item curl -v -H "Content-Type: application/xml" -X POST --data "@query\_class\_irdi.xml" http://localhost:8080/rest/ws/query
+   \item curl -v -H 'Content-Type: application/xml' -X POST --data '@simple\_query\_irdi.xml' http://localhost:8080/plib-characteristic-query/rest/ws/query
   \end{itemize}
-\item[Erwartetes Ergebnis] ...
-\item[Tatsächliches Ergebnis] ...
+\item[Erwartetes Ergebnis] Zwei Items mit je zwei Eigenschaften werden erwartet. 
+\item[Tatsächliches Ergebnis] Zwei Items mit zwei Eigenschaften.
+\item[OK/Nicht OK?] OK
 \end{description}
+
+
+\subsection{Ungültige IRDI angegeben}
+
+Es wird eine ungültige IRDI (gemäß XSD ungültig) übermittelt. 
+
+\begin{description}
+\item[Vorbedingungen] 
+  \begin{itemize}
+   \item Die Datenbankverbindung aufbauen: Oracle Datenbank muss gestartet werden.
+  \end{itemize}
+\item[Eingabedaten] Testdatei simple\_query\_illegal\_irdi.xml. 
+\item[Durchführung]
+   \begin{itemize}
+   \item XML-Datei wird mittels curl Befehl an den Server gesendet.
+   \item curl -v -H 'Content-Type: application/xml' -X POST --data '@simple\_query\_illegal\_irdi.xml' http://localhost:8080/plib-characteristic-query/rest/ws/query
+  \end{itemize}
+\item[Erwartetes Ergebnis] Fehlermeldung
+\item[Tatsächliches Ergebnis] Fehlermeldung, marshalling error
+\item[OK/Nicht OK?] OK
+\end{description}
+
+\subsection{Vorhandene Teile anhand IRDI abfragen mit Projektion}
+
+Es wird eine IRDI übermittelt und zusätzlich eine Projektion (Eigenschaftsauswahl) vorgenommen.
+
+\begin{description}
+\item[Vorbedingungen] 
+  \begin{itemize}
+   \item Die Datenbankverbindung aufbauen: Oracle Datenbank muss gestartet werden.
+  \end{itemize}
+\item[Eingabedaten] Testdatei simple\_query\_projection\_one\_property.xml. 
+\item[Durchführung]
+   \begin{itemize}
+   \item XML-Datei wird mittels curl Befehl an den Server gesendet.
+   \item curl -v -H 'Content-Type: application/xml' -X POST --data '@simple\_query\_projection\_one\_property.xml' http://localhost:8080/plib-characteristic-query/rest/ws/query
+  \end{itemize}
+\item[Erwartetes Ergebnis] Zwei Items mit je einer Property, die angefragte wird zurückgegeben. 
+\item[Tatsächliches Ergebnis] Zwei Items mit einer Property. 
+\item[OK/Nicht OK?] OK
+\end{description}
+
+
+\subsection{Vorhandene Teile mit bekannten Werten validieren}
+
+Es wird eine IRDI übermittelt und zusätzlich Werte dieses Items übermittelt. Diese sollen validiert werden ob die Werte korrekt sind. 
+
+\begin{description}
+\item[Vorbedingungen] 
+  \begin{itemize}
+   \item Die Datenbankverbindung aufbauen: Oracle Datenbank muss gestartet werden.
+  \end{itemize}
+\item[Eingabedaten] Testdatei simple\_query\_validation.xml. 
+\item[Durchführung]
+   \begin{itemize}
+   \item XML-Datei wird mittels curl Befehl an den Server gesendet.
+   \item curl -v -H 'Content-Type: application/xml' -X POST --data '@simple\_query\_validation.xml' http://localhost:8080/plib-characteristic-query/rest/ws/query
+  \end{itemize}
+\item[Erwartetes Ergebnis] Die Werte des Items stimmen überein, daher wird exakt das Item zurückerwartet.  
+\item[Tatsächliches Ergebnis] Exakt das übergebene Item wird zurückgegeben, somit erfolgreich validiert. 
+\item[OK/Nicht OK?] OK
+\end{description}
+
+\section{Parametric query}
+
+\subsection{Abfrage mit Werteeinschränkung auf eine Eigenschaft eines Items}
+
+Es wird eine IRDI übermittelt und zusätzlich eine Sucheinschränkung auf einen Eigenschaftswert dieses Teils vorgenommen. 
+
+\begin{description}
+\item[Vorbedingungen] 
+  \begin{itemize}
+   \item Die Datenbankverbindung aufbauen: Oracle Datenbank muss gestartet werden.
+  \end{itemize}
+\item[Eingabedaten] Testdatei parametric\_query\_validation.xml. 
+\item[Durchführung]
+   \begin{itemize}
+   \item XML-Datei wird mittels curl Befehl an den Server gesendet.
+   \item curl -v -H 'Content-Type: application/xml' -X POST --data '@parametric\_query\_validation.xml' http://localhost:8080/plib-characteristic-query/rest/ws/query
+  \end{itemize}
+\item[Erwartetes Ergebnis] Es wird nur ein Wert von zwei der eingeschränkten Eigenschaft zurückgegeben.  
+\item[Tatsächliches Ergebnis] Nur ein Wert wurde zurückgegeben. 
+\item[OK/Nicht OK?] OK
+\end{description}
+
