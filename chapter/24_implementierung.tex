@@ -192,7 +192,7 @@ Die Konfiguration der Methode wird über \Gls{Annotation} vorgenommen. Nachfolge
 \index{HTTP-Methode!GET}\index{HTTP-Methode!POST}\index{HTTP-Methode!PUT}\index{HTTP-Methode!DELETE}
 \index{MIME-Type}
 
-\section{Query-Verarbeitung}
+\section{Query-Verarbeitung}\label{sec:query_vearbeitung}
 
 Der \gls{Webservice}, welcher in \autoref{kap:webservice} beschrieben ist, nimmt in der Applikation das Query-XML-File entgegen. 
 Die Struktur des XML-Files ist durch die query.xsd vorgegben \citep[27]{iso29002-31}. 
@@ -411,9 +411,9 @@ Um JAXB mit \gls{Maven} zu nutzen, muss das \gls{Maven}-Plugin \enquote{maven-ja
             </plugin>    
 \end{lstlisting}
 
-\section{Abfrage der PLIB Prozeduren}\index{PLIB Prozeduren}\index{Oracle Prozeduren}\label{sec:abfrage_plib_prozeduren}
+\section{Transformation und Abfrage der PLIB Prozeduren}\index{PLIB Prozeduren}\index{Oracle Prozeduren}\label{sec:abfrage_plib_prozeduren}
 
-Die Anforderung ist es, so weit wie möglich die vorhandenen Prozeduren der PLIB zu nutzen. 
+Die eingehende Query-Nachricht wird wie in \autoref{sec:query_vearbeitung} beschrieben in ein Java Modell umgewandelt. Anschließend müssen diese Daten für die Abfrage zur Datenbank gemäß der PLIB-Prozeduren transformiert werden. Die Anforderung ist es, so weit wie möglich die vorhandenen Prozeduren der PLIB zu nutzen. 
 
 Die Prozeduren der PLIB nehmen einen sogenannten Externen Identifier entgegen. Dieser identifiziert eindeutig eine Instanz eines \glspl{item}. 
 Beispiel: 
@@ -466,7 +466,11 @@ Diese Tabelle beinhaltet die folgenden Werte:
   \item[TOLERANCE] Wertetoleranzangabe.
   \item[VALUE\_ID] Identifier des konkreten Wertes.
   \end{description}
-\item[GET\_PROP\_VALS\_MULTILIST\_NUMBER] Nimmt als IN-Parameter eine Externe Produkt-ID entgegen und liefert eine Tabelle vom Typ PROP\_MULTILIST\_NUMBER\_NTT zurück. Stellt eine Liste von Zahlenwerten in mehreren Dimensionen dar (Matrix). 
+\item[GET\_PROP\_VALS\_MULTILIST\_NUMBER] Nimmt als IN-Parameter eine Externe Produkt-ID entgegen und liefert eine Tabelle vom Typ 
+
+PROP\_MULTILIST\_NUMBER\_NTT 
+
+zurück. Stellt eine Liste von Zahlenwerten in mehreren Dimensionen dar (Matrix). 
 Diese Tabelle beinhaltet die folgenden Werte: 
 
   \begin{description}
@@ -484,7 +488,11 @@ Diese Tabelle beinhaltet die folgenden Werte:
   \item[VALUE\_ID] Identifier des konkreten Wertes.
   \end{description}
 
-\item[GET\_PROP\_VALS\_MULTILIST\_STRING]  Nimmt als IN-Parameter eine Externe Produkt-ID entgegen und liefert eine Tabelle vom Typ PROP\_MULTILIST\_NUMBER\_NTT zurück. Stellt eine Liste von String-Werten in mehreren Dimensionen dar (Matrix). 
+\item[GET\_PROP\_VALS\_MULTILIST\_STRING]  Nimmt als IN-Parameter eine Externe Produkt-ID entgegen und liefert eine Tabelle vom Typ 
+
+PROP\_MULTILIST\_NUMBER\_NTT 
+
+zurück. Stellt eine Liste von String-Werten in mehreren Dimensionen dar (Matrix). 
 Diese Tabelle beinhaltet die folgenden Werte: 
 
   \begin{description}
@@ -521,10 +529,9 @@ Für genaue konzeptuelle Beschreibungen sei auf die Abschlussarbeit von Herrn Ka
 
 Hier stellt sich das Problem, dass eine query.xsd generell immer auf die \gls{IRDI} eines Konzeptes basiert.
 
- 
 Beispiel: \enquote{Gib mir bitte alle Instanzen und Werte der Eigenschaften des Klassenkonzeptes mit dem Identifier 0173-1\#01-BAD803\#2 (Skalpell)}
 
-Der Query des Standards fragt folglich explizit nach den Instanzen eines Konzeptes (hier Skalpell). Die Prozeduren benötigen allerdings einen nicht im Standard definierten Identifier einer konkreten Instanz, um alle Eigenschaftswerte zu ermitteln. Es ist folglich nicht möglich die Prozeduren mittels \gls{IRDI} aufzurufen und die entsprechend benötigten Rückgabedaten zu erhalten. 
+Der Query des Standards fragt folglich explizit nach den Instanzen eines Konzeptes (hier Skalpell). Die Prozeduren benötigen allerdings einen nicht im Standard definierten Identifier einer konkreten Instanz, um alle Eigenschaftswerte zu ermitteln. Es ist folglich nicht möglich die Prozeduren mittels \gls{IRDI} aufzurufen und die entsprechend benötigten Rückgabedaten zu erhalten.
 
 \subsubsection{Lösung}
 
@@ -536,11 +543,9 @@ Zwei Lösungsoptionen stellen sich hier zur Auswahl:
 
 Es wurde die Lösung Nummer zwei gewählt. Hierfür gibt es mehrere Gründe. 
 
-Der Hauptgrund ist, dass zum Zeitpunkt der Erstellung dieser Arbeit, die Abschlussarbeit von Herrn Mende noch nicht abgeschlossen ist. Es ist damit nicht auszuschließen, dass sich Prozeduren oder Logik in den Prozeduren zu einem späteren Zeitpunkt noch ändern. Das ist im Prinzip kein Problem, da diese Arbeit sich auf einen bestimmten Entwicklungsstand der Arbeit von Herrn Mende bezieht, allerdings wird in der Zukunft versucht, die neuere Version in diese Arbeit zu integrieren, wird es sehr schwierig und aufwändig dies zu bewältigen, wenn im Rahmen dieser Arbeit die Prozeduren geändert werden. Man stände vor dem Problem, dass beide Seiten die Basis modifiziert haben. 
-Ein weiterer Grund für die separate Abfrage ist, dass dies in der Ebene der Applikationslogik für einen Nicht-\gls{Oracle}-Datenbank Experten einfacher zu implementieren, und damit weniger fehleranfällig ist. Die Prozeduren sind bereits sehr komplex und im Detail nicht einfach zu verstehen. 
+Der Hauptgrund ist, dass zum Zeitpunkt der Erstellung dieser Arbeit, die Abschlussarbeit von Herrn Mende noch nicht abgeschlossen ist. Es ist damit nicht auszuschließen, dass sich Prozeduren oder Logik in den Prozeduren zu einem späteren Zeitpunkt noch ändern.
+Ein weiterer Grund für die separate Abfrage ist, dass dies in der Ebene der Applikationslogik für einen Nicht-\gls{Oracle}-Datenbank Experten einfacher zu implementieren, und damit weniger fehleranfällig ist. Die Prozeduren sind bereits sehr komplex und im Detail nicht einfach zu verstehen. Die separate Abfrage hingegen ist relativ trivial, wie die Lösung, das \autoref{lst:getexternalids}, zeigt.
 Ferner stellt diese Abfrage eine Teilfunktionalität dar und ist somit prima separat testbar.  
-
-Das \autoref{lst:getexternalids} zeigt den SQL-Query der Lösung des Problems.
 
 \begin{lstlisting}[caption=SQL Query - Externe IDs abfragen, language=SQL, label=lst:getexternalids]
 SELECT o.DI_ID FROM DE_CLASS c, DO_OBJECT o WHERE c.ID = o.C_ID AND c.IRDI = ?
@@ -1120,7 +1125,7 @@ Schließlich wird der Catalogue-Type neben dem Item-Type noch durch den Error Ty
 	
 \end{lstlisting} 
 
-Das \autoref{lst:error_catalogue_beispiel} zeigt eine Beispielantwort einer Fehlermeldung. Hier wurde ein ungültige IRDI im Query gesendet. Die shortErrorMessage besagt, dass es sich um einen Fehler beim Unmarshalling handelt. Der gesamte Java-Stacktrace aus der aufgetretenen Exception im Programm wird in der longErrorMessage angegeben. Hier kann genau nach der Ursache des Fehlers geforscht werden. In diesem Fall findet man folgende Fehlernachricht:
+Das \autoref{lst:error_catalogue_beispiel}\footnote{Das Beispiel bildet einen gekürzten Stacktrace ab, um nur die relevanten Teile aufzuzeigen.} zeigt eine Beispielantwort einer Fehlermeldung. Hier wurde ein ungültige IRDI im Query gesendet. Die shortErrorMessage besagt, dass es sich um einen Fehler beim Unmarshalling handelt. Der gesamte Java-Stacktrace aus der aufgetretenen Exception im Programm wird in der longErrorMessage angegeben. Hier kann genau nach der Ursache des Fehlers geforscht werden. In diesem Fall findet man folgende Fehlernachricht:
 
 \enquote{Caused by: org.xml.sax.SAXParseException: cvc-pattern-valid: Value '01x73x-1\#01-AAA352\#4' is not facet-valid with respect to pattern ... for type 'IRDI\_type'.}
 
@@ -1135,70 +1140,11 @@ Es ist ein Fehler bei der Validierung der IRDI aufgetreten. Diese entspricht nic
 	at de.feu.plib.xml.XMLMarshallerImpl.unmarshallXML(XMLMarshallerImpl.java:63)
 	at de.feu.plib.webservice.rest.QueryRESTService.unmarshall(QueryRESTService.java:151)
 	at de.feu.plib.webservice.rest.QueryRESTService.query(QueryRESTService.java:91)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
-	at java.lang.reflect.Method.invoke(Method.java:597)
-	at com.sun.jersey.spi.container.JavaMethodInvokerFactory$1.invoke(JavaMethodInvokerFactory.java:60)
-	at com.sun.jersey.server.impl.model.method.dispatch.AbstractResourceMethodDispatchProvider$TypeOutInvoker._dispatch(AbstractResourceMethodDispatchProvider.java:185)
-	at com.sun.jersey.server.impl.model.method.dispatch.ResourceJavaMethodDispatcher.dispatch(ResourceJavaMethodDispatcher.java:75)
-	at com.sun.jersey.server.impl.uri.rules.HttpMethodRule.accept(HttpMethodRule.java:288)
-	at com.sun.jersey.server.impl.uri.rules.RightHandPathRule.accept(RightHandPathRule.java:147)
-	at com.sun.jersey.server.impl.uri.rules.ResourceClassRule.accept(ResourceClassRule.java:108)
-	at com.sun.jersey.server.impl.uri.rules.RightHandPathRule.accept(RightHandPathRule.java:147)
-	at com.sun.jersey.server.impl.uri.rules.RootResourceClassesRule.accept(RootResourceClassesRule.java:84)
-	at com.sun.jersey.server.impl.application.WebApplicationImpl._handleRequest(WebApplicationImpl.java:1469)
-	at com.sun.jersey.server.impl.application.WebApplicationImpl._handleRequest(WebApplicationImpl.java:1400)
-	at com.sun.jersey.server.impl.application.WebApplicationImpl.handleRequest(WebApplicationImpl.java:1349)
-	at com.sun.jersey.server.impl.application.WebApplicationImpl.handleRequest(WebApplicationImpl.java:1339)
-	at com.sun.jersey.spi.container.servlet.WebComponent.service(WebComponent.java:416)
-	at com.sun.jersey.spi.container.servlet.ServletContainer.service(ServletContainer.java:537)
-	at com.sun.jersey.spi.container.servlet.ServletContainer.service(ServletContainer.java:699)
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:728)
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:305)
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:210)
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:222)
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:123)
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:171)
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:99)
-	at org.apache.catalina.valves.AccessLogValve.invoke(AccessLogValve.java:953)
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:118)
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:408)
-	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1023)
-	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:589)
-	at org.apache.tomcat.util.net.JIoEndpoint$SocketProcessor.run(JIoEndpoint.java:310)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:895)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:918)
+	...
 	at java.lang.Thread.run(Thread.java:695)
 Caused by: org.xml.sax.SAXParseException: cvc-pattern-valid: Value '01x73x-1#01-AAA352#4' is not facet-valid with respect to pattern '[0-9]{4}-[0-9A-Z:_\.]{1,35}(-[0-9A-Z:_\.]{1,35}(-[0-9A-Z]{1,1}(-[0-9A-Z:_\.]{1,70})?)?)?(#[0-9A-Z]{2,2}-[0-9A-Z:_\.]{1,131}#[0-9]{1,10})?|[0-9]{4}-[0-9A-Z:_\.]{1,35}(-[0-9A-Z:_\.]{1,35})?--[0-9A-Z:_\.]{1,70}(#[0-9A-Z]{2,2}-[0-9A-Z:_\.]{1,131}#[0-9]{1,10})?|[0-9]{4}-[0-9A-Z:_\.]{1,35}---[0-9A-Z:_\.]{1,70}(#[0-9A-Z]{2,2}-[0-9A-Z:_\.]{1,131}#[0-9]{1,10})?' for type 'IRDI_type'.
 	at com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.createSAXParseException(ErrorHandlerWrapper.java:195)
-	at com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.error(ErrorHandlerWrapper.java:131)
-	at com.sun.org.apache.xerces.internal.impl.XMLErrorReporter.reportError(XMLErrorReporter.java:384)
-	at com.sun.org.apache.xerces.internal.impl.XMLErrorReporter.reportError(XMLErrorReporter.java:318)
-	at com.sun.org.apache.xerces.internal.impl.xs.XMLSchemaValidator$XSIErrorReporter.reportError(XMLSchemaValidator.java:423)
-	at com.sun.org.apache.xerces.internal.impl.xs.XMLSchemaValidator.reportSchemaError(XMLSchemaValidator.java:3188)
-	at com.sun.org.apache.xerces.internal.impl.xs.XMLSchemaValidator.elementLocallyValidType(XMLSchemaValidator.java:3103)
-	at com.sun.org.apache.xerces.internal.impl.xs.XMLSchemaValidator.processElementContent(XMLSchemaValidator.java:3013)
-	at com.sun.org.apache.xerces.internal.impl.xs.XMLSchemaValidator.handleEndElement(XMLSchemaValidator.java:2156)
-	at com.sun.org.apache.xerces.internal.impl.xs.XMLSchemaValidator.endElement(XMLSchemaValidator.java:824)
-	at com.sun.org.apache.xerces.internal.jaxp.validation.ValidatorHandlerImpl.endElement(ValidatorHandlerImpl.java:566)
-	at com.sun.xml.bind.v2.runtime.unmarshaller.ValidatingUnmarshaller.endElement(ValidatingUnmarshaller.java:106)
-	at com.sun.xml.bind.v2.runtime.unmarshaller.SAXConnector.endElement(SAXConnector.java:158)
-	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.endElement(AbstractSAXParser.java:604)
-	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanEndElement(XMLDocumentFragmentScannerImpl.java:1789)
-	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl$FragmentContentDriver.next(XMLDocumentFragmentScannerImpl.java:2950)
-	at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl.next(XMLDocumentScannerImpl.java:647)
-	at com.sun.org.apache.xerces.internal.impl.XMLNSDocumentScannerImpl.next(XMLNSDocumentScannerImpl.java:140)
-	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanDocument(XMLDocumentFragmentScannerImpl.java:513)
-	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:815)
-	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(XML11Configuration.java:744)
-	at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(XMLParser.java:128)
-	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(AbstractSAXParser.java:1208)
-	at com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser.parse(SAXParserImpl.java:543)
-	at com.sun.xml.bind.v2.runtime.unmarshaller.UnmarshallerImpl.unmarshal0(UnmarshallerImpl.java:218)
-	at com.sun.xml.bind.v2.runtime.unmarshaller.UnmarshallerImpl.unmarshal(UnmarshallerImpl.java:196)
-	at com.sun.xml.bind.v2.runtime.unmarshaller.UnmarshallerImpl.unmarshal(UnmarshallerImpl.java:250)
+	...
 	at de.feu.plib.xml.XMLMarshallerImpl.unmarshallXML(XMLMarshallerImpl.java:57)
 	... 38 more
 </ns4:longErrorMessage>
@@ -1212,7 +1158,13 @@ Um beide Technologien miteinander zu vergleichen wurde nach der \gls{REST}ful \g
 
 Das Ergebnis ist, dass basierend auf der vorhandenen Implementierung ein weiterer Webservice in einer anderen Technologie mit recht geringem Aufwand erstellt werden kann. Im Rahmen der \gls{REST}ful \gls{Webservice}-Implementierung wurden bereits alle vorbereitenden Maßnahmen, wie Modellgenerierung aus den Schemadateien, getroffen. 
  
-Mehr Informationen zur Implementierung und Beispielquellcode des \gls{SOAP}-\glspl{Webservice} gibt das\autoref{kap:anhang_soap_webservice}. 
+Mehr Informationen zur Implementierung und Beispielquellcode des \gls{SOAP}-\glspl{Webservice} gibt \autoref{kap:anhang_soap_webservice}. 
+
+\section{Umfang der Implementierung}
+
+Der Umfang der Implementierung, gerade im Bereich der Transformation ist sehr groß. Ferner liegen der \gls{PLIB} sehr wenige Testdaten vor. Daher werden für den Prototyp nur einige Prozeduren beispielhaft aufgerufen, und zwar GET\_OBJ\_STRING und GET\_OBJ\_NUMBER. 
+
+Die Prozeduren GET\_OBJ\_REF, GET\_OBJ\_LIST\_NUMBER, GET\_OBJ\_LIST\_STRING, GET\_OBJ\_MULTILIST\_NUMBER, GET\_OBJ\_MULTILIST\_STRING werden nicht aufgerufen. Das bedeutet, dass falls Daten in der \gls{PLIB} in den passenden Tabellen zu den passenden Typen existieren, diese von der Abfrage nicht beachtet werden. Um die Implementierung folglich praxistauglich zu machen, müssen die Transformationen der Rückgabe der aller Prozeduren vervollständigt werden. 
  
 \section{Zusammenfassung des Kapitels}
 
