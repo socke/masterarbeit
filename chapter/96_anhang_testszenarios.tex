@@ -64,7 +64,7 @@ Es wird eine IRDI übermittelt und zusätzlich eine Projektion (Eigenschaftsausw
    \item XML-Datei wird mittels curl Befehl an den Server gesendet.
    \item curl -v -H 'Content-Type: application/xml' -X POST --data '@simple\_query\_projection\_one\_property.xml' http://localhost:8080/plib-characteristic-query/rest/ws/query
   \end{itemize}
-\item[Erwartetes Ergebnis] Zwei Items mit je einer Property, die angefragte wird zurückgegeben. 
+\item[Erwartetes Ergebnis] Zwei Items mit je einer Property, die angefragte Eigenschaft wird zurückgegeben. 
 \item[Tatsächliches Ergebnis] Zwei Items mit einer Property. 
 \item[OK/Nicht OK?] OK
 \end{description}
@@ -72,7 +72,7 @@ Es wird eine IRDI übermittelt und zusätzlich eine Projektion (Eigenschaftsausw
 
 \subsection{Vorhandene Teile mit bekannten Werten validieren}
 
-Es wird eine IRDI übermittelt und zusätzlich Werte dieses Items übermittelt. Diese sollen validiert werden ob die Werte korrekt sind. 
+Es wird eine IRDI übermittelt und zusätzlich Werte dieses Items übermittelt. Diese sollen validiert werden. Es wird dabei geprüft ob die Werte auch so in der Datenbank vorhanden. 
 
 \begin{description}
 \item[Vorbedingungen] 
@@ -94,18 +94,18 @@ Es wird eine IRDI übermittelt und zusätzlich Werte dieses Items übermittelt. 
 
 \subsection{Abfrage mit Werteeinschränkung auf eine Eigenschaft eines Items}
 
-Es wird eine IRDI übermittelt und zusätzlich eine Sucheinschränkung auf einen Eigenschaftswert dieses Teils vorgenommen. 
+Es wird eine IRDI übermittelt und zusätzlich eine Sucheinschränkung auf einen Eigenschaftswert dieses Teils vorgenommen. In diesem Falle sollen \gls{item}{Teile} gefunden werden, dessen Eigenschaftswerte sich im Bereich der übergebenen Werte befinden (Range). 
 
 \begin{description}
 \item[Vorbedingungen] 
   \begin{itemize}
    \item Die Datenbankverbindung aufbauen: Oracle Datenbank muss gestartet werden.
   \end{itemize}
-\item[Eingabedaten] Testdatei parametric\_query\_validation.xml. 
+\item[Eingabedaten] Testdatei parametric\_query\_range.xml. 
 \item[Durchführung]
    \begin{itemize}
    \item XML-Datei wird mittels curl Befehl an den Server gesendet.
-   \item curl -v -H 'Content-Type: application/xml' -X POST --data '@parametric\_query\_validation.xml' http://localhost:8080/plib-characteristic-query/rest/ws/query
+   \item curl -v -H 'Content-Type: application/xml' -X POST --data '@parametric\_query\_range.xml' http://localhost:8080/plib-characteristic-query/rest/ws/query
   \end{itemize}
 \item[Erwartetes Ergebnis] Es wird nur ein Wert von zwei der eingeschränkten Eigenschaft zurückgegeben.  
 \item[Tatsächliches Ergebnis] Nur ein Wert wurde zurückgegeben. 

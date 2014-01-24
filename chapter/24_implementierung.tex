@@ -23,13 +23,13 @@ GIT ist ein \gls{VCS}, kurz VCS, GIT ist darüberhinaus ein verteiltes \gls{VCS}
 
 In diesem Projekt ist kein verteiltes \gls{VCS} nötig, da es nur einen Bearbeiter der Daten und Quelltexte gibt. Es wurde dennoch gewählt, da es zum einen genau wie ein \enquote{normales}, folglich nicht verteiltes \gls{VCS} eingesetzt werden kann, der Autor mit diesem System sehr vertraut ist und ggfs. zukünftig auf diese Arbeit aufbauende oder weiterführende Projekte mit diesem System einfach weiterarbeiten können. 
 
-Die Quelltexte dieser Arbeit sind bei einem frei verfügbaren \glslink{VCS}{Versionskontrollsystemanbieter} untergebracht. Das Repository kann mit dem Befehl aus \autoref{lst:klonendersourcen} geklont werden. Klonen bedeutet bei verteilten \glslink{VCS}{Versionskontrollsystem}, das gesamt Repository zu kopieren. Es kann dann auf diesem Repository lokal gearbeitet werden. 
+Die Quelltexte dieser Arbeit sind bei einem frei verfügbaren \glslink{VCS}{Versionskontrollsystemanbieter} untergebracht. Das Repository kann mit folgendem Befehl geklont werden:
 
-Für mehr Informationen über GIT und den Funktionsumfang, sei auf entsprechende Literatur verwiesen \citep[vgl.][]{pragGit}.
+\lstinline[basicstyle=\ttfamily\small\mdseries]{git clone https://username@bitbucket.org/ssobek/masterarbeit.git}
 
- \begin{lstlisting}[caption=Klonen der Sourcen, language=XML, label=lst:klonendersourcen]
-git clone https://username@bitbucket.org/ssobek/masterarbeit.git
- \end{lstlisting}   
+Klonen bedeutet bei verteilten \glslink{VCS}{Versionskontrollsystem}, das gesamt Repository zu kopieren. Es kann dann auf diesem Repository lokal gearbeitet werden. 
+
+Für mehr Informationen über GIT und den Funktionsumfang, sei auf entsprechende Literatur verwiesen \citep[vgl.][]{pragGit}. 
 
 \subsection{Build Management mit Maven}\index{Maven}
 
@@ -72,7 +72,25 @@ Mehr Informationen und einige Code-Beispiele in \autoref{anh:automatischeentwick
 
 Bei manuellen Entwicklertests werden Testcases aus den Anforderungen abgeleitet. Diese Tests sind sogenannte Black Box Tests. Das bedeutet, dass das Objekt, welches getestet wird als Black Box betrachtet wird. Es sind keine technischen Details über Aufbau dieses Testobjektes bekannt und es werden keine Annahmen getroffen. Lediglich die Schnittstelle nach Außen wird betrachtet und gemäß Spezifikation der Ein- und Ausgangsdaten getestet. 
 
-Die Testfälle und Ergebnisse finden sich in \autoref{anh:testszenarios}.
+Nachfolgend ist ein manueller Testfall aufgeführt, welcher eine ungültige IRDI (gemäß XSD ungültig) übermittelt und einen Fehler erwartet. 
+
+\begin{description}
+\item[Vorbedingungen] 
+  \begin{itemize}
+   \item Die Datenbankverbindung aufbauen: Oracle Datenbank muss gestartet werden.
+  \end{itemize}
+\item[Eingabedaten] Testdatei simple\_query\_illegal\_irdi.xml. 
+\item[Durchführung]
+   \begin{itemize}
+   \item XML-Datei wird mittels curl Befehl an den Server gesendet.
+   \item curl -v -H 'Content-Type: application/xml' -X POST --data '@simple\_query\_illegal\_irdi.xml' http://localhost:8080/plib-characteristic-query/rest/ws/query
+  \end{itemize}
+\item[Erwartetes Ergebnis] Fehlermeldung
+\item[Tatsächliches Ergebnis] Fehlermeldung, marshalling error
+\item[OK/Nicht OK?] OK
+\end{description}
+
+Alle weiteren Testfälle und Ergebnisse finden sich in \autoref{anh:testszenarios}.
 
 \subsubsection{Testtools}
 
@@ -110,7 +128,7 @@ Eine andere Möglichkeit den \gls{REST} Webservice zu testen ist ein Plugin des 
 Wie in \autoref{sec:webservice} erwähnt, wurde entschieden einen \gls{REST}ful \gls{Webservice} zu erstellen. Dafür wurde das \gls{Jersey}-Framework ausgewählt. 
 
 \begin{description}
-\item[Zur Erklärung] Java unterstützt REST durch die Java Specification Request 311 (JSR)\footnote{Spezifikation ist zu finden unter: http://jcp.org/aboutJava/communityprocess/mrel/jsr311/index.html}. Diese Spezifikation wird JAX-RS - die Java API for RESTful Webservices genannt. Jersey ist die Referenzimplementierung, bereits in Java 6 integriert. Das auch der Grund, weshalb die Jersey Implementierung als Basis gewählt wurde.  
+\item[Zur Erklärung] Java unterstützt REST durch die Java Specification Request 311 (JSR)\footnote{Spezifikation: http://jcp.org/aboutJava/communityprocess/mrel/jsr311/index.html}. Diese Spezifikation wird JAX-RS - die Java API for RESTful Webservices genannt. Jersey ist die Referenzimplementierung, bereits in Java 6 integriert. Das auch der Grund, weshalb die Jersey Implementierung als Basis gewählt wurde.  
 \end{description}
 
 Folgende Schritte sind notwendig um einen \gls{REST}ful Webservice mit Jersey zu erstellen: 
@@ -226,11 +244,9 @@ Die query.xsd referenziert die weiteren folgenden Schema-Dateien:
 
 \subsubsection{Generierung mit JAXB}\index{Codegenerierung}\index{JAXB}
 
-Die Generierung startet man als Java Kommando in der Konsole, siehe \autoref{lst:jaxbgeneratemodel}.
+Die Generierung startet man als Java Kommando in der Konsole, dazu ist folgender Befehl abzusetzen:
 
-\begin{lstlisting}[caption=JAXB Modellgenerierung mittels Konsolenbefehl, language=sh, label=lst:jaxbgeneratemodel]
-xjc query.xsd -d plib-characteristic-data/ 
-\end{lstlisting}
+\lstinline[basicstyle=\ttfamily\small\mdseries]{xjc query.xsd -d plib-characteristic-data/ }
 
 \subsubsection{Problem Namensräume}
 Bei der Generierung wurde die folgende Fehlermeldung angezeigt:
@@ -563,11 +579,10 @@ DI\_ID ist der Attributsname des oben genannten externen Identifiers einer Insta
 
 Der Ablauf einer Abfrage in der Applikation zeigt das Sequenzdiagramm in \autoref{fig:sequenzdiagrammsimplequery}. Hier werden beispielhaft anhand eines Simple Queries dargestellt, welche Klassen involviert sind. Die Aufrufe Richtung Datenbank von der Klasse PlibDAO werden der Einfachheit halber nicht dargestellt. 
 
-\begin{table}[!hbt]\vspace{1ex}\centering\begin{tabular}{p{3cm}p{10cm}}
-\hline
-Schritt & Beschreibung\\
-\hline
-\hline
+\begin{table}[!hbt]\vspace{1ex}\centering\scriptsize\begin{tabular}{p{3cm}p{10cm}}
+\toprule \rowcolor{mylightergray}
+\textbf{Schritt} & \textbf{Beschreibung}\\
+\midrule
 1 &  Der Klient sendet das Query-XML-File über den Webservice an den QueryService \\
 \hline
 1.1 &  Der Query wird umgewandelt in ein Java Modell \\
@@ -595,6 +610,7 @@ Schritt & Beschreibung\\
 1.3.2.7 &  Alle IRDIs der Eigenschaften müssen aus den Ergebnissen ausgelesen und in das Katalog-Modell übertragen werden. \\
 \hline
 1.3.2.8 &  Alle Typen und Einheiten müssen aus den Ergebnissen ausgelesen und in das Katalog-Modell übertragen werden. \\
+\hline
 1.3.2.9 &  Das gefüllte Katalog-Modell wird zurückgeliefert. \\
 \hline
 1.4 &  Das gefüllte Katalog-Modell wird zurückgeliefert. \\
@@ -604,11 +620,10 @@ Schritt & Beschreibung\\
 1.6 &  Die XML-Repräsentation des Katalog-Modells wird zurückgeliefert. \\
 \hline
 1.7 &  Die XML-Repräsentation des Katalog-Modells wird an den Klient zurückgeliefert. \\
-\hline
+\bottomrule
 \end{tabular}
 \caption{\label{tab.abfrageablauf}Erläuterung des Abfrageablaufes der Applikation}
 \vspace{2ex}\end{table}
- 
 
 \subsection{Problemstellung - Daten der Teile Eigenschaften}\label{sec:problemdateneigenschaften}
 
