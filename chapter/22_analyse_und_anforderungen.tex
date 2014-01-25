@@ -8,7 +8,7 @@ Mittels den Erkenntnissen der Analyse werden Use Cases erarbeitet.
 
 \section{Analyse der ISO 29002-31 - Exchange of characteristics data}\label{kap:analyseiso2900231}\index{ISO 29002-31}
 
-Ziel der Analyse ist es, herauszufinden ob die ISO-Norm zur Erfüllung der Anforderungen ausreichend ist, wie mit der ISO-Norm die Anforderungen umgesetzt werden können und ob gegebenenfalls weitere ISO Normen zur Erfüllung der Anforderungen betrachtet werden müssen. 
+Ziel der Analyse ist es, herauszufinden ob die ISO-Norm zur Erfüllung der Anforderungen ausreichend ist, wie mit der ISO-Norm die Anforderungen umgesetzt werden können und ob gegebenenfalls weitere ISO-Normen zur Erfüllung der Anforderungen betrachtet werden müssen. 
 
 Die gesamte Analyse der ISO 29002-31 mit Beschreibung der einzelnen Datencontainer findet sich in \autoref{kap:analyse2900231}. Die Analyse zeigt anhand von Beispielen auf, welche Abfragen mit der ISO 29002-31 möglich sind.
 
@@ -24,7 +24,7 @@ Die konkreten Query Beispiele finden sich dazu in \autoref{kap:query_beispiele}.
 
 Ein Identification Guide beschreibt, welche Daten für ein Objekt benötigt werden, damit diese überhaupt sinnvoll für einen bestimmten Zweck eingesetzt werden können. Der Käufer, Produktmanager oder Benutzer definiert die Anforderungen an die Daten. Ein  \enquote{Datenanforderungsstatement} wird als ein i-xml, ein identification guide xml file, erzeugt. Siehe dazu auch \autoref{fig:lieferketten}. 
 
-Es wird die Frage beantwortet, welche Daten und Eigenschaften zu einem bestimmten Konzept eines Objektes benötigt werden, um den Artikel beispielsweise zu kaufen oder sinnvoll zu verwalten. Diese Anforderungen werden von der Abfrageseite (Kundenseite) definiert, also diejenige, die Daten abfragen möchte\citep[Vergl.][]{bensonQuality}. 
+Es wird die Frage beantwortet, welche Daten und Eigenschaften zu einem bestimmten Konzept eines Objektes benötigt werden, um den Artikel beispielsweise zu kaufen oder sinnvoll zu verwalten. Diese Anforderungen werden von der Abfrageseite (Kundenseite) definiert, also diejenige, die Daten abfragen möchte \citep[Vergl.][]{bensonQuality}. 
 
 Ein Identification Guide referenziert Konzepte eines Dictionaries um Datenanforderungen einer bestimmten Klasse zu beschreiben \citep[Vergl.][Kap. 5]{iso22745-30}.
 
@@ -57,7 +57,7 @@ Alistair Cockburn schreibt dazu \citep[Vergl.][Kap. 1.1]{cockburn2000}:
 \enquote{A use case captures a contract between the stakeholders of a system about its behavior. The use case describes the system’s behavior under various conditions as it responds to a request from one of the stakeholders, called the primary actor. The primary actor initiates an interaction with the system to accomplish some goal. The system responds, protecting the interests of all the stake- holders. Different sequences of behavior, or scenarios, can unfold, depending on the particular requests made and conditions surrounding the requests. The use case collects together those different scenarios.}
 \end{quotation}
 
-\gls{Stakeholder}\footnote{Stakeholder sind Projektbeteiligte, gleichsam Personen oder Institutionen und Dokumente die in irgendeiner Weise vom Betrieb des Systems betroffen sind.} definieren respektive erwarten folglich ein gewisses Verhalten des Systems unter bestimmten Bedingungen. Dieses Verhalten des Systems in Interaktion mit Akteuren wird durch \glspl{Use Case} beschrieben.
+\gls{Stakeholder}\footnote{Stakeholder sind Projektbeteiligte, gleichsam Personen oder Institutionen und Dokumente, die in irgendeiner Weise vom Betrieb des Systems betroffen sind.} erwarten folglich ein gewisses Verhalten des Systems unter bestimmten Bedingungen. Dieses Verhalten des Systems in Interaktion mit Akteuren wird durch \glspl{Use Case} beschrieben.
 
 \bild{usecases_plib.jpg}{13cm}{Use Case Übersicht}{Use Case Übersicht}
 
@@ -79,7 +79,7 @@ Da \glspl{Use Case} auf verschiedene Weise verfasst werden können, wird hier al
      \item[  precondition]~\\
      Der Klient verwendet einen gültigen Identifier.
      \item[  main flow]~\\
-     Der Klient gibt einen eindeutigen Identifier (\gls{IRDI}\footnote{International Registration Data Identifier}) eines Konzeptes von Elementen ein und sendet eine Anfrage ab. Die Anfrage wird auf Gültigkeit überprüft. Als Antwort bekommt er ein oder mehrere Datensätze von Elementen \footnote{Item, ISO 29002-10 Kapitel 5.3.2} mit den entsprechenden charakteristischen Daten \footnote{property\_values, ISO 29002-10 Kapitel 5.2.4}  des Elementes mit dem übergebenen Identifier zurück.
+     Der Klient gibt einen eindeutigen Identifier (\gls{IRDI}\footnote{International Registration Data Identifier}) eines Konzeptes von Elementen ein und sendet eine Anfrage ab. Die Anfrage wird auf Gültigkeit überprüft. Als Antwort bekommt er ein oder mehrere Datensätze von Elementen\footnote{Item, ISO 29002-10 Kapitel 5.3.2} mit den entsprechenden charakteristischen Daten\footnote{property\_values, ISO 29002-10 Kapitel 5.2.4}  des Elementes mit dem übergebenen Identifier zurück.
      \item[  postcondition]~\\
      Alle Daten aller Elemente der gewählten Konzepte des Identifiers wurden zurückgegeben.    
      \item[  alternative flow] Properties auswählen ~\\
@@ -106,7 +106,7 @@ Ein Schraubendreher könnte folgendermaßen in einer Produktdatenbank repräsent
 
 Korrekterweise müssten anstatt der Attribute wie Länge oder Typ ebenfalls ein Identifier stehen. Die Benamungen sind hier zur besseren Lesbarkeit aufgelöst. 
 
-Um alle Eigenschaften (Properties), wie Länge, Typ und Spannungsfest zu erhalten, muss folgende Abfrage gesendet werden: 
+Um alle Eigenschaften (Properties) wie Länge, Typ und Spannungsfest zu erhalten, muss folgende Abfrage gesendet werden: 
 \begin{quotation}
 \enquote{Gib mir alle \glslink{item}{Teile} und alle Properties der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Schraubendreher).}
 \end{quotation}

@@ -7,10 +7,10 @@ Dieses Kapitel beschreibt den System- und Softwareentwurf sowie die Auswahl der 
 
 \section{Auswahlprozess}
 
-Teil der Aufgabe der Arbeit ist es, für das System im Rahmen der nichtfunktionalen Anforderungen eine geeignete Laufzeitumgebung zu schaffen. Dafür sind einige Entscheidungen zu treffen. 
+Teil der Aufgabe der Arbeit ist es, für das System im Rahmen der nichtfunktionalen Anforderungen eine geeignete Laufzeitumgebung zu schaffen. Dafür sind einige Entscheidungen zu treffen, wie z.B. die Auswahl des Webservices, der Programmiersprache, einzusetzende Frameworks oder der Plattform. 
 
 \subsection{Webservice}\index{Webservice}\label{sec:webservice}
-Wenn von \glspl{Webservice} gesprochen wird, dann werden meistens \gls{SOAP}-basierte \glspl{Webservice} gemeint. Allerdings gibt es die sogenannten \gls{SOAP}-basierten \glspl{Webservice} als auch die \gls{REST}ful \glspl{Webservice}. Anforderung ist es ein \gls{Webservice} zu implementieren. Dazu muss entschieden werden, ob ein \gls{SOAP}-basierter oder \gls{REST}ful \glspl{Webservice} implementiert werden soll. \index{REST!RESTful}
+Wenn von \glspl{Webservice} gesprochen wird, dann sind meistens \gls{SOAP}-basierte \glspl{Webservice} gemeint. Allerdings gibt es die sogenannten \gls{SOAP}-basierten \glspl{Webservice} als auch die \gls{REST}ful \glspl{Webservice}. Anforderung ist es ein \gls{Webservice} zu implementieren. Dazu muss entschieden werden, ob ein \gls{SOAP}-basierter oder \gls{REST}ful \glspl{Webservice} implementiert werden soll. \index{REST!RESTful}
 
 \subsubsection{Definition}
 
@@ -19,7 +19,7 @@ Wenn von \glspl{Webservice} gesprochen wird, dann werden meistens \gls{SOAP}-bas
 \end{quotation}
 
 \subsubsection{SOAP/WSDL Webservice}\index{SOAP}\index{WSDL}\index{Webservice}
-Frau Janssen hat in ihrer Abschlussarbeit einen \glspl{Webservice} nach ISO 29002-20 mittels einem  \gls{SOAP}/\gls{WSDL} \glspl{Webservice} implementiert \citep[vgl.][]{janssen}. Die ISO 29002-20 verweist in Annex-B auf entsprechende \gls{WSDL}-Definitionen. 
+Frau Janssen hat in ihrer Abschlussarbeit nach ISO 29002-20 einem \gls{SOAP}/\gls{WSDL} \glsWebservice} implementiert \citep[vgl.][]{janssen}. Die ISO 29002-20 verweist in Annex-B auf entsprechende \gls{WSDL}-Definitionen. 
 An dieser Stelle wird darauf verzichten, die Einzelheiten eines SOAP/WSDL Webservice zu erläutern und auf Frau Janßens Abschlussarbeit verwiesen \citep[vgl.][Kap. 3]{janssen}. 
 
 Es sei an dieser Stelle kurz erwähnt, dass \glspl{Webservice} auf \gls{SOAP}/\gls{WSDL} basierend ein W3C\footnote{World Wide Web Consortium - http://www.w3.org} Standard sind. Dies ist häufig auch ein Kriterium, weshalb in der Industrie \gls{SOAP}/\gls{WSDL} \glspl{Webservice} stark verbreitet sind. 
@@ -29,7 +29,7 @@ Es sei an dieser Stelle kurz erwähnt, dass \glspl{Webservice} auf \gls{SOAP}/\g
 Stefan Tilkov schreibt dazu in seinem Buch \enquote{Rest und HTTP: Einsatz der Architektur des Web für Integrationsszenarien} \citep[S.10][]{tilkovrest}, folgendes:
 
 \begin{quotation}
-\enquote{...Im Rahmen seiner Dissertation - beendet im Jahre 2000 - abstrahierte Fielding\footnote{Anmerkung des Autors: Roy Thomas Fielding} von der konkreten Architektur, die \gls{HTTP} zugrunde liegt, und legte den Schwerpunkt auf die Konzepte anstatt auf die konkrete Syntax, die Details des Protokolldesigns und die vielen Kompromisse, die aus Kompatibilitätsgründen eingegangen werden mussten. Als Ergebnis entstand der Architekturstil \gls{REST}. Dieser ist somit eine Stufe abstrakter als die \gls{HTTP}-Architektur: Theoretisch könnte man die Prinzipien von \gls{REST} auch mit einem neu erfundenen Satz von Protokollen umsetzen. In der Praxis ist jedoch tatsächlich nur das Web als konkrete Ausprägung des Architekturstils relevant...}
+\enquote{[...] Im Rahmen seiner Dissertation - beendet im Jahre 2000 - abstrahierte Fielding\footnote{Anmerkung des Autors: Roy Thomas Fielding} von der konkreten Architektur, die \gls{HTTP} zugrunde liegt, und legte den Schwerpunkt auf die Konzepte anstatt auf die konkrete Syntax, die Details des Protokolldesigns und die vielen Kompromisse, die aus Kompatibilitätsgründen eingegangen werden mussten. Als Ergebnis entstand der Architekturstil \gls{REST}. Dieser ist somit eine Stufe abstrakter als die \gls{HTTP}-Architektur: Theoretisch könnte man die Prinzipien von \gls{REST} auch mit einem neu erfundenen Satz von Protokollen umsetzen. In der Praxis ist jedoch tatsächlich nur das Web als konkrete Ausprägung des Architekturstils relevant [...]}
 \end{quotation}
 \citep[Vgl. auch][]{fieldingrest}
 
@@ -38,15 +38,15 @@ Die Analyse aus \autoref{kap:analyse_und_definition} zeigt, dass eine Abfrage (Q
 Es wurde ein \gls{REST}ful \gls{Webservice} ausgewählt. Die Gründe stellen sich wie folgt dar:
 
 \begin{description}
-\item[Einfache Implementierung] Da \gls{REST}ful Webservices auf dem \gls{HTTP} Protokoll basieren und ferner sehr gute und geeignete Frameworks für Java vorhanden sind, siehe \autoref{sec:bibliotheken_und_frameworks}, stellt sich für Web Entwickler die Implementierung als einfach heraus. \gls{SOAP} \glspl{Webservice} sind per se etwas komplexer, da \gls{SOAP} ein eigenes Protokoll darstellt. 
-\item[Payload XML] Der Payload des Anfrage-Queries wird als XML angegeben (siehe \autoref{fig:datenfluesse}. Als mögliche Übertragung wird email angegeben. Für die Anforderungen dieser Arbeit bedeutet dies eine Implementierung eines \glspl{Webservice}, welcher die XML-Repräsentation des Queries als Payload mittels XML überträgt. Folglich könnte sowohl \gls{SOAP} als auch \gls{REST} benutzt werden. Voraussetzung ist eine definierten Schnittstelle, welche lediglich ein XML als Payload akzeptiert. 
+\item[Einfache Implementierung] Da \gls{REST}ful Webservices auf dem \gls{HTTP} Protokoll basieren und ferner sehr gute und geeignete Frameworks für Java vorhanden sind, (siehe \autoref{sec:bibliotheken_und_frameworks}) stellt sich für Web Entwickler die Implementierung als einfach heraus. \gls{SOAP} \glspl{Webservice} sind per se etwas komplexer, da \gls{SOAP} ein eigenes Protokoll darstellt. 
+\item[Payload XML] Der Payload des Anfrage-Queries wird als XML angegeben (siehe \autoref{fig:datenfluesse}. Als mögliche Übertragung wird Email angegeben. Für die Anforderungen dieser Arbeit bedeutet dies eine Implementierung eines \glspl{Webservice}, welcher die XML-Repräsentation des Queries als Payload mittels XML überträgt. Folglich könnte sowohl \gls{SOAP} als auch \gls{REST} benutzt werden. Voraussetzung ist eine definierten Schnittstelle, welche lediglich ein XML als Payload akzeptiert. 
 \item[Kein Vorteil bei SOAP] Somit hat \gls{SOAP} keinen Vorteil gegenüber \gls{REST}. Der Vorteil würde darin bestehen, wenn \gls{SOAP} selbst die Operationen anbietet (definiert in der \gls{WSDL}). Das hat den Nachteil, dass die wohlgeformte vorgegebenen Schemata query.xsd, in der Form nicht genutzt werden können. Es muss somit eine Einbindung in \gls{SOAP} erfolgen.
  \item[Vorteil des Payloads] Der klare Vorteil bei der Variante eine Query XML-Datei gemäß query.xsd Schema des Standards als Payload zu versenden ist der, dass eine Validierungsprüfung der XML gegen vorhandene definierte Regeln des Schemas erfolgen kann (z.B. gültige \gls{IRDI}), ferner können aus dem Schema passende Modellklassen zur Verarbeitung und Speicherung der Query-Daten in der Applikation generiert werden. Mehr Informationen gibt es in \autoref{sec:modellgenerierung}. 
 \item[SOAP Webservice bereits im Einsatz] Ein weiterer Grund ist der, dass Frau Janßen in Ihrer Abschlussarbeit bereits einen SOAP-Webservice einsetzt. Nennen wir es Vielfältigkeit der Technologien im Fachbereich, jedenfalls bietet es die Möglichkeit eine weitere Technologie zu betrachten, einzusetzen und ggfs. zu vergleichen. 
 \end{description}
 
 \subsection{Plattform} \index{Apache Tomcat} \label{sec:plattform}\index{Web Server}\index{Web Container}
-Als Laufzeitumgebung kann prinzipiell ein beliebieger Web Container bzw. Web Server ausgewählt werden, welcher Webservices, sei es \gls{REST}ful \glspl{Webservice} oder \gls{SOAP} \glspl{Webservice}, unterstützt. 
+Als Laufzeitumgebung kann ein beliebiger Web Container bzw. Web Server ausgewählt werden, welcher Webservices, sei es \gls{REST}ful \glspl{Webservice} oder \gls{SOAP} \glspl{Webservice}, unterstützt. 
 Es wurde der \gls{Apache Tomcat} Server in der Version 7 ausgewählt. Das ist ein üblicher Web Container (Web Server), welcher mit entsprechenden Frameworks bzw. Bibliotheken sowohl \gls{SOAP} als auch \gls{REST}ful \glspl{Webservice} anbieten kann. 
 
 Folgende Server sind zum Einsatz ebenfalls möglich:
@@ -73,7 +73,7 @@ Vorgegeben ist die Umsetzung eines \glspl{Webservice}. Diese lassen sich in fast
 
 Es wurde die Sprache Java gewählt, da diese zum einen in der aktuellen Industrie stark verbreitet und zum anderen der Autor dieser Arbeit seit vielen Jahren damit vertraut ist. Ferner besteht hier eine Abhängigkeit zur Auswahl der Plattform gleichsam des Web Containers, siehe \autoref{sec:plattform}. Beim Einsatz von Java ist man an einen Web Container (Web Server) gebunden, welcher auch Java unterstützt. 
 
-Ein weiterer Aspekt ist, dass Software welche mit Java entwickelt wurde im Prinzip auf jedem Betriebssystem lauffähig, und somit portierbar ist. Dies ist zwar keine Anforderung des Projektes, ermöglicht allerdings die Arbeit und Entwicklung in beliebigen Systemen. 
+Ein weiterer Aspekt ist, dass Software welche mit Java entwickelt wurde auf vielen Betriebssystemen lauffähig, und somit portierbar ist. Dies ist zwar keine Anforderung des Projektes, ermöglicht allerdings die Arbeit und Entwicklung in beliebigen Systemen. 
 
 \section{Softwaredesign und Architektur}\index{Softwarearchitektur}\index{Softwaredesign}
 
@@ -116,9 +116,9 @@ Die Bausteinsicht Level 1 in \autoref{fig:bausteinsicht_level1} zeigt alle Kompo
 \begin{description}
 \item[QueryRESTService] Der Zweck dieser Komponente ist das Entgegennehmen des HTTP-Requests (Query-XML File), das Weiterleiten an die weiterverarbeitenden Komponenten und letztlich das Zurücksenden der Rückantwort (Katalog-XML). Bietet nach Außen die \gls{Webservice}-Schnittstelle an.
 \item[QuerySOAPService] Der Zweck dieser Komponente ist das Entgegennehmen des SOAP-Requests (SOAP File gemäß SOAP Spezifikation mit eingebundenen Schemata), das Weiterleiten an die weiterverarbeitenden Komponenten und letztlich das Zurücksenden der Rückantwort (Katalog-XML). Bietet nach Außen die \gls{Webservice}-Schnittstelle an.
-Der SOAP-Service muss nicht explizit die Unmarshalling-Komponente aufrufen um das XML-File in ein entsprechendes Modell zu überführen. Dies geschieht implizit. 
+Der SOAP-Service muss nicht explizit die Unmarshalling-Komponente aufrufen, um das XML-File in ein entsprechendes Modell zu überführen. Dies geschieht implizit. 
 \item[Data Access] Diese technische Komponente beinhaltet die Zugriffsschicht auf die externe Datenbankschnittstelle und bietet entsprechend vereinfachte Abfrageschnittstellen für die anderen Komponenten an. 
-\item[Marshaller] Eine weitere technische Komponente, diese ist für das Einlesen und Validieren der eingegangenen Query-XML Datei verantwortlich. Ferner transformiert diese Komponente die Informationen aus der Query-XML nach Validierung in das im System benutze Datenmodell aus der Komponente XMLData.
+\item[Marshaller] Eine weitere technische Komponente. Diese ist für das Einlesen und Validieren der eingegangenen Query-XML Datei verantwortlich. Ferner transformiert diese Komponente die Informationen aus der Query-XML nach Validierung in das im System benutze Datenmodell aus der Komponente XMLData.
 \item[XMLData] Beinhaltet das Datenmodell des Systems. Sowohl die eingehenden Query-XML Daten, als auch die ausgehenden Katalog-XML Daten werden intern in ein entsprechendes Model zur Verarbeitung abgelegt, so dass darauf gearbeitet werden kann.  
 \item[Analyser] Diese Komponente ist für die Analyse des Queries, welches bereits als Modell vorliegt, verantwortlich. Erkennt ob es sich um einen \enquote{Simple Query} oder um einen \enquote{Parametric Query} handelt und leitet den Query zur Weiterverarbeitung an die Handler-Komponente weiter. 
 \item[Handler] Erhält den Query vom Analyser und verarbeitet gemäß der Erkennung vom Analyser den Query weiter. Dazu werden die Querydaten gemäß des Datenbankmodells transformiert und die Data Access Komponente aufgerufen. Die Antwort der Data Access Komponente wird in das entsprechende Modell für die Katalogdaten umgewandelt und zurück an den Handler geleitet.  
