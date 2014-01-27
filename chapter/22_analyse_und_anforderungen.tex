@@ -2,19 +2,19 @@
 \dictum[René Descartes]{Vor eine Frage gestellt, die wir vollständig verstanden haben, müssen wir sie von jeder überflüssigen Darstellung abstrahieren, sie auf ihre einfachste Form reduzieren und sie in möglichst kleine Teile zerlegen, die wir dann aufzählen. \dots}}
 \chapter{Analyse und Definition der Anforderungen } \index{Analyse und Definition der Anforderungen}\label{kap:analyse_und_definition}
 
-Das \autoref{kap:aufgabenbeschreibung} erwähnt mehrere ISO Standards, welche zur Lösung der Problemstellung unterstützen können. In diesem Kapitel wird der ausgewählte ISO Standard ISO 29002-31 sowie der Standard ISO 22745-30 analysiert um festzustellen, wie und welche Anforderungen mit Hilfe dieser Standards umgesetzt werden können. 
+Das \autoref{kap:aufgabenbeschreibung} erwähnt mehrere ISO Standards, welche zur Lösung der Problemstellung unterstützen können. In diesem Kapitel wird der ausgewählte ISO Standard ISO 29002-31 sowie der Standard ISO 22745-30 analysiert, um festzustellen, welche Anforderungen mit Hilfe dieser Standards umgesetzt werden können. 
 
 Mittels den Erkenntnissen der Analyse werden Use Cases erarbeitet. 
 
 \section{Analyse der ISO 29002-31 - Exchange of characteristics data}\label{kap:analyseiso2900231}\index{ISO 29002-31}
 
-Ziel der Analyse ist es, herauszufinden ob die ISO-Norm zur Erfüllung der Anforderungen ausreichend ist, wie mit der ISO-Norm die Anforderungen umgesetzt werden können und ob gegebenenfalls weitere ISO-Normen zur Erfüllung der Anforderungen betrachtet werden müssen. 
+Ziel der Analyse ist es, herauszufinden, ob die ISO-Norm zur Erfüllung der Anforderungen ausreichend ist, wie mit der ISO-Norm die Anforderungen umgesetzt werden können und ob gegebenenfalls weitere ISO-Normen zur Erfüllung der Anforderungen betrachtet werden müssen. 
 
 Die gesamte Analyse der ISO 29002-31 mit Beschreibung der einzelnen Datencontainer findet sich in \autoref{kap:analyse2900231}. Die Analyse zeigt anhand von Beispielen auf, welche Abfragen mit der ISO 29002-31 möglich sind.
 
 Zusammenfassend aus der Analyse ergeben sich folgende Abfragemöglichkeiten:
 \begin{description}
-\item[Simple Query] Eine Abfrage nach eindeutigem Identifier eines Konzeptes, mit der Möglichkeit der Einschränkung nach Eigenschaften eines Konzeptes (Projektion). Ferner ermöglicht der Simple Query die Übergabe bekannter Daten eines konkreten Teiles, nach denen gesucht und entsprechend passendes Ergebnis geliefert wird. Siehe dazu \autoref{sec:query}.
+\item[Simple Query] Eine Abfrage nach eindeutigem Identifier eines Konzeptes, mit der Möglichkeit der Einschränkung nach Eigenschaften eines Konzeptes (Projektion). Ferner ermöglicht der Simple Query die Übergabe bekannter Daten eines konkreten Teiles, nach denen gesucht und ein entsprechend passendes Ergebnis geliefert wird. Siehe dazu \autoref{sec:query}.
 \item[Parametric Query] Ermöglicht die Abfrage nach eindeutigem Identifier eines Konzeptes und zusätzlich die Einschränkung einer Eigenschaft nach konkretem Wert (Selektion). Dies erfolgt mittels Angabe einer characteristic\_data\_query\_expression. Siehe dazu \autoref{sec:characteristicdataqueryexpression}.
 \end{description}
 
@@ -22,7 +22,7 @@ Die konkreten Query Beispiele finden sich dazu in \autoref{kap:query_beispiele}.
 
 \section{Analyse ISO 22745-30 - Identification Guide}\label{kap:identification_guide}\index{ISO 22745-30}
 
-Ein Identification Guide beschreibt, welche Daten für ein Objekt benötigt werden, damit diese überhaupt sinnvoll für einen bestimmten Zweck eingesetzt werden können. Der Käufer, Produktmanager oder Benutzer definiert die Anforderungen an die Daten. Ein  \enquote{Datenanforderungsstatement} wird als ein i-xml, ein identification guide xml file, erzeugt. Siehe dazu auch \autoref{fig:lieferketten}. 
+Ein \gls{IG} beschreibt, welche Daten für ein Objekt benötigt werden, damit diese überhaupt sinnvoll für einen bestimmten Zweck eingesetzt werden können. Der Käufer, Produktmanager oder Benutzer definiert die Anforderungen an die Daten. Ein  \enquote{Datenanforderungsstatement} wird als ein i-xml, eine \gls{IG}-xml Datei, erzeugt. Siehe dazu \autoref{fig:lieferketten}. 
 
 Es wird die Frage beantwortet, welche Daten und Eigenschaften zu einem bestimmten Konzept eines Objektes benötigt werden, um den Artikel beispielsweise zu kaufen oder sinnvoll zu verwalten. Diese Anforderungen werden von der Abfrageseite (Kundenseite) definiert, also diejenige, die Daten abfragen möchte \citep[Vergl.][]{bensonQuality}. 
 
@@ -47,7 +47,7 @@ Basierend auf dieser Erkenntnis zeigt \autoref{fig:query_kombinationen} möglich
 Dieser Abschnitt beschreibt mögliche Anwendungsfälle\footnote{Use Case. Im weiteren Verlauf wird, gerade auch in den Anwendungsfallbeschreibungen von Use Cases gesprochen. Im deutschen Sprachraum ist das englische allgemein bekannte Äquivalent \enquote{Use Case} für Anwendungsfall eher geläufig als das deutsche, daher wird darauf verzichtet an manchen Stellen die Begrifflichkeiten einzudeutschen.} die sich aus ISO 29002-31 ergeben. 
 Es wird beispielhaft ein Use Case aufgelistet und erläutert. Alle weiteren Use Cases sind in \autoref{kap:analyse_use_cases} zu finden. 
 
-Die Query-Code-Beispiele sind gekürzt, d.h. es werden die referenzierte Schemata-Namen gemäß XSD nicht aufgeführt. 
+Die Query-Code-Beispiele sind gekürzt, d.h. es werden die referenzierten Schemata-Namen gemäß XSD nicht aufgeführt. 
 
 \subsection{Was ist ein Use Case?}
 
@@ -59,16 +59,16 @@ Alistair Cockburn schreibt dazu \citep[Vergl.][Kap. 1.1]{cockburn2000}:
 
 \gls{Stakeholder}\footnote{Stakeholder sind Projektbeteiligte, gleichsam Personen oder Institutionen und Dokumente, die in irgendeiner Weise vom Betrieb des Systems betroffen sind.} erwarten folglich ein gewisses Verhalten des Systems unter bestimmten Bedingungen. Dieses Verhalten des Systems in Interaktion mit Akteuren wird durch \glspl{Use Case} beschrieben.
 
-\bild{usecases_plib.jpg}{13cm}{Use Case Übersicht}{Use Case Übersicht}
+\bild{usecases_plib.jpg}{10cm}{Use Case Übersicht}{Use Case Übersicht}
 
 \subsection{Akteure}
-Bei der Implementierung geht es um die Erstellung einer Software-Schnittstelle als \gls{Webservice}. Das bedeutet, dass diese Schnittstelle ohne eine Benutzeroberfläche nicht sinnvoll für einen menschlichen Akteur nutzbar ist. In den nachfolgenden Anwendungsfällen wird vom Akteur \enquote{Klient} gesprochen. Der Klient ist allgemein ein Nutzer der Schnittstelle, sei es als menschlicher Akteur welcher über eine Bedienerinterface die Schnittstelle benutzt oder eine direkte Maschinennutzung. Ein Beispiel für eine Maschinennutzung kann einen Anwendung sein, welche automatisiert die Schnittstelle aufruft und Daten abfragt.    
+Bei der Implementierung geht es um die Erstellung einer Software-Schnittstelle als \gls{Webservice}. Das bedeutet, dass diese Schnittstelle ohne eine Benutzeroberfläche nicht sinnvoll für einen menschlichen Akteur nutzbar ist. In den nachfolgenden Anwendungsfällen wird vom Akteur \enquote{Klient} gesprochen. Der Klient ist allgemein ein Nutzer der Schnittstelle, sei es als menschlicher Akteur welcher über eine Bedienerinterface die Schnittstelle benutzt oder eine direkte Maschinennutzung. Ein Beispiel für eine Maschinennutzung kann eine Anwendung sein, welche automatisiert die Schnittstelle aufruft und Daten abfragt.    
 
 \subsection{Use Case Beschreibungen}
 
-Da \glspl{Use Case} auf verschiedene Weise verfasst werden können, wird hier als Vorlage die \gls{Use Case} Beschreibungen aus dem Kurs Software Engineering I übernommen, da diese Vorlage sehr übersichtlich, knapp und präzise ist \citep[Vgl.][S. 120ff]{sixse1}. 
+Da \glspl{Use Case} auf verschiedene Weise verfasst werden können, werden hier als Vorlage die \gls{Use Case} Beschreibungen aus dem Kurs Software Engineering I übernommen, da diese Vorlage sehr übersichtlich, knapp und präzise ist \citep[Vgl.][S. 120ff]{sixse1}. 
 
-\subsubsection{Alle Charakteristische Daten eines Produkts abfragen}
+\subsubsection{Alle charakteristischen Daten eines Produkts abfragen}
 
 {\small
 
@@ -79,13 +79,21 @@ Da \glspl{Use Case} auf verschiedene Weise verfasst werden können, wird hier al
      \item[  precondition]~\\
      Der Klient verwendet einen gültigen Identifier.
      \item[  main flow]~\\
-     Der Klient gibt einen eindeutigen Identifier (\gls{IRDI}\footnote{International Registration Data Identifier}) eines Konzeptes von Elementen ein und sendet eine Anfrage ab. Die Anfrage wird auf Gültigkeit überprüft. Als Antwort bekommt er ein oder mehrere Datensätze von Elementen\footnote{Item, ISO 29002-10 Kapitel 5.3.2} mit den entsprechenden charakteristischen Daten\footnote{property\_values, ISO 29002-10 Kapitel 5.2.4}  des Elementes mit dem übergebenen Identifier zurück.
+     Der Klient gibt einen Identifier (IRDI\footnote{International Registration Data Identifier}) eines Konzeptes von Elementen ein und sendet eine Anfrage ab. Die Anfrage wird auf Gültigkeit überprüft. Als Antwort bekommt er ein oder mehrere Datensätze von Elementen \footnote{Item, ISO 29002-10 Kapitel 5.3.2} mit den entsprechenden charakteristischen Daten \footnote{property\_values, ISO 29002-10 Kapitel 5.2.4} des \glslink{item}{Teile} mit dem übergebenen Identifier zurück.
      \item[  postcondition]~\\
-     Alle Daten aller Elemente der gewählten Konzepte des Identifiers wurden zurückgegeben.    
+     Alle Daten aller  \glslink{item}{Teile} der gewählten Konzepte des Identifiers wurden zurückgegeben.    
      \item[  alternative flow] Properties auswählen ~\\
      Zusammen mit dem Identifier übergibt der Klient einen oder mehrere Property-Identifier und sendet diese erweiterte Anfrage ab.    
      \item[  postcondition]~\\
-     Die mittels Property-Identifier ausgewählten Daten aller Elemente der gewählten Konzepte wurden zurückgegeben.    
+     Die mittels Property-Identifier ausgewählten Daten aller  \glslink{item}{Teile} der gewählten Konzepte wurden zurückgegeben.    
+     \item[  alternative flow] Keine Eigenschaftswerte vorhanden ~\\
+     Für das mittels Identifier angefragte \glslink{item}{Teil} sind keine Eigenschaftswerte vorhanden.    
+     \item[  postcondition]~\\
+     Es werden keine Daten zurückgeliefert.   
+     \item[  exceptional flow] Ungültige Identifier oder ungültige Anfrage ~\\
+     Der oder die übergebenen Identifier oder die gesamte Anfrage ist gemäß Spezifikation ungültig.  
+     \item[  postcondition]~\\
+     Es wird eine Fehlermeldung zurückgegeben.  
      \item[end] Charakteristische Daten abfragen
 \end{description}
 
@@ -104,14 +112,14 @@ Ein Schraubendreher könnte folgendermaßen in einer Produktdatenbank repräsent
 \item[Spannungsfest] ja
 \end{description}
 
-Korrekterweise müssten anstatt der Attribute wie Länge oder Typ ebenfalls ein Identifier stehen. Die Benamungen sind hier zur besseren Lesbarkeit aufgelöst. 
+Korrekterweise müsste anstatt der Attribute wie Länge oder Typ ebenfalls ein Identifier stehen. Die Bezeichnungen sind hier zur besseren Lesbarkeit aufgelöst. 
 
-Um alle Eigenschaften (Properties) wie Länge, Typ und Spannungsfest zu erhalten, muss folgende Abfrage gesendet werden: 
+Um alle Eigenschaften (Properties) wie \enquote{Länge}, \enquote{Typ} und \enquote{spannungsfest} zu erhalten, muss folgende Abfrage gesendet werden: 
 \begin{quotation}
 \enquote{Gib mir alle \glslink{item}{Teile} und alle Properties der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Schraubendreher).}
 \end{quotation}
 
-Das Ergebnis ist ein \gls{item} mit allen Attributen (Properties) der gewünschten Konzepte und gegebenenfalls vorhandenen Unterkonzepte. In unserem Falle genau die oben angegebenen Werte.
+Das Ergebnis ist ein \gls{item} mit allen Attributen (Properties) der gewünschten Konzepte und gegebenenfalls vorhandenen Unterkonzepte. In diesem Falle genau sind es die oben angegebenen Werte.
 
 Die XML-Abfrage sieht wie folgt aus:
 
@@ -142,11 +150,11 @@ Die XML-Abfrage lautet:
 </qy:query>
 \end{lstlisting}
 
-\autoref{lst:UseCaseDatenabfragenProperty} beinhaltet ein XML-Attribut property\_ref. Das wird mit gewünschten Property Identifier gefüllt, welche mit Leerzeichen getrennt werden. 
+\autoref{lst:UseCaseDatenabfragenProperty} beinhaltet ein XML-Attribut property\_ref. Das wird mit einem oder mehreren gewünschten Property Identifier gefüllt. Werden mehrere Identifier angegeben, so sind diese mit Leerzeichen zu trennen. In diesem Beispiel sind zwei angegeben, das bedeutet, dass diese beiden Eigenschaftswerte abgefragt werden.
 
 
 \section{Zusammenfassung des Kapitels}
 
-Das Ergebnis der Analyse der Standards ISO 29002-31 und 22745-30 ergibt, dass diese Beschreibungen für die Lösung der Problemstellung, die Entwicklung einer \gls{Abfrageschnittstelle} analog zur SQL-Selektion und -Projektion der Standard ISO 29002-31, ausreichend sind. Sowohl Projektion als auch Selektion ist dadurch möglich. ISO 22745-30 beschreibt als \gls{IG} eine weitere klientseitige Einschränkung der abzufragenden Daten. Man stelle sich eine Einschränkung (Definition einer Teilmenge) durch ein Formular vor. Das Formular schränkt die abzufragenden Daten auf die tatsächlich benötigte Menge von Daten gegebenenfalls stark ein und gibt ebenfalls den Typ der Daten vor. Dies wird durch Referenzieren auf Konzepte eines Dictionaries erreicht.
+Das Ergebnis der Analyse der Standards ISO 29002-31 und 22745-30 ergibt, dass diese Beschreibungen für die Lösung der Problemstellung, die Entwicklung einer \gls{Abfrageschnittstelle} analog zur SQL-Selektion und Projektion der Standard ISO 29002-31, ausreichend sind. Sowohl Projektion als auch Selektion ist dadurch möglich. ISO 22745-30 beschreibt als \gls{IG} eine weitere klientseitige Einschränkung der abzufragenden Daten. Man stelle sich eine Einschränkung (Definition einer Teilmenge) durch ein Formular vor. Das Formular schränkt die abzufragenden Daten auf die tatsächlich benötigte Menge von Daten gegebenenfalls stark ein und gibt ebenfalls den Typ der Daten vor. Dies wird durch Referenzieren auf Konzepte eines Dictionaries erreicht.
 
 Aus den Anforderungen wurden sinnvolle \glspl{Use Case} formuliert, welche das Verhalten des Systems beschreiben sollen.  
