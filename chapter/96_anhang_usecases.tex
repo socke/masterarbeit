@@ -3,7 +3,7 @@
 \chapter{Anwendungsfälle}\label{kap:analyse_use_cases}
 % Funktionale Anforderungen
 
-Dieses Kapitel beinhaltet weiteren Anwendungsfälle des Systems. Der in \autoref{kap:Use_Cases} bereits beschriebenen Anwendungsfall wird hier nicht erneut aufgeführt.  
+Dieses Kapitel beinhaltet weitere Anwendungsfälle des Systems. Der in \autoref{kap:Use_Cases} bereits beschriebene Anwendungsfall wird hier nicht erneut aufgeführt.  
 
 \subsection{Charakteristische Daten eines Produkts validieren}
 
@@ -14,7 +14,7 @@ Dieses Kapitel beinhaltet weiteren Anwendungsfälle des Systems. Der in \autoref
      \item[  actors]~\\
      Klient
      \item[  precondition]~\\
-     Der Klient verwendet einen gültigen Identifier sowie auf den Identifier passende Daten..
+     Der Klient verwendet einen gültigen Identifier sowie auf den Identifier passende Daten.
      \item[  main flow]~\\
      Der Klient gibt einen Identifier eines \glslink{item}{Teils} ein. Zusätzlich übermittelt er zu diesem bekanntem \glslink{item}{Teil} Eigenschaften dieser Instanz des \glslink{item}{Teils} und sendet eine Anfrage ab. Die Anfrage wird auf Gültigkeit überprüft. Als Antwort bekommt er ein oder mehrere Datensätze von \glslink{item}{Teilen} mit den entsprechenden charakteristischen Daten zurück, auf welche die übergebenen Eigenschaften zutreffen. 
      \item[  postcondition]~\\
@@ -38,7 +38,7 @@ Dieses Kapitel beinhaltet weiteren Anwendungsfälle des Systems. Der in \autoref
 
 In diesem Anwendungsfall verfügen wir bereits über \glslink{item}{Teile}/Wertepaare eines bestimmten Konzeptes, z.B. eben jenen Schraubendreher.
 
-\enquote{Ich habe hier ein mir bekanntes \glslink{item}{Teils} mit bestimmten Eigenschaften (Properties), Länge=300mm. Gib mir alle \glslink{item}{Teile} und alle Properties der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Kreuzschraube) welche die mitgelieferten Eigenschaften haben.}
+\enquote{Ich habe hier ein mir bekanntes \glslink{item}{Teils} mit bestimmten Eigenschaften (Properties), Länge=300mm. Gib mir alle \glslink{item}{Teile} und alle Properties der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Kreuzschraube), welche die mitgelieferten Eigenschaften haben.}
 Das Ergebnis sind \glslink{item}{Teile} mit allen Properties des angegebenen Konzeptes, welche über die übergebenen Eigenschaften (Properties) verfügen. In unserem Fall vervollständigen wir unsere Properties mit den weiteren Properties \enquote{Typ} und \enquote{Spannungsfest}.
 
 Die XML-Abfrage gemäß query.xsd\footnote{Schema Datei ist referenziert in ISO 29002-31, liegt der Arbeit bei} sieht so aus:

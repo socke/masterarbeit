@@ -1,23 +1,10 @@
 \chapter{Automatische Entwicklertests} \index{JUnit}\label{anh:automatischeentwicklertests}
  
 \section{Unit Test}\index{Unit Test}
-Nachfolgend ein Beispiel eines Unit Tests. Das Testobjekt ist die Klasse XMLMarshaller, welcher für das \gls{Marshalling} und \gls{Unmarshalling} der XML-Daten verantwortlich ist. 
+Nachfolgend ein Beispiel eines Unit Tests. Das Testobjekt ist die Klasse XMLMarshaller, welcher für das \gls{Marshalling} und \gls{Unmarshalling} der XML-Daten verantwortlich ist. Hinweis: Alle Quelltexte verzichten auf import- und package-Anweisungen um die Lesbarkeit zu erhöhen. Die Original Quelltexte liegen der Arbeit bei. 
  
 \begin{lstlisting}[caption=Beispiel eines Unit Tests, language=XML, label=lst:unittest_beispiel]
 package de.feu.plib.xml;
-
-import de.feu.plib.xml.catalogue.CatalogueType;
-import de.feu.plib.xml.catalogue.ItemType;
-import de.feu.plib.xml.catalogue.PropertyValueType;
-import de.feu.plib.xml.query.QueryType;
-import de.feu.plib.xml.value.BooleanValueType;
-import org.apache.log4j.Logger;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the marshalling and unmarshalling of xml files.
@@ -105,16 +92,6 @@ public class XMLMarshallerTest extends AbstractXMLTest {
 Das \autoref{lst:abstrakte_unit_testklasse} zeigt die abstrakte Klasse \enquote{AbstractXMLTest}, welche Hilfsmethoden für XML-Tests kapselt. Hier kapselt diese Klasse die Funktionalität XML-Dateien einzulesen.  
 
 \begin{lstlisting}[caption=Abstrakte Unit Testklasse, language=Java, label=lst:abstrakte_unit_testklasse]
-package de.feu.plib.xml;
-
-import org.apache.log4j.Logger;
-import org.junit.After;
-import org.junit.Before;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 /**
  * Abstract test class. Extend from this class to get functionality to read XML files for your test.
@@ -127,7 +104,6 @@ public class AbstractXMLTest {
      * Logger instance
      */
     private static Logger LOGGER = Logger.getLogger(AbstractXMLTest.class);
-
 
     @Before
     public void setUp() {
@@ -177,36 +153,13 @@ public class AbstractXMLTest {
 \section{Integrationstest}\index{Integrationstest}
 
 Dieser Abschnitt zeigt beispielhaft einen Integrationstest auf. Der Integrationstest unterscheidet sich vom Unit-Test darin, dass eine Komponente integriert mit mehreren abhängigen Komponenten getestet wird. 
-Der Nachfolgende Integrationstestfall \enquote{PlibDaoIT} aus \autoref{lst:integrationstest_beispiel} testet die Klasse \enquote{PlibDao}. Es ist ein Integrationstest, da für den Test die gesamte Datenbank benötigt wird. Nur so kann sinnvoll das Datenzugriffsobjekt getestet werden. 
+Der nachfolgende Integrationstestfall \enquote{PlibDaoIT} aus \autoref{lst:integrationstest_beispiel} testet die Klasse \enquote{PlibDao}. Es ist ein Integrationstest, da für den Test die gesamte Datenbank benötigt wird. Nur so kann sinnvoll das Datenzugriffsobjekt getestet werden. 
 
 Gestartet werden kann der Integrationstest mit Maven mittles Aufruf von 
 
 \lstinline[basicstyle=\ttfamily\small\mdseries]{mvn integration-test}
 
 \begin{lstlisting}[caption=Beispiel eines Integrationstests, language=Java, label=lst:integrationstest_beispiel]
-package de.feu.plib.dao;
-
-import de.feu.plib.processor.analyser.EnrichedQuery;
-import de.feu.plib.processor.analyser.Irdi;
-import de.feu.plib.processor.analyser.QueryKind;
-import de.feu.plib.xml.catalogue.CatalogueType;
-import de.feu.plib.xml.catalogue.ItemType;
-import de.feu.plib.xml.query.QueryType;
-import org.apache.log4j.Logger;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import static org.junit.Assert.*;
 
 /**
  * Integration Test of PLIB Dao

@@ -50,15 +50,11 @@ Um das Ziel zu erreichen, soll im Rahmen der Arbeit untersucht werden, welche m�
 Betrachtet werden soll die Projektion und die Selektion.
 
 \begin{description}
-\item[Projektion] Die Attributbeschränkung gleichsam einer \enquote{Spaltenauwahl} in relationalen Datenbanken. In SQL das \enquote{select} Keyword.   
-
-In Relationenalgebra:
+\item[Projektion] Die Attributbeschränkung gleichsam einer \enquote{Spaltenauwahl} in relationalen Datenbanken. In SQL das \enquote{select} Keyword. In Relationenalgebra:
 
 $ergebnisprojektion \leftarrow  \Pi_{(attribut_1, attribut_2... attribut_n)}(plib)$ \\
 
-\item[Selektion] Schränkt eine Suche mittels Prädikaten auf passende Tupel ein, gleichsam einer \enquote{Zeilenauswahl}. In SQL das \enquote{where} Schlüsselwort samt Mengenoperatoren, wie z.B. \enquote{UND, ODER, NICHT}.
-
-In Relationenalgebra:
+\item[Selektion] Schränkt eine Suche mittels Prädikaten auf passende Tupel ein, gleichsam einer \enquote{Zeilenauswahl}. In SQL das \enquote{where} Schlüsselwort samt Mengenoperatoren, wie z.B. \enquote{UND, ODER, NICHT}. In Relationenalgebra:
 
 $ergebnisselektion \leftarrow  \sigma_{(praedikat_1, praedikat_2... praedikat_n})(plib)$ \\
 
@@ -91,23 +87,23 @@ Die \autoref{tab.gesamtkontext} erläutert die \autoref{fig:gesamtkontext_plib} 
 \toprule \rowcolor{mylightergray}
 \textbf{Bezeichnung} & \textbf{Arbeit von} & \textbf{Erläuterung} &  \textbf{ISO Standards}\\
 \midrule
-Abfrageschnittstelle als Web Service mit SOAP &  Frau Janßen & Implementierung eines Webservices zur Auflösung von Konzept-Identifikatoren in Konzept-Dictionaries/Ontologien & ISO 29002-20 \\
+Abfrageschnittstelle als \gls{Webservice} mit \gls{SOAP} &  Frau Janßen & Implementierung eines \glspl{Webservice} zur Auflösung von Konzept-Identifikatoren in Konzept-Dictionaries/Ontologien & ISO 29002-20 \\
 \hline
 PLIB, Dictionary und Produktdatenbank &  Herr Mende und Herr Loth & Meta- und Produktdatenbank sowie eine Abfrageschnittstelle basierend auf Oracle. Entwicklung von Abfrageschnittstellen mit Oracle Prozeduren & ISO 13584-42 \citep[Vergl.][]{iso13584-42}  \\
 \hline
 Mobiler Abfrageclient & Herr Lohmeyer & Entwicklung eines mobilen Abfrageclients basierend auf Android. Der Client nutzt die \glspl{Webservice} von Frau Janßen und beinhaltet einen eigenen Katalog\-server. & ISO 29002-10, ISO 13584-42 \\
 \hline
-Abfrageschnittstelle als Web Service mit REST für Charakteristische Produktdaten & Herr Sobek & Entwicklung einer Schnittstelle zur Abfrage von Charakteristischen Produktdaten. Die Schnittstelle wird als RESTful Web Service implementiert. & ISO 29002-31, ISO 29002-10 \\
+Abfrageschnittstelle als \gls{Webservice} mit \gls{REST} für charakteristische Produktdaten & Herr Sobek & Entwicklung einer Schnittstelle zur Abfrage von charakteristischen Produktdaten. Die Schnittstelle wird als \gls{REST}ful \gls{Webservice} implementiert. & ISO 29002-31, ISO 29002-10 \\
 \bottomrule
 \end{tabular}
 \caption{\label{tab.gesamtkontext}Erläuterung der Gesamtkontextabbildung}
 \vspace{2ex}\end{table}
 
-\subsection{Abgrenzung} \index{Identification Guide} \index{Abgrenzung} \index{Use Cases}
+\subsection{Abgrenzung} \index{Identification Guide} \index{Abgrenzung} \index{Use Cases}\index{ISO 29002-10}
 
 Die Arbeit umfasst die Implementierung der Use Cases nach \autoref{kap:Use_Cases}. Dies beinhaltet im wesentlichen den Teil 31 der ISO 29002 - einen Abfragestandard für charakteristische Produktdaten. 
 Weiterhin wird für die Datenübertragung eine Implementierung des Teils 10 der ISO 29002 benötigt, siehe \autoref{fig:lieferketten}. 
-Die Arbeit beinhaltet nicht die Implementierung eines Identification Guides nach ISO 22745-30. Dieser wird in der Praxis von einem Klienten für eine sinnvolle Vorauswahl der für sich oder seine Organisation benötigten Attribute der Teile verwendet. Jeder Klient definiert für seinen Kontext sinnvolle Attribute und Teiledaten und definiert diese mit Hilfe des Schemas der ISO 22745-30. Dies kann mittels eines Webformulars auf Klientenseite erfolgen oder als allgemeines Formular mit z.B. Excel\footnote{Excel ist ein bekanntes Tabellenkalkulationsprogramm der Firma Microsoft.}, welches die für den/die Klienten relevanten Attribute der Produkte, die abgefragt werden sollen, enthält. Für mehr Informationen zum \gls{IG} siehe \autoref{kap:identification_guide}.
+Die Arbeit beinhaltet nicht die Implementierung eines \glspl{IG} nach ISO 22745-30. Dieser wird in der Praxis von einem Klienten für eine sinnvolle Vorauswahl der für sich oder seine Organisation benötigten Attribute der Teile verwendet. Jeder Klient definiert für seinen Kontext sinnvolle Attribute und Teiledaten und definiert diese mit Hilfe des Schemas der ISO 22745-30. Dies kann mittels eines Webformulars auf Klientenseite erfolgen oder als allgemeines Formular mit z.B. \gls{Excel}, welches die für den/die Klienten relevanten Attribute der Produkte, die abgefragt werden sollen, enthält. Für mehr Informationen zum \gls{IG} siehe \autoref{kap:identification_guide}.
 
 %Beispiel: bild mit footnote
 \begin{figure}[htbp]
@@ -118,7 +114,7 @@ Die Arbeit beinhaltet nicht die Implementierung eines Identification Guides nach
 \end{figure}
 \footnotetext{Abbildung entnommen und abgewandelt aus Benson, Converting Standard Terminology into usable Metadata, 2008 - später in ähnlicher Form auch in Uiterwyk, Die Bedeutung der Merkmalleisten bei eCl@ss, 2012 zu finden.}
 
-\subsection{Vorgaben}
+\subsection{Vorgaben}\index{Vorgaben}\index{Oracle}
 
 Für die Implementierung sind folgende nichtfunktionale Anforderungen vorgegeben:
 \begin{description}

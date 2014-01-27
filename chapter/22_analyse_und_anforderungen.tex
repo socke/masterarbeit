@@ -59,7 +59,7 @@ Alistair Cockburn schreibt dazu \citep[Vergl.][Kap. 1.1]{cockburn2000}:
 
 \gls{Stakeholder}\footnote{Stakeholder sind Projektbeteiligte, gleichsam Personen oder Institutionen und Dokumente, die in irgendeiner Weise vom Betrieb des Systems betroffen sind.} erwarten folglich ein gewisses Verhalten des Systems unter bestimmten Bedingungen. Dieses Verhalten des Systems in Interaktion mit Akteuren wird durch \glspl{Use Case} beschrieben.
 
-\bild{usecases_plib.jpg}{13cm}{Use Case Übersicht}{Use Case Übersicht}
+\bild{usecases_plib.jpg}{10cm}{Use Case Übersicht}{Use Case Übersicht}
 
 \subsection{Akteure}
 Bei der Implementierung geht es um die Erstellung einer Software-Schnittstelle als \gls{Webservice}. Das bedeutet, dass diese Schnittstelle ohne eine Benutzeroberfläche nicht sinnvoll für einen menschlichen Akteur nutzbar ist. In den nachfolgenden Anwendungsfällen wird vom Akteur \enquote{Klient} gesprochen. Der Klient ist allgemein ein Nutzer der Schnittstelle, sei es als menschlicher Akteur welcher über eine Bedienerinterface die Schnittstelle benutzt oder eine direkte Maschinennutzung. Ein Beispiel für eine Maschinennutzung kann eine Anwendung sein, welche automatisiert die Schnittstelle aufruft und Daten abfragt.    
@@ -79,13 +79,21 @@ Da \glspl{Use Case} auf verschiedene Weise verfasst werden können, werden hier 
      \item[  precondition]~\\
      Der Klient verwendet einen gültigen Identifier.
      \item[  main flow]~\\
-     Der Klient gibt einen eindeutigen Identifier (\gls{IRDI}\footnote{International Registration Data Identifier}) eines Konzeptes von Elementen ein und sendet eine Anfrage ab. Die Anfrage wird auf Gültigkeit überprüft. Als Antwort bekommt er ein oder mehrere Datensätze von Elementen\footnote{Item, ISO 29002-10 Kapitel 5.3.2} mit den entsprechenden charakteristischen Daten\footnote{property\_values, ISO 29002-10 Kapitel 5.2.4}  des Elementes mit dem übergebenen Identifier zurück.
+     Der Klient gibt einen Identifier (IRDI\footnote{International Registration Data Identifier}) eines Konzeptes von Elementen ein und sendet eine Anfrage ab. Die Anfrage wird auf Gültigkeit überprüft. Als Antwort bekommt er ein oder mehrere Datensätze von Elementen \footnote{Item, ISO 29002-10 Kapitel 5.3.2} mit den entsprechenden charakteristischen Daten \footnote{property\_values, ISO 29002-10 Kapitel 5.2.4} des \glslink{item}{Teile} mit dem übergebenen Identifier zurück.
      \item[  postcondition]~\\
-     Alle Daten aller Elemente der gewählten Konzepte des Identifiers wurden zurückgegeben.    
+     Alle Daten aller  \glslink{item}{Teile} der gewählten Konzepte des Identifiers wurden zurückgegeben.    
      \item[  alternative flow] Properties auswählen ~\\
      Zusammen mit dem Identifier übergibt der Klient einen oder mehrere Property-Identifier und sendet diese erweiterte Anfrage ab.    
      \item[  postcondition]~\\
-     Die mittels Property-Identifier ausgewählten Daten aller Elemente der gewählten Konzepte wurden zurückgegeben.    
+     Die mittels Property-Identifier ausgewählten Daten aller  \glslink{item}{Teile} der gewählten Konzepte wurden zurückgegeben.    
+     \item[  alternative flow] Keine Eigenschaftswerte vorhanden ~\\
+     Für das mittels Identifier angefragte \glslink{item}{Teil} sind keine Eigenschaftswerte vorhanden.    
+     \item[  postcondition]~\\
+     Es werden keine Daten zurückgeliefert.   
+     \item[  exceptional flow] Ungültige Identifier oder ungültige Anfrage ~\\
+     Der oder die übergebenen Identifier oder die gesamte Anfrage ist gemäß Spezifikation ungültig.  
+     \item[  postcondition]~\\
+     Es wird eine Fehlermeldung zurückgegeben.  
      \item[end] Charakteristische Daten abfragen
 \end{description}
 

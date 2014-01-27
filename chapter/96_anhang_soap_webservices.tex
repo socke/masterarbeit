@@ -1,39 +1,30 @@
 \chapter{SOAP Webservice} \index{Webservice!SOAP}\label{kap:anhang_soap_webservice}
 
-Um die beiden unterschiedlichen Webservicearten vergleichen zu können wurde evaluiert, wie mit der gleichen Plattform, Programmiersprache und Schemadateien ein SOAP \gls{Webservice} implementiert werden kann. 
+Um die beiden unterschiedlichen Webservicearten vergleichen zu können, wurde evaluiert, wie mit der gleichen Plattform, Programmiersprache und den gleichen Schemadateien ein SOAP \gls{Webservice} implementiert werden kann. 
 
-Genutzt wurde der in der Java-JDK beinhaltete Implementierung der JAX-WS-2.1-Spezifikation, somit muss keine weitere Bibliothek eingebunden werden. 
+Genutzt wurde die in der Java-JDK beinhaltete Implementierung der JAX-WS-2.1-Spezifikation, somit muss keine weitere Bibliothek eingebunden werden. 
 
-Die gesamte Business-Logik-Implementierung für den REST-Webservice kann genutzt werden. Für die Erstellung des Webservices sind folgende Schritte notwendig:
+Die gesamte Business-Logik-Implementierung für den \gls{REST}-\gls{Webservice} kann genutzt werden. Für die Erstellung des \glspl{Webservice} sind folgende Schritte notwendig:
 
 \begin{itemize}
-\item Erstellung einer Webservice Klasse, welche die Business Logik aufruft
-\item Erstellung eines Webservice Servers, welche den Webservice bereitstellt
+\item Erstellung einer \gls{Webservice}-Klasse, welche die Business Logik aufruft
+\item Erstellung eines \gls{Webservice}-Servers, welche den \gls{Webservice} bereitstellt
 \end{itemize}
 
-\section{Erstellung einer Webservice Klasse}
+\section{Erstellung einer Webservice-Klasse}
 
-Das \autoref{lst:soap_webservice_send_query} zeigt die Implementierung einer Webservice-Klasse. 
+Das \autoref{lst:soap_webservice_send_query} zeigt die Implementierung einer \gls{Webservice}-Klasse. 
 
-Hierbei definiert @WebService diese Klasse mittels Annotation als Webservice gemäß JAX-WS Spezifikation. 
+Hierbei definiert @WebService diese Klasse mittels Annotation als Webservice gemäß JAX-WS Spezifikation.
+ 
 @SOAPBinding(style=SOAPBinding.Style.DOCUMENT) definiert ein SOAP-Binding als Dokumenten Typ. Ein weiterer Typ ist RPC.
-@WebMethod definiert die markierte Methode als Webservice Methode. 
+@WebMethod definiert die markierte Methode als \gls{Webservice}-Methode. 
 
-Die Methode leitet den übergebenen query einfach an die Business Logik, der QueryPipe, zur weiteren Verarbeitung. Dies entspricht exakt dem Vorgehen in der query-Methode im REST-Webservice.  
+Die Methode leitet den übergebenen query einfach an die Business Logik, der QueryPipe, zur weiteren Verarbeitung. Dies entspricht exakt dem Vorgehen in der query-Methode im \gls{REST}-\gls{Webservice}.  
+
+Hinweis: In allen Quelltextbeispielen wird auf import- und package-Anweisungen verzichtet, um die Lesbarkeit zu erhöhen. Die Quelltexte liegen der Arbeit bei. 
 
 \begin{lstlisting}[caption=SOAP Webservice Klasse zum Senden eines Queries, language=Java, label=lst:soap_webservice_send_query]
-package de.feu.plib.webservice;
-
-import de.feu.plib.processor.QueryPipe;
-import de.feu.plib.xml.catalogue.CatalogueType;
-import de.feu.plib.xml.query.QueryType;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import javax.jws.WebMethod;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-
 /**
  * SOAP Webservice for querying via ISO 29002-31 Schema
  */
@@ -78,9 +69,9 @@ public class QuerySOAPService {
  
 \section{Erstellung eines Webservice Servers}
 
-Das \autoref{lst:soap_webservice_server} zeigt die Implementierung eines beispielhaften Webservice server. Dieser erzeugt eine Instanz der Klasse QuerySOAPService, der Klasse welche die Methoden für den Webservice beinhalten. Anschließend wird ein Endpoint definiert. Hier wird die spätere \gls{URL}, unter dem der Webservice zur Verfügung gestellt wird, definiert und der QuerySOAPService übergeben. 
+Das \autoref{lst:soap_webservice_server} zeigt die Implementierung eines beispielhaften Webservice-Servers. Dieser erzeugt eine Instanz der Klasse QuerySOAPService, der Klasse, welche die Methoden für den Webservice beinhaltet. Anschließend wird ein Endpoint definiert. Hier wird die spätere \gls{URL}, unter dem der Webservice zur Verfügung gestellt wird, definiert und der QuerySOAPService übergeben. 
 
-Ferner wird zu Testzwecken, zum stoppen des Services, ein Dialog-Fenster angezeigt.
+Ferner wird zu Testzwecken, zum Stoppen des Services, ein Dialog-Fenster angezeigt.
  
 \begin{lstlisting}[caption=SOAP Webservice Server, language=Java, label=lst:soap_webservice_server]
 package de.feu.plib.webservice;
@@ -235,5 +226,5 @@ Das \autoref{lst:soap_query} zeigt einen Beispielrequest und \autoref{lst:soap_r
  
  \section{Fazit}
  
-Da sämtliche Voraussetzungen bereits während der Implementierung des REST-Webservices in der Business Logik vorhanden waren, konnte in kurzer Zeit ein SOAP-Webservice erstellt werden, der die gleichen Query-Funktionalitäten zur Verfügung stellt wie der REST-Webservice. Das Generieren des XML-Modells in Java-Klassen wurde bereits mittels JAXB durchgeführt, sodass diese Modelle erneut benutzt werden können. Java kennt dann die Modelle und die Bindung an die entsprechenden XML-Schema-Dateien, so dass diese für den \gls{Webservice} zur Verfügung gestellt werden können. 
+Da sämtliche Voraussetzungen bereits während der Implementierung des REST-Webservices in der Business Logik vorhanden waren, konnte in kurzer Zeit ein SOAP-Webservice erstellt werden, der die gleichen Query-Funktionalitäten zur Verfügung stellt wie der REST-Webservice. Das Generieren des XML-Modells in Java-Klassen wurde bereits mittels JAXB durchgeführt, sodass diese Modelle erneut benutzt werden können. Java kennt dann die Modelle und die Bindung an die entsprechenden XML-Schema-Dateien, sodass diese für den \gls{Webservice} zur Verfügung gestellt werden können. 
 Es ist also ersichtlich, dass die Webservice Schnittstelle mit relativ geringem Aufwand ausgetauscht werden kann, wenn die Business Logik gekapselt wurde. 
