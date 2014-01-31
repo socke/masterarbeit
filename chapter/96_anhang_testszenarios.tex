@@ -1,9 +1,8 @@
-\chapter{Testszenarios} \index{Testszenarios}\index{Manuelle Entwicklertests}\label{anh:testszenarios}
+\chapter{Testszenarios und Testtools} \index{Testszenarios}\index{Manuelle Entwicklertests}\label{anh:testszenarios}
 
 Anbei die Testprotokolle der manuellen Entwicklertests.
 
-Alle Tests können alternativ mit der Testbenutzeroberfläche durchgeführt werden:
-
+Diese können mit den in \autoref{anh:testtools} aufgeführen Testtools oder alternativ mit der Testbenutzeroberfläche durchgeführt werden. Diese ist erreichbar unter: \\~
 http://localhost:8080/plib-characteristic-query/query.xhtml
 
 \section{Simple query}
@@ -111,4 +110,35 @@ Es wird eine IRDI übermittelt und zusätzlich eine Sucheinschränkung auf einen
 \item[Tatsächliches Ergebnis] Nur ein Wert wurde zurückgegeben. 
 \item[OK/Nicht OK?] OK
 \end{description}
+
+\section{Testtools}\label{anh:testtools}
+
+Zum manuellen Testen werden verschiedene Tools verwendet. Diese müssen in der Lage sein, einen POST-Request an eine URL zu senden und ein XML, das Query-XML, als Payload mitzusenden.
+
+\subsection{CURL}\index{CURL}
+
+Auf Linux-basierten Systemen kann das Werkzeug \enquote{curl} verwendet werden. Dieses Werkzeug liegt allen Linux oder Unix basierten Betriebssystemen in der Regel bei, oder kann einfach nachinstalliert werden. 
+
+Je nach Betriebssystem wird das mittels Befehlszeile über einen sogenannten Paketmanager durchgeführt:
+\begin{description}
+\item[Ubuntu, Debian] apt-get install curl
+\item[Fedora, RedHat, CentOs] yum install curl
+\end{description}
+
+Ein Beispielaufruf ist in \autoref{lst:curltest} zu sehen. Hier wird eine XML-Datei namens query\_class\_irdi.xml an die URL http://localhost:8080/rest/ws/query/ gesendet. 
+
+\begin{lstlisting}[caption=CURL Test des REST Webservices, language=sh, label=lst:curltest]
+curl -v -H "Content-Type: application/xml" -X POST --data "@src/test/resources/de/feu/plib/xml/query_class_irdi.xml" http://localhost:8080/rest/ws/query
+ \end{lstlisting}   
+
+\subsection{Advanced REST Client} \index{Advanced REST Client}
+
+Eine andere Möglichkeit den \gls{REST} Webservice zu testen ist ein Plugin des Browsers Chrome, genannt \enquote{Advanced REST Client}. Dieser kann auch einen POST-Request erzeugen und an eine URL senden. Die \autoref{fig:advancedrestclienttest} zeigt einen Test eines einfachen XML-Files. Dazu muss der XML Inhalt in das untere Eingabefeld unter dem Reiter \enquote{Payload} eingeben werden. Ferner muss der Content-Type auf \enquote{application/xml} gesetzt werden, um entsprechende HTTP-Header mitzuschicken, welche dem Webservice mitteilen, dass auch tatsächlich XML-Daten kommen. 
+
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=0.98\textwidth]{images/advanced_rest_client_test.jpg}
+	\caption{Advanced REST Client Test des Webservices}
+	\label{fig:advancedrestclienttest}
+\end{figure}
 

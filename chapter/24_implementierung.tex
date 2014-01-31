@@ -23,9 +23,13 @@ GIT ist ein \gls{VCS}, kurz VCS, GIT ist darüberhinaus ein verteiltes \gls{VCS}
 
 In diesem Projekt ist kein verteiltes \gls{VCS} nötig, da es nur einen Bearbeiter der Daten und Quelltexte gibt. Es wurde dennoch gewählt, da es zum einen genau wie ein \enquote{normales}, folglich nicht verteiltes \gls{VCS} eingesetzt werden kann, der Autor mit diesem System sehr vertraut ist und ggf. zukünftig auf diese Arbeit aufbauende oder weiterführende Projekte mit diesem System einfach weiterarbeiten können. 
 
-Die Quelltexte dieser Arbeit sind bei einem frei verfügbaren \glslink{VCS}{Versionskontrollsystemanbieter} untergebracht. Das Repository kann mit folgendem Befehl geklont werden:
+Die \LaTeX Quelltexte dieser Arbeit sind bei einem frei verfügbaren \glslink{VCS}{Versionskontrollsystemanbieter} untergebracht. Das Repository kann mit folgendem Befehl geklont werden (\enquote{username} durch Benutzernamen beim Anbieter Bitbucket ersetzen):
 
 \lstinline[basicstyle=\ttfamily\small\mdseries]{git clone https://username@bitbucket.org/ssobek/masterarbeit.git}
+
+Der Quellcode der Implementierung kann mit folgendem Befehl geklont werden:
+
+\lstinline[basicstyle=\ttfamily\small\mdseries]{git clone https://username@bitbucket.org/ssobek/plib-query.git}
 
 Klonen bedeutet bei verteilten \glslink{VCS}{Versionskontrollsystemen}, das gesamte Repository zu kopieren. Es kann dann auf diesem Repository lokal gearbeitet werden. 
 
@@ -90,38 +94,7 @@ Nachfolgend ist ein manueller Testfall aufgeführt, welcher eine ungültige IRDI
 \item[OK/Nicht OK?] OK
 \end{description}
 
-Alle weiteren Testfälle und Ergebnisse finden sich in \autoref{anh:testszenarios}.
-
-\subsubsection{Testtools}
-
-Zum manuellen Testen werden verschiedene Tools verwendet. Diese müssen in der Lage sein, einen POST-Request an eine URL zu senden und ein XML, das Query-XML, als Payload mitzusenden.
-
-\paragraph{CURL}\index{CURL}
-
-Auf Linux-basierten Systemen kann das Werkzeug \enquote{curl} verwendet werden. Dieses Werkzeug liegt allen Linux oder Unix basierten Betriebssystemen in der Regel bei, oder kann einfach nachinstalliert werden. 
-
-Je nach Betriebssystem wird das mittels Befehlszeile über einen sogenannten Paketmanager durchgeführt:
-\begin{description}
-\item[Ubuntu, Debian] apt-get install curl
-\item[Fedora, RedHat, CentOs] yum install curl
-\end{description}
-
-Ein Beispielaufruf ist in \autoref{lst:curltest} zu sehen. Hier wird eine XML-Datei namens query\_class\_irdi.xml an die URL http://localhost:8080/rest/ws/query/ gesendet. 
-
-\begin{lstlisting}[caption=CURL Test des REST Webservices, language=sh, label=lst:curltest]
-curl -v -H "Content-Type: application/xml" -X POST --data "@src/test/resources/de/feu/plib/xml/query_class_irdi.xml" http://localhost:8080/rest/ws/query
- \end{lstlisting}   
-
-\paragraph{Advanced REST Client} \index{Advanced REST Client}
-
-Eine andere Möglichkeit den \gls{REST} Webservice zu testen ist ein Plugin des Browsers Chrome, genannt \enquote{Advanced REST Client}. Dieser kann auch einen POST-Request erzeugen und an eine URL senden. Die \autoref{fig:advancedrestclienttest} zeigt einen Test eines einfachen XML-Files. Dazu muss der XML Inhalt in das untere Eingabefeld unter dem Reiter \enquote{Payload} eingeben werden. Ferner muss der Content-Type auf \enquote{application/xml} gesetzt werden, um entsprechende HTTP-Header mitzuschicken, welche dem Webservice mitteilen, dass auch tatsächlich XML-Daten kommen. 
-
-\begin{figure}[htbp]
-	\centering
-		\includegraphics[width=0.98\textwidth]{images/advanced_rest_client_test.jpg}
-	\caption{Advanced REST Client Test des Webservices}
-	\label{fig:advancedrestclienttest}
-\end{figure}
+Alle weiteren Testfälle und Ergebnisse sowie die Beschreibung einiger Testtools zum Ausführen der manuellen Tests finden sich in \autoref{anh:testszenarios}.
 
 \section{Webservice}\index{Webservice}\index{REST!RESTful Webservice}\label{kap:webservice}
 
