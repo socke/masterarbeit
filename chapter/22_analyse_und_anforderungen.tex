@@ -32,11 +32,28 @@ Ein Datenempfänger kann eine Organisation oder eine Gruppe von Organisationen o
 
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=0.98\textwidth]{images/queries.jpg}
+		\includegraphics[width=0.90\textwidth]{images/queries.jpg}
 	\caption{Mögliche Abfragen anhand der Kombination der Daten in XML Query}
 	\label{fig:query_kombinationen}
 \end{figure}
 
+%\begin{table}[!hbt]\vspace{1ex}\centering
+%\scriptsize
+%\begin{tabular}{p{1.5cm}p{1.7cm}p{1.1cm}p{1.1cm}p{1cm}p{1.5cm}p{3.5cm}}
+%\toprule \rowcolor{mylightergray}
+%\textbf{conformance class} & \textbf{characteristic\-\_data\_query\-\_expression} & \textbf{class\_ref} & \textbf{property\-\_ref} & \textbf{Item} &  \textbf{Zu Implementieren?} & \textbf{Anmerkung}\\
+%\midrule
+%\multirow{2}{*}{Parametric\\ Query} & ja &  nein & nein & nein & nein & Ohne class\_ref kein Bezug zur Property Referenz möglich. Keine Daten übergeben, nur Selektion, daher ist die Abfrage nicht möglich \\
+%\cline{2-7}
+% & ja &  nein & nein & nein & nein & Ohne class\_ref kein Bezug zur Property Referenz möglich. Keine Daten übergeben, nur Selektion, daher ist die Abfrage nicht möglich \\
+%\hline
+%\multirow{2}{*}{Simple Query} & ja &  nein & nein & nein & nein & Ohne class\_ref kein Bezug zur Property Referenz möglich. Keine Daten übergeben, nur Selektion, daher ist die Abfrage nicht möglich \\
+%\cline{2-7}
+ %& ja &  nein & nein & nein & nein & Ohne class\_ref kein Bezug zur Property Referenz möglich. Keine Daten übergeben, nur Selektion, daher ist die Abfrage nicht möglich \\
+%\bottomrule
+%\end{tabular}
+%\caption{\label{tab.queries}Mögliche Abfragen anhand der Kombination der Daten in XML Query}
+%\vspace{2ex}\end{table}
 Es kann somit festgehalten werden, dass für die Erfüllung der Aufgabenbeschreibung nach \autoref{kap:aufgabenbeschreibung} eine Implementierung des Standards ISO 22745-30 nicht notwendig ist, da dieser Standard eine zusätzliche Einschränkung der Konzepte und benötigten Daten auf Anfrageseite beschreibt. Die Abfrage gemäß einer SQL-Selektion und -Projektion ist mit dem Standard 29002-31 möglich. Basierend auf dieser Erkenntnis zeigt \autoref{fig:query_kombinationen} mögliche Abfrageinhalte und bewertet, ob diese umgesetzt werden müssen. Hierbei werden die Attribute \enquote{item\_description} und \enquote{data\_specification} nicht betrachtet.
 
 \section{Anwendungsfälle}\label{kap:Use_Cases}
@@ -58,7 +75,7 @@ Alistair Cockburn schreibt dazu \citep[Vergl.][Kap. 1.1]{cockburn2000}:
 
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=0.80\textwidth]{images/usecases_plib.jpg}
+		\includegraphics[width=0.75\textwidth]{images/usecases_plib.jpg}
 	\caption{Use Case Übersicht}
 	\label{fig:use_case_uebersicht}
 \end{figure}
@@ -106,13 +123,14 @@ Da \glspl{Use Case} auf verschiedene Weise verfasst werden können, werden hier 
 \subsubsection{Beispiel}\label{lab:schraubendreher}
 
 Ein Schraubendreher könnte folgendermaßen in einer Produktdatenbank repräsentiert werden:
-
+\begin{multicols}{2}
 \begin{description}
-\item[Klassen-Identifier] 0173-1\#01-AAA352\#4 
+\item[Identifier] 0173-1\#01-AAA352\#4 
 \item[Länge] 300mm
 \item[Typ] Kreuz
 \item[Spannungsfest] ja
 \end{description}
+\end{multicols}
 
 Korrekterweise müsste anstatt der Attribute wie Länge oder Typ ebenfalls ein Identifier stehen. Die Bezeichnungen sind hier zur besseren Lesbarkeit aufgelöst. 
 

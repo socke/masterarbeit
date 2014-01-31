@@ -209,12 +209,14 @@ Ein entsprechend valides Modell anhand der XSD manuell in Java aufzubauen, wäre
 Die XSD-Dateien der ISO 29002-31 wurden freundlicherweise von Dr. Gerry Radack von der \gls{ECCMA} zur Verfügung gestellt. 
 
 Die query.xsd referenziert die weiteren folgenden Schema-Dateien:
+\begin{multicols}{2}
 \begin{itemize}
 \item basic.xsd
 \item identifier.xsd
 \item catalogue.xsd
 \item value.xsd
 \end{itemize}
+\end{multicols}
 
 \subsubsection{Generierung mit JAXB}\index{Codegenerierung}\index{JAXB}
 
@@ -311,14 +313,15 @@ gestartet werden. \index{Binding} \index{JAXB}
 Wie man erkennen kann, wird für jede Schema-Datei ein eigener Paketname definiert. Das hat den Vorteil, dass die einzelnen Datentypen aus den jeweiligen XSD-Dateien passend in eigene Pakete generiert werden und nicht alle in ein Verzeichnis. Das ist deutlich übersichtlicher. 
 
 Die Modell-Dateien werden folgendermaßen abgelegt:
-
+\begin{multicols}{2}
 \begin{description}
 \item[query.xsd] de.feu.plib.xml.query
 \item[basic.xsd] de.feu.plib.xml.basic
-\item[catalogue.xsd] de.feu.plib.xml.catalogue
-\item[identifier.xsd] de.feu.plib.xml.identifier
 \item[value.xsd] de.feu.plib.xml.value
+\item[identifier.xsd] de.feu.plib.xml.identifier
+\item[catalogue.xsd] de.feu.plib.xml.catalogue
 \end{description}
+\end{multicols}
 
 Zeile 6-10 aus \autoref{lst:bindingfile} zeigt auf, wie im Binding-File ein anderer Paketname für die Datei query.xsd definiert werden kann. 
 
@@ -604,7 +607,7 @@ Der Ablauf einer Abfrage in der Applikation zeigt das Sequenzdiagramm in \autore
 Die genannten Prozeduren liefern die Daten der Eigenschaften eines spezifizierten \glslink{item}{Teiles} nach \gls{IRDI}. Die Liste der zurückgegebenen Daten scheint auf den ersten Blick ausreichend, denn man erhält die folgenden Eigenschaften der Prozedur
 
 GET\_PROP\_VALS\_STRING:
-
+\begin{multicols}{3}
 \begin{itemize}
   \item IRDI
   \item VALUE
@@ -613,6 +616,7 @@ GET\_PROP\_VALS\_STRING:
   \item TOLERANCE
   \item VALUE\_ID
 \end{itemize}
+\end{multicols}
 
 \enquote{VALUE} ist der Wert der Eigenschaft, \enquote{UNIT} die Einheit. Ein genauer Blick auf das Schema des Standards (siehe \autoref{lst:value_xsd} aus \autoref{kap:anhang_schema}) zeigt auf, dass es konkrete Typen für die Einheit des Wertes gibt, z.B. boolean\_value, complex\_value, composite\_value, controlled\_value usw. Für eine komplette Liste siehe \autoref{lst:value_xsd}. 
 Die Daten aus dem Response der Prozedur bezüglich UNIT, PREFIX und TOLERANCE kommen aus der Relation DO\_ADDITIONAL\_DATA, die mit der jeweiligen Datenbanktabelle der Eigenschaftswerte, das sind beispielsweise DO\_STRING, DO\_NUMBER, DO\_REFERENCES usw., verknüpft wird. Das bedeutet, dass einer Eigenschaft einer Instanz eines Teiles beispielsweise die Einheit (UNIT) gesetzt werden kann. Dies erscheint an dieser Stelle fragwürdig, da es bedeuten würde, für jede Instanz jeweils eine Einheit zu speichern. 
@@ -978,21 +982,12 @@ Es müssen drei Stellen angepasst werden:
 \item Das SELECT Statement für die Rückgabe, sodass die Property ID übergeben wird: 
   \begin{description}
   \item[vorher] SELECT \\
-  P.IRDI, \\
-  LOJ.VALUE, \\ 
-  LOJ.UNIT, \\
-  LOJ.PREFIX, \\ 
-  LOJ.TOLERANCE, \\
-  LOJ.VALUE\_ID \\
+  P.IRDI, LOJ.VALUE, LOJ.UNIT,  LOJ.PREFIX, \\ 
+  LOJ.TOLERANCE, LOJ.VALUE\_ID \\
   ...
   \item[nachher] SELECT \\
-  P.ID, \\
-  P.IRDI, \\ 
-  LOJ.VALUE, \\ 
-  LOJ.UNIT, \\
-  LOJ.PREFIX, \\ 
-  LOJ.TOLERANCE, \\ 
-  LOJ.VALUE\_ID \\
+  P.ID, P.IRDI, LOJ.VALUE, LOJ.UNIT, LOJ.PREFIX, \\ 
+  LOJ.TOLERANCE, LOJ.VALUE\_ID \\
   ...
   \end{description}
 \item Die Erweiterung bei Instanzierung des Tabelleneintrages für den Tabellentypen um ein Attribut (NULL hinzugefügt): 
@@ -1098,6 +1093,7 @@ Mehr Informationen zur Implementierung und den Beispielquellcode des \gls{SOAP}-
 Der Umfang der Implementierung, gerade im Bereich der Transformation ist sehr groß. Ferner liegen der \gls{PLIB} sehr wenige Testdaten vor. Daher werden für den Prototyp nur einige Prozeduren beispielhaft aufgerufen, und zwar GET\_OBJ\_STRING und GET\_OBJ\_NUMBER. 
 
 Die folgenden Prozeduren werden nicht aufgerufen: 
+\begin{multicols}{2}
 \begin{itemize}
 \item GET\_OBJ\_REF
 \item GET\_OBJ\_LIST\_NUMBER
@@ -1105,6 +1101,7 @@ Die folgenden Prozeduren werden nicht aufgerufen:
 \item GET\_OBJ\_MULTILIST\_NUMBER
 \item GET\_OBJ\_MULTILIST\_STRING
 \end{itemize}
+\end{multicols}
 Das bedeutet, dass falls Daten in der \gls{PLIB} in den passenden Tabellen zu den passenden Typen existieren, diese von der Abfrage nicht beachtet werden. Um die Implementierung folglich praxistauglich zu machen, müssen die Transformationen der Rückgabe der fehlenden Prozeduren vervollständigt werden. 
 
 Für die Transformation und das füllen der Rückgabekatalogdaten wurden einige Parametric-Query-Abfragen nicht betrachtet. Das sind \enquote{DataCardinality}, \enquote{DataEnvironment} und \enquote{Subset}. Für diese Abfragetypen fehlen, wie auch oben erwähnt, Testdaten in der \gls{PLIB}-Datenbank. Die entsprechenden Szenarien müssen aufwändig erstellt werden. Für einen möglichen Praxiseinsatz müsste die Implementierung vervollständigt werden. Zu Forschungs- und Demonstrationszwecken sind die implementierten Funktionalitäten ausreichend. 
