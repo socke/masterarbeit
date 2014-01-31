@@ -7,10 +7,10 @@ Dieses Kapitel beschreibt den System- und Softwareentwurf sowie die Auswahl der 
 
 \section{Auswahlprozess}
 
-Teil der Aufgabe der Arbeit ist es, für das System im Rahmen der nichtfunktionalen Anforderungen eine geeignete Laufzeitumgebung zu schaffen. Dafür sind einige Entscheidungen zu treffen, wie z.B. die Auswahl des Webservices, der Programmiersprache, einzusetzende Frameworks oder der Plattform. 
+Teil der Aufgabe ist es, für das System im Rahmen der nichtfunktionalen Anforderungen eine geeignete Laufzeitumgebung zu schaffen. Dafür sind einige Entscheidungen zu treffen, wie z.B. die Auswahl des Webservices, der Programmiersprache, einzusetzende Frameworks oder der Plattform. 
 
 \subsection{Webservice}\index{Webservice}\label{sec:webservice}
-Wenn von \glspl{Webservice} gesprochen wird, dann sind meistens \gls{SOAP}-basierte \glspl{Webservice} gemeint. Allerdings gibt es die sogenannten \gls{SOAP}-basierten \glspl{Webservice} als auch die \gls{REST}ful \glspl{Webservice}. Anforderung ist es, einen \gls{Webservice} zu implementieren. Dazu muss entschieden werden, ob ein \gls{SOAP}-basierter oder \gls{REST}ful \gls{Webservice} implementiert werden soll. \index{REST!RESTful}
+Wenn von \glspl{Webservice} gesprochen wird, dann sind meistens \gls{SOAP}-\glspl{Webservice} gemeint. Allerdings gibt es die sogenannten \gls{SOAP}-\glspl{Webservice} als auch die \gls{REST}ful \glspl{Webservice}. Anforderung ist es, einen \gls{Webservice} zu implementieren. Dazu muss entschieden werden, ob ein \gls{SOAP} oder \gls{REST}ful \gls{Webservice} implementiert werden soll. \index{REST!RESTful}
 
 \subsubsection{Definition}
 
@@ -40,7 +40,7 @@ Es wurde ein \gls{REST}ful \gls{Webservice} ausgewählt. Die Gründe stellen sic
 \begin{description}
 \item[Einfache Implementierung] Da \gls{REST}ful Webservices auf dem \gls{HTTP} Protokoll basieren und ferner sehr gute und geeignete Frameworks für Java vorhanden sind, (siehe \autoref{sec:bibliotheken_und_frameworks}) stellt sich für Web Entwickler die Implementierung als einfach heraus. \gls{SOAP} \glspl{Webservice} sind per se etwas komplexer, da \gls{SOAP} ein eigenes Protokoll darstellt. 
 \item[Payload XML] Der Payload des Anfrage-Queries wird als XML angegeben (siehe \autoref{fig:datenfluesse}). Als mögliche Übertragung wird E-mail angegeben. Für die Anforderungen dieser Arbeit bedeutet dies eine Implementierung eines \glspl{Webservice}, welcher die XML-Repräsentation des Queries als Payload mittels XML überträgt. Folglich könnte sowohl \gls{SOAP} als auch \gls{REST} benutzt werden. Voraussetzung ist eine definierte Schnittstelle, welche lediglich ein XML als Payload akzeptiert. 
-\item[Kein Vorteil bei SOAP] Somit hat \gls{SOAP} keinen Vorteil gegenüber \gls{REST}, das es selber nicht die Operationen anbietet (definiert in der \gls{WSDL}). Das hat den Nachteil, dass die wohlgeformten vorgegebenen Schemata query.xsd, in der Form nicht genutzt werden können. Es muss somit eine Einbindung in \gls{SOAP} erfolgen.
+\item[Kein Vorteil bei SOAP] Somit hat \gls{SOAP} keinen Vorteil gegenüber \gls{REST}, da es in diesem Fall nicht die Operationen selbst anbietet (definiert in der \gls{WSDL}). Das hat den Nachteil, dass die wohlgeformten vorgegebenen Schemata query.xsd, in der Form nicht genutzt werden können. Es muss somit eine Einbindung in \gls{SOAP} erfolgen.
  \item[Vorteil des Payloads] Der klare Vorteil bei der Variante, eine Query XML-Datei gemäß query.xsd Schema des Standards als Payload zu versenden ist der, dass eine Validierungsprüfung der XML gegen vorhandene definierte Regeln des Schemas erfolgen kann (z.B. gültige \gls{IRDI}), ferner können aus dem Schema passende Modellklassen zur Verarbeitung und Speicherung der Query-Daten in der Applikation generiert werden. Mehr Informationen gibt es in \autoref{sec:modellgenerierung}. 
 \item[SOAP Webservice bereits im Einsatz] Ein weiterer Grund ist der, dass Frau Janßen in ihrer Abschlussarbeit bereits einen SOAP-Webservice einsetzt. Nennen wir es Vielfältigkeit der Technologien im Fachbereich, jedenfalls bietet es die Möglichkeit eine weitere Technologie zu betrachten, einzusetzen und ggfs. zu vergleichen. 
 \end{description}
@@ -119,7 +119,7 @@ Die Bausteinsicht Level 1 in \autoref{fig:bausteinsicht_level1} zeigt alle Kompo
 Der SOAP-Service muss nicht explizit die Unmarshalling-Komponente aufrufen, um das XML-File in ein entsprechendes Modell zu überführen. Dies geschieht implizit. 
 \item[Data Access] Diese technische Komponente beinhaltet die Zugriffsschicht auf die externe Datenbankschnittstelle und bietet entsprechend vereinfachte Abfrageschnittstellen für die anderen Komponenten an. 
 \item[Marshaller] Eine weitere technische Komponente. Diese ist für das Einlesen und Validieren der eingegangenen Query-XML Datei verantwortlich. Ferner transformiert diese Komponente die Informationen aus der Query-XML nach Validierung in das im System benutze Datenmodell aus der Komponente XMLData.
-\item[XMLData] Beinhaltet das Datenmodell des Systems. Sowohl die eingehenden Query-XML Daten, als auch die ausgehenden Katalog-XML Daten werden intern in ein entsprechendes Model zur Verarbeitung abgelegt, sodass darauf gearbeitet werden kann.  
+\item[XMLData] Beinhaltet das Datenmodell des Systems. Sowohl die eingehenden Query-XML Daten, als auch die ausgehenden Katalog-XML Daten werden intern in ein entsprechendes Modell zur Verarbeitung abgelegt, sodass darauf gearbeitet werden kann.  
 \item[Analyser] Diese Komponente ist für die Analyse des Queries, welches bereits als Modell vorliegt, verantwortlich. Erkennt, ob es sich um einen \enquote{Simple Query} oder um einen \enquote{Parametric Query} handelt und leitet den Query zur Weiterverarbeitung an die Handler-Komponente weiter. 
 \item[Handler] Erhält den Query vom Analyser und verarbeitet gemäß der Erkennung vom Analyser den Query weiter. Dazu werden die Querydaten gemäß des Datenbankmodells transformiert und die Data Access Komponente aufgerufen. Die Antwort der Data Access Komponente wird in das entsprechende Modell für die Katalogdaten umgewandelt und zurück an den Handler geleitet.  
 \end{description}

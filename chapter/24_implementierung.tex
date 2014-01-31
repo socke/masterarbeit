@@ -176,7 +176,8 @@ Die Konfiguration der Methode wird über \Gls{Annotation} vorgenommen. Nachfolge
 
 \begin{description}
 \item[@POST] Definiert die \gls{HTTP-Methode}. Hier \gls{POST}. Einige weitere Möglichkeiten des \gls{HTTP}-Protokolls sind GET, PUT und DELETE.
-\item[@Path('/query')] Definiert den URL-Pfad Suffix für diese Methode. Um sie als \gls{Webservice} via \gls{HTTP} aufzurufen, lautet die finale URL \enquote{http://localhost:8080/plib-characteristic-query/rest/query}. 
+\item[@Path('/query')] Definiert den URL-Pfad Suffix für diese Methode. Um sie als \gls{Webservice} via \gls{HTTP} aufzurufen, lautet die finale URL: \\~
+\enquote{http://localhost:8080/plib-characteristic-query/rest/query}. 
 \item[@Consumes('application/xml')] Definiert den \gls{MIME-Type}\footnote{Internet Media Type oder auch Content-Type.}, welcher von diesem Service (dieser Methode) konsumiert werden kann. Wird ein anderer Typ als POST an diesen Service geliefert, weist der Service die Anfrage ab. 
 \item[@Produces(MediaType.APPLICATION\_XML)] Definiert den \gls{MIME-Type} des Inhaltes, der vom Service als Antwort zurückgeliefert wird.  
 \end{description}
@@ -188,7 +189,7 @@ Die Konfiguration der Methode wird über \Gls{Annotation} vorgenommen. Nachfolge
 Der \gls{Webservice}, welcher in \autoref{kap:webservice} beschrieben ist, nimmt in der Applikation das Query-XML-File entgegen. 
 Die Struktur des XML-Files ist durch die query.xsd vorgegben \citep[27]{iso29002-31}. 
 
-Der nächste Schritt ist es, diese XML-Datei zu verarbeiten. Dazu muss die sie geparsed und die Informationen des Queries in ein entsprechendes Modell überführt werden. Diesen Prozess nennt man \gls{Unmarshalling}. 
+Der nächste Schritt ist es, diese XML-Datei zu verarbeiten. Dazu muss sie geparsed und die Informationen des Queries in ein entsprechendes Modell überführt werden. Diesen Prozess nennt man \gls{Unmarshalling}. 
 
 Die folgenden Schritte müssen für das \gls{Unmarshalling} durchgeführt werden:
 
@@ -201,7 +202,7 @@ Die folgenden Schritte müssen für das \gls{Unmarshalling} durchgeführt werden
 %modell
 \subsection{Modell-Generierung}\label{sec:modellgenerierung}
 
-Ein entsprechend valides Model anhand der XSD manuell in Java aufzubauen, wäre sehr mühsam und fehleranfällig. Java liefert mit der \gls{JAXB} Bibliothek die Möglichkeit, die Modellklassen von Java aus den XSDs zu generieren.
+Ein entsprechend valides Modell anhand der XSD manuell in Java aufzubauen, wäre sehr mühsam und fehleranfällig. Java liefert mit der \gls{JAXB} Bibliothek die Möglichkeit, die Modellklassen von Java aus den XSDs zu generieren.
 
 \subsubsection{Benötigte XSD-Dateien}\index{XSD}
 
@@ -512,7 +513,7 @@ Diese Tabelle beinhaltet die folgenden Werte:
 Diese Tabellen sind bereits einzeln oben beschrieben. 
 \end{description}
 
-Für genaue konzeptuelle Beschreibungen sei auf die Abschlussarbeit von Herrn Karsten Mende verwiesen\footnote{Diese Arbeit wird parallel zur Abschlussarbeit von Herrn Mende verfasst, daher könnte diese zum Zeitpunkt der Abgabe noch nicht verfügbar sein. Der Leser sei deshalb für weitere Informationen an den Fachbereich verwiesen.}.
+Für genaue konzeptuelle Beschreibungen sei auf die Abschlussarbeit von Herrn Karsten Mende verwiesen.
 
 \subsection{Problemstellung - Externer Identifier}\label{sec:problemidentifier}\index{IRDI}
 
@@ -541,7 +542,7 @@ SELECT o.DI_ID FROM DE_CLASS c, DO_OBJECT o WHERE c.ID = o.C_ID AND c.IRDI = ?
 \end{lstlisting}
 
 Zur Erklärung des \autoref{lst:getexternalids}:
-DI\_ID ist der Attributsname des oben genannten externen Identifiers einer Instanz. Das Prädikat \gls{IRDI} = ? nimmt die \gls{IRDI} des eigentlichen Queries gemäß query.xsd entgegen. Das Ergebnis ist eine Liste der externen Identifier, welche dann je an die Prozedur übergeben werden können, um die Daten der konkreten Instanzen des Konzeptes nach \gls{IRDI} zu erhalten. 
+DI\_ID ist die eindeutige ID einer Instanz, also eines konkreten \glslink{item}{Teils}. Das Prädikat \gls{IRDI} = ? nimmt die \gls{IRDI} des eigentlichen Queries gemäß query.xsd entgegen. Das Ergebnis ist eine Liste der externen Identifier, welche dann je an die Prozedur übergeben werden können, um die Daten der konkreten Instanzen des Konzeptes nach \gls{IRDI} zu erhalten. 
 
 \begin{figure}[htbp]
 	\centering
@@ -620,7 +621,7 @@ Ferner wurde festgestellt, dass die Metadaten, nämlich der Relation DE\_PROPERT
 
 \subsubsection{Lösung}
 
-In einem Gespräch mit Karsten Mende\footnote{Karsten Mende ist der Student, der für die Datenbank- und Prozedurimplementierung verantwortlich ist. Zum Zeitpunkt des Verfassens dieser Arbeit, war die Abschlussarbeit von Herrn Mende noch nicht vollständig abgeschlossen.} wurde diese Situation besprochen. Herr Mende erläuterte, dass der Standard ISO 13584-42 \citep[vgl.][]{iso13584-42} die Möglichkeit gibt, die Einheit der konkreten Instanzen von Eigenschaften zu überschreiben. Auf Grund der Heterogenität und Repräsentation in Strings empfiehlt Herr Mende an dieser Stelle auf die Metadatenbeschreibungen von UNIT, PREFIX und TOLERANCE der Relationen DE\_PROPERTY, DE\_DATA\_TYPE, DE\_UNIT und DE\_PREFIX zurückzugreifen. 
+In einem Gespräch mit Karsten Mende wurde diese Situation besprochen. Herr Mende erläuterte, dass der Standard ISO 13584-42 \citep[vgl.][]{iso13584-42} die Möglichkeit gibt, die Einheit der konkreten Instanzen von Eigenschaften zu überschreiben. Auf Grund der Heterogenität und Repräsentation in Strings empfiehlt Herr Mende an dieser Stelle auf die Metadatenbeschreibungen von UNIT, PREFIX und TOLERANCE der Relationen DE\_PROPERTY, DE\_DATA\_TYPE, DE\_UNIT und DE\_PREFIX zurückzugreifen. 
 Da dies sinnvoll erscheint und ferner die Implementierung vereinfacht, wurde dies in der Form umgesetzt. Es bleibt an dieser Stelle zu bemerken, dass für eine spätere Implementierung und Unterstützung dieser Funktionalität zu analyiseren ist, wie die Heterogenität zu lösen ist. Ggf. muss dazu eine Mappingtabelle erstellt werden.
 
 Fazit:
@@ -668,7 +669,7 @@ public class PropertyValuesStoredProcedure extends StoredProcedure {
 
 Im \autoref{lst:spring_data_hilf} leitet die Klasse PropertyValuesStoredProcedure von der Spring-Klasse StoredProcedure ab. Im Konstruktor werden die Parameter definiert, in diesem Falle lediglich OBJ\_ID als Externer Identifier. Ferner wird die Methode execute überschrieben, welche den Aufruf der Prozedur kapselt. 
 
-\autoref{lst:spring_data_hilf_test} zeigt eine Testklasse, welche die Prozedur aufruft. Die Testklasse verfügt über zwei Testmethoden, testShowsThatWeHaveThatinDB und testShouldThrowExceptionAsExtIDIsNotInDB. 
+\autoref{lst:spring_data_hilf_test} zeigt eine Testklasse, welche die Prozedur aufruft. Die Testklasse verfügt über zwei Testmethoden:
 
 \begin{description}
 \item[ testShowsThatWeHaveThatinDB] Diese Methode übergibt einen gültigen und in der Datenbank vorhandenen Externen Identifier. Wird die Hilfsmethode über SQL direkt auf der Datenbank mit diesem Parameter aufgerufen, so wird Folgendes ausgegeben:
@@ -794,7 +795,9 @@ Im \autoref{lst:spring_data_oracle} wird ein Test dargestellt, der vermeintlich 
 
 \enquote{GET\_PROP\_VALS\_STRING} 
 
-aufrufen kann. Dies ist der nächste logische Schritt, welcher allerdings nicht funktioniert. Beim Aufruf der Prozedur von Java wird eine Fehlermeldung zurückgegeben, die besagt, dass der Rückgabetyp PACK\_PROPERTY.PROP\_STRING\_NTT nicht erkannt wurde. 
+aufrufen kann. Dies ist der nächste logische Schritt, welcher allerdings nicht funktioniert. Beim Aufruf der Prozedur von Java wird eine Fehlermeldung zurückgegeben, die besagt, dass der Rückgabetyp \\~ 
+PACK\_PROPERTY.PROP\_STRING\_NTT \\~ 
+nicht erkannt wurde. 
 
 Zur Erklärung dazu, PACK\_PROPERTY ist das von Herrn Mende definierte Paket, welches zum Ziel hat, zusammengehörige Prozeduren, Typen und Funktionen zu gruppieren. Die Erstellung von Paketen erhöht die Wart- und Lesbarkeit des Oracle-PL/SQL Codes. 
 
@@ -1004,7 +1007,8 @@ Es müssen drei Stellen angepasst werden:
 \item Hinzufügen des Mappings von der RECORD-Tabelle auf den OBJECT-Typen:
   \begin{description}
   \item[vorher] -
-  \item[nachher] OUTTBL\_OBJ\_STRING\_ELEM.P\_ID := OUTTABLE\_STRING(I).PROP\_ID;  
+  \item[nachher] OUTTBL\_OBJ\_STRING\_ELEM.P\_ID := \\~ 
+  OUTTABLE\_STRING(I).PROP\_ID;  
   \end{description}
 \end{itemize}
  
@@ -1064,7 +1068,7 @@ Schließlich wird der Catalogue-Type neben dem Item-Type noch durch den Error Ty
 	
 \end{lstlisting} 
 
-Das \autoref{lst:error_catalogue_beispiel}\footnote{Das Beispiel bildet einen gekürzten Stacktrace ab, um nur die relevanten Teile aufzuzeigen.} zeigt eine Beispielantwort einer Fehlermeldung. Hier wurde eine ungültige IRDI im Query gesendet. Die shortErrorMessage besagt, dass es sich um einen Fehler beim Unmarshalling handelt. Der gesamte Java-Stacktrace aus der aufgetretenen Exception im Programm wird in der longErrorMessage angegeben. Hier kann genau nach der Ursache des Fehlers geforscht werden. In diesem Fall findet man folgende Fehlernachricht:
+Das \autoref{lst:error_catalogue_beispiel} zeigt eine Beispielantwort einer Fehlermeldung\footnote{Das Beispiel bildet einen gekürzten Stacktrace ab, um nur die relevanten Teile aufzuzeigen.} . Hier wurde eine ungültige IRDI im Query gesendet. Die shortErrorMessage besagt, dass es sich um einen Fehler beim Unmarshalling handelt. Der gesamte Java-Stacktrace aus der aufgetretenen Exception im Programm wird in der longErrorMessage angegeben. Hier kann genau nach der Ursache des Fehlers geforscht werden. In diesem Fall findet man folgende Fehlernachricht:
 
 \enquote{Caused by: org.xml.sax.SAXParseException: cvc-pattern-valid: Value '01x73x-1\#01-AAA352\#4' is not facet-valid with respect to pattern ... for type 'IRDI\_type'.}
 
@@ -1103,9 +1107,9 @@ Mehr Informationen zur Implementierung und den Beispielquellcode des \gls{SOAP}-
 
 Der Umfang der Implementierung, gerade im Bereich der Transformation ist sehr groß. Ferner liegen der \gls{PLIB} sehr wenige Testdaten vor. Daher werden für den Prototyp nur einige Prozeduren beispielhaft aufgerufen, und zwar GET\_OBJ\_STRING und GET\_OBJ\_NUMBER. 
 
-Die Prozeduren GET\_OBJ\_REF, GET\_OBJ\_LIST\_NUMBER, GET\_OBJ\_LIST\_STRING, GET\_OBJ\_MULTILIST\_NUMBER, GET\_OBJ\_MULTILIST\_STRING werden nicht aufgerufen. Das bedeutet, dass falls Daten in der \gls{PLIB} in den passenden Tabellen zu den passenden Typen existieren, diese von der Abfrage nicht beachtet werden. Um die Implementierung folglich praxistauglich zu machen, müssen die Transformationen der Rückgabe der aller Prozeduren vervollständigt werden. 
+Die Prozeduren GET\_OBJ\_REF, GET\_OBJ\_LIST\_NUMBER, GET\_OBJ\_LIST\_STRING, GET\_OBJ\_MULTILIST\_NUMBER, GET\_OBJ\_MULTILIST\_STRING werden nicht aufgerufen. Das bedeutet, dass falls Daten in der \gls{PLIB} in den passenden Tabellen zu den passenden Typen existieren, diese von der Abfrage nicht beachtet werden. Um die Implementierung folglich praxistauglich zu machen, müssen die Transformationen der Rückgabe der fehlenden Prozeduren vervollständigt werden. 
 
-Für die Transformation und das füllen der Rückgabekatalogdaten wurden einige Parametric-Query-Abfragen nicht betrachtet. Das sind \enquote{DataCardinality}, \enquote{DataEnvironment} und \enquote{Subset}. Für diese Abfragetypen fehlen, wie auch oben erwähnt, Testdaten in der \gls{PLIB}-Datenbank. Die entsprechenden Szenarien müssen aufwändig erstellt werden. Für einen möglichen Praxiseinsatz müsste die Implementierung vervollständigt werden. Zu Forschungs- und Demonstrationszwecken sind die implementierten Funktionalitäten mehr als ausreichend. 
+Für die Transformation und das füllen der Rückgabekatalogdaten wurden einige Parametric-Query-Abfragen nicht betrachtet. Das sind \enquote{DataCardinality}, \enquote{DataEnvironment} und \enquote{Subset}. Für diese Abfragetypen fehlen, wie auch oben erwähnt, Testdaten in der \gls{PLIB}-Datenbank. Die entsprechenden Szenarien müssen aufwändig erstellt werden. Für einen möglichen Praxiseinsatz müsste die Implementierung vervollständigt werden. Zu Forschungs- und Demonstrationszwecken sind die implementierten Funktionalitäten ausreichend. 
  
 \section{Zusammenfassung des Kapitels}
 
@@ -1115,7 +1119,7 @@ Der wichtigste Punkt ist die Abfrage der \gls{Oracle} \gls{PLIB}-Prozeduren. Hie
 
 Es wurde festgestellt, dass bei der Implementierung und Integration von Schnittstellen mit Problemen zu rechnen ist. Die Prozeduren wurden nicht mit Augenmerk auf die ISO 29002-31 entwickelt und weisen dadurch eine deutliche Heterogenität zu den tatsächlich benötigen Daten auf. Die Ergebnisse der Implementierung zeigen ferner, dass Abstraktionen behilflich sind. Würden die Prozeduren gemäß den tatsächlich benötigen Daten und mit Betrachtung der ISO 29002-31 angepasst, ließen sich zusätzliche Datenbankabfragen vermeiden und die Komplexität in der Business Logik Schicht verringern. Dennoch vereinfachen die Prozeduren den Zugriff enorm, denn wie \autoref{lst:select_string} zeigt, kapseln die Prozeduren komplexe Anfragen und vereinfachen die Schnittstelle zur Datenbank. 
  
-Das Fehlerhandling wird in den Modellen nicht betrachtet. Um Informationen beim Auftreten von Fehlern an den Klienten zu senden, wurde eine Fehler-Schemadatei mit Fehlertypen erstellt und das Katalog-Schema angepasst, sodass als Antwort ggf. Fehlertexte mitgesendet werden können. 
+Das Fehlerhandling wird in den Schema-Modellen nicht betrachtet. Um Informationen beim Auftreten von Fehlern an den Klienten zu senden, wurde eine Fehler-Schemadatei mit Fehlertypen erstellt und das Katalog-Schema angepasst, sodass als Antwort ggf. Fehlertexte mitgesendet werden können. 
 
 Auf die vorhandene Implementierung der Business Logik und der Modelle der Schemata lässt sich sehr einfach ein weiterer \gls{Webservice} basierend auf SOAP implementieren. Das bedeutet, dass die oberste Schicht ausgetauscht werden kann. Es wurden beide Technologien verwendet, welche die gleiche Business Logik aufrufen. 
 

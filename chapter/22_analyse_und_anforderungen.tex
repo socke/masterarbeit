@@ -79,9 +79,9 @@ Da \glspl{Use Case} auf verschiedene Weise verfasst werden können, werden hier 
      \item[  precondition]~\\
      Der Klient verwendet einen gültigen Identifier.
      \item[  main flow]~\\
-     Der Klient gibt einen Identifier (IRDI\footnote{International Registration Data Identifier}) eines Konzeptes von Elementen ein und sendet eine Anfrage ab. Die Anfrage wird auf Gültigkeit überprüft. Als Antwort bekommt er ein oder mehrere Datensätze von Elementen \footnote{Item, ISO 29002-10 Kapitel 5.3.2} mit den entsprechenden charakteristischen Daten \footnote{property\_values, ISO 29002-10 Kapitel 5.2.4} des \glslink{item}{Teile} mit dem übergebenen Identifier zurück.
+     Der Klient gibt einen Identifier (\gls{IRDI}) eines Konzeptes von Elementen ein und sendet eine Anfrage ab. Die Anfrage wird auf Gültigkeit überprüft. Als Antwort bekommt er ein oder mehrere Datensätze von \glslink{item}{Teilen} mit den entsprechenden charakteristischen Daten \footnote{property\_values, ISO 29002-10 Kapitel 5.2.4} des \glslink{item}{Teils} mit dem übergebenen Identifier zurück.
      \item[  postcondition]~\\
-     Alle Daten aller  \glslink{item}{Teile} der gewählten Konzepte des Identifiers wurden zurückgegeben.    
+     Alle Daten aller \glslink{item}{Teile} der gewählten Konzepte des Identifiers wurden zurückgegeben.    
      \item[  alternative flow] Properties auswählen ~\\
      Zusammen mit dem Identifier übergibt der Klient einen oder mehrere Property-Identifier und sendet diese erweiterte Anfrage ab.    
      \item[  postcondition]~\\
@@ -150,7 +150,7 @@ Die XML-Abfrage lautet:
 </qy:query>
 \end{lstlisting}
 
-\autoref{lst:UseCaseDatenabfragenProperty} beinhaltet ein XML-Attribut property\_ref. Das wird mit einem oder mehreren gewünschten Property Identifier gefüllt. Werden mehrere Identifier angegeben, so sind diese mit Leerzeichen zu trennen. In diesem Beispiel sind zwei angegeben, das bedeutet, dass diese beiden Eigenschaftswerte abgefragt werden.
+\autoref{lst:UseCaseDatenabfragenProperty} beinhaltet ein XML-Attribut property\_ref. Das wird mit einem oder mehreren gewünschten Property Identifiern gefüllt. Werden mehrere Identifier angegeben, so sind diese mit Leerzeichen zu trennen. In diesem Beispiel sind zwei angegeben, das bedeutet, dass diese beiden Eigenschaftswerte abgefragt werden.
 
 
 \section{Zusammenfassung des Kapitels}
