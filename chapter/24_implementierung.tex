@@ -858,8 +858,8 @@ FROM
 Wenngleich die Abfrage zum Ergebnis führt, so ist sie sehr komplex. Daher sollte wie geplant die Abfragekomplexität in der Prozedur gekapselt sein. Damit sind wir gleich beim zweiten Lösungsansatz. Hierbei müssen die Prozeduren angepasst und als Rückgabetyp ein OBJECT-Typ benutzt werden. \index{Object-Type}
 
 Erst wurde die erste Lösung implementiert, um eine Basis für die weitere Entwicklung zu bilden, denn für die zweite Lösung muss Herr Mende die Prozeduren anpassen. So konnte die Entwicklung fortgeführt werden und gleichzeitig Herr Mende die Änderungen für die zweite, gleichsam die empfohlene Lösung entwickeln. \autoref{lst:prop_string_typen} zeigt den von Herrn Mende neuen Beispieltypen PROP\_STRING\_OBJ. Analog zu den anderen Typen aus \autoref{sec:abfrage_plib_prozeduren} gibt es folglich weitere Typdefintionen wie z.B. PROP\_NUMBER\_OBJ oder PROP\_REFERENZ\_OBJ. 
-Die Prozeduren mit den RECORD Typen wurden beibehalten und neue Prozeduren entwickelt. Die Benamung ist GET\_OBJ\_STRING, GET\_OBJ\_NUMBER usw..
-
+Die Prozeduren mit den RECORD Typen wurden beibehalten und neue Prozeduren entwickelt. Die Benamung ist GET\_OBJ\_STRING, GET\_OBJ\_NUMBER usw.
+\\~
 \begin{lstlisting}[caption=PROP\_STRING\_OBJ Typen, language=sql, label=lst:prop_string_typen]
 create or replace
   TYPE        "PROP_STRING_OBJ_T" AS OBJECT(
@@ -912,14 +912,12 @@ TYPE   "PROP_STRING_OBJ_NTT"  AS TABLE OF  "PROP_STRING_OBJ_T";
 Das \autoref{lst:get_obj_string_anpassung} zeigt die gesamte GET\_OBJ\_STRING Prozedur samt Anpassung. 
 
  \begin{lstlisting}[caption=GET\_OBJ\_STRING Anpassung auf Property ID, language=sql, label=lst:get_obj_string_anpassung]
-
 PROCEDURE GET_OBJ_STRING (
        EXT_PROD_ID                 IN VARCHAR2,
        OUTTBL_OBJ_STRING           OUT PROP_STRING_OBJ_NTT,
        CREATED_VIEW                IN NUMBER := NULL
        )
-IS
-       
+IS     
        CURSOR CUR_DO_STRING (IN_OBJ_ID NUMBER) 
        IS
        SELECT p.id, P.IRDI, LOJ.VALUE, LOJ.UNIT, LOJ.PREFIX, LOJ.TOLERANCE, LOJ.VALUE_ID 
@@ -1014,24 +1012,16 @@ Es müssen drei Stellen angepasst werden:
  
 \section{Fehlerbehandlung}
 
-Treten während der Verarbeitung Fehler auf, wie z.B. ein Validierungsfehler des übergebenen XML Queries, so ergibt sich das Problem, dass diese Fehlermeldung nicht an den Klienten zurückgegeben werden kann. Das ist nicht möglich, da das aktuelle Schema der Rückgabedatei \enquote{query.xsd}  (siehe \autoref{sec:query_xsd}) kein Modell für Fehlernachrichten beinhaltet. 
-Dieses Verhalten ist korrekt, denn hier wird ein Datenmodell beschrieben und Kontext- und Zusatzinformationen gehören nicht in dieses Modell, sondern sollten über eine darüber liegende Ebene verarbeitet werden.
-
-Dies ist in der Lösung mit \gls{REST}ful \gls{Webservice} nicht sinnvoll. Hier müsste das benutzte Protokoll, \gls{HTTP}, benutzt werden um Fehler anzuzeigen. \gls{SOAP}-\glspl{Webservice} hingegen verfügen per se über solch einen Mechanismus. 
+Treten während der Verarbeitung Fehler auf, wie z.B. ein Validierungsfehler des übergebenen XML Queries, so ergibt sich das Problem, dass diese Fehlermeldung nicht an den Klienten zurückgegeben werden kann. Das ist nicht möglich, da das aktuelle Schema der Rückgabedatei \enquote{query.xsd}  (siehe \autoref{sec:query_xsd}) kein Modell für Fehlernachrichten beinhaltet. Dieses Verhalten ist korrekt, denn hier wird ein Datenmodell beschrieben und Kontext- und Zusatzinformationen gehören nicht in dieses Modell, sondern sollten über eine darüber liegende Ebene verarbeitet werden. Dies ist in der Lösung mit \gls{REST}ful \gls{Webservice} nicht sinnvoll. Hier müsste das benutzte Protokoll, \gls{HTTP}, benutzt werden um Fehler anzuzeigen. \gls{SOAP}-\glspl{Webservice} hingegen verfügen per se über solch einen Mechanismus. 
 
 Es bieten sich drei Möglichkeiten an. Die erste wäre beim Auftreten eines Fehlers in der Verarbeitung immer einen leeren Katalog zurückzuliefern. Der Vorteil dieser Lösung ist die Einfachheit. Der Nachteil ist, dass nach wie vor keinerlei Fehlerinformation an den Klienten zurückgeliefert wird. Es ist robust aber wenig aussagekräftig.
 
 Die zweite Möglichkeit ist ein weiteres Schema zu erstellen und dieses im Katalog-Schema zu referenzieren. In diesem \enquote{Fehler-Schema} wird dann ein Fehlertyp definiert, welcher Fehlernachrichten aufnehmen kann. Der Vorteil dieser Lösung ist, dass es einfach umzusetzen und in das vorhandenen Katalog-Schema zu integrieren ist. Diese Lösung wäre sowohl für \gls{REST}ful \glspl{Webservice} als auch für \gls{SOAP}-\glspl{Webservice} nutzbar. Der Nachteil ist, dass dies eine Anpassung des Katalog-Schemas bedeutet. 
 
-Die dritte Option ist es die Fehlerbehandlung über \gls{HTTP} vorzunehmen. \gls{HTTP} verfügt über Möglichkeiten Fehler anhand von Fehlercodes anzuzeigen. 
-
-Um anhand der Antwort (Katalogdaten) einen Fehler überhaupt erkennen zu können, wurde die zweite Lösung gewählt. Ferner ist diese Lösung unabhängig von der eingesetzen \gls{Webservice}-Technologie. Das \autoref{lst:error_schema} zeigt die Schemadatei error.xsd, welche einen Typen definiert (errorType), der zwei Fehlertexte beinhalten kann, shortErrorMessageType und longErrorMessageType. 
+Die dritte Option ist es die Fehlerbehandlung über \gls{HTTP} vorzunehmen. \gls{HTTP} verfügt über Möglichkeiten Fehler anhand von Fehlercodes anzuzeigen. Um anhand der Antwort einen Fehler überhaupt erkennen zu können, wurde die zweite Lösung gewählt. Ferner ist diese Lösung unabhängig von der eingesetzen \gls{Webservice}-Technologie. Das \autoref{lst:error_schema} zeigt die Schemadatei error.xsd, welche einen Typen definiert (errorType), der zwei Fehlertexte beinhalten kann, shortErrorMessageType und longErrorMessageType. 
 
  \begin{lstlisting}[caption=Fehlerbehandlung - Error Schemadatei, language=xml, label=lst:error_schema]
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-error.xsd - Additional simple Schema for adding to another Schema. Allows Error Messages. 
--->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:err="error" targetNamespace="error" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:complexType name="errorType">
 		<xs:sequence>
@@ -1107,7 +1097,15 @@ Mehr Informationen zur Implementierung und den Beispielquellcode des \gls{SOAP}-
 
 Der Umfang der Implementierung, gerade im Bereich der Transformation ist sehr groß. Ferner liegen der \gls{PLIB} sehr wenige Testdaten vor. Daher werden für den Prototyp nur einige Prozeduren beispielhaft aufgerufen, und zwar GET\_OBJ\_STRING und GET\_OBJ\_NUMBER. 
 
-Die Prozeduren GET\_OBJ\_REF, GET\_OBJ\_LIST\_NUMBER, GET\_OBJ\_LIST\_STRING, GET\_OBJ\_MULTILIST\_NUMBER, GET\_OBJ\_MULTILIST\_STRING werden nicht aufgerufen. Das bedeutet, dass falls Daten in der \gls{PLIB} in den passenden Tabellen zu den passenden Typen existieren, diese von der Abfrage nicht beachtet werden. Um die Implementierung folglich praxistauglich zu machen, müssen die Transformationen der Rückgabe der fehlenden Prozeduren vervollständigt werden. 
+Die folgenden Prozeduren werden nicht aufgerufen: 
+\begin{itemize}
+\item GET\_OBJ\_REF
+\item GET\_OBJ\_LIST\_NUMBER
+\item GET\_OBJ\_LIST\_STRING
+\item GET\_OBJ\_MULTILIST\_NUMBER
+\item GET\_OBJ\_MULTILIST\_STRING
+\end{itemize}
+Das bedeutet, dass falls Daten in der \gls{PLIB} in den passenden Tabellen zu den passenden Typen existieren, diese von der Abfrage nicht beachtet werden. Um die Implementierung folglich praxistauglich zu machen, müssen die Transformationen der Rückgabe der fehlenden Prozeduren vervollständigt werden. 
 
 Für die Transformation und das füllen der Rückgabekatalogdaten wurden einige Parametric-Query-Abfragen nicht betrachtet. Das sind \enquote{DataCardinality}, \enquote{DataEnvironment} und \enquote{Subset}. Für diese Abfragetypen fehlen, wie auch oben erwähnt, Testdaten in der \gls{PLIB}-Datenbank. Die entsprechenden Szenarien müssen aufwändig erstellt werden. Für einen möglichen Praxiseinsatz müsste die Implementierung vervollständigt werden. Zu Forschungs- und Demonstrationszwecken sind die implementierten Funktionalitäten ausreichend. 
  
