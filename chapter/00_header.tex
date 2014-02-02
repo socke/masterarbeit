@@ -1,9 +1,9 @@
 \documentclass[
 paper=a4,							% alle weiteren Papierformat einstellbar
 %landscape,						% Querformat
-fontsize=12pt,						  		% Schriftgrˆﬂe (12pt, 11pt (Standard))
-BCOR=20mm,							% Bindekorrektur, bspw. 1 cm
-DIV=13,							% f¸hrt die Satzspiegelberechnung neu aus scrguide 2.4
+fontsize=11pt,						  		% Schriftgrˆﬂe (12pt, 11pt (Standard))
+%BCOR=20mm,							% Bindekorrektur, bspw. 1 cm
+DIV=14,							% f¸hrt die Satzspiegelberechnung neu aus scrguide 2.4
 twoside=true, 						% zweiseitig twoside/ einseitig oneside
 %twocolumn,						% zweispaltiger Satz
 %openany,							% Kapitel kˆnnen auch auf linken Seiten beginnen
@@ -114,6 +114,15 @@ appendixprefix,				% Anhang wird "Anhang" vor die ‹berschrift gesetzt
 %  \fontsize{11}{13}\usefont{OT1}{phv}{bc}{n}\selectfont
 %}
 
+% Kapitelüberschriften (chapter) weiter oben beginnen lassen
+% normaleweise ist bei scrreprt sehr viel Abstand zum oberen Rand
+\renewcommand*\chapterheadstartvskip{\vspace*{-1.5cm}}
+
+%Seitenränder anpassen
+%\usepackage[left=40mm,right=20mm,top=30mm,bottom=20mm]{geometry}
+%\usepackage[bottom=35mm]{geometry}
+\usepackage[left=30mm,right=30mm,top=25mm,bottom=25mm, bindingoffset=1.2cm]{geometry}
+
 % \renewcommand{\baselinestretch}{1.5} % Zeilenabstand 1.5
 
 % Verhindern von "`Schusterjungen"' und "`Hurenkindern"'
@@ -122,11 +131,10 @@ appendixprefix,				% Anhang wird "Anhang" vor die ‹berschrift gesetzt
 \displaywidowpenalty = 10000
 \tolerance=500 %Zeilenumbruch
 
-
 %% Zeilenabstand %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{setspace}
-\singlespacing        %% 1-zeilig (Standard)
-%\onehalfspacing       %% 1,5-zeilig
+%\singlespacing        %% 1-zeilig (Standard)
+\onehalfspacing       %% 1,5-zeilig
 %\doublespacing        %% 2-zeilig
 \usepackage{fancyhdr} %%Fancy Kopf- und Fuﬂzeilen
 \usepackage{longtable} %%F¸r Tabellen, die eine Seite ¸berschreiten
