@@ -20,7 +20,7 @@ Es wird eine IRDI übermittelt.
 \item[Durchführung]
    \begin{itemize}
    \item XML-Datei wird mittels curl Befehl an den Server gesendet.
-   \item curl -v -H 'Content-Type: application/xml' -X POST --data '@simple\_query\_irdi.xml' http://localhost:8080/plib-characteristic-query/rest/ws/query
+   \item curl -v -H 'Content-Type: application/xml' -X POST --data '@simple\_query\-\_irdi.xml' http://localhost:8080/plib-characteristic-query/rest/ws/query
   \end{itemize}
 \item[Erwartetes Ergebnis] Zwei Items mit je zwei Eigenschaften werden erwartet. 
 \item[Tatsächliches Ergebnis] Zwei Items mit zwei Eigenschaften.
@@ -41,7 +41,9 @@ Es wird eine ungültige IRDI (gemäß XSD ungültig) übermittelt.
 \item[Durchführung]
    \begin{itemize}
    \item XML-Datei wird mittels curl Befehl an den Server gesendet.
-   \item curl -v -H 'Content-Type: application/xml' -X POST --data '@simple\_query\_illegal\_irdi.xml' http://localhost:8080/plib-characteristic-query/rest/ws/query
+   \item curl -v -H 'Content-Type: application/xml' -X POST --data \\ 
+   '@simple\_query\_illegal\_irdi.xml' \\
+   http://localhost:8080/plib-characteristic-query/rest/ws/query
   \end{itemize}
 \item[Erwartetes Ergebnis] Fehlermeldung
 \item[Tatsächliches Ergebnis] Fehlermeldung, marshalling error
@@ -61,7 +63,9 @@ Es wird eine IRDI übermittelt und zusätzlich eine Projektion (Eigenschaftsausw
 \item[Durchführung]
    \begin{itemize}
    \item XML-Datei wird mittels curl Befehl an den Server gesendet.
-   \item curl -v -H 'Content-Type: application/xml' -X POST --data '@simple\_query\_projection\_one\_property.xml' http://localhost:8080/plib-characteristic-query/rest/ws/query
+   \item curl -v -H 'Content-Type: application/xml' -X POST --data \\
+   '@simple\_query\_projection\_one\_property.xml' \\
+   http://localhost:8080/plib-characteristic-query/rest/ws/query
   \end{itemize}
 \item[Erwartetes Ergebnis] Zwei Items mit je einer Property, die angefragte Eigenschaft wird zurückgegeben. 
 \item[Tatsächliches Ergebnis] Zwei Items mit einer Property. 
@@ -82,7 +86,9 @@ Es wird eine IRDI übermittelt und zusätzlich Werte dieses Items übermittelt. 
 \item[Durchführung]
    \begin{itemize}
    \item XML-Datei wird mittels curl Befehl an den Server gesendet.
-   \item curl -v -H 'Content-Type: application/xml' -X POST --data '@simple\_query\_validation.xml' http://localhost:8080/plib-characteristic-query/rest/ws/query
+   \item curl -v -H 'Content-Type: application/xml' -X POST --data \\
+   '@simple\_query\_validation.xml' \\
+   http://localhost:8080/plib-characteristic-query/rest/ws/query
   \end{itemize}
 \item[Erwartetes Ergebnis] Die Werte des Items stimmen überein, daher wird exakt das Item zurückerwartet.  
 \item[Tatsächliches Ergebnis] Exakt das übergebene Item wird zurückgegeben, somit erfolgreich validiert. 
@@ -104,7 +110,9 @@ Es wird eine IRDI übermittelt und zusätzlich eine Sucheinschränkung auf einen
 \item[Durchführung]
    \begin{itemize}
    \item XML-Datei wird mittels curl Befehl an den Server gesendet.
-   \item curl -v -H 'Content-Type: application/xml' -X POST --data '@parametric\_query\_range.xml' http://localhost:8080/plib-characteristic-query/rest/ws/query
+   \item curl -v -H 'Content-Type: application/xml' -X POST --data \\
+   '@parametric\_query\_range.xml' \\
+   http://localhost:8080/plib-characteristic-query/rest/ws/query
   \end{itemize}
 \item[Erwartetes Ergebnis] Es wird nur ein Wert von zwei der eingeschränkten Eigenschaft zurückgegeben.  
 \item[Tatsächliches Ergebnis] Nur ein Wert wurde zurückgegeben. 

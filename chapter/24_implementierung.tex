@@ -85,10 +85,8 @@ Nachfolgend ist ein manueller Testfall aufgeführt, welcher eine ungültige IRDI
   \end{itemize}
 \item[Eingabedaten] Testdatei simple\_query\_illegal\_irdi.xml. 
 \item[Durchführung]
-   \begin{itemize}
-   \item XML-Datei wird mittels curl Befehl an den Server gesendet.
-   \item curl -v -H 'Content-Type: application/xml' -X POST --data '@simple\_query\_illegal\_irdi.xml' http://localhost:8080/plib-characteristic-query/rest/ws/query
-  \end{itemize}
+   XML-Datei wird mittels curl Befehl an den Server gesendet:
+   curl -v -H 'Content-Type: application/xml' -X POST --data '@simple\_query\_illegal\_irdi.xml' http://localhost:8080/plib-characteristic-query/rest/ws/query
 \item[Erwartetes Ergebnis] Fehlermeldung
 \item[Tatsächliches Ergebnis] Fehlermeldung, marshalling error
 \item[OK/Nicht OK?] OK
@@ -108,12 +106,11 @@ Folgende Schritte sind notwendig um einen \gls{REST}ful Webservice mit Jersey zu
 
 \subsection{Servlet Konfiguration in web.xml} \index{Jersey}
 
-In die Konfigurationsdatei web.xml des Webcontainers (hier \gls{Apache Tomcat}) muss das \gls{Servlet} für \gls{Jersey} hinzugefügt werden, sodass \gls{Webservice}-Anfragen an dieses \gls{Servlet} möglich sind. 
+In die Konfigurationsdatei web.xml des Webcontainers (\gls{Apache Tomcat}) muss das \gls{Servlet} für \gls{Jersey} hinzugefügt werden, sodass \gls{Webservice}-Anfragen an dieses \gls{Servlet} möglich sind. 
 
 \autoref{lst:jerseywebxmlconfig} zeigt den Ausschnitt aus der web.xml des \gls{PLIB}-Projektes. 
 
  \begin{lstlisting}[caption=Jersey Servlet Konfiguration in web.xml, language=XML, label=lst:jerseywebxmlconfig]
- <!-- configure jersey REST-Web Service Servlet -->
     <servlet>
         <servlet-name>jersey-servlet</servlet-name>
         <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
@@ -136,7 +133,8 @@ Ferner muss in der web.xml ein sogenannter \enquote{Mappingeintrag} angelegt wer
  
 Das Konfigurationbeispiel in \autoref{lst:jerseywebxmlconfigmapping}  besagt, dass das \gls{Servlet} mit dem Namen \enquote{jersey-servlet}, welches im Beispiel \autoref{lst:jerseywebxmlconfig}  konfiguriert wurde, alle Anfragen mit der URL \enquote{/rest/*} entgegennehmen soll. Das Muster \enquote{/rest/*} bedeutet, dass beliebige URLs nach \enquote{/rest/} akzeptiert werden. Zum Beispiel: \enquote{/rest/webservice} oder \enquote{/rest/service/name}.
 
-Unter der Annahme, dass die Applikation auf dem lokalen Rechner installiert wurde und auf Port 8080 lauscht, der \gls{Applikationskontext}\footnote{Die Ausführungsumgebung einer Software Applikation innhalb eines Applikationsservers} \enquote{plib-characteristic-query} ist, ergibt sich als aktuelle Gesamt-URL für den \gls{Webservice} der Applikation \enquote{http://localhost:8080/plib-characteristic-query/rest/}.
+Unter der Annahme, dass die Applikation auf dem lokalen Rechner installiert wurde und auf Port 8080 lauscht, der \gls{Applikationskontext}\footnote{Die Ausführungsumgebung einer Software Applikation innhalb eines Applikationsservers} \enquote{plib-characteristic-query} ist, ergibt sich als aktuelle Gesamt-URL für den \gls{Webservice} der Applikation \\~
+\enquote{http://localhost:8080/plib-characteristic-query/rest/}.
 \index{Apache Tomcat!Applikationskontext}
 
 \subsection{Webservice Klasse}
@@ -149,7 +147,8 @@ public class QueryService {
 ...
  \end{lstlisting}  
  
-Somit ergibt sich als aktuelle Gesamt-\gls{URL} für den \gls{Webservice} der Applikation \\  \enquote{http://localhost:8080/plib-characteristic-query/rest/ws}.
+Somit ergibt sich als aktuelle Gesamt-\gls{URL} für den \gls{Webservice} der Applikation \\~
+ \enquote{http://localhost:8080/plib-characteristic-query/rest/ws}.
  
 Der nächste Schritt ist, die entsprechende Methode zu definieren, welche die Anfrage final entgegennimmt und verarbeitet (siehe \autoref{lst:jerseymethode}). 
  
@@ -604,9 +603,11 @@ Der Ablauf einer Abfrage in der Applikation zeigt das Sequenzdiagramm in \autore
 
 \subsection{Problemstellung - Daten der Teile-Eigenschaften}\label{sec:problemdateneigenschaften}
 
-Die genannten Prozeduren liefern die Daten der Eigenschaften eines spezifizierten \glslink{item}{Teiles} nach \gls{IRDI}. Die Liste der zurückgegebenen Daten scheint auf den ersten Blick ausreichend, denn man erhält die folgenden Eigenschaften der Prozedur
+Die genannten Prozeduren liefern die Daten der Eigenschaften eines spezifizierten \glslink{item}{Teiles} nach \gls{IRDI}. Die Liste der zurückgegebenen Daten scheint auf den ersten Blick ausreichend, denn man erhält die folgenden Eigenschaften der Prozedur: \\~ 
+\linebreak
+\linebreak
 
-GET\_PROP\_VALS\_STRING:
+GET\_PROP\_VALS\_STRING
 \begin{multicols}{3}
 \begin{itemize}
   \item IRDI
@@ -1007,9 +1008,9 @@ Es müssen drei Stellen angepasst werden:
  
 \section{Fehlerbehandlung}
 
-Treten während der Verarbeitung Fehler auf, wie z.B. ein Validierungsfehler des übergebenen XML Queries, so ergibt sich das Problem, dass diese Fehlermeldung nicht an den Klienten zurückgegeben werden kann. Das ist nicht möglich, da das aktuelle Schema der Rückgabedatei \enquote{query.xsd}  (siehe \autoref{sec:query_xsd}) kein Modell für Fehlernachrichten beinhaltet. Dieses Verhalten ist korrekt, denn hier wird ein Datenmodell beschrieben und Kontext- und Zusatzinformationen gehören nicht in dieses Modell, sondern sollten über eine darüber liegende Ebene verarbeitet werden. Dies ist in der Lösung mit \gls{REST}ful \gls{Webservice} nicht sinnvoll. Hier müsste das benutzte Protokoll, \gls{HTTP}, benutzt werden um Fehler anzuzeigen. \gls{SOAP}-\glspl{Webservice} hingegen verfügen per se über solch einen Mechanismus. 
+Treten während der Verarbeitung Fehler auf, wie z.B. ein Validierungsfehler des übergebenen XML Queries, so ergibt sich das Problem, dass diese Fehlermeldung nicht an den Klienten zurückgegeben werden kann. Das ist nicht möglich, da das aktuelle Schema der Rückgabedatei \enquote{query.xsd}  (siehe \autoref{sec:query_xsd}) kein Modell für Fehlernachrichten beinhaltet. Dieses Verhalten ist korrekt, denn hier wird ein Datenmodell beschrieben und Kontext- und Zusatzinformationen gehören nicht in dieses Modell, sondern sollten über die darüber liegende Ebene verarbeitet werden. Dies ist in der Lösung mit \gls{REST}ful \gls{Webservice} nicht sinnvoll, denn hier müsste das Protokoll, \gls{HTTP}, benutzt werden um Fehler anzuzeigen. Da \gls{SOAP} ein Protokoll ist, verfügen \gls{SOAP}-\glspl{Webservice} per se über einen Fehlermechanismus genannt SOAP-Fault\footnote{Siehe http://www.w3.org/TR/2000/NOTE-SOAP-20000508/}. 
 
-Es bieten sich drei Möglichkeiten an. Die erste wäre beim Auftreten eines Fehlers in der Verarbeitung immer einen leeren Katalog zurückzuliefern. Der Vorteil dieser Lösung ist die Einfachheit. Der Nachteil ist, dass nach wie vor keinerlei Fehlerinformation an den Klienten zurückgeliefert wird. Es ist robust aber wenig aussagekräftig.
+Es bieten sich drei Möglichkeiten an. Die erste wäre beim Auftreten eines Fehlers in der Verarbeitung immer einen leeren Katalog zurückzuliefern. Der Vorteil dieser Lösung ist die Einfachheit. Der Nachteil ist, dass nach wie vor keinerlei Fehlerinformation an den Klienten zurückgeliefert wird.
 
 Die zweite Möglichkeit ist ein weiteres Schema zu erstellen und dieses im Katalog-Schema zu referenzieren. In diesem \enquote{Fehler-Schema} wird dann ein Fehlertyp definiert, welcher Fehlernachrichten aufnehmen kann. Der Vorteil dieser Lösung ist, dass es einfach umzusetzen und in das vorhandenen Katalog-Schema zu integrieren ist. Diese Lösung wäre sowohl für \gls{REST}ful \glspl{Webservice} als auch für \gls{SOAP}-\glspl{Webservice} nutzbar. Der Nachteil ist, dass dies eine Anpassung des Katalog-Schemas bedeutet. 
 
@@ -1053,14 +1054,15 @@ Schließlich wird der Catalogue-Type neben dem Item-Type noch durch den Error Ty
 	
 \end{lstlisting} 
 
-Das \autoref{lst:error_catalogue_beispiel} zeigt eine Beispielantwort einer Fehlermeldung\footnote{Das Beispiel bildet einen gekürzten Stacktrace ab, um nur die relevanten Teile aufzuzeigen.} . Hier wurde eine ungültige IRDI im Query gesendet. Die shortErrorMessage besagt, dass es sich um einen Fehler beim Unmarshalling handelt. Der gesamte Java-Stacktrace aus der aufgetretenen Exception im Programm wird in der longErrorMessage angegeben. Hier kann genau nach der Ursache des Fehlers geforscht werden. In diesem Fall findet man folgende Fehlernachricht:
+Das \autoref{lst:error_catalogue_beispiel} zeigt eine Beispielantwort einer Fehlermeldung\footnote{Das Beispiel bildet einen gekürzten Stacktrace ab, um nur die relevanten Teile aufzuzeigen.}. Hier wurde eine ungültige IRDI im Query gesendet. Die shortErrorMessage besagt, dass es sich um einen Fehler beim Unmarshalling handelt. Der gesamte Java-Stacktrace aus der aufgetretenen Exception im Programm wird in der longErrorMessage angegeben. Hier kann genau nach der Ursache des Fehlers geforscht werden. In diesem Fall findet man folgende Fehlernachricht:
 
-\enquote{Caused by: org.xml.sax.SAXParseException: cvc-pattern-valid: Value '01x73x-1\#01-AAA352\#4' is not facet-valid with respect to pattern ... for type 'IRDI\_type'.}
+\enquote{Caused by: org.xml.sax.SAXParseException: cvc-pattern-valid: \\ 
+Value '01x73x-1\#01-AAA352\#4' is not facet-valid with respect to pattern ... for type 'IRDI\_type'.}
 
 Es ist ein Fehler bei der Validierung der IRDI aufgetreten. Diese entspricht nicht dem erlaubten Muster.
 
  \begin{lstlisting}[caption=Fehlerbehandlung - Beispielantwort mit Validierungsfehler=xml, label=lst:error_catalogue_beispiel]
-?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <catalogue xmlns:ns2="urn:iso:std:iso:ts:29002:-4:ed-1:tech:xml-schema:basic" xmlns="urn:iso:std:iso:ts:29002:-10:ed-1:tech:xml-schema:catalogue" xmlns:ns4="error" xmlns:ns3="urn:iso:std:iso:ts:29002:-10:ed-1:tech:xml-schema:value">
     <error>
         <ns4:shortErrorMessage>Error occured during unmarshalling of xml</ns4:shortErrorMessage>
@@ -1086,7 +1088,7 @@ Um beide Technologien miteinander zu vergleichen, wurde nach der \gls{REST}ful \
 
 Das Ergebnis ist, dass basierend auf der vorhandenen Implementierung ein weiterer Webservice in einer anderen Technologie mit recht geringem Aufwand erstellt werden kann. Im Rahmen der \gls{REST}ful \gls{Webservice}-Implementierung wurden bereits alle vorbereitenden Maßnahmen, wie Modellgenerierung aus den Schemadateien und Transformation für die Abfrageprozeduren, getroffen. 
  
-Mehr Informationen zur Implementierung und den Beispielquellcode des \gls{SOAP}-\glspl{Webservice} gibt der \autoref{kap:anhang_soap_webservice}. 
+Für mehr Informationen zur Implementierung und den Beispielquellcode des \gls{SOAP}-\glspl{Webservice} siehe \autoref{kap:anhang_soap_webservice}. 
 
 \section{Umfang und Abgrenzung der Implementierung}
 
@@ -1104,7 +1106,7 @@ Die folgenden Prozeduren werden nicht aufgerufen:
 \end{multicols}
 Das bedeutet, dass falls Daten in der \gls{PLIB} in den passenden Tabellen zu den passenden Typen existieren, diese von der Abfrage nicht beachtet werden. Um die Implementierung folglich praxistauglich zu machen, müssen die Transformationen der Rückgabe der fehlenden Prozeduren vervollständigt werden. 
 
-Für die Transformation und das füllen der Rückgabekatalogdaten wurden einige Parametric-Query-Abfragen nicht betrachtet. Das sind \enquote{DataCardinality}, \enquote{DataEnvironment} und \enquote{Subset}. Für diese Abfragetypen fehlen, wie auch oben erwähnt, Testdaten in der \gls{PLIB}-Datenbank. Die entsprechenden Szenarien müssen aufwändig erstellt werden. Für einen möglichen Praxiseinsatz müsste die Implementierung vervollständigt werden. Zu Forschungs- und Demonstrationszwecken sind die implementierten Funktionalitäten ausreichend. 
+Für die Transformation und das Füllen der Rückgabekatalogdaten wurden einige Para\-metric-Query-Abfragen nicht betrachtet. Das sind \enquote{DataCardinality}, \enquote{DataEnvironment} und \enquote{Subset}. Für diese Abfragetypen fehlen, wie auch oben erwähnt, Testdaten in der \gls{PLIB}-Datenbank. Die entsprechenden Szenarien müssen aufwändig erstellt werden. Für einen möglichen Praxiseinsatz müsste die Implementierung vervollständigt werden. Zu Forschungs- und Demonstrationszwecken sind die implementierten Funktionalitäten ausreichend. 
  
 \section{Zusammenfassung des Kapitels}
 
