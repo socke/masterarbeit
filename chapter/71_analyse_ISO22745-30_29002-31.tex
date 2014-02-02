@@ -1,4 +1,4 @@
-\section{Analyse ISO 29002-31 - Exchange of characteristics data}
+\section{Analyse ISO 29002-31 - Exchange of characteristic data}
 
 \todotext{Einen definierten Großteil in den Anhang packen. Hier nur ein Beispiel und das Ergebnis erklären}
 
@@ -7,7 +7,7 @@ Die Unterkapitel beschreiben die einzelnen (XML) Datencontainer aus der ISO 2900
 
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=0.99\textwidth]{images/query_main.png}
+		\includegraphics[width=0.99\textwidth]{images/query_main.jpg}
 		\caption[UML-Diagramm Query Main]{UML-Diagramm Query Main\footnotemark}
 	\label{fig:querymain}
 \end{figure}
@@ -21,7 +21,7 @@ Siehe dazu auch \citep[Kap. 6][]{iso29002-31}, welche besagt: \\ \enquote{ISO/TS
 a. with another envelope standard, such as EDI, or \\
 b. by itself, using the query\_context to carry envelope information.}
 
-\subsubsection{query}
+\subsubsection{query}\label{sec:query}
 Die Unterstützung aller Funktionalitäten des queries entspricht laut ISO 29002-31 der Conformance class 1: simple query \citep[Anhang 6][]{iso29002-31}. .
 Dies ist der eigentliche Abfrage-Datensatz. Abgefragt werden kann mittels class IRDI\footnote{IRDI  - International registration data identifier}, data\_specification IRDI, eine Menge von property IRDI, Teiledaten (das sind Teile gefüllt mit Daten ihrer Eigenschaften die dem Klienten bereits bekannt sind) und einer item\_description. Das bedeutet, dass bereits bekannte Eigenschaften eines Teils übertragen werden können, um die Suche auf Teile mit diesen Werte-Eigenschaften einzuschränken.
 
@@ -29,12 +29,12 @@ Die data\_specification IRDI verweist auf eine Spezifikation aus ISO 22745-30, d
 
 Ad hoc denkbar wären einfache Abfragen wie z.B.: \enquote{Gib mir alle Teile der Klasse xyz}. Mitgeliefert werden auch Teile von Subklassen. Weiterhin kann die Abfrage nach bestimmten Eigenschaften eingeschränkt werden. Eine weitere Möglichkeit ist es bereits bekannte Daten über ein Element zu übermitteln, mit dem Zwecke hierüber die IRDI zu erfahren oder weitere Eigenschafts-Daten zu erhalten. Siehe Beispielqueries simple queries in \autoref{kap:query_beispiele}. 
 
-\subsubsection{characteristic\_data\_query\_expression (parametric\_query)}
+\subsubsection{characteristic\_data\_query\_expression (parametric\_query)}\label{sec:characteristicdataqueryexpression}
 Das entspricht laut ISO 29002-31 Anhang 6 der Conformance class 2: parametric query.
 
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=0.99\textwidth]{images/query_expression.png}
+		\includegraphics[width=0.99\textwidth]{images/query_expression.jpg}
 		\caption[UML-Diagramm Query Expression]{UML-Diagramm Query Expression\footnotemark}
 	\label{fig:querymain}
 \end{figure}

@@ -1,0 +1,230 @@
+\chapter{SOAP Webservice} \index{Webservice!SOAP}\label{kap:anhang_soap_webservice}
+
+Um die beiden unterschiedlichen Webservicearten vergleichen zu können, wurde evaluiert, wie mit der gleichen Plattform, Programmiersprache und den gleichen Schemadateien ein SOAP \gls{Webservice} implementiert werden kann. 
+
+Genutzt wurde die in der Java-JDK beinhaltete Implementierung der JAX-WS-2.1-Spezifikation, somit muss keine weitere Bibliothek eingebunden werden. 
+
+Die gesamte Business-Logik-Implementierung für den \gls{REST}-\gls{Webservice} kann genutzt werden. Für die Erstellung des \glspl{Webservice} sind folgende Schritte notwendig:
+
+\begin{itemize}
+\item Erstellung einer \gls{Webservice}-Klasse, welche die Business Logik aufruft
+\item Erstellung eines \gls{Webservice}-Servers, welche den \gls{Webservice} bereitstellt
+\end{itemize}
+
+\section{Erstellung einer Webservice-Klasse}
+
+Das \autoref{lst:soap_webservice_send_query} zeigt die Implementierung einer \gls{Webservice}-Klasse. 
+
+Hierbei definiert @WebService diese Klasse mittels Annotation als Webservice gemäß JAX-WS Spezifikation.
+ 
+@SOAPBinding(style=SOAPBinding.Style.DOCUMENT) definiert ein SOAP-Binding als Dokumenten Typ. Ein weiterer Typ ist RPC.
+@WebMethod definiert die markierte Methode als \gls{Webservice}-Methode. 
+
+Die Methode leitet den übergebenen query einfach an die Business Logik, der QueryPipe, zur weiteren Verarbeitung. Dies entspricht exakt dem Vorgehen in der query-Methode im \gls{REST}-\gls{Webservice}.  
+
+Hinweis: In allen Quelltextbeispielen wird auf import- und package-Anweisungen verzichtet, um die Lesbarkeit zu erhöhen. Die Quelltexte liegen der Arbeit bei. 
+
+\begin{lstlisting}[caption=SOAP Webservice Klasse zum Senden eines Queries, language=Java, label=lst:soap_webservice_send_query]
+/**
+ * SOAP Webservice for querying via ISO 29002-31 Schema
+ */
+@WebService
+@SOAPBinding(style=SOAPBinding.Style.DOCUMENT)
+public class QuerySOAPService {
+
+    /** Query processor instance */
+    private QueryPipe queryPipe;
+
+    /** Application context for receiving beans */
+    private ApplicationContext context;
+
+    public QuerySOAPService() {
+        this.context = initializeContext();
+        this.queryPipe = getQueryPipe();
+    }
+
+    /**
+     * Takes the query model and passes it to the query filter for further processing.
+     * Retreives the result and returns it.
+     * @param query the query
+     * @return the catalogue response
+     */
+    @WebMethod
+    public CatalogueType query(QueryType query) {
+        CatalogueType catalogue = queryPipe.filter(query);
+        return catalogue;
+    }
+
+    private ClassPathXmlApplicationContext initializeContext() {
+        return new ClassPathXmlApplicationContext(
+                "beans.xml");
+    }
+
+    private QueryPipe getQueryPipe() {
+        QueryPipe queryPipe =  (QueryPipe) context.getBean("queryPipe");
+        return queryPipe;
+    }
+}
+ \end{lstlisting}  
+ 
+\section{Erstellung eines Webservice Servers}
+
+Das \autoref{lst:soap_webservice_server} zeigt die Implementierung eines beispielhaften Webservice-Servers. Dieser erzeugt eine Instanz der Klasse QuerySOAPService, der Klasse, welche die Methoden für den Webservice beinhaltet. Anschließend wird ein Endpoint definiert. Hier wird die spätere \gls{URL}, unter dem der Webservice zur Verfügung gestellt wird, definiert und der QuerySOAPService übergeben. 
+
+Ferner wird zu Testzwecken, zum Stoppen des Services, ein Dialog-Fenster angezeigt.
+ 
+\begin{lstlisting}[caption=SOAP Webservice Server, language=Java, label=lst:soap_webservice_server]
+package de.feu.plib.webservice;
+
+import org.apache.log4j.Logger;
+
+import javax.swing.*;
+import javax.xml.ws.Endpoint;
+
+/**
+ * Is responsible for creating the SOAP Webserver.
+ */
+public class QueryServer {
+    /** Logger instance */
+    static final Logger LOGGER = Logger.getLogger(StringServer.class);
+
+    public static void main(String args[]) {
+        LOGGER.info("Start query web service");
+        QuerySOAPService queryService = new QuerySOAPService();
+        Endpoint endpoint = Endpoint.publish(
+                "http://localhost:8088/soap/query", queryService);
+        LOGGER.info("Web service started");
+        JOptionPane.showMessageDialog(null, "Server beenden");
+        endpoint.stop();
+        LOGGER.info("Web service started");
+    }
+}
+ \end{lstlisting}   
+
+\section{SOAP Beispielrequest und -response}
+
+Das \autoref{lst:soap_query} zeigt einen Beispielrequest und \autoref{lst:soap_response} zeigt die entsprechende Antwort des Servers. 
+
+\begin{lstlisting}[caption=Beispielanfrage SOAP Webservice query, language=XML, label=lst:soap_query]
+ <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://webservice.plib.feu.de/" xmlns:urn="urn:iso:std:iso:ts:29002:-31:ed-1:tech:xml-schema:query" xmlns:urn1="urn:iso:std:iso:ts:29002:-10:ed-1:tech:xml-schema:catalogue" xmlns:urn2="urn:iso:std:iso:ts:29002:-4:ed-1:tech:xml-schema:basic" xmlns:urn3="urn:iso:std:iso:ts:29002:-10:ed-1:tech:xml-schema:value">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:query>
+         <arg0>
+            <urn:class_ref>0173-1#01-BAD803#2</urn:class_ref>
+	 </arg0>
+      </web:query>
+   </soapenv:Body>
+</soapenv:Envelope>    
+ \end{lstlisting}  
+
+
+ \begin{lstlisting}[caption=Beispielantwort SOAP Webservice response, language=XML, label=lst:soap_response]
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+   <S:Body>
+      <ns6:queryResponse xmlns:ns2="urn:iso:std:iso:ts:29002:-10:ed-1:tech:xml-schema:catalogue" xmlns:ns3="urn:iso:std:iso:ts:29002:-4:ed-1:tech:xml-schema:basic" xmlns:ns4="urn:iso:std:iso:ts:29002:-10:ed-1:tech:xml-schema:value" xmlns:ns5="urn:iso:std:iso:ts:29002:-31:ed-1:tech:xml-schema:query" xmlns:ns6="http://webservice.plib.feu.de/">
+         <return>
+            <ns2:item class_ref="0173-1#01-BAD803#2">
+               <ns2:property_value property_ref="0173-1#02-AAA762#1">
+                  <ns4:measure_single_number_value>
+                     <ns4:real_value>2.0</ns4:real_value>
+                  </ns4:measure_single_number_value>
+               </ns2:property_value>
+               <ns2:property_value property_ref="0173-1#02-AAB011#1">
+                  <ns4:measure_single_number_value>
+                     <ns4:real_value>1.0</ns4:real_value>
+                  </ns4:measure_single_number_value>
+               </ns2:property_value>
+            </ns2:item>
+            <ns2:item class_ref="0173-1#01-BAD803#2">
+               <ns2:property_value property_ref="0173-1#02-AAA762#1">
+                  <ns4:measure_single_number_value>
+                     <ns4:real_value>2.0</ns4:real_value>
+                  </ns4:measure_single_number_value>
+               </ns2:property_value>
+               <ns2:property_value property_ref="0173-1#02-AAB011#1">
+                  <ns4:measure_single_number_value>
+                     <ns4:real_value>1.0</ns4:real_value>
+                  </ns4:measure_single_number_value>
+               </ns2:property_value>
+            </ns2:item>
+         </return>
+      </ns6:queryResponse>
+   </S:Body>
+</S:Envelope>  
+ \end{lstlisting}  
+ 
+ Die \autoref{lst:wsdl_query_service} zeigt die WSDL des Query Services. Diese wurde automatisch generiert. Das geschieht durch den Aufruf der URL des Services mit Query-Parameter ?wsdl. 
+ 
+ Folgende URL wurde aufgerufen: http://localhost:8088/soap/query?wsdl
+ 
+ Man sieht, dass die benötigten Schemadateien für query, basic, value und catalogue der ISO XSDs automatisch eingebunden werden. Der Grund ist, dass in den Java Sourcen wie in \autoref{lst:soap_webservice_send_query} ersichtlich, die bereits während der REST-Implementierung für das Marshalling und Unmarshalling erzeugten Zugriffsklassen mittels JAXB benutzt werden. Das sind CatalogueType und QueryType. Dies sind JAXB annotierte Klassen, somit werden automatisch die entsprechenden Schemadateien verwendet.
+ 
+ \begin{lstlisting}[caption=WSDL des Query Services mit SOAP, language=XML, label=lst:wsdl_query_service] 
+ <!--
+ Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.1.6 in JDK 6.
+-->
+<!--
+ Generated by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.1.6 in JDK 6.
+-->
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://webservice.plib.feu.de/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/"
+             targetNamespace="http://webservice.plib.feu.de/" name="QuerySOAPServiceService">
+    <types>
+        <xsd:schema>
+            <xsd:import namespace="urn:iso:std:iso:ts:29002:-4:ed-1:tech:xml-schema:basic"
+                        schemaLocation="http://localhost:8088/soap/query?xsd=1"/>
+        </xsd:schema>
+        <xsd:schema>
+            <xsd:import namespace="urn:iso:std:iso:ts:29002:-31:ed-1:tech:xml-schema:query"
+                        schemaLocation="http://localhost:8088/soap/query?xsd=2"/>
+        </xsd:schema>
+        <xsd:schema>
+            <xsd:import namespace="urn:iso:std:iso:ts:29002:-10:ed-1:tech:xml-schema:value"
+                        schemaLocation="http://localhost:8088/soap/query?xsd=3"/>
+        </xsd:schema>
+        <xsd:schema>
+            <xsd:import namespace="urn:iso:std:iso:ts:29002:-10:ed-1:tech:xml-schema:catalogue"
+                        schemaLocation="http://localhost:8088/soap/query?xsd=4"/>
+        </xsd:schema>
+        <xsd:schema>
+            <xsd:import namespace="http://webservice.plib.feu.de/"
+                        schemaLocation="http://localhost:8088/soap/query?xsd=5"/>
+        </xsd:schema>
+    </types>
+    <message name="query">
+        <part name="parameters" element="tns:query"/>
+    </message>
+    <message name="queryResponse">
+        <part name="parameters" element="tns:queryResponse"/>
+    </message>
+    <portType name="QuerySOAPService">
+        <operation name="query">
+            <input message="tns:query"/>
+            <output message="tns:queryResponse"/>
+        </operation>
+    </portType>
+    <binding name="QuerySOAPServicePortBinding" type="tns:QuerySOAPService">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <operation name="query">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="QuerySOAPServiceService">
+        <port name="QuerySOAPServicePort" binding="tns:QuerySOAPServicePortBinding">
+            <soap:address location="http://localhost:8088/soap/query"/>
+        </port>
+    </service>
+</definitions>
+  \end{lstlisting} 
+ 
+ \section{Fazit}
+ 
+Da sämtliche Voraussetzungen bereits während der Implementierung des REST-Webservices in der Business Logik vorhanden waren, konnte in kurzer Zeit ein SOAP-Webservice erstellt werden, der die gleichen Query-Funktionalitäten zur Verfügung stellt wie der REST-Webservice. Das Generieren des XML-Modells in Java-Klassen wurde bereits mittels JAXB durchgeführt, sodass diese Modelle erneut benutzt werden können. Java kennt dann die Modelle und die Bindung an die entsprechenden XML-Schema-Dateien, sodass diese für den \gls{Webservice} zur Verfügung gestellt werden können. 
+Es ist also ersichtlich, dass die Webservice Schnittstelle mit relativ geringem Aufwand ausgetauscht werden kann, wenn die Business Logik gekapselt wurde. 

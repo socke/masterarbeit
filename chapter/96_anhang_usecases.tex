@@ -1,0 +1,109 @@
+%\setchapterpreamble[u]{
+%\dictum[Johann Wolfgang von Goethe]{Es ist nicht genug, zu wissen, man muß auch anwenden; es ist nicht genug, zu wollen, man muß auch tun. \dots}}
+\chapter{Anwendungsfälle}\label{kap:analyse_use_cases}
+% Funktionale Anforderungen
+
+Dieses Kapitel beinhaltet weitere Anwendungsfälle des Systems. Der in \autoref{kap:Use_Cases} bereits beschriebene Anwendungsfall wird hier nicht erneut aufgeführt.  
+
+\subsection{Charakteristische Daten eines Produkts validieren}
+
+{\small
+
+\begin{description}
+     \item[use case] Charakteristische Daten validieren
+     \item[  actors]~\\
+     Klient
+     \item[  precondition]~\\
+     Der Klient verwendet einen gültigen Identifier sowie auf den Identifier passende Daten.
+     \item[  main flow]~\\
+     Der Klient gibt einen Identifier eines \glslink{item}{Teils} ein. Zusätzlich übermittelt er zu diesem bekanntem \glslink{item}{Teil} Eigenschaften dieser Instanz des \glslink{item}{Teils} und sendet eine Anfrage ab. Die Anfrage wird auf Gültigkeit überprüft. Als Antwort bekommt er ein oder mehrere Datensätze von \glslink{item}{Teilen} mit den entsprechenden charakteristischen Daten zurück, auf welche die übergebenen Eigenschaften zutreffen. 
+     \item[  postcondition]~\\
+     Alle Daten aller \glslink{item}{Teile} der gewählten Klassen des Identifiers werden zurückgegeben. Dies ermöglicht dem Klienten eine Validierung der ihm bereits bekannten Daten über ein Element.
+      \item[  alternative flow]~\\
+     Die übermittelten Eigenschaften des \glslink{item}{Teils} stimmen nicht mit den gespeicherten Daten überein.
+      \item[  postcondition]~\\
+     Es werden keine Daten zurückgeliefert. Die übermittelten Daten sind nicht valide. 
+      \item[  exceptional flow] Ungültige Identifier oder ungültige Anfrage ~\\
+     Der oder die übergebenen Identifier oder die gesamte Anfrage ist gemäß Spezifikation ungültig.   
+     \item[  postcondition]~\\
+     Es wird eine Fehlermeldung zurückgegeben.   
+     \item[end] Charakteristische Daten validieren
+\end{description}
+
+~\\
+
+} %end small
+
+\subsubsection{Beispiel}
+
+In diesem Anwendungsfall verfügen wir bereits über \glslink{item}{Teile}/Wertepaare eines bestimmten Konzeptes, z.B. eben jenen Schraubendreher.
+
+\enquote{Ich habe hier ein mir bekanntes \glslink{item}{Teils} mit bestimmten Eigenschaften (Properties), Länge=300mm. Gib mir alle \glslink{item}{Teile} und alle Properties der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Kreuzschraube), welche die mitgelieferten Eigenschaften haben.}
+Das Ergebnis sind \glslink{item}{Teile} mit allen Properties des angegebenen Konzeptes, welche über die übergebenen Eigenschaften (Properties) verfügen. In unserem Fall vervollständigen wir unsere Properties mit den weiteren Properties \enquote{Typ} und \enquote{Spannungsfest}.
+
+Die XML-Abfrage gemäß query.xsd\footnote{Schema Datei ist referenziert in ISO 29002-31, liegt der Arbeit bei} sieht so aus:
+
+\begin{lstlisting}[caption=Query Beispiel - Daten validieren, language=XML, label=UseCaseDatenvalidieren]
+<?xml version="1.0" encoding="UTF-8"?>
+<qy:query xsi:schemaLocation="...query query.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cat="...catalogue" xmlns:val="...value" xmlns:qy="...query" xmlns:bas="...basic">
+	<cat:item class_ref="0173-1#01-AAA352#4..">
+		<cat:property_value property_ref="0173-1#01-BBB111#1">
+			<val:integer_value></val:integer_value>
+		</cat:property_value>
+	</cat:item>
+</qy:query>
+\end{lstlisting}
+
+\subsection{Chrarakteristische Daten mittels Suchausdruck abfragen }
+
+{\small
+
+\begin{description}
+     \item[use case] Charakteristische Daten mit Suchausdruck abfragen
+     \item[  actors]~\\
+     Klient
+     \item[  precondition]~\\
+     Der Klient verwendet einen gültigen Identifier.
+     \item[  main flow]~\\
+     Der Klient gibt einen Identifier eines Konzeptes ein. Ferner übergibt er ein oder mehrere bekannte Property Identifier sowie passend dazu Werte zur Sucheinschränkung. 
+     \item[  postcondition]~\\
+     Alle Elemente auf jene diese Einschränkung der übergebenen Werte zutrifft werden zurückgegeben.       
+     \item[  alternative flow] Keine Werte zur Werteeinschränkung gefunden ~\\
+     Die übermittelten Werte der mittels Property Identifier identifzierten Eigenschaftswerte sind nicht zum \glslink{item}{Teile} gespeichert.
+      \item[  postcondition]~\\
+     Es werden keine Daten zurückgeliefert.
+     \item[  exceptional flow] Ungültige Identifier oder ungültige Anfrage ~\\
+     Der oder die übergebenen Identifier oder die gesamte Anfrage ist gemäß Spezifikation ungültig.   
+     \item[  postcondition]~\\
+     Es wird eine Fehlermeldung zurückgegeben.      
+     \item[end] Charakteristische Daten mit Suchausdruck abfragen
+\end{description}
+
+~\\
+
+} %end small
+
+\subsubsection{Beispiel}
+
+Wir nehmen das Schraubendreher Beispiel aus \autoref{lab:schraubendreher} zur Hand, und möchten eine Abfrage absenden, welche von der Klasse Schraubendreher alle Items erhalten soll die eine Länge zwischen 200 und 300 mm haben. 
+
+Um nun alle Eigenschaften (Properties), wie Länge, Typ und Spannungsfest zu erhalten muss folgende Abfrage gesendet werden: 
+\enquote{Gib mir alle Items und alle Properties der Klasse mit dem Identifier 0173-1\#01-AAA352\#4 (Kreuzschraube).}
+Das Ergebnis ist ein Item mit allen Attributen (Properties) der gewünschten Klassen und gegebenenfalls vorhandenen Unterklassen. In unserem Falle genau die oben angegebenen Werte.
+
+Die XML-Abfrage gemäß query.xsd\footnote{Schema Datei ist referenziert in ISO 29002-31, liegt der Arbeit bei} sieht so aus:
+
+\begin{lstlisting}[caption=Query Beispiel - Daten mit Suchausdruck abfragen, language=XML, label=lst:UseCaseDatenabfragenAnhang]
+<?xml version="1.0" encoding="UTF-8"?>
+<qy:query xsi:schemaLocation="...query query.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cat="...catalogue" xmlns:val="...value" xmlns:qy="...query" xmlns:bas="...basic">
+	<qy:class_ref>0173-1#01-AAA352#4</qy:class_ref>
+	<qy:characteristic_data_query_expression>
+		<qy:range>
+			<qy:property_reference property_ref="0173-1#01-BBB111#1"/>
+			<qy:min_value>200</qy:min_value>
+			<qy:max_value>300</qy:max_value>
+			<qy:is_inclusive>true</qy:is_inclusive>
+		</qy:range>
+	</qy:characteristic_data_query_expression>
+</qy:query>
+\end{lstlisting}

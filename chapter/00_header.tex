@@ -1,9 +1,9 @@
 \documentclass[
 paper=a4,							% alle weiteren Papierformat einstellbar
 %landscape,						% Querformat
-fontsize=12pt,						  		% Schriftgrˆﬂe (12pt, 11pt (Standard))
-BCOR1cm,							% Bindekorrektur, bspw. 1 cm
-DIV=calc,							% f¸hrt die Satzspiegelberechnung neu aus scrguide 2.4
+fontsize=11pt,						  		% Schriftgrˆﬂe (12pt, 11pt (Standard))
+%BCOR=20mm,							% Bindekorrektur, bspw. 1 cm
+DIV=14,							% f¸hrt die Satzspiegelberechnung neu aus scrguide 2.4
 twoside=true, 						% zweiseitig twoside/ einseitig oneside
 %twocolumn,						% zweispaltiger Satz
 %openany,							% Kapitel kˆnnen auch auf linken Seiten beginnen
@@ -13,7 +13,7 @@ parskip=half+,
 headsepline,					% Trennline zum Seitenkopf	
 footsepline,					% Trennline zum Seitenfuﬂ
 %notitlepage,					% in-page-Titel, keine eigene Titelseite
-chapterprefix,				% vor Kapitel¸berschrift wird "Kapitel Nummer" gesetzt
+chapterprefix=false,				% vor Kapitel¸berschrift wird "Kapitel Nummer" gesetzt
 appendixprefix,				% Anhang wird "Anhang" vor die ‹berschrift gesetzt 
 %normalheadings,			% ‹berschriften etwas kleiner (smallheadings)
 %smallheadings, 
@@ -24,12 +24,10 @@ appendixprefix,				% Anhang wird "Anhang" vor die ‹berschrift gesetzt
 %fleqn,						% Ausgabe von Gleichungen linksb¸ndig
 %draft,						% ¸berlangen Zeilen in Ausgabe gekennzeichnet
 %pointlessnumbers,
-DIV13,                % Seitenrand ist 1/13 (Standard: 1/10 -> ziemlich breit)
-%BCOR5mm								% Bindekorrektur, links 5mm mehr Platz f¸r Bindung
 ] {scrreprt}
 
 % breitere seite
-\usepackage{a4wide}
+%\usepackage{a4wide}
 
 %% Normales LaTeX oder pdfLaTeX? %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% ==> Das neue if-Kommando "\ifpdf" wird an einigen wenigen
@@ -76,11 +74,20 @@ DIV13,                % Seitenrand ist 1/13 (Standard: 1/10 -> ziemlich breit)
 \usepackage{amsthm}
 \usepackage{amsfonts}
 
-\usepackage{times}    % Schriftstil Times New Roman (wie Word)
+%\usepackage{ccfonts} % Schrift  concrete
+%\usepackage{chancery} % Schrift  Zapf Chancery -> sehr schnörkelig
+%\usepackage{bookman} % Schrift  bookman -> sehr schöne Schrift!
+\usepackage{mathpazo} % Schrift  Palatino -> sehr schöne Schrift!
+\linespread{1.05}  
+%\usepackage{newcent} % New Century Schoolbook -> sehr schön, kräftig!
+%\usepackage{charter} % Schrift  Charter -> 
+%\usepackage{times}    % Schriftstil Times New Roman (wie Word)
 \usepackage{url}      % zur Dartellung von URLs mit Befehl \url{}
 %\usepackage{xspace}   % Intelligenter Platzhalter nach Makros
+\usepackage{multirow} 
+\usepackage{tabularx} 
 \usepackage{booktabs} % schˆne Tabellen mit \toprule, \midrule und \bottomrule
-
+\usepackage{multicol} %mehrspaltiges layout
 
 % Bildunterschrift
 
@@ -104,8 +111,17 @@ DIV13,                % Seitenrand ist 1/13 (Standard: 1/10 -> ziemlich breit)
 
 %% Use Helvetica-Narrow Bold for Chapter entries
 %\renewcommand{\cftchapfont}{%
- % \fontsize{11}{13}\usefont{OT1}{phv}{bc}{n}\selectfont
+%  \fontsize{11}{13}\usefont{OT1}{phv}{bc}{n}\selectfont
 %}
+
+% Kapitelüberschriften (chapter) weiter oben beginnen lassen
+% normaleweise ist bei scrreprt sehr viel Abstand zum oberen Rand
+\renewcommand*\chapterheadstartvskip{\vspace*{-1.5cm}}
+
+%Seitenränder anpassen
+%\usepackage[left=40mm,right=20mm,top=30mm,bottom=20mm]{geometry}
+%\usepackage[bottom=35mm]{geometry}
+\usepackage[left=25mm,right=25mm,top=25mm,bottom=25mm, bindingoffset=1.2cm]{geometry}
 
 % \renewcommand{\baselinestretch}{1.5} % Zeilenabstand 1.5
 
@@ -114,7 +130,6 @@ DIV13,                % Seitenrand ist 1/13 (Standard: 1/10 -> ziemlich breit)
 \widowpenalty = 10000
 \displaywidowpenalty = 10000
 \tolerance=500 %Zeilenumbruch
-
 
 %% Zeilenabstand %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{setspace}
@@ -164,36 +179,75 @@ DIV13,                % Seitenrand ist 1/13 (Standard: 1/10 -> ziemlich breit)
 
 \usepackage[usenames]{color}
 
+%cmyk for coloring 
+\usepackage[cmyk]{xcolor}
+
 % for writing line numbers          
-\usepackage[pagewise,mathlines,displaymath]{lineno}
+\usepackage[pagewise,mathlines]{lineno}
 
 \lstloadlanguages{PHP, XML, VBScript, Java, HTML,SQL,sh}
 
 %color definitions
-\definecolor{mygray}{rgb}{0.2,0.2,0.2}
-\definecolor{mydarkblue}{rgb}{0.2,0.2,0.9}
-\definecolor{mydarkred}{rgb}{0.9,0.20,0.2}
-\definecolor{mylightergray}{rgb}{0.9,0.9,0.9}
+\definecolor{mygray}{cmyk}{0.9,0.9,0.9,0,9}
+\definecolor{mydarkblue}{cmyk}{1,0.7,0,0.16}
+\definecolor{mydarkred}{cmyk}{0.1,0.75,0.75,0.33}
+\definecolor{mylightergray}{cmyk}{0.02,0.02,0.02,0.02}
+\definecolor{myyellow}{cmyk}{0.0, 0.05, 1.0, 0.24} 
+\definecolor{mydarkgreen}{cmyk}{1.0, 0.0, 1.63, 0.67} 
+
+\definecolor{hellgelb}{rgb}{1,1,0.9}
+\definecolor{colKeys}{rgb}{0,0,1}
+\definecolor{colIdentifier}{rgb}{0,0,0}
+\definecolor{colComments}{rgb}{0,0.5,0}
+\definecolor{colString}{rgb}{1,0,0}
 
 % listing settings
-%\lstset{frame=single, numbers=left, numberstyle=\tiny, basicstyle=\footnotesize, stepnumber=1, numbersep=5pt, backgroundcolor=\color{MyGray}, breaklines=true}
+%\lstset{frame=single, numbers=left, numberstyle=\tiny, basicstyle=\footnotesize, stepnumber=1, numbersep=5pt, %backgroundcolor=\color{mygray}, breaklines=true}
 \lstset{
-        basicstyle=\ttfamily\scriptsize\mdseries,
-        keywordstyle=\bfseries\color{mydarkblue},
-        identifierstyle=,
-        commentstyle=\color{mygray},      
-        stringstyle=\itshape\color{mydarkred},
+       basicstyle=\ttfamily\scriptsize\mdseries,
+        %keywordstyle=\bfseries\color{mydarkblue},
+        keywordstyle=\color{colKeys}, 
+        identifierstyle=\color{colIdentifier},
+        %commentstyle=\color{mydarkgreen},   
+        commentstyle=\color{colComments},
+        stringstyle=\color{colString},   
+        %stringstyle=\itshape\color{mydarkred},
         numbers=left,
         numberstyle=\tiny,
         stepnumber=1,
         breaklines=true,
-        frame=none,
+        %frame=single,
         showstringspaces=false,
-        tabsize=4,
-        backgroundcolor=\color{mylightergray},
+        tabsize=2,
+        %backgroundcolor=\color{mylightergray},
+        backgroundcolor=\color{hellgelb},
         captionpos=b,
         float=htbp,
+        breakautoindent=true
 } 
+
+% Zum Einbinden von Programmcode --------------------------------------------
+
+%\lstset{%
+% float=hbp,%
+%    basicstyle=\texttt\small, %
+%    identifierstyle=\color{colIdentifier}, %
+%    keywordstyle=\color{colKeys}, %
+%    stringstyle=\color{colString}, %
+%    commentstyle=\color{colComments}, %
+%    columns=flexible, %
+%    tabsize=2, %
+%    frame=single, %
+%    extendedchars=true, %
+%    showspaces=false, %
+%    showstringspaces=false, %
+%    numbers=left, %
+%    numberstyle=\tiny, %
+%    breaklines=true, %
+%    backgroundcolor=\color{hellgelb}, %
+%    breakautoindent=true, %
+%    captionpos=b%
+%}
 
 % f¸r tabellen
 \usepackage{array}
@@ -221,7 +275,7 @@ DIV13,                % Seitenrand ist 1/13 (Standard: 1/10 -> ziemlich breit)
 \hypersetup{
     pdftitle={Masterarbeit - Implementierung eines Web Services nach ISO 29002-31 - Query for characteristic data},
     pdfauthor={Stefan Sobek},
-    pdfkeywords={FernUni Hagen, ISO 29002-31, characteristic product data, 2013}
+    pdfkeywords={FernUni Hagen, ISO 29002-31, characteristic product data, 2014}
 }
 
 % dictum kapitel zitatsbreite vergrößern

@@ -8,20 +8,17 @@
 
 \pagestyle{empty} %%Keine Kopf-/Fusszeilen auf den ersten Seiten.
 
-\ifpdf
-	\DeclareGraphicsExtensions{.pdf,.jpg,.png}
-
-\else
-	\DeclareGraphicsExtensions{.eps}
-\fi
-
+%\pagenumbering{arabic}
+\pagenumbering{Roman}
 %% Deckblatt %%%%%%%%%%%%%%%%%%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{chapter/01_titlepage} 
 
+% gesammelte glossar einträge
+\input{chapter/99_glossar_eintraege}
+
 %activate line numbers for corrections
 %\linenumbers 
-%\pagenumbering{arabic}
-%\pagenumbering{Roman}
+
 %\setcounter{page}{2} 
 \input{chapter/02_abstract}
 \clearpage
@@ -81,11 +78,10 @@
 %\printglossary[type=symbolslist,style=long]
 
 %alle glossareintr‰ge gesammelt aus dem anhang
-\input{chapter/99_glossar_eintraege}
 
 %% Kapitel / Hauptteil des Dokumentes %%%%%%%%%%%%%%%%%%%%%%%
-
-%\pagenumbering{arabic}
+\clearpage
+\pagenumbering{arabic}
 
 \input{chapter/10_Einleitung}
 \input{chapter/21_aufgabenbeschreibung}
@@ -105,7 +101,7 @@
 %% Literaturverzeichnis
 
 \addcontentsline{toc}{chapter}{Literaturverzeichnis}
-\nocite{*} %Auch nicht-zitierte BibTeX-Eintr‰ge werden angezeigt.
+%\nocite{*} %Auch nicht-zitierte BibTeX-Eintr‰ge werden angezeigt.
 \bibliographystyle{alphadin}
 %\bibliographystyle{plain}
 \bibliography{literatur}
@@ -117,6 +113,14 @@
 \appendix
 \addcontentsline{toc}{chapter}{Anhang}
 
+\input{chapter/96_anhang_analyse_29002_31}
+\input{chapter/96_anhang_usecases}
+\input{chapter/96_anhang_tomcat}
+\input{chapter/96_anhang_automatische_entwicklertests}
+\input{chapter/96_anhang_testszenarios}
+\input{chapter/96_anhang_plib_datenbank}
+\input{chapter/96_anhang_soap_webservices}
+\input{chapter/96_anhang_architektur}
 \input{chapter/97_anhang_schema}
 
 % Index
