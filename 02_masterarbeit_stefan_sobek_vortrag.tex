@@ -25,59 +25,127 @@ Query for characteristic data}
 
 \maketitle
 
-% \section{Introduction}  % add these to see outline in slides
+%\section{Introduction}  % add these to see outline in slides
 
 \begin{frame}
-  \frametitle{Introduction}
-  Things in a Bulleted List\pause
+  \frametitle{Überblick}
+\begin{columns}
+        \column{.50\textwidth}
+ \begin{itemize}
+  \item Aufgabenbeschreibung
+    \begin{itemize}
+    \item Problemstellung
+    \item Lösungsoptionen
+    \item Zielsetzung
+    \item Gesamtkontext und Abgrenzung
+    \item Datenflüsse
+    \end{itemize}
+  \item Anforderungsanalyse
+    \begin{itemize}
+    \item Analyse ISO 29002-31
+    \item Analyse ISO 22745-30
+    \item Use Cases
+    \end{itemize}
+    \item System- und Softwareentwurf
+    \begin{itemize}
+    \item Auswahlprozess
+    \item Architektur\pause
+    \end{itemize}
+  \end{itemize}
+  
+     \column{.50\textwidth}
+   \begin{itemize}  
+     
+   \item Implementierung
+    \begin{itemize}
+    \item Configuration Management
+    \item Webservice
+    \item Query Verarbeitung
+    \item Transformation
+    \item Fehlerbehandlung
+    \item SOAP-Webservice
+    \end{itemize}    
+    \item Schlußfolgerung  
+ \end{itemize}
+\end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Problemstellung}
+  Heutiger automatisierter Produktdatenaustausch\pause
   \begin{itemize}
-  \item Bullets that\pause
-  \item Come up\pause
-  \item One by one %leave out the \pause on the final item
+  \item basiert auf Schemata\pause
+  \item häufig ein starres Schema\pause
+  \item dadurch oft unflexibel durch fest verdrahtetes Modell\pause 
+  \item hat bei Anpassungen hohe Änderungskosten
+  %leave out the \pause on the final item
   \end{itemize}
 \end{frame}
 
-% \section{Main Body} % add these to see outline in slides
+%\section{Main Body} % add these to see outline in slides
 
 \begin{frame}
-  \frametitle{Equations}
-  Equations are easy
+  \frametitle{Lösung}
+  Abfrage- und Antwortschnittstelle basierend auf Schemata\pause
   \begin{itemize}
-  \item Just and paste equations\pause
-  \item From the paper!
-    \begin{equation*}
-      \textbf{p}^* = \underset{\textbf{p}}{\arg\!\min}~\sum_{\textbf{x}}\left[ I(\textbf{W}(\textbf{x};\textbf{p})) - T(\textbf{x}) \right]^2
-    \end{equation*}
+  \item ist flexibel\pause
+  \item einheitliches Schnittstelle\pause
+  \item dadurch bei Einhaltung keine Änderungen nötwendig
   \end{itemize}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Gesamtkontext Abschlussarbeiten}
+  \frametitle{Lösung}
+  Es bieten sich vorhande ISO-Standards für flexible Abfrage- und Antwortschnittstellen an, z.B.:\pause
+  \begin{itemize}
+  \item ISO 22745-35 - Open technical dictionaries and their application to master data: Query for characteristic data\pause
+  \item ISO 29002-31 - Exchange of characteristic data: Query for characteristic data
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Zielsetzung}
+  Implementierung einer flexiblen Abfrage- und Antwortschnittstelle \pause
+  \begin{itemize}
+  \item Analyse der ISO 29002-31 - Query for characteristic data\pause
+     \begin{itemize}
+     \item Betrachtung nach Möglichkeiten einer herkömmlichen SQL-Schnittstelle (Projektion, Selektion)\pause
+     \item Aufsetzen von Use Cases\pause
+     \end{itemize}
+  \item Prototypische Implementierung basierend auf ISO 29002-31 - Query for characteristic data\pause
+      \begin{itemize}
+      \item Datenbasis PLIB Datenbank\pause
+      \item Nutzung vorhandener Prozeduren der PLIB-Datenbank
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Gesamtkontext und Abgrenzung}
+    Abschlussarbeiten um die PLIB
   \begin{figure}[t]
     %\centering
     %\subfigure[First Frame]{
-    \includegraphics[width=8cm]{images/gesamtkontext_plib.png}
+    \includegraphics[width=7.5cm]{images/gesamtkontext_plib.png}
     %\subfigure[Middle Frame]{
     %\includegraphics[width=3cm]{images/gesamtkontext_plib.png}}
     %\subfigure[Last Frame]{
     %\includegraphics[width=3cm]{images/gesamtkontext_plib.png}}
   \end{figure}
-    \begin{itemize}
-  \item Gesamtkontext PLIB Abschlussarbeiten
-  \item Implementierung ISO
-  \end{itemize}
-  
 \end{frame}
 
 \begin{frame}
-  \frametitle{A Movie}
-  \begin{center}
-    \movie[height=5cm,width=6.5cm,poster,autostart,loop]{}{leaves.avi}
-  \end{center}
-  \begin{itemize}
-  \item Movies only seem to work in Adobe Reader
-  \item Movie file is not embedded, it must be on the computer
-  \end{itemize}
+  \frametitle{Gesamtkontext und Abgrenzung}
+    Abschlussarbeiten um die PLIB
+  \begin{figure}[t]
+    %\centering
+    %\subfigure[First Frame]{
+    \includegraphics[width=7.5cm]{images/gesamtkontext_plib.png}
+    %\subfigure[Middle Frame]{
+    %\includegraphics[width=3cm]{images/gesamtkontext_plib.png}}
+    %\subfigure[Last Frame]{
+    %\includegraphics[width=3cm]{images/gesamtkontext_plib.png}}
+  \end{figure}
 \end{frame}
 
 % \section{Conclusion} % add these to see outline in slides
