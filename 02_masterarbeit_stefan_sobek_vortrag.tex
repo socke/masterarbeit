@@ -49,7 +49,7 @@ Query for characteristic data}
     \item System- und Softwareentwurf
     \begin{itemize}
     \item Auswahlprozess
-    \item Architektur\pause
+    \item Architektur
     \end{itemize}
   \end{itemize}
   
@@ -72,13 +72,13 @@ Query for characteristic data}
 
 \begin{frame}
   \frametitle{Problemstellung}
-  Heutiger automatisierter Produktdatenaustausch\pause
+  Heutiger automatisierter Produktdatenaustausch
   \begin{itemize}
-  \item basiert auf Schemata\pause
-  \item häufig ein starres Schema\pause
-  \item dadurch oft unflexibel durch fest verdrahtetes Modell\pause 
+  \item basiert auf Schemata
+  \item häufig ein starres Schema
+  \item dadurch oft unflexibel durch fest verdrahtetes Modell 
   \item hat bei Anpassungen hohe Änderungskosten
-  %leave out the \pause on the final item
+  %leave out the  on the final item
   \end{itemize}
 \end{frame}
 
@@ -86,35 +86,35 @@ Query for characteristic data}
 
 \begin{frame}
   \frametitle{Lösung}
-  Abfrage- und Antwortschnittstelle basierend auf Schemata\pause
+  Abfrage- und Antwortschnittstelle basierend auf Schemata
   \begin{itemize}
-  \item ist flexibel\pause
-  \item einheitliches Schnittstelle\pause
+  \item ist flexibel
+  \item einheitliches Schnittstelle
   \item dadurch bei Einhaltung keine Änderungen nötwendig
   \end{itemize}
 \end{frame}
 
 \begin{frame}
   \frametitle{Lösung}
-  Es bieten sich vorhande ISO-Standards für flexible Abfrage- und Antwortschnittstellen an, z.B.:\pause
+  Es bieten sich vorhande ISO-Standards für flexible Abfrage- und Antwortschnittstellen an, z.B.:
   \begin{itemize}
-  \item ISO 22745-35 - Open technical dictionaries and their application to master data: Query for characteristic data\pause
+  \item ISO 22745-35 - Open technical dictionaries and their application to master data: Query for characteristic data
   \item ISO 29002-31 - Exchange of characteristic data: Query for characteristic data
   \end{itemize}
 \end{frame}
 
 \begin{frame}
   \frametitle{Zielsetzung}
-  Implementierung einer flexiblen Abfrage- und Antwortschnittstelle \pause
+  Implementierung einer flexiblen Abfrage- und Antwortschnittstelle 
   \begin{itemize}
-  \item Analyse der ISO 29002-31 - Query for characteristic data\pause
+  \item Analyse der ISO 29002-31 - Query for characteristic data
      \begin{itemize}
-     \item Betrachtung nach Möglichkeiten einer herkömmlichen SQL-Schnittstelle (Projektion, Selektion)\pause
-     \item Aufsetzen von Use Cases\pause
+     \item Betrachtung nach Möglichkeiten einer herkömmlichen SQL-Schnittstelle (Projektion, Selektion)
+     \item Definieren von Use Cases
      \end{itemize}
-  \item Prototypische Implementierung basierend auf ISO 29002-31 - Query for characteristic data\pause
+  \item Prototypische Implementierung basierend auf ISO 29002-31 - Query for characteristic data
       \begin{itemize}
-      \item Datenbasis PLIB Datenbank\pause
+      \item Datenbasis PLIB Datenbank
       \item Nutzung vorhandener Prozeduren der PLIB-Datenbank
       \end{itemize}
   \end{itemize}
@@ -135,12 +135,12 @@ Query for characteristic data}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Gesamtkontext und Abgrenzung}
-    Abschlussarbeiten um die PLIB
+  \frametitle{Datenfluesse}
+
   \begin{figure}[t]
     %\centering
     %\subfigure[First Frame]{
-    \includegraphics[width=7.5cm]{images/gesamtkontext_plib.png}
+    \includegraphics[width=9.5cm]{images/datenfluesse_plib.png}
     %\subfigure[Middle Frame]{
     %\includegraphics[width=3cm]{images/gesamtkontext_plib.png}}
     %\subfigure[Last Frame]{
@@ -151,18 +151,286 @@ Query for characteristic data}
 % \section{Conclusion} % add these to see outline in slides
 
 \begin{frame}
-  \frametitle{Credits}
+  \frametitle{Anforderungsanalyse}
   \begin{itemize}
-  \item Brought to you by www.shawnlankton.com
-  \item Please let me know about improvements!
-  \item This was supposed to look like a KeyNote Show
-  \item inspiration: http://www.ucl.ac.uk/~ucbpeal/latexposter.html
-  \item inspiration: http://newsgroups.derkeiler.com/... (in code)
-        %http://newsgroups.derkeiler.com/Archive/Comp/comp.text.tex/2007-11/msg00299.html
+  \item Analyse ISO 29002-31 - Exchange of characteristic data
+    \begin{itemize}
+    \item Simple Query (Projektion) \\ z.B. analog SQL: SELECT <attributnamen> FROM TABELLE
+    \item Parametric Query (Selektion) \\ z.B. analog SQL: SELECT * FROM TABELLE WHERE <attribut> >= X
+    \end{itemize}
+  \item Analyse ISO 22745-30 - Identification Guide
+    \begin{itemize}
+    \item Zusätzliche Einschränkung der Anforderungen an die Daten
+    \item Für reine Abfrage analog zu SQL nicht notwendig
+    \end{itemize}  
   \end{itemize}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Questions}
+  \frametitle{Anforderungsanalyse}
+  Use Cases
+    \begin{figure}[t]
+    %\centering
+    %\subfigure[First Frame]{
+    \includegraphics[width=7.5cm]{images/usecases_plib.png}
+    %\subfigure[Middle Frame]{
+    %\includegraphics[width=3cm]{images/gesamtkontext_plib.png}}
+    %\subfigure[Last Frame]{
+    %\includegraphics[width=3cm]{images/gesamtkontext_plib.png}}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{System- und Softwareentwurf}
+  Auswahlprozess
+  \begin{itemize}
+  \item RESTful Webservice
+  	  \begin{itemize}
+	  \item RESTful Webservices kein Standard sondern Programmierparadigma
+           \item SOAP bereits in PLIB-Abschlussarbeit Fr. Janßen eingesetzt
+           \item kein Vorteil bei SOAP
+           \end{itemize} 
+   \item Java und Apache Tomcat Webserver
+  	  \begin{itemize}
+           \item weit verbreitet
+           \item ermöglicht sowohl SOAP als auch REST
+           \end{itemize} 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{System- und Softwareentwurf}
+  Softwaredesign und Architektur
+  \begin{itemize}
+  \item Kontextabgrenzung
+     \begin{figure}[t]
+     \includegraphics[width=7.5cm]{images/bausteinsicht_plib_level0.png}
+     \end{figure}
+  \end{itemize}
+ \end{frame}
+ 
+ \begin{frame}
+  \frametitle{System- und Softwareentwurf}
+  Softwaredesign und Architektur
+  \begin{itemize}
+  \item Bausteinsicht - Level 1 - Whiteboxsicht 
+     \begin{figure}[t]
+     \includegraphics[width=7.5cm]{images/bausteinsicht_plib_level1.png}
+     \end{figure}
+  \end{itemize}
+ \end{frame}
+
+\begin{frame}
+  \frametitle{Implementierung}
+  Configuration Management
+  \begin{itemize}
+  \item Versionsverwaltung mit GIT
+  \item Build Management mit Maven
+  \item Automatische Entwicklertests mit JUnit
+  \item Manuelle Entwicklertests mit CURL und GUI-Tester
+  \item RESTful Webservice mit Jersey Framework
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Implementierung}
+  Notwendige Schritte für Query Verarbeitung (Unmarshalling)
+  \begin{enumerate}
+  \item Ein Modell in Java erstellen
+  \item XML parsen und in Modell überführen
+  \item Validierung des Modells anhand der Regeln aus Schema-Datei
+  \end{enumerate}
+  
+  \begin{description}
+\item[Modellgenerierung] Mittels Java JAXB aus XSD-Dateien (Schemadateien der ISO 29002-31), in Maven Buildprozess integriert worden
+\item[XML parsen] Mittels JAXB Unmarshalling 
+\item[Validierung] Mittels JAXB Schemavalidierung
+\end{description}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Implementierung}
+ Transformation und Abfrage PLIB Prozeduren
+\begin{description}
+\item[GET\_PROP\_VALS\_STRING] IN-Parameter ist eine Externe Produkt-ID, liefert eine Tabelle vom Typ PROP\_STRING\_NTT 
+Werte: 
+  \begin{description}
+  \item[IRDI] Eindeutiger Identifier der Teileeigenschaft.
+  \item[VALUE] Wert der mittels IRDI identifizierten Teileeigenschaft.
+  \item[UNIT] Einheit der Teileeigenschaft.
+  \item[PREFIX] Prefix für den konkreten Wert.
+  \item[TOLERANCE] Wertetoleranzangabe.
+  \item[VALUE\_ID] Identifier des konkreten Wertes.
+  \end{description}
+
+  \end{description}
+  
+  Weitere Prozeduren für andere Datentypen, z.B.: GET\_PROP\_VALS\_NUMBER...
+  \end{frame}
+
+\begin{frame}
+  \frametitle{Implementierung}
+  Sequenzdiagramm eines Simple Queries
+    \begin{figure}[t]
+    \includegraphics[width=11.5cm]{images/plib_simple_query_sequence_diagram.jpg}
+
+  \end{figure}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Implementierung}
+  Problemstellung - externer Identifier nicht in IN-Parameter
+  \begin{itemize}
+  \item query.xsd bezieht sich auf IRDI, z.B. "Gib mir alle Eigenschaften der Instanzen eines Skalpells mit Identifier 0173-1\#01-BAD803\#2  (IRDI )
+  \item Problem: IRDI nicht als IN-Parameter der Prozeduren vorhanden
+  \end{itemize}
+  
+  Mögliche Lösungen
+   \begin{enumerate}
+  \item Anpassen der Datenbank Prozeduren
+  \item Separate Abfrage zur Ermittlung der IRDIs
+  \end{enumerate}
+  
+  \begin{description}
+\item[Separate Abfrage wurde als Lösung gewählt, da sehr simpel] SELECT o.DI\_ID FROM DE\_CLASS c, DO\_OBJECT o WHERE c.ID = o.C\_ID AND c.IRDI = ? 
+\end{description}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Implementierung}
+  Problemstellung - Aufruf der Oracle Prozeduren mit Java
+  \begin{itemize}
+  \item GET\_PROP\_VALS\_STRING konnte nicht aufgerufen werden
+  \item Rückgabetyp: PACK\_PROPERTY.PROP\_STRING\_NTT wird nicht erkannt
+  \item SQLJ Developers Guide: "Oracle SQLJ and JDBC do not support calling arguments or return values of the PL/SQL BOOLEAN type or RECORD types"
+  \end{itemize}
+  
+  Mögliche Lösungen
+   \begin{enumerate}
+  \item Datenbank ohne Prozeduren abrufen
+  \item Anpassen der Datentypen in Oracle, Benutzung von OBJECT-Types anstatt RECORD-Types.
+  \end{enumerate}
+  
+  \begin{description}
+\item[Datentypenanpassung] Herr Mende hat freundlicherweise die OBJECT Types erstellt (z.B. PROP\_STRING\_OBJ)
+\end{description}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Implementierung}
+ Weitere Problemstellungen
+  \begin{itemize}
+  \item Daten der Teileeigenschaften nicht eindeutig
+  \item Fehlender Fremdschlüsselidentifier um Daten der Teileeingeschaften zu erhalten
+  \end{itemize}
+  
+ Die Probleme wurden in Absprache mit Herrn Mende gelöst, ein fehlender Fremdschlüsselidentifier wurde in die Prozeduren aufgenommen. 
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{Implementierung}
+ Fehlerbehandlung
+  \begin{itemize}
+  \item Keine Fehlerbehandlung im Standard definiert
+  \item Wie bekommt der Aufrufer z.B. einen Validierungfehler mitgeteilt?
+  \end{itemize}
+  
+ Mögliche Lösungen
+   \begin{enumerate}
+  \item Bei Fehler immer leeren Katalog zurückgeben 
+  \item Fehler-Schema definieren 
+  \item Fehlerhandling mittels Protokoll (z.B. HTTP oder SOAP)
+  \end{enumerate}
+  
+  \begin{description}
+\item[Fehler Schema definiert] Es wurde ein Fehler-Schema definiert, da Implementierung sonst pro Protokoll nötig. 
+\end{description}
+  
+ Die Probleme wurden in Absprache mit Herrn Mende gelöst, ein fehlender Fremdschlüsselidentifier wurde in die Prozeduren aufgenommen. 
+  
+\end{frame}
+
+
+ \begin{frame}
+  \frametitle{Implementierung}
+  Fehlerbehandlung - Error Schema
+
+     \begin{figure}[t]
+     \includegraphics[width=10cm]{images/ErrorSchema.png}
+     \end{figure}
+ \end{frame}
+
+
+ \begin{frame}
+  \frametitle{Implementierung}
+  Demonstration
+  
+     \begin{itemize}
+     \item Mittels CURL
+          \begin{itemize}
+          \item Simple Query (Projektion)
+          \end{itemize}
+     \item Mittels Test-GUI
+          \begin{itemize}
+          \item Simple Query (Projektion)
+          \item Simple Query - eine Property
+          \item Simple Query - Multiple Properties
+          \item Simple Query - Validierung (bekanntes Item)
+          \item Simple Query - Illegal Query (falsch formatierte IRDI)
+          \item Parametric Query - Range (Selektion)
+          \item Parametric Query - Range MIN
+          \item Parametric Query - Range MAX
+          \item Parametric Query - Range with AND
+          \end{itemize}                 
+     \end{itemize}
+ \end{frame}
+
+
+\begin{frame}
+  \frametitle{Schlußfolgerung}
+  
+  \begin{itemize}
+	\item Prototyp von flexibler Schnittstelle gemäß ISO 29002-31 erfolgreich implementiert
+	\item PLIB als Datenbasis angebunden und Anfragedaten transformiert
+	\item Implementierung als RESTful Webservice
+	\item SOAP-Implementierung später einfach möglich, da Modell bereits vorhanden
+	\item Test-GUI implementiert 
+	\item Problemstellungen durch Heterogenität der Datenstrukturen
+   \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Schlußfolgerung}
+  Blick in die Zukunft und mögliche Folgearbeiten
+  \begin{itemize}
+	\item Implementierung ISO 22745-30 für Anforderungsstatements
+	\item GUI könnte aus ISO 22745-30 Definitionen generiert werden
+	\item GUI sendet Anfragen anschließend gemäß ISO 29002-31
+	\item Gesamtintegration aller aktuellen Arbeiten wäre denkbar:
+	  \begin{itemize}
+	  \item Hr. Mende
+	  \item Hr. Loth 
+	  \item Fr. Janßen
+	  \item Hr. Strohmeyer
+	  \item Hr. Sobek
+	    \end{itemize}  
+   \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Fragen?}
+  
+\textit{ "Dem guten Frager ist schon halb geantwortet"}\\
+\textit{ (Friedrich Nietzsche)}
+
 \end{frame}
 \end{document}
