@@ -17,9 +17,9 @@
 \title[Masterarbeit\hspace{2em}\insertframenumber/\inserttotalframenumber]{Implementierung eines Webservices nach \\ ISO 29002-31
 Query for characteristic data}
 
-\date{11. Februar 2014} %leave out for today's date to be insterted
+\date{6. März 2014} %leave out for today's date to be insterted
 
-\institute{Fernuni Hagen \\ Fakultät für Mathematik und Informatik \\ Lehrgebiet Datenbanksysteme für neue Anwendungen}
+\institute{Fernuni Hagen \\ Fakultät für Mathematik und Informatik \\ Lehrgebiet Datenbanksysteme für neue Anwendungen \\ Betreuer: Dr. Wolfgang Wilkes}
 
 \begin{document}
 
@@ -30,7 +30,7 @@ Query for characteristic data}
 \begin{frame}
   \frametitle{Überblick}
 \begin{columns}
-        \column{.50\textwidth}
+        \column{.45\textwidth}
  \begin{itemize}
   \item Aufgabenbeschreibung
     \begin{itemize}
@@ -38,7 +38,7 @@ Query for characteristic data}
     \item Lösungsoptionen
     \item Zielsetzung
     \item Gesamtkontext und Abgrenzung
-    \item Datenflüsse
+    \item Lieferketten
     \end{itemize}
   \item Anforderungsanalyse
     \begin{itemize}
@@ -46,16 +46,16 @@ Query for characteristic data}
     \item Analyse ISO 22745-30
     \item Use Cases
     \end{itemize}
+     \end{itemize}
+  
+     \column{.55\textwidth}
+   \begin{itemize}  
     \item System- und Softwareentwurf
     \begin{itemize}
     \item Auswahlprozess
     \item Architektur
     \end{itemize}
-  \end{itemize}
   
-     \column{.50\textwidth}
-   \begin{itemize}  
-     
    \item Implementierung
     \begin{itemize}
     \item Configuration Management
@@ -71,13 +71,20 @@ Query for characteristic data}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Problemstellung}
-  Heutiger automatisierter Produktdatenaustausch
+  \frametitle{Aufgabenbeschreibung - Problemstellung}
+  Heutiger automatisierter Produktdatenaustausch zwischen Systemen
   \begin{itemize}
-  \item basiert auf Schemata
-  \item häufig ein starres Schema
+  \item Schnittstellen für Datenaustausch basieren auf definierte Schemata
+  \item häufig ein starres Schema z.B. 
+      \begin{description}
+      \item[ID] 4711
+      \item[NAME] Schraubendreher
+      \item[LÄNGE] 10cm 
+      \item[TYP] Kreuz 
+      \end{description}
+  \item bieten Methoden an welche Modelldaten liefern
   \item dadurch oft unflexibel durch fest verdrahtetes Modell 
-  \item hat bei Anpassungen hohe Änderungskosten
+  \item bei Änderungen des Modells hohe Kosten durch Anpassungen beim Klienten
   %leave out the  on the final item
   \end{itemize}
 \end{frame}
@@ -85,26 +92,37 @@ Query for characteristic data}
 %\section{Main Body} % add these to see outline in slides
 
 \begin{frame}
-  \frametitle{Lösung}
-  Abfrage- und Antwortschnittstelle basierend auf Schemata
+  \frametitle{Aufgabenbeschreibung - Lösung}
+  Zusätzliche Ebene als Abfrage- und Antwortschnittstelle
   \begin{itemize}
   \item ist flexibel
-  \item einheitliches Schnittstelle
-  \item dadurch bei Einhaltung keine Änderungen nötwendig
+  \item einheitliche Schnittstelle
+  \item dadurch bei Einhaltung keine Änderungen notwendig
   \end{itemize}
+  Beispielabfragen
+      \begin{description}
+      \item[Abfrage 1] Gib mir die Eigenschaften NAME, LÄNGE und den TYP des Elementes mit der ID 4711
+      \item[Abfrage 2] Gib mir die Eigenschaft LÄNGE des Elementes mit NAME = 'Schraubendreher'
+      \end{description}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Lösung}
-  Es bieten sich vorhande ISO-Standards für flexible Abfrage- und Antwortschnittstellen an, z.B.:
+  \frametitle{Aufgabenbeschreibung - Lösung}
+  Es bieten sich vorhandene ISO-Standards für flexible Abfrage- und Antwortschnittstellen an, z.B.:
   \begin{itemize}
   \item ISO 22745-35 - Open technical dictionaries and their application to master data: Query for characteristic data
   \item ISO 29002-31 - Exchange of characteristic data: Query for characteristic data
   \end{itemize}
+  Vorteile
+    \begin{itemize}
+  \item Definierte Syntax
+  \item abgekoppelt vom Domänenmodell
+  \item nutzen Ontologien
+    \end{itemize}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Zielsetzung}
+  \frametitle{Aufgabenbeschreibung - Zielsetzung}
   Implementierung einer flexiblen Abfrage- und Antwortschnittstelle 
   \begin{itemize}
   \item Analyse der ISO 29002-31 - Query for characteristic data
@@ -121,7 +139,7 @@ Query for characteristic data}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Gesamtkontext und Abgrenzung}
+  \frametitle{Aufgabenbeschreibung - Gesamtkontext und Abgrenzung}
     Abschlussarbeiten um die PLIB
   \begin{figure}[t]
     %\centering
@@ -135,16 +153,10 @@ Query for characteristic data}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Datenfluesse}
+  \frametitle{Aufgabenbeschreibung - Lieferketten}
 
   \begin{figure}[t]
-    %\centering
-    %\subfigure[First Frame]{
-    \includegraphics[width=9.5cm]{images/datenfluesse_plib.png}
-    %\subfigure[Middle Frame]{
-    %\includegraphics[width=3cm]{images/gesamtkontext_plib.png}}
-    %\subfigure[Last Frame]{
-    %\includegraphics[width=3cm]{images/gesamtkontext_plib.png}}
+    \includegraphics[width=9.5cm]{images/lieferketten_plib.png}
   \end{figure}
 \end{frame}
 
@@ -184,11 +196,13 @@ Query for characteristic data}
   \frametitle{System- und Softwareentwurf}
   Auswahlprozess
   \begin{itemize}
-  \item RESTful Webservice
+  \item Webservice
   	  \begin{itemize}
-	  \item RESTful Webservices kein Standard sondern Programmierparadigma
+	  \item RESTful Webservice ausgewählt
            \item SOAP bereits in PLIB-Abschlussarbeit Fr. Janßen eingesetzt
-           \item kein Vorteil bei SOAP
+           \item in diesem Anwendungsfall kein Vorteil von SOAP gegenüber REST
+           \item RESTful Webservice kein Standard sondern Programmierparadigma
+           \item basiert auf HTTP-Protokoll
            \end{itemize} 
    \item Java und Apache Tomcat Webserver
   	  \begin{itemize}
@@ -228,7 +242,6 @@ Query for characteristic data}
   \item Build Management mit Maven
   \item Automatische Entwicklertests mit JUnit
   \item Manuelle Entwicklertests mit CURL und GUI-Tester
-  \item RESTful Webservice mit Jersey Framework
   \end{itemize}
 \end{frame}
 
@@ -282,7 +295,7 @@ Werte:
 
 \begin{frame}
   \frametitle{Implementierung}
-  Problemstellung - externer Identifier nicht in IN-Parameter
+  Problemstellung - externer Identifier 
   \begin{itemize}
   \item query.xsd bezieht sich auf IRDI, z.B. "Gib mir alle Eigenschaften der Instanzen eines Skalpells mit Identifier 0173-1\#01-BAD803\#2  (IRDI )
   \item Problem: IRDI nicht als IN-Parameter der Prozeduren vorhanden
@@ -352,8 +365,7 @@ Werte:
   \begin{description}
 \item[Fehler Schema definiert] Es wurde ein Fehler-Schema definiert, da Implementierung sonst pro Protokoll nötig. 
 \end{description}
-  
- Die Probleme wurden in Absprache mit Herrn Mende gelöst, ein fehlender Fremdschlüsselidentifier wurde in die Prozeduren aufgenommen. 
+
   
 \end{frame}
 
@@ -367,6 +379,14 @@ Werte:
      \end{figure}
  \end{frame}
 
+ \begin{frame}
+  \frametitle{Implementierung}
+  Fehlerbehandlung - Error Schema in Katalog-Schema eingebunden
+
+     \begin{figure}[t]
+     \includegraphics[width=11.5cm]{images/ErrorSchemaCatalogue.png}
+     \end{figure}
+ \end{frame}
 
  \begin{frame}
   \frametitle{Implementierung}
@@ -402,6 +422,7 @@ Werte:
 	\item Implementierung als RESTful Webservice
 	\item SOAP-Implementierung später einfach möglich, da Modell bereits vorhanden
 	\item Test-GUI implementiert 
+	\item hoher Transformationsaufwand
 	\item Problemstellungen durch Heterogenität der Datenstrukturen
    \end{itemize}
 
