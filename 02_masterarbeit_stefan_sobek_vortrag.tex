@@ -75,16 +75,16 @@ Query for characteristic data}
   Heutiger automatisierter Produktdatenaustausch zwischen Systemen
   \begin{itemize}
   \item Schnittstellen für Datenaustausch basieren auf definierte Schemata
-  \item häufig ein starres Schema z.B. 
+  \item häufig starres Schema z.B. ein konkretes Werkzeug wäre
       \begin{description}
       \item[ID] 4711
       \item[NAME] Schraubendreher
       \item[LÄNGE] 10cm 
       \item[TYP] Kreuz 
       \end{description}
-  \item bieten Methoden an welche Modelldaten liefern
+  \item bieten Methoden an welche Modelldaten liefern ( z.B. getItemNameBy(IRDI) )
   \item dadurch oft unflexibel durch fest verdrahtetes Modell 
-  \item bei Änderungen des Modells hohe Kosten durch Anpassungen beim Klienten
+  \item Änderungen der Semantik, Struktur oder Inhalte führt zu Modelländerungen und zu hohen Kosten durch Anpassungen beim Klienten
   %leave out the  on the final item
   \end{itemize}
 \end{frame}
@@ -337,18 +337,6 @@ Werte:
 
 \begin{frame}
   \frametitle{Implementierung}
- Weitere Problemstellungen
-  \begin{itemize}
-  \item Daten der Teileeigenschaften nicht eindeutig
-  \item Fehlender Fremdschlüsselidentifier um Daten der Teileeingeschaften zu erhalten
-  \end{itemize}
-  
- Die Probleme wurden in Absprache mit Herrn Mende gelöst, ein fehlender Fremdschlüsselidentifier wurde in die Prozeduren aufgenommen. 
-  
-\end{frame}
-
-\begin{frame}
-  \frametitle{Implementierung}
  Fehlerbehandlung
   \begin{itemize}
   \item Keine Fehlerbehandlung im Standard definiert
@@ -408,7 +396,8 @@ Werte:
           \item Parametric Query - Range MIN
           \item Parametric Query - Range MAX
           \item Parametric Query - Range with AND
-          \end{itemize}                 
+          \end{itemize}   
+        \item Abfrage SOAP-Webservice mit SOAP-UI              
      \end{itemize}
  \end{frame}
 
